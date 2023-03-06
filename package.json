@@ -10,6 +10,8 @@
     "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.11.12",
     "@nrwl/next": "15.8.5",
+    "@types/crypto-js": "^4.1.1",
+    "crypto-js": "^4.1.1",
     "formik": "^2.2.9",
     "moment": "^2.29.4",
     "next": "13.1.1",
