@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@hopehome/interfaces": ["libs/interfaces/src/index.ts"],
       "@hopehome/theme": ["libs/theme/src/index.ts"],
       "@hopehome/toast": ["libs/toast/src/index.ts"],
       "@hopehome/utils": ["libs/utils/src/index.ts"]
