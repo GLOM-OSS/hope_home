@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@hopehome/axios": ["libs/axios/src/index.ts"],
       "@hopehome/encrypter": ["libs/encrypter/src/index.ts"],
       "@hopehome/interfaces": ["libs/interfaces/src/index.ts"],
       "@hopehome/theme": ["libs/theme/src/index.ts"],
