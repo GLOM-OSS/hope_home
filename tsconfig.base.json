@@ -16,7 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "@hopehome/theme": ["libs/theme/src/index.ts"],
-      "@hopehome/toast": ["libs/toast/src/index.ts"]
+      "@hopehome/toast": ["libs/toast/src/index.ts"],
+      "@hopehome/utils": ["libs/utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
