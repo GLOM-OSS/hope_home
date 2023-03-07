@@ -2,11 +2,12 @@ import { theme } from '@hopehome/theme';
 import { DoneAllRounded } from '@mui/icons-material';
 import { Box, Button, CircularProgress, Typography } from '@mui/material';
 import { Id, toast } from 'react-toastify';
+import { v4 as uuidv4 } from 'uuid';
 
 export class useNotification {
   toastId: Id;
   constructor() {
-    this.toastId = crypto.randomUUID();
+    this.toastId = uuidv4();
   }
   notify = ({ render }: { render: string | JSX.Element }) =>
     (this.toastId = toast.dark(

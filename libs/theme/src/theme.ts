@@ -26,13 +26,12 @@ declare module '@mui/material/styles' {
   }
   interface ThemeOptions {
     common: {
-      lighterPrimary: React.CSSProperties['color'];
-      lowerGray: React.CSSProperties['color'];
-      white: React.CSSProperties['color'];
-      backgroundPrimary: React.CSSProperties['color'];
-      CSK200: React.CSSProperties['color'];
-      CSK50: React.CSSProperties['color'];
-      primaryDark: React.CSSProperties['color'];
+      line: React.CSSProperties['color'];
+      inputBackground: React.CSSProperties['color'];
+      placeholder: React.CSSProperties['color'];
+      label: React.CSSProperties['color'];
+      body: React.CSSProperties['color'];
+      titleActive: React.CSSProperties['color'];
     };
   }
   interface TypographyVariants {
@@ -93,29 +92,33 @@ declare module '@mui/material/styles' {
 export const theme = createTheme({
   palette: {
     primary: {
-      main: '#0B77DB',
+      main: '#009C7D',
     },
     secondary: {
-      main: '#9E4CEB',
+      main: '#FF9600',
     },
     error: {
-      main: '#DD0303',
+      main: '#BB2124',
     },
     success: {
-      main: '#00BA88',
+      main: '#4BB543',
+    },
+    warning: {
+      main: '#F0AD4E',
     },
   },
   common: {
-    lighterPrimary: '#80C2FF',
-    lowerGray: '#F7F7F7',
-    white: '#F0F0F0',
-    backgroundPrimary: '#E5F3FF',
-    CSK200: '#CCCCCC',
-    CSK50: '#F2F2F2',
-    primaryDark: '#004280',
+    line: '#D9DBE9',
+    inputBackground: '#F4F5F7',
+    placeholder: '#A0A3BD',
+    label: '#6E6D7A',
+    body: '#2F3A45',
+    titleActive: '#172B4D',
   },
   typography: {
-    fontFamily: ['Raleway', 'Montserrat', 'Roboto', 'serif'].join(','),
+    fontFamily: ['Poppins', 'Raleway', 'Montserrat', 'Roboto', 'serif'].join(
+      ','
+    ),
     h1: {
       fontSize: '3rem',
       fontWeight: 700,

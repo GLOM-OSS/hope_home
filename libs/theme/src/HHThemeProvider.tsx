@@ -2,7 +2,6 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
 import { Flip, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import LanguageContextProvider, {
   useLanguage,
 } from './contexts/language/LanguageContextProvider';
