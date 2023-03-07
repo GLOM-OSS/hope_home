@@ -121,7 +121,11 @@ export default function Navbar() {
           variant="text"
           color="inherit"
           size="small"
-          sx={{ textTransform: 'none', color: 'white' }}
+          sx={{
+            textTransform: 'none',
+            color: 'white',
+            ...theme.typography.body1,
+          }}
           startIcon={<Language />}
           onClick={() => {
             languageDispatch({
