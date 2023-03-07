@@ -1,4 +1,5 @@
 import { Box } from '@mui/material';
+import Footer from '../footer/footer';
 import Navbar from '../navbar/navbar';
 
 export default function LandingLayout({
@@ -10,12 +11,13 @@ export default function LandingLayout({
     <Box
       sx={{
         display: 'grid',
-        gridTemplateRows: 'auto 1fr',
-        height:'100vh'
+        gridTemplateRows: 'auto 1fr auto',
+        height: '100vh',
       }}
     >
       <Navbar />
-      <Box sx={{ padding: `0 7.1%`, height:'100%' }}>{children}</Box>
+      <Box sx={{ padding: `0 7.1%`, height: '100%' }}>{children}</Box>
+      <Footer />
     </Box>
   );
 }
