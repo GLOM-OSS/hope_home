@@ -70,6 +70,7 @@ function SideNav({
   navItems: INavItem[];
 }) {
   const { formatMessage } = useIntl();
+  const { push } = useRouter();
   const { activeLanguage, languageDispatch } = useLanguage();
 
   return (
@@ -98,6 +99,11 @@ function SideNav({
             gridTemplateColumns: 'auto auto',
             columnGap: 0.6,
             alignItems: 'center',
+            cursor: 'pointer',
+          }}
+          onClick={() => {
+            push('/');
+            close();
           }}
         >
           <Image
@@ -179,9 +185,10 @@ function SideNav({
 export default function Navbar() {
   const { formatMessage } = useIntl();
   const { activeLanguage, languageDispatch } = useLanguage();
+  const { push } = useRouter();
 
   const navItems: INavItem[] = [
-    { item: 'about', route: '/' },
+    { item: 'about', route: '/about' },
     { item: 'contact', route: '/pricing' },
     { item: 'properties', route: '/features' },
   ];
@@ -211,7 +218,9 @@ export default function Navbar() {
             gridTemplateColumns: 'auto auto',
             columnGap: 0.6,
             alignItems: 'center',
+            cursor: 'pointer',
           }}
+          onClick={() => push('/')}
         >
           <Image
             src="/logo_white.png"
