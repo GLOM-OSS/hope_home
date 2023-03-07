@@ -1,12 +1,13 @@
 import { theme, useLanguage } from '@hopehome/theme';
-import { Language } from '@mui/icons-material';
-import { Box, Button, Typography } from '@mui/material';
+import { Language, MenuOutlined } from '@mui/icons-material';
+import { Box, Button, Drawer, Typography } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { useIntl } from 'react-intl';
 
-interface navItem {
+interface INavItem {
   item: string;
   route: string;
 }
@@ -59,97 +60,254 @@ function NavItem({ route, item }: { route: string; item: string }) {
   );
 }
 
-export default function Navbar() {
+function SideNav({
+  open,
+  close,
+  navItems,
+}: {
+  close: () => void;
+  open: boolean;
+  navItems: INavItem[];
+}) {
   const { formatMessage } = useIntl();
   const { activeLanguage, languageDispatch } = useLanguage();
 
-  const navItems: navItem[] = [
-    { item: 'about', route: '/' },
-    { item: 'contact', route: '/pricing' },
-    { item: 'properties', route: '/features' },
-  ];
   return (
-    <Box
+    <Drawer
+      anchor={'right'}
+      open={open}
+      onClose={close}
       sx={{
-        display: 'grid',
-        gridTemplateColumns: 'auto 1fr auto',
-        alignItems: 'center',
-        justifyItems: 'center',
-        padding: `${theme.spacing(1)} 7.1%`,
-        backgroundColor: theme.palette.primary.main,
-        columnGap: theme.spacing(2),
-        color: theme.common.primaryDark,
+        '& .MuiPaper-root': {
+          padding: 2,
+          backgroundColor: theme.palette.primary.light,
+        },
       }}
     >
       <Box
         sx={{
+          height: '100%',
           display: 'grid',
-          gridTemplateColumns: 'auto auto',
-          columnGap: 0.6,
-          alignItems: 'center',
+          gridTemplateRows: 'auto 1fr',
+          rowGap: 4,
         }}
       >
-        <Image
-          src="/logo_white.png"
-          alt="Hope Home icon"
-          height={60}
-          width={60}
-        />
-        <Typography variant="h4" color="white">
-          Hope Home
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          display: 'grid',
-          gridAutoFlow: 'column',
-          columnGap: theme.spacing(4),
-        }}
-      >
-        {navItems.map(({ item, route }, index) => (
-          <NavItem item={item} route={route} key={index} />
-        ))}
-      </Box>
-      <Box
-        sx={{
-          display: 'grid',
-          gridAutoFlow: 'column',
-          columnGap: theme.spacing(2),
-        }}
-      >
-        <Button
-          variant="text"
-          color="inherit"
-          size="small"
-          sx={{
-            textTransform: 'none',
-            color: 'white',
-            ...theme.typography.body1,
-          }}
-          startIcon={<Language />}
-          onClick={() => {
-            languageDispatch({
-              type: activeLanguage === 'En' ? 'USE_FRENCH' : 'USE_ENGLISH',
-            });
-          }}
-        >
-          {formatMessage({
-            id: activeLanguage === 'En' ? 'english' : 'french',
-          })}
-        </Button>
         <Box
           sx={{
             display: 'grid',
-            gridAutoFlow: 'column',
+            gridTemplateColumns: 'auto auto',
+            columnGap: 0.6,
             alignItems: 'center',
-            columnGap: 0.3,
-            color: 'white',
           }}
         >
-          <NavItem item={'login'} route={'/signin'} />
-          / <NavItem item={'signup'} route={'/signup'} />
+          <Image
+            src="/logo_white.png"
+            alt="Hope Home icon"
+            height={40}
+            width={40}
+          />
+          <Typography variant="h6" color="white">
+            Hope Home
+          </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            height: '100%',
+            gridTemplateRows: '1fr auto',
+            display: 'grid',
+            rowGap: 2,
+            justifyItems: 'left',
+          }}
+        >
+          <Box
+            sx={{
+              display: 'grid',
+              rowGap: theme.spacing(4),
+              alignContent: 'start',
+            }}
+          >
+            {navItems.map(({ item, route }, index) => (
+              <NavItem item={item} route={route} key={index} />
+            ))}
+          </Box>
+          <Box
+            sx={{
+              display: 'grid',
+              rowGap: theme.spacing(2),
+            }}
+          >
+            <Button
+              variant="text"
+              color="inherit"
+              size="small"
+              sx={{
+                textTransform: 'none',
+                color: 'white',
+                ...theme.typography.body1,
+              }}
+              startIcon={<Language />}
+              onClick={() => {
+                languageDispatch({
+                  type: activeLanguage === 'En' ? 'USE_FRENCH' : 'USE_ENGLISH',
+                });
+              }}
+            >
+              {formatMessage({
+                id: activeLanguage === 'En' ? 'english' : 'french',
+              })}
+            </Button>
+            <Box
+              sx={{
+                display: 'grid',
+                gridAutoFlow: 'column',
+                alignItems: 'center',
+                columnGap: 0.3,
+                color: 'white',
+              }}
+            >
+              <NavItem item={'login'} route={'/signin'} />
+              / <NavItem item={'signup'} route={'/signup'} />
+            </Box>
+          </Box>
         </Box>
       </Box>
-    </Box>
+    </Drawer>
+  );
+}
+
+export default function Navbar() {
+  const { formatMessage } = useIntl();
+  const { activeLanguage, languageDispatch } = useLanguage();
+
+  const navItems: INavItem[] = [
+    { item: 'about', route: '/' },
+    { item: 'contact', route: '/pricing' },
+    { item: 'properties', route: '/features' },
+  ];
+
+  const [isSideNavOpen, setIsSideNavOpen] = useState<boolean>(false);
+  return (
+    <>
+      <SideNav
+        close={() => setIsSideNavOpen(false)}
+        open={isSideNavOpen}
+        navItems={navItems}
+      />
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: 'auto 1fr',
+          alignItems: 'center',
+          padding: `${theme.spacing(1)} 7.1%`,
+          backgroundColor: theme.palette.primary.main,
+          columnGap: theme.spacing(2),
+          color: theme.common.primaryDark,
+        }}
+      >
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: 'auto auto',
+            columnGap: 0.6,
+            alignItems: 'center',
+          }}
+        >
+          <Image
+            src="/logo_white.png"
+            alt="Hope Home icon"
+            height={60}
+            width={60}
+          />
+          <Typography variant="h4" color="white">
+            Hope Home
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            display: {
+              mobile: 'none',
+              desktop: 'grid',
+            },
+            gridTemplateColumns: '1fr auto',
+            columnGap: 2,
+            alignItems: 'center',
+            justifyItems: 'center',
+          }}
+        >
+          <Box
+            sx={{
+              display: 'grid',
+              gridAutoFlow: 'column',
+              columnGap: theme.spacing(4),
+            }}
+          >
+            {navItems.map(({ item, route }, index) => (
+              <NavItem item={item} route={route} key={index} />
+            ))}
+          </Box>
+          <Box
+            sx={{
+              display: 'grid',
+              gridAutoFlow: 'column',
+              columnGap: theme.spacing(2),
+            }}
+          >
+            <Button
+              variant="text"
+              color="inherit"
+              size="small"
+              sx={{
+                textTransform: 'none',
+                color: 'white',
+                ...theme.typography.body1,
+              }}
+              startIcon={<Language />}
+              onClick={() => {
+                languageDispatch({
+                  type: activeLanguage === 'En' ? 'USE_FRENCH' : 'USE_ENGLISH',
+                });
+              }}
+            >
+              {formatMessage({
+                id: activeLanguage === 'En' ? 'english' : 'french',
+              })}
+            </Button>
+            <Box
+              sx={{
+                display: 'grid',
+                gridAutoFlow: 'column',
+                alignItems: 'center',
+                columnGap: 0.3,
+                color: 'white',
+              }}
+            >
+              <NavItem item={'login'} route={'/signin'} />
+              / <NavItem item={'signup'} route={'/signup'} />
+            </Box>
+          </Box>
+        </Box>
+        <Button
+          startIcon={<MenuOutlined />}
+          onClick={() => setIsSideNavOpen(true)}
+          variant="text"
+          color="inherit"
+          sx={{
+            color: 'white',
+            justifySelf: 'end',
+            '& .MuiButton-startIcon': {
+              margin: 0,
+            },
+            '& .MuiSvgIcon-root': {
+              fontSize: '30px !important',
+            },
+            display: {
+              mobile: 'block',
+              desktop: 'none',
+            },
+          }}
+        />
+      </Box>
+    </>
   );
 }
