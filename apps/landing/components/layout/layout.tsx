@@ -16,7 +16,7 @@ export default function LandingLayout({
       }}
     >
       <Navbar />
-      <Box sx={{ padding: `0 7.1%`, height: '100%' }}>{children}</Box>
+      <Box sx={{ height: '100%' }}>{children}</Box>
       <Footer />
     </Box>
   );
