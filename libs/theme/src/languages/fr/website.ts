@@ -22,4 +22,5 @@ export const website = {
   miscellaneous: 'Divers',
   termsAndConditions: "Conditions Générales d'Utilisation",
   privacyPolicy: 'Politique de Confidentialité',
+  ourMissions: 'Nos Missions'
 };
