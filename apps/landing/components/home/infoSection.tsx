@@ -1,8 +1,8 @@
 import { theme } from '@hopehome/theme';
 import {
-    ComputerOutlined,
-    MapsHomeWorkOutlined,
-    VpnKeyOutlined
+  ComputerOutlined,
+  MapsHomeWorkOutlined,
+  VpnKeyOutlined,
 } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 import { useIntl } from 'react-intl';
@@ -101,9 +101,15 @@ export default function InfoSection() {
   return (
     <Box
       sx={{
-        margin: '0 1.4%',
+        margin: {
+          desktop: '0 1.4%',
+          mobile: 0,
+        },
         backgroundColor: '#00100C',
-        padding: '80px 5.7%',
+        padding: {
+          desktop: '80px 5.7%',
+          mobile: '40px 0',
+        },
         color: 'white',
         display: 'grid',
         rowGap: 7,
@@ -120,7 +126,10 @@ export default function InfoSection() {
       <Box
         sx={{
           display: 'grid',
-          gridTemplateColumns: '1fr 1fr 1fr',
+          gridTemplateColumns: {
+            desktop: '1fr 1fr 1fr',
+            mobile: '1fr',
+          },
           columnGap: 7,
         }}
       >
