@@ -27,7 +27,7 @@ export default function HeroSection() {
         }}
       >
         <Typography variant="h1" sx={{ textAlign: 'center', color: 'white' }}>
-          {formatMessage({ id: 'discover Your New Home' })}
+          {formatMessage({ id: 'discoverYourNewHome' })}
         </Typography>
         <Typography
           variant="h5"
@@ -66,7 +66,7 @@ export default function HeroSection() {
         variant="contained"
         disableElevation
         endIcon={<EastOutlined />}
-        sx={{ justifySelf: 'center' }}
+        sx={{ justifySelf: 'center', textTransform: 'none' }}
         size="large"
       >
         {formatMessage({ id: 'shopNow' })}
