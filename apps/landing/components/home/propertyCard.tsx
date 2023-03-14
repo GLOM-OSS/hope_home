@@ -185,14 +185,14 @@ export default function PropertyCard({
               <IconButton
                 size="small"
                 sx={{ backgroundColor: 'rgba(255, 255, 255, 0.4)' }}
-                onClick={() =>
+                onClick={() => {
+                  //TODO: CORRECT THIS TO THE RIGHT MESSAGE INDICATING THE PROPERTY IN THE LINK
                   push(
                     `https://api.whatsapp.com/send/?phone=${whatsapp_number}&text=${encodeURIComponent(
                       'I saw your property on hope home and it interested me'
                     )}`
-                  )
-                }
-                // `https://api.whatsapp.com/send/?phone=237692650993&text=${message}`
+                  );
+                }}
               >
                 <WhatsApp fontSize="large" color="primary" />
               </IconButton>
@@ -204,6 +204,7 @@ export default function PropertyCard({
                 onClick={() =>
                   navigator.share({
                     title: address,
+                    // TODO: CORRECT THE TEXT AND URL LATER ON TO CONTAIN THE PROPERTY
                     text: 'Checkout this cool property I found on HopeHome',
                     url: `https://marketplace.ingl.io/${property_id}`,
                   })
