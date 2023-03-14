@@ -185,7 +185,14 @@ export default function PropertyCard({
               <IconButton
                 size="small"
                 sx={{ backgroundColor: 'rgba(255, 255, 255, 0.4)' }}
-                onClick={() => push(`https://wa.me/${whatsapp_number}`)}
+                onClick={() =>
+                  push(
+                    `https://api.whatsapp.com/send/?phone=${whatsapp_number}&text=${encodeURIComponent(
+                      'I saw your property on hope home and it interested me'
+                    )}`
+                  )
+                }
+                // `https://api.whatsapp.com/send/?phone=237692650993&text=${message}`
               >
                 <WhatsApp fontSize="large" color="primary" />
               </IconButton>
