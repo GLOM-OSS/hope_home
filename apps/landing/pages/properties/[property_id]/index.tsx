@@ -148,7 +148,7 @@ export default function PropertyDetails({
         danger
         dialogTitle={formatMessage({ id: 'confirmSignalProperty' })}
       />
-      <Box sx={{ padding: `0 7.1%`, marginTop: 2, display: 'grid', rowGap: 3 }}>
+      <Box sx={{ padding: `0 7.1%`, marginTop: 4, display: 'grid', rowGap: 3 }}>
         <ImageDisplay images={image_refs} />
         <Box sx={{ padding: 2, display: 'grid', rowGap: 2 }}>
           <Box
