@@ -11,7 +11,7 @@ export function MapDisplay({
   zoomLevel: number;
 }) {
   return (
-    <Box style={{ height: '50vh', width: '60vw' }}>
+    <Box style={{ height: '50vh', width: '100%' }}>
       <GoogleMapReact
         bootstrapURLKeys={{ key: 'AIzaSyDYFQ9bbgFmqBdn_llTxm4gfooXajGYOuE' }}
         defaultCenter={location}
