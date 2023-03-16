@@ -5,6 +5,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 import helmet from 'helmet';
 import * as shell from 'shelljs';
+import { DynamicMulter } from '../multer/multer.module';
 
 import { PrismaModule } from '../prisma/prisma.module';
 import { AppController } from './app.controller';
@@ -17,6 +18,7 @@ import { AppService } from './app.service';
       limit: 10,
     }),
     ConfigModule.forRoot(),
+    DynamicMulter,
     PrismaModule,
   ],
   controllers: [AppController],
