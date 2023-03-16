@@ -11,13 +11,17 @@
     "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.11.12",
     "@nestjs/common": "^9.0.0",
+    "@nestjs/config": "^2.3.1",
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
+    "@nestjs/throttler": "^4.0.0",
     "@nrwl/next": "15.8.5",
+    "@prisma/client": "^4.6.1",
     "@types/crypto-js": "^4.1.1",
     "axios": "^1.0.0",
     "crypto-js": "^4.1.1",
     "formik": "^2.2.9",
+    "helmet": "^6.0.1",
     "moment": "^2.29.4",
     "next": "13.1.1",
     "rc-scrollbars": "^1.1.5",
@@ -29,6 +33,7 @@
     "react-toastify": "^9.1.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.0.0",
+    "shelljs": "^0.8.5",
     "tslib": "^2.3.0",
     "uuid": "^9.0.0",
     "yup": "^1.0.2"
@@ -52,6 +57,7 @@
     "@types/node": "18.14.2",
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.11",
+    "@types/shelljs": "^0.8.11",
     "@types/uuid": "^9.0.1",
     "@typescript-eslint/eslint-plugin": "^5.36.1",
     "@typescript-eslint/parser": "^5.36.1",
@@ -70,9 +76,13 @@
     "jest-environment-node": "^29.4.1",
     "nx": "15.8.5",
     "prettier": "^2.6.2",
+    "prisma": "^4.6.1",
     "react-test-renderer": "18.2.0",
     "ts-jest": "^29.0.5",
     "ts-node": "10.9.1",
     "typescript": "~4.9.5"
+  },
+  "prisma": {
+    "schema": "apps/api/src/prisma/Hope-h.prisma"
   }
 }
