@@ -11,10 +11,7 @@ export class AuthService {
   constructor(
     private prismaService: PrismaService,
     private jwtService: JwtService,
-    private oauth2Client = new OAuth2Client(
-      process.env.GOOGLE_CLIENT_ID,
-      process.env.GOOGLE_SECRET
-    )
+    private oauth2Client: OAuth2Client
   ) {}
 
   async validateUser(email: string, password: string) {

@@ -10,6 +10,7 @@ import { DynamicMulter } from '../multer/multer.module';
 import { PrismaModule } from '../prisma/prisma.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { AppService } from './app.service';
     ConfigModule.forRoot(),
     DynamicMulter,
     PrismaModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [
