@@ -8,6 +8,7 @@ import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
 import { AppModule } from './app/app.module';
+import { ErrorFilter } from './errors/error.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -18,6 +19,7 @@ async function bootstrap() {
       whitelist: true,
     })
   );
+  app.useGlobalFilters(new ErrorFilter());
 
   const port = process.env.PORT || 3333;
   await app.listen(port);

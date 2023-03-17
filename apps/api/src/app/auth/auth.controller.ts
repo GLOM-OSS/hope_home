@@ -10,6 +10,7 @@ import {
 import { Person } from '@prisma/client';
 import { isEmail } from 'class-validator';
 import { Request } from 'express';
+import { ErrorEnum } from '../../errors';
 import {
   CreateNewPasswordDto,
   CreatePersonDto,
@@ -61,7 +62,7 @@ export class AuthController {
   async resetPassword(@Body('email') email: string) {
     if (!isEmail(email))
       throw new HttpException(
-        `Invalid request body: Not an email`,
+        ErrorEnum.ERR1.toString(),
         HttpStatus.BAD_REQUEST
       );
     try {
