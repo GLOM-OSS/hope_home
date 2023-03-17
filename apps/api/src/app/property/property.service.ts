@@ -131,4 +131,47 @@ export class PropertyService {
       where: { comment_id },
     });
   }
+
+  async flag(property_id: string, flag_by: string) {
+    const numberOfFlags = await this.prismaService.flagProperty.count({
+      where: { property_id, flag_by },
+    });
+    if (numberOfFlags > 2) {
+      const {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        property_id: _id,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        created_at,
+        ...property
+      } = await this.prismaService.property.findUniqueOrThrow({
+        where: { property_id },
+      });
+      return this.prismaService.$transaction([
+        this.prismaService.flagProperty.create({
+          data: {
+            Property: { connect: { property_id } },
+            Person: { connect: { person_id: flag_by } },
+          },
+        }),
+        this.prismaService.property.update({
+          data: {
+            is_flagged: true,
+            PropertyAudits: {
+              create: {
+                ...property,
+                audited_by: flag_by,
+              },
+            },
+          },
+          where: { property_id },
+        }),
+      ]);
+    }
+    return this.prismaService.flagProperty.create({
+      data: {
+        Property: { connect: { property_id } },
+        Person: { connect: { person_id: flag_by } },
+      },
+    });
+  }
 }
