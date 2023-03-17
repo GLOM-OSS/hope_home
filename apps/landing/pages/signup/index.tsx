@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { ISignup } from '@hopehome/interfaces';
+import { theme } from '@hopehome/theme';
+import { ErrorMessage, useNotification } from '@hopehome/toast';
 import {
   EastOutlined,
   EmailRounded,
@@ -6,7 +8,7 @@ import {
   LockPersonRounded,
   ReportRounded,
   VisibilityOffOutlined,
-  VisibilityOutlined,
+  VisibilityOutlined
 } from '@mui/icons-material';
 import {
   Box,
@@ -20,24 +22,13 @@ import {
   RadioGroup,
   TextField,
   Tooltip,
-  Typography,
+  Typography
 } from '@mui/material';
+import { useFormik } from 'formik';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import * as Yup from 'yup';
-import { useFormik } from 'formik';
-import { theme } from '@hopehome/theme';
-import { ErrorMessage, useNotification } from '@hopehome/toast';
-import { useRouter } from 'next/router';
-import { IGender } from '@hopehome/interfaces';
-
-interface ISignup {
-  email: string;
-  password: string;
-  fullname: string;
-  whatsapp_number: string;
-  phone_number: string;
-  gender: IGender;
-}
 
 export default function Signup() {
   const { formatMessage } = useIntl();

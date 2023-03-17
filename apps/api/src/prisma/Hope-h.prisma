@@ -30,15 +30,14 @@ enum Role {
 
 model Person {
     person_id       String   @id @default(uuid()) @db.VarChar(36)
-    first_name      String   @db.VarChar(50)
-    last_name       String   @db.VarChar(50)
-    phone_number    String?  @db.VarChar(15)
+    fullname      String   @db.VarChar(50)
+    phone_number    String  @db.VarChar(15)
     whatsapp_number String   @db.VarChar(15)
     gender          Gender?
     email           String   @unique @db.VarChar(50)
     preferred_lang  Lang     @default(fr)
     role            Role     @default(CLIENT)
-    password        String?  @db.VarChar(75)
+    password        String  @db.VarChar(75)
     created_at      DateTime @default(now()) @db.DateTime(0)
 
     Properties     Property[]

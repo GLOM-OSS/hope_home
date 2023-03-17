@@ -1,4 +1,4 @@
-import { Lang } from '@prisma/client';
+import { Gender, Lang } from '@prisma/client';
 import {
   IsEmail,
   IsEnum,
@@ -21,13 +21,17 @@ export class CreatePersonDto {
   email: string;
 
   @IsString()
-  first_name: string;
+  fullname: string;
 
-  @IsString()
-  last_name: string;
+  @IsOptional()
+  @IsEnum(Gender)
+  gender: Gender;
 
   @IsString()
   password: string;
+
+  @IsPhoneNumber('CM')
+  phone_number: string;
 
   @IsPhoneNumber('CM')
   whatsapp_number: string;

@@ -1,4 +1,4 @@
-import { IHHProperty } from '@hopehome/interfaces';
+import { IHHProperty, RoleEnum } from '@hopehome/interfaces';
 import { Box } from '@mui/material';
 import { GetServerSideProps } from 'next';
 import AboutSection from '../components/home/about';
@@ -12,7 +12,7 @@ import PropertySection from '../components/home/propertySection';
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     //CALL API HERE TO LOAD PROPERTIES (recent, land, housing)
-    const properties = [
+    const properties: IHHProperty[] = [
       {
         address:
           'Rue de Palmiers Nkolmesseng - Yaounde Rue de Palmiers Nkolmesseng - Yaounde',
@@ -31,7 +31,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
           fullname: 'Kimbi Boston Tanyi',
           person_id: 'soekls',
           preferred_lang: 'en',
-          roles: [],
+          role: RoleEnum.CLIENT,
           whatsapp_number: '237657140183',
           gender: 'Male',
           phone_number: '237657140183',
@@ -56,7 +56,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
           fullname: 'Kimbi Boston Tanyi',
           person_id: 'soekls',
           preferred_lang: 'en',
-          roles: [],
+          role: RoleEnum.CLIENT,
           whatsapp_number: '237657140183',
           gender: 'Male',
           phone_number: '237657140183',
