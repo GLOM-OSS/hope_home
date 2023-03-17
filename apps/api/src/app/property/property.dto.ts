@@ -3,7 +3,13 @@ import {
   ListingReasonEnum,
   PropertyTypeEnum,
 } from '@prisma/client';
-import { IsEnum, IsOptional, IsUUID } from 'class-validator';
+import {
+  IsEnum,
+  IsOptional,
+  IsString,
+  IsUUID,
+  MaxLength,
+} from 'class-validator';
 
 export class QueryPropertiesDto {
   @IsOptional()
@@ -21,4 +27,10 @@ export class QueryPropertiesDto {
   @IsUUID()
   @IsOptional()
   published_by?: string;
+}
+
+export class CreateCommentDto {
+  @IsString()
+  @MaxLength(199)
+  comment: string;
 }

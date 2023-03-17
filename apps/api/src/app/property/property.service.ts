@@ -101,13 +101,23 @@ export class PropertyService {
   }
 
   async likeOrUnlike(property_id: string, liked_by: string) {
-    await this.prismaService.likedProperty.upsert({
+    return this.prismaService.likedProperty.upsert({
       create: {
         Property: { connect: { property_id } },
         Person: { connect: { person_id: liked_by } },
       },
       update: { deleted_at: new Date(), is_deleted: true },
       where: { liked_by_property_id: { liked_by, property_id } },
+    });
+  }
+
+  async comment(property_id: string, comment: string, commented_by: string) {
+    return this.prismaService.comment.create({
+      data: {
+        comment,
+        Property: { connect: { property_id } },
+        Person: { connect: { person_id: commented_by } },
+      },
     });
   }
 }
