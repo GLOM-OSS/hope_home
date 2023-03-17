@@ -44,7 +44,8 @@ model Person {
     Properties      Property[]
     FlagProperties  FlagProperty[]
     ResetPasswords  ResetPassword[]
-    Comments        Comment[]
+    Comments        Comment[]       @relation(name: "comment_comment_by_key")
+    DeletedComments Comment[]       @relation(name: "comment_deleted_by_key")
     LikedProperties LikedProperty[]
 }
 
@@ -133,9 +134,11 @@ model Comment {
     comment      String
     is_deleted   Boolean   @default(false) @db.TinyInt
     deleted_at   DateTime? @db.DateTime(0)
+    deleted_by   String?   @db.VarChar(36)
+    DeletedBy    Person?   @relation(name: "comment_deleted_by_key", fields: [deleted_by], references: [person_id], onDelete: Cascade, onUpdate: Cascade)
     commented_at DateTime  @default(now()) @db.DateTime(0)
     commented_by String    @db.VarChar(36)
-    Person       Person    @relation(fields: [commented_by], references: [person_id], onDelete: Cascade, onUpdate: Cascade)
+    Person       Person    @relation(name: "comment_comment_by_key", fields: [commented_by], references: [person_id], onDelete: Cascade, onUpdate: Cascade)
     property_id  String    @db.VarChar(36)
     Property     Property  @relation(fields: [property_id], references: [property_id], onDelete: Cascade, onUpdate: Cascade)
 }

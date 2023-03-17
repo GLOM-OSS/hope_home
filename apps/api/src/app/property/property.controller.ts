@@ -67,4 +67,18 @@ export class PropertyController {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Put(':comment_id/delete')
+  async deleteComment(
+    @Req() request: Request,
+    @Param('comment_id') comment_id: string
+  ) {
+    try {
+      const { person_id } = request.user as Person;
+      return this.propertyService.deleteComment(comment_id, person_id);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
 }

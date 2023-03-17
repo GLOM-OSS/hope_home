@@ -120,4 +120,15 @@ export class PropertyService {
       },
     });
   }
+
+  async deleteComment(comment_id: string, deleted_by: string) {
+    await this.prismaService.comment.update({
+      data: {
+        deleted_at: new Date(),
+        is_deleted: true,
+        DeletedBy: { connect: { person_id: deleted_by } },
+      },
+      where: { comment_id },
+    });
+  }
 }
