@@ -20,6 +20,7 @@ export interface IHHProperty {
   house_details?: IHouseDetails;
   publisher_details: IUser;
   number_of_likes: number;
+  is_liked: boolean;
 }
 
 export interface IComment {

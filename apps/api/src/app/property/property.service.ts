@@ -7,36 +7,37 @@ import { QueryPropertiesDto } from './property.dto';
 export class PropertyService {
   constructor(private prismaService: PrismaService) {}
 
-  async findAll({
-    house_type,
-    ...query
-  }: QueryPropertiesDto): Promise<IHHProperty[]> {
+  async findAll(
+    { house_type, ...query }: QueryPropertiesDto,
+    person_id?: string
+  ): Promise<IHHProperty[]> {
     const properties = await this.prismaService.property.findMany({
       include: {
         HouseDetail: true,
         Publisher: true,
-        _count: {
-          select: { LikedProperties: true },
-        },
+        LikedProperties: true,
       },
       where: { is_flagged: false, ...query, HouseDetail: { type: house_type } },
     });
 
     return properties.map(
       ({
-        _count: { LikedProperties },
+        LikedProperties,
         HouseDetail: { number_of_baths, number_of_rooms, type },
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         Publisher: { password, created_at, ...publisher },
         ...property
       }) => ({
         ...property,
-        number_of_likes: LikedProperties,
+        number_of_likes: LikedProperties.length,
         house_details: {
           number_of_baths,
           number_of_rooms,
           type,
         },
+        is_liked: Boolean(
+          LikedProperties.find((_) => _.liked_by === person_id)
+        ),
         publisher_details: {
           ...publisher,
           created_at: created_at.getTime(),
@@ -45,10 +46,13 @@ export class PropertyService {
     );
   }
 
-  async findOne(property_id: string): Promise<IPropertyDetails> {
+  async findOne(
+    property_id: string,
+    person_id?: string
+  ): Promise<IPropertyDetails> {
     const {
       Comments,
-      _count: { LikedProperties },
+      LikedProperties,
       HouseDetail: { number_of_baths, number_of_rooms, type },
       PropertyImages,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -56,9 +60,7 @@ export class PropertyService {
       ...property
     } = await this.prismaService.property.findUniqueOrThrow({
       include: {
-        _count: {
-          select: { LikedProperties: true },
-        },
+        LikedProperties: true,
         HouseDetail: true,
         Publisher: true,
         Comments: {
@@ -70,7 +72,7 @@ export class PropertyService {
     });
     return {
       ...property,
-      number_of_likes: LikedProperties,
+      number_of_likes: LikedProperties.length,
       comments: Comments.map(
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         ({ comment, Person: { password, created_at, ...publisher } }) => ({
@@ -81,6 +83,7 @@ export class PropertyService {
           },
         })
       ),
+      is_liked: Boolean(LikedProperties.find((_) => _.liked_by === person_id)),
       image_refs: PropertyImages.map(({ property_image_id, image_ref }) => ({
         image_id: property_image_id,
         image_ref,

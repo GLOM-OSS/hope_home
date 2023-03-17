@@ -1,20 +1,28 @@
-import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
+import { Controller, Get, Param, Query, Req } from '@nestjs/common';
+import { Person } from '@prisma/client';
+import { Request } from 'express';
 import { QueryPropertiesDto } from './property.dto';
 import { PropertyService } from './property.service';
 
-@UseGuards(JwtAuthGuard)
 @Controller('properties')
 export class PropertyController {
   constructor(private propertyService: PropertyService) {}
 
   @Get('all')
-  async getProperties(@Query() queryOptions: QueryPropertiesDto) {
-    return this.propertyService.findAll(queryOptions);
+  async getProperties(
+    @Req() request: Request,
+    @Query() queryOptions: QueryPropertiesDto
+  ) {
+    const person = request.user as Person;
+    return this.propertyService.findAll(queryOptions, person?.person_id);
   }
 
   @Get(':property_id/details')
-  async getPropertyDetails(@Param('property_id') property_id: string) {
-    return this.propertyService.findOne(property_id);
+  async getPropertyDetails(
+    @Req() request: Request,
+    @Param('property_id') property_id: string
+  ) {
+    const person = request.user as Person;
+    return this.propertyService.findOne(property_id, person?.person_id);
   }
 }
