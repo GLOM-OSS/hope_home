@@ -339,6 +339,7 @@ export default function PropertyDetails({
             {formatMessage({ id: 'similarProperties' })}
           </Typography>
           <Scrollbars
+            universal
             autoHide
             style={{ height: similarProperties.length > 0 ? '557px' : '0px' }}
           >
@@ -365,6 +366,7 @@ export default function PropertyDetails({
             {formatMessage({ id: 'nearByProperties' })}
           </Typography>
           <Scrollbars
+            universal
             autoHide
             style={{ height: similarProperties.length > 0 ? '557px' : '0px' }}
           >
