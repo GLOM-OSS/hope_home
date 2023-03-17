@@ -7,6 +7,7 @@ import {
   IsString,
   IsUUID,
 } from 'class-validator';
+import { PartialType } from '@nestjs/mapped-types';
 
 export class GoogleLoginDto {
   @IsString()
@@ -40,6 +41,8 @@ export class CreatePersonDto {
   @IsOptional()
   preferred_lang?: Lang;
 }
+
+export class EditPersonDto extends PartialType(CreatePersonDto) {}
 
 export class CreateNewPasswordDto {
   @IsUUID()

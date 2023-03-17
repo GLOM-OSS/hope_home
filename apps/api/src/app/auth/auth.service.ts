@@ -105,4 +105,13 @@ export class AuthService {
       where: { person_id: reset_by },
     });
   }
+
+  async updateProfile(person_id: string, newProfile: Prisma.PersonUpdateInput) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...person } = await this.prismaService.person.update({
+      data: newProfile,
+      where: { person_id },
+    });
+    return person;
+  }
 }

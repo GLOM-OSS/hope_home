@@ -5,6 +5,7 @@ import {
   HttpException,
   HttpStatus,
   Post,
+  Put,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -15,6 +16,7 @@ import { ErrorEnum } from '../../errors';
 import {
   CreateNewPasswordDto,
   CreatePersonDto,
+  EditPersonDto,
   GoogleLoginDto,
 } from './auth.dto';
 import { AuthService } from './auth.service';
@@ -93,5 +95,15 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   async getUser(@Req() request: Request) {
     return request.user;
+  }
+
+  @Put('user/edit')
+  @UseGuards(JwtAuthGuard)
+  async updateProfile(
+    @Req() request: Request,
+    @Body () newPerson: EditPersonDto
+  ) {
+    const { person_id } = request.user as Person;
+    return this.authService.updateProfile(person_id, newPerson);
   }
 }
