@@ -11,6 +11,7 @@ import { PrismaModule } from '../prisma/prisma.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { PropertyModule } from './property/property.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { AuthModule } from './auth/auth.module';
     DynamicMulter,
     PrismaModule,
     AuthModule,
+    PropertyModule,
   ],
   controllers: [AppController],
   providers: [
