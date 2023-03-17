@@ -34,7 +34,7 @@ export const website = {
   forRent: 'A louer',
   home: 'Maison',
   shareProperty: 'Partager la propriété',
-  whatsappContact: 'Contact Whatsapp',
+  whatsappContact: 'Contacter le vendeur',
   signalProperty: 'Signaler cette propriété',
 
   viewMore: 'Voir plus',

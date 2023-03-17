@@ -24,7 +24,7 @@ export default function PropertySection({
           you.
         </Typography>
       </Box>
-      <Scrollbars autoHide style={{ height: '557px' }}>
+      <Scrollbars universal autoHide style={{ height: '557px' }}>
         <Box
           sx={{
             display: 'grid',

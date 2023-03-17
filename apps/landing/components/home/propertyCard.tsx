@@ -94,6 +94,43 @@ export default function PropertyCard({
   const [isConfirmSignalDialogOpen, setIsConfirmSignalDialogOpen] =
     useState<boolean>(false);
 
+  const handlePropertyClick = (
+    type?: 'signal' | 'contact' | 'share' | 'like'
+  ) => {
+    switch (type) {
+      case 'signal': {
+        setIsConfirmSignalDialogOpen(true);
+        break;
+      }
+      case 'contact': {
+        //TODO: CORRECT THIS TO THE RIGHT MESSAGE INDICATING THE PROPERTY IN THE LINK
+        push(
+          `https://api.whatsapp.com/send/?phone=${whatsapp_number}&text=${encodeURIComponent(
+            'I saw your property on hope home and it interested me'
+          )}`
+        );
+        break;
+      }
+      case 'share': {
+        // TODO: CORRECT THE TEXT AND URL LATER ON TO CONTAIN THE PROPERTY
+        navigator.share({
+          title: address,
+          text: 'Checkout this cool property I found on HopeHome',
+          url: `https://marketplace.ingl.io/${property_id}`,
+        });
+        break;
+      }
+      case 'like': {
+        // TODO: write function to like or unlike property here
+        break;
+      }
+      default: {
+        push(`properties/${property_id}`);
+        break;
+      }
+    }
+  };
+
   return (
     <>
       <ConfirmDialog
@@ -107,7 +144,12 @@ export default function PropertyCard({
         danger
         dialogTitle={formatMessage({ id: 'confirmSignalProperty' })}
       />
-      <Box component={Paper} elevation={1} sx={{ width: '350px' }}>
+      <Box
+        component={Paper}
+        elevation={1}
+        sx={{ width: '350px' }}
+        onClick={() => handlePropertyClick()}
+      >
         <Box sx={{ position: 'relative' }}>
           <Image
             src={image_ref}
@@ -156,6 +198,10 @@ export default function PropertyCard({
             color="error"
             icon={<FavoriteBorder fontSize="large" />}
             checkedIcon={<Favorite fontSize="large" />}
+            onClick={(e) => {
+              e.stopPropagation();
+              handlePropertyClick('like');
+            }}
             sx={{
               position: 'absolute',
               bottom: '10px',
@@ -176,7 +222,10 @@ export default function PropertyCard({
                 disabled={isSubmitting}
                 size="small"
                 sx={{ backgroundColor: 'rgba(255, 255, 255, 0.4)' }}
-                onClick={() => setIsConfirmSignalDialogOpen(true)}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handlePropertyClick('signal');
+                }}
               >
                 <WarningAmberOutlined color="warning" fontSize="large" />
               </IconButton>
@@ -185,7 +234,10 @@ export default function PropertyCard({
               <IconButton
                 size="small"
                 sx={{ backgroundColor: 'rgba(255, 255, 255, 0.4)' }}
-                onClick={() => push(`https://wa.me/${whatsapp_number}`)}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handlePropertyClick('contact');
+                }}
               >
                 <WhatsApp fontSize="large" color="primary" />
               </IconButton>
@@ -194,13 +246,10 @@ export default function PropertyCard({
               <IconButton
                 size="small"
                 sx={{ backgroundColor: 'rgba(255, 255, 255, 0.4)' }}
-                onClick={() =>
-                  navigator.share({
-                    title: address,
-                    text: 'Checkout this cool property I found on HopeHome',
-                    url: `https://marketplace.ingl.io/${property_id}`,
-                  })
-                }
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handlePropertyClick('share');
+                }}
               >
                 <ShareOutlined fontSize="large" />
               </IconButton>

@@ -20,3 +20,13 @@ export interface IHHProperty {
   house_details?: IHouseDetails;
   publisher_details: IUser;
 }
+
+export interface IComment {
+  publisher: IUser;
+  comment: string;
+}
+
+export interface IPropertyDetails extends Omit<IHHProperty, 'image_ref'> {
+  comments: IComment[];
+  image_refs: string[];
+}

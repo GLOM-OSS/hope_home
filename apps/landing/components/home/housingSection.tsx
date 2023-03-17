@@ -24,7 +24,7 @@ export default function HousingSection({
           you.
         </Typography>
       </Box>
-      <Scrollbars autoHide style={{ height: '657px' }}>
+      <Scrollbars universal autoHide style={{ height: '657px' }}>
         <Box
           sx={{
             display: 'grid',
