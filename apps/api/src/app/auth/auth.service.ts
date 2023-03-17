@@ -4,7 +4,7 @@ import { Person, Prisma } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { OAuth2Client } from 'google-auth-library';
 import { PrismaService } from '../../prisma/prisma.service';
-import { GoogleLoginDto } from './auth.dto';
+import { CreateNewPasswordDto, GoogleLoginDto } from './auth.dto';
 
 @Injectable()
 export class AuthService {
@@ -66,5 +66,38 @@ export class AuthService {
         data: { email, ...newPerson },
       });
     }
+  }
+
+  async resetPassword(email: string) {
+    const person = await this.prismaService.person.findUniqueOrThrow({
+      where: { email },
+    });
+    const { reset_password_id, expires_at } =
+      await this.prismaService.resetPassword.create({
+        data: {
+          Person: { connect: { person_id: person.person_id } },
+          expires_at: new Date(Date.now() + 6 * 3600 * 1000),
+        },
+      });
+    //TODO email user.
+    console.log(
+      `User reset password link id ${reset_password_id} and expiration time ${expires_at}`
+    );
+  }
+
+  async setNewPassword({
+    new_password,
+    reset_password_id,
+  }: CreateNewPasswordDto) {
+    const { reset_by } =
+      await this.prismaService.resetPassword.findUniqueOrThrow({
+        where: { reset_password_id },
+      });
+    await this.prismaService.person.update({
+      data: {
+        password: bcrypt.hashSync(new_password, Number(process.env.SALT)),
+      },
+      where: { person_id: reset_by },
+    });
   }
 }

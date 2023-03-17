@@ -5,6 +5,7 @@ import {
   IsOptional,
   IsPhoneNumber,
   IsString,
+  IsUUID,
 } from 'class-validator';
 
 export class GoogleLoginDto {
@@ -34,4 +35,12 @@ export class CreatePersonDto {
   @IsEnum(Lang)
   @IsOptional()
   preferred_lang?: Lang;
+}
+
+export class CreateNewPasswordDto {
+  @IsUUID()
+  reset_password_id: string;
+
+  @IsString()
+  new_password: string;
 }

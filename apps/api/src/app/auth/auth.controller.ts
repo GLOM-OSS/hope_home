@@ -1,7 +1,20 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpException,
+  HttpStatus,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { Person } from '@prisma/client';
+import { isEmail } from 'class-validator';
 import { Request } from 'express';
-import { CreatePersonDto, GoogleLoginDto } from './auth.dto';
+import {
+  CreateNewPasswordDto,
+  CreatePersonDto,
+  GoogleLoginDto,
+} from './auth.dto';
 import { AuthService } from './auth.service';
 import { LocalGuard } from './local/local.guard';
 
@@ -18,15 +31,58 @@ export class AuthController {
 
   @Post('google')
   async googleSignIn(@Body() loginData: GoogleLoginDto) {
-    const person = await this.authService.googleSignIn(loginData);
-    const accessToken = this.authService.signIn(person);
-    return { access_token: accessToken };
+    try {
+      const person = await this.authService.googleSignIn(loginData);
+      const accessToken = this.authService.signIn(person);
+      return { access_token: accessToken };
+    } catch (error) {
+      throw new HttpException(
+        `Oops, something when wrong: ${error.message}`,
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
   }
 
   @Post('register')
   async registerUser(@Body() newPerson: CreatePersonDto) {
-    const person = await this.authService.registerUser(newPerson);
-    const accessToken = this.authService.signIn(person);
-    return { access_token: accessToken };
+    try {
+      const person = await this.authService.registerUser(newPerson);
+      const accessToken = this.authService.signIn(person);
+      return { access_token: accessToken };
+    } catch (error) {
+      throw new HttpException(
+        `Oops, something when wrong: ${error.message}`,
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
+  }
+
+  @Post('reset-password')
+  async resetPassword(@Body('email') email: string) {
+    if (!isEmail(email))
+      throw new HttpException(
+        `Invalid request body: Not an email`,
+        HttpStatus.BAD_REQUEST
+      );
+    try {
+      return this.authService.resetPassword(email);
+    } catch (error) {
+      throw new HttpException(
+        `Oops, something when wrong: ${error.message}`,
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
+  }
+
+  @Post('new-password')
+  async setNewPassword(@Body() newPassword: CreateNewPasswordDto) {
+    try {
+      await this.authService.setNewPassword(newPassword);
+    } catch (error) {
+      throw new HttpException(
+        `Oops, something when wrong: ${error.message}`,
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
   }
 }
