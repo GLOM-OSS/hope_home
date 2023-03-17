@@ -32,7 +32,10 @@ export class AuthService {
       audience: process.env.GOOGLE_CLIENT_ID,
     });
     const { email, name, locale, profile } = ticket.getPayload();
-    return this.registerUser({
+    const person = await this.prismaService.person.findUnique({
+      where: { email },
+    });
+    const newPerson: Prisma.PersonCreateInput = {
       email,
       fullname: name,
       whatsapp_number,
@@ -43,27 +46,31 @@ export class AuthService {
         : locale.startsWith('fr')
         ? 'fr'
         : null,
-    });
+    };
+    if (person) {
+      return this.prismaService.person.update({
+        data: newPerson,
+        where: { email },
+      });
+    } else return this.registerUser(newPerson);
   }
 
   signIn(person: Person) {
     return this.jwtService.sign({ person_id: person.person_id });
   }
 
-  async registerUser({ email, ...newPerson }: Prisma.PersonCreateInput) {
-    const person = await this.prismaService.person.findUnique({
-      where: { email },
+  async registerUser({
+    email,
+    password,
+    ...newPerson
+  }: Prisma.PersonCreateInput) {
+    return this.prismaService.person.create({
+      data: {
+        email,
+        ...newPerson,
+        password: bcrypt.hashSync(password, Number(process.env.SALT)),
+      },
     });
-    if (person) {
-      return this.prismaService.person.update({
-        data: newPerson,
-        where: { email },
-      });
-    } else {
-      return this.prismaService.person.create({
-        data: { email, ...newPerson },
-      });
-    }
   }
 
   async resetPassword(email: string) {

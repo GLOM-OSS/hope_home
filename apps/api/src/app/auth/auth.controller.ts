@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpException,
   HttpStatus,
   Post,
@@ -17,6 +18,7 @@ import {
   GoogleLoginDto,
 } from './auth.dto';
 import { AuthService } from './auth.service';
+import { JwtAuthGuard } from './jwt/jwt-auth.guard';
 import { LocalGuard } from './local/local.guard';
 
 @Controller('auth')
@@ -85,5 +87,11 @@ export class AuthController {
         HttpStatus.INTERNAL_SERVER_ERROR
       );
     }
+  }
+
+  @Get('user')
+  @UseGuards(JwtAuthGuard)
+  async getUser(@Req() request: Request) {
+    return request.user;
   }
 }
