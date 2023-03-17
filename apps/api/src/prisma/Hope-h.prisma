@@ -47,6 +47,7 @@ model Person {
     Comments        Comment[]       @relation(name: "comment_comment_by_key")
     DeletedComments Comment[]       @relation(name: "comment_deleted_by_key")
     LikedProperties LikedProperty[]
+    PropertyAudits  PropertyAudit[]
 }
 
 model ResetPassword {
@@ -71,7 +72,8 @@ model HouseDetail {
     type            HouseTypeEnum
     created_at      DateTime      @default(now()) @db.DateTime(0)
 
-    Properties Property?
+    Property      Property?
+    PropertyAudit PropertyAudit?
 }
 
 enum ListingReasonEnum {
@@ -110,6 +112,28 @@ model Property {
     Comments        Comment[]
     PropertyImages  PropertyImage[]
     LikedProperties LikedProperty[]
+    PropertyAudits  PropertyAudit[]
+}
+
+model PropertyAudit {
+    property_audit_id String            @id @default(uuid()) @db.VarChar(36)
+    image_ref         String            @db.VarChar(45)
+    price             Int
+    area              Int
+    listing_reason    ListingReasonEnum
+    longitude         Int
+    latitude          Int
+    description       String
+    property_type     PropertyTypeEnum
+    is_flagged        Boolean           @default(false) @db.TinyInt
+    address           String
+    house_detail_id   String?           @unique @db.VarChar(36)
+    HouseDetail       HouseDetail?      @relation(fields: [house_detail_id], references: [house_detail_id], onDelete: Cascade, onUpdate: Cascade)
+    audited_at        DateTime          @default(now()) @db.DateTime(0)
+    audited_by        String            @db.VarChar(36)
+    Person            Person            @relation(fields: [audited_by], references: [person_id], onDelete: Cascade, onUpdate: Cascade)
+    property_id       String            @db.VarChar(36)
+    Property          Property          @relation(fields: [property_id], references: [property_id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model PropertyImage {
@@ -121,7 +145,7 @@ model PropertyImage {
 
 model FlagProperty {
     flag_property_id String   @id @default(uuid()) @db.VarChar(36)
-    flag_at          DateTime @db.DateTime(0)
+    flag_at          DateTime @default(now()) @db.DateTime(0)
     property_id      String   @db.VarChar(36)
     Property         Property @relation(fields: [property_id], references: [property_id], onDelete: Cascade, onUpdate: Cascade)
     flag_by          String   @db.VarChar(36)
