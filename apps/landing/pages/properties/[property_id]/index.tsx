@@ -30,10 +30,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     description:
       'Hi, original neighborhood photos, resident re, original neighborhood photos, resident.,Hi, original neighborhood photos, resident re, original neighborhood photos, resident. In arcu risus vestibulum sollicitudin elit sed sed convallis tincidunt. Risus turpis hac metus facilisi ut enim massa eu. Dolor suscipit sit velit massa adipiscing adipiscing vulputate feugiat turpis. Fames sed ut dignissim tincidunt metus. Morbi varius quis enim gravida.',
     image_refs: [
-      '/hero_background.png',
-      '/logo_green.png',
-      '/favicon_green.png',
-      '/about_us.png',
+      { image_id: '/hero_background.png', image_ref: '/hero_background.png' },
+      { image_id: '/logo_green.png', image_ref: '/logo_green.png' },
+      { image_id: '/favicon_green.png', image_ref: '/favicon_green.png' },
+      { image_id: '/about_us.png', image_ref: '/about_us.png' },
     ],
     latitude: 0,
     listing_reason: 'Rent',
@@ -41,6 +41,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     price: 500000,
     property_id: 'make_it_rain',
     property_type: 'Home',
+    number_of_likes: 2,
     publisher_details: {
       created_at: new Date().getTime(),
       email: '',
@@ -149,7 +150,7 @@ export default function PropertyDetails({
         dialogTitle={formatMessage({ id: 'confirmSignalProperty' })}
       />
       <Box sx={{ padding: `0 7.1%`, marginTop: 4, display: 'grid', rowGap: 3 }}>
-        <ImageDisplay images={image_refs} />
+        <ImageDisplay images={image_refs.map((_) => _.image_ref)} />
         <Box sx={{ padding: 2, display: 'grid', rowGap: 2 }}>
           <Box
             sx={{

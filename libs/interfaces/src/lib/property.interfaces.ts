@@ -19,6 +19,7 @@ export interface IHHProperty {
   address: string;
   house_details?: IHouseDetails;
   publisher_details: IUser;
+  number_of_likes: number;
 }
 
 export interface IComment {
@@ -28,5 +29,5 @@ export interface IComment {
 
 export interface IPropertyDetails extends Omit<IHHProperty, 'image_ref'> {
   comments: IComment[];
-  image_refs: string[];
+  image_refs: { image_id: string; image_ref: string }[];
 }

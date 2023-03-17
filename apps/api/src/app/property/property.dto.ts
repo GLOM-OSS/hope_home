@@ -3,7 +3,7 @@ import {
   ListingReasonEnum,
   PropertyTypeEnum,
 } from '@prisma/client';
-import { IsEnum, IsOptional } from 'class-validator';
+import { IsEnum, IsOptional, IsUUID } from 'class-validator';
 
 export class QueryPropertiesDto {
   @IsOptional()
@@ -17,4 +17,8 @@ export class QueryPropertiesDto {
   @IsOptional()
   @IsEnum(HouseTypeEnum)
   house_type?: HouseTypeEnum;
+
+  @IsUUID()
+  @IsOptional()
+  published_by?: string;
 }

@@ -33,23 +33,26 @@ model Person {
     fullname          String   @db.VarChar(50)
     phone_number      String   @db.VarChar(15)
     whatsapp_number   String   @db.VarChar(15)
-    profile_image_ref String?   @db.VarChar(45)
+    profile_image_ref String?  @db.VarChar(45)
     gender            Gender?
     email             String   @unique @db.VarChar(50)
     preferred_lang    Lang     @default(fr)
     role              Role     @default(CLIENT)
-    password          String?   @db.VarChar(75)
+    password          String?  @db.VarChar(75)
     created_at        DateTime @default(now()) @db.DateTime(0)
 
-    Properties     Property[]
-    FlagProperties FlagProperty[]
-    ResetPassword  ResetPassword[]
+    Properties      Property[]
+    FlagProperties  FlagProperty[]
+    ResetPasswords  ResetPassword[]
+    Comments        Comment[]
+    LikedProperties LikedProperty[]
 }
 
 model ResetPassword {
     reset_password_id String   @id @default(uuid()) @db.VarChar(36)
     is_used           Boolean  @default(false) @db.TinyInt
     expires_at        DateTime @db.DateTime(0)
+    created_at        DateTime @db.DateTime(0)
     reset_by          String   @db.VarChar(36)
     Person            Person   @relation(fields: [reset_by], references: [person_id], onDelete: Cascade, onUpdate: Cascade)
 }
@@ -94,6 +97,7 @@ model Property {
     latitude        Int
     description     String
     property_type   PropertyTypeEnum
+    is_flagged      Boolean           @default(false) @db.TinyInt
     address         String
     house_detail_id String?           @unique @db.VarChar(36)
     HouseDetail     HouseDetail?      @relation(fields: [house_detail_id], references: [house_detail_id], onDelete: Cascade, onUpdate: Cascade)
@@ -101,14 +105,46 @@ model Property {
     Publisher       Person            @relation(fields: [published_by], references: [person_id], onDelete: Cascade, onUpdate: Cascade)
     created_at      DateTime          @default(now()) @db.DateTime(0)
 
-    FlagProperties FlagProperty[]
+    FlagProperties  FlagProperty[]
+    Comments        Comment[]
+    PropertyImages  PropertyImage[]
+    LikedProperties LikedProperty[]
+}
+
+model PropertyImage {
+    property_image_id String   @id @default(uuid()) @db.VarChar(36)
+    image_ref         String   @db.VarChar(45)
+    property_id       String   @db.VarChar(36)
+    Property          Property @relation(fields: [property_id], references: [property_id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model FlagProperty {
     flag_property_id String   @id @default(uuid()) @db.VarChar(36)
+    flag_at          DateTime @db.DateTime(0)
     property_id      String   @db.VarChar(36)
     Property         Property @relation(fields: [property_id], references: [property_id], onDelete: Cascade, onUpdate: Cascade)
     flag_by          String   @db.VarChar(36)
     Person           Person   @relation(fields: [flag_by], references: [person_id], onDelete: Cascade, onUpdate: Cascade)
     created_at       DateTime @default(now()) @db.DateTime(0)
+}
+
+model Comment {
+    comment_id   String   @id @default(uuid()) @db.VarChar(36)
+    comment      String
+    commented_at DateTime @db.DateTime(0)
+    commented_by String   @db.VarChar(36)
+    Person       Person   @relation(fields: [commented_by], references: [person_id], onDelete: Cascade, onUpdate: Cascade)
+    property_id  String   @db.VarChar(36)
+    Property     Property @relation(fields: [property_id], references: [property_id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model LikedProperty {
+    liked_property_id String    @id @default(uuid()) @db.VarChar(36)
+    liked_at          DateTime  @default(now()) @db.DateTime(0)
+    is_deleted        Boolean   @default(false) @db.TinyInt
+    deleted_at        DateTime? @db.DateTime(0)
+    liked_by          String    @db.VarChar(36)
+    Person            Person    @relation(fields: [liked_by], references: [person_id], onDelete: Cascade, onUpdate: Cascade)
+    property_id       String    @db.VarChar(36)
+    Property          Property  @relation(fields: [property_id], references: [property_id], onDelete: Cascade, onUpdate: Cascade)
 }

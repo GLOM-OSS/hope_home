@@ -25,6 +25,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         price: 500000,
         property_id: 'make_it_rain',
         property_type: 'Home',
+        number_of_likes: 0,
         publisher_details: {
           created_at: new Date().getTime(),
           email: '',
@@ -50,6 +51,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         price: 500000,
         property_id: 'make_it_rain',
         property_type: 'Home',
+        number_of_likes: 0,
         publisher_details: {
           created_at: new Date().getTime(),
           email: '',
