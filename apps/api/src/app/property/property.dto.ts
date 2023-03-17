@@ -1,16 +1,17 @@
 import {
   HouseTypeEnum,
   ListingReasonEnum,
-  PropertyTypeEnum
+  PropertyTypeEnum,
 } from '@prisma/client';
 import {
-  IsEnum, IsNumber,
+  IsEnum,
+  IsNumber,
   IsOptional,
   IsString,
   IsUUID,
-  MaxLength
+  MaxLength,
 } from 'class-validator';
-
+import { PartialType } from '@nestjs/mapped-types';
 export class QueryPropertiesDto {
   @IsOptional()
   @IsEnum(PropertyTypeEnum)
@@ -54,3 +55,5 @@ export class CreateNewPropertyDto {
   @IsEnum(ListingReasonEnum)
   listing_reason: ListingReasonEnum;
 }
+
+export class UpdatePropertyDto extends PartialType(CreateNewPropertyDto) {}

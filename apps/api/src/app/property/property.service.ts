@@ -2,7 +2,9 @@ import { IHHProperty, IPropertyDetails } from '@hopehome/interfaces';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import {
-  CreateNewPropertyDto, QueryPropertiesDto
+  CreateNewPropertyDto,
+  UpdatePropertyDto,
+  QueryPropertiesDto,
 } from './property.dto';
 
 @Injectable()
@@ -196,6 +198,40 @@ export class PropertyService {
         latitude: 0,
         longitude: 0,
       },
+    });
+  }
+
+  async update(
+    property_id: string,
+    newProperty: UpdatePropertyDto,
+    files: Array<Express.Multer.File>,
+    audited_by: string
+  ) {
+    const {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      property_id: _id,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      created_at,
+      ...property
+    } = await this.prismaService.property.findUniqueOrThrow({
+      where: { property_id },
+    });
+    return this.prismaService.property.update({
+      data: {
+        ...newProperty,
+        PropertyAudits: {
+          create: {
+            ...property,
+            audited_by,
+          },
+        },
+        PropertyImages: {
+          createMany: {
+            data: files.map((_) => ({ image_ref: _.filename })),
+          },
+        },
+      },
+      where: { property_id },
     });
   }
 }

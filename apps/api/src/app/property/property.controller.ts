@@ -10,7 +10,7 @@ import {
   Query,
   Req,
   UploadedFiles,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { Person } from '@prisma/client';
@@ -19,7 +19,8 @@ import { ErrorEnum } from '../../errors';
 import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
 import {
   CreateCommentDto,
-  CreateNewPropertyDto, QueryPropertiesDto
+  CreateNewPropertyDto,
+  QueryPropertiesDto,
 } from './property.dto';
 import { PropertyService } from './property.service';
 
@@ -61,6 +62,28 @@ export class PropertyController {
     try {
       const { person_id } = request.user as Person;
       return this.propertyService.create(newProperty, files, person_id);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @Put(':property_id/edit')
+  @UseGuards(JwtAuthGuard)
+  @UseGuards(FilesInterceptor('imageRefs'))
+  async updateProperty(
+    @Req() request: Request,
+    @Param('property_id') property_id: string,
+    @Body() newProperty: CreateNewPropertyDto,
+    @UploadedFiles() files: Array<Express.Multer.File>
+  ) {
+    try {
+      const { person_id } = request.user as Person;
+      return this.propertyService.update(
+        property_id,
+        newProperty,
+        files,
+        person_id
+      );
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
