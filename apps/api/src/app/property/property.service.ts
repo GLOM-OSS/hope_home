@@ -74,7 +74,9 @@ export class PropertyService {
         Comments: {
           select: { comment: true, Person: true },
         },
-        PropertyImages: true,
+        PropertyImages: {
+          where: { is_deleted: false },
+        },
       },
       where: { property_id },
     });
@@ -232,6 +234,13 @@ export class PropertyService {
         },
       },
       where: { property_id },
+    });
+  }
+
+  async deleteImage(property_image_id: string, deleted_by: string) {
+    await this.prismaService.propertyImage.updateMany({
+      data: { is_deleted: true },
+      where: { property_image_id, property_id: deleted_by },
     });
   }
 }

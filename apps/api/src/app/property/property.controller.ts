@@ -145,4 +145,18 @@ export class PropertyController {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Put('images/:property_image_id/delete')
+  async deleteImage(
+    @Req() request: Request,
+    @Param('property_image_id') property_image_id: string
+  ) {
+    try {
+      const { person_id } = request.user as Person;
+      return this.propertyService.deleteImage(property_image_id, person_id);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
 }
