@@ -1,4 +1,4 @@
-import { IHHProperty, RoleEnum } from '@hopehome/interfaces';
+import { IHHProperty } from '@hopehome/interfaces';
 import { Box } from '@mui/material';
 import { GetServerSideProps } from 'next';
 import AboutSection from '../components/home/about';
@@ -31,7 +31,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
           fullname: 'Kimbi Boston Tanyi',
           person_id: 'soekls',
           preferred_lang: 'en',
-          role: RoleEnum.CLIENT,
+          role: 'CLIENT',
           whatsapp_number: '237657140183',
           gender: 'Male',
           phone_number: '237657140183',
@@ -56,7 +56,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
           fullname: 'Kimbi Boston Tanyi',
           person_id: 'soekls',
           preferred_lang: 'en',
-          role: RoleEnum.CLIENT,
+          role: 'CLIENT',
           whatsapp_number: '237657140183',
           gender: 'Male',
           phone_number: '237657140183',

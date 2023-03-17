@@ -29,16 +29,17 @@ enum Role {
 }
 
 model Person {
-    person_id       String   @id @default(uuid()) @db.VarChar(36)
-    fullname      String   @db.VarChar(50)
-    phone_number    String  @db.VarChar(15)
-    whatsapp_number String   @db.VarChar(15)
-    gender          Gender?
-    email           String   @unique @db.VarChar(50)
-    preferred_lang  Lang     @default(fr)
-    role            Role     @default(CLIENT)
-    password        String  @db.VarChar(75)
-    created_at      DateTime @default(now()) @db.DateTime(0)
+    person_id         String   @id @default(uuid()) @db.VarChar(36)
+    fullname          String   @db.VarChar(50)
+    phone_number      String   @db.VarChar(15)
+    whatsapp_number   String   @db.VarChar(15)
+    profile_image_ref String?   @db.VarChar(45)
+    gender            Gender?
+    email             String   @unique @db.VarChar(50)
+    preferred_lang    Lang     @default(fr)
+    role              Role     @default(CLIENT)
+    password          String?   @db.VarChar(75)
+    created_at        DateTime @default(now()) @db.DateTime(0)
 
     Properties     Property[]
     FlagProperties FlagProperty[]
@@ -66,7 +67,7 @@ model HouseDetail {
     type            HouseTypeEnum
     created_at      DateTime      @default(now()) @db.DateTime(0)
 
-    Properties Property[]
+    Properties Property?
 }
 
 enum ListingReasonEnum {
@@ -94,10 +95,10 @@ model Property {
     description     String
     property_type   PropertyTypeEnum
     address         String
-    house_detail_id String?           @db.VarChar(36)
+    house_detail_id String?           @unique @db.VarChar(36)
     HouseDetail     HouseDetail?      @relation(fields: [house_detail_id], references: [house_detail_id], onDelete: Cascade, onUpdate: Cascade)
     published_by    String            @db.VarChar(36)
-    Person          Person            @relation(fields: [published_by], references: [person_id], onDelete: Cascade, onUpdate: Cascade)
+    Publisher       Person            @relation(fields: [published_by], references: [person_id], onDelete: Cascade, onUpdate: Cascade)
     created_at      DateTime          @default(now()) @db.DateTime(0)
 
     FlagProperties FlagProperty[]

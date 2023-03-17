@@ -31,12 +31,13 @@ export class AuthService {
       idToken: token,
       audience: process.env.GOOGLE_CLIENT_ID,
     });
-    const { email, family_name, given_name, locale } = ticket.getPayload();
+    const { email, name, locale, profile } = ticket.getPayload();
     return this.registerUser({
       email,
+      fullname: name,
       whatsapp_number,
-      first_name: family_name,
-      last_name: given_name,
+      profile_image_ref: profile,
+      phone_number: whatsapp_number,
       preferred_lang: locale.startsWith('en')
         ? 'en'
         : locale.startsWith('fr')

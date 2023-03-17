@@ -16,10 +16,7 @@ export type Lang = 'en' | 'fr';
 
 export type Gender = 'Male' | 'Female';
 
-export enum RoleEnum {
-  ADMIN = 'ADMIN',
-  CLIENT = 'CLIENT',
-}
+export type Role = 'ADMIN' | 'CLIENT';
 
 export interface IUser {
   person_id: string;
@@ -30,6 +27,6 @@ export interface IUser {
   email: string;
   preferred_lang: Lang;
   created_at: number;
-  role: RoleEnum;
+  role: Role;
   profile_image_ref: string;
 }

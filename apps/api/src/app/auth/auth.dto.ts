@@ -25,7 +25,7 @@ export class CreatePersonDto {
 
   @IsOptional()
   @IsEnum(Gender)
-  gender: Gender;
+  gender?: Gender;
 
   @IsString()
   password: string;
