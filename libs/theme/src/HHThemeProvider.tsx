@@ -3,11 +3,11 @@ import React from 'react';
 import { IntlProvider } from 'react-intl';
 import { Flip, ToastContainer } from 'react-toastify';
 import LanguageContextProvider, {
-  useLanguage,
+  useLanguage
 } from './contexts/language/LanguageContextProvider';
 import enMessages from './languages/en-us';
 import frMessages from './languages/fr';
-import { theme } from './theme';
+import { generateTheme } from './theme';
 
 const TempApp = ({ children }: { children: React.ReactNode }) => {
   const { activeLanguage } = useLanguage();
@@ -23,14 +23,14 @@ const TempApp = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export function HHThemeProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function HHThemeProvider({ children }: { children: React.ReactNode }) {
   return (
     <LanguageContextProvider>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider
+        theme={generateTheme()
+        // (localStorage.getItem('activeTheme') as 'light' | 'dark') ?? 'light'
+        }
+      >
         <ToastContainer
           position="top-right"
           autoClose={1000}

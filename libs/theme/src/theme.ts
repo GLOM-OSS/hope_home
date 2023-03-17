@@ -89,8 +89,89 @@ declare module '@mui/material/styles' {
   }
 }
 
+export function generateTheme(mode?: 'light' | 'dark') {
+  return createTheme({
+    palette: {
+      mode,
+      primary: {
+        main: '#009C7D',
+      },
+      secondary: {
+        main: '#FF9600',
+      },
+      error: {
+        main: '#BB2124',
+      },
+      success: {
+        main: '#4BB543',
+      },
+      warning: {
+        main: '#F0AD4E',
+      },
+    },
+    common: {
+      line: '#D9DBE9',
+      inputBackground: '#F4F5F7',
+      placeholder: '#A0A3BD',
+      label: '#6E6D7A',
+      body: '#2F3A45',
+      titleActive: '#172B4D',
+    },
+    typography: {
+      fontFamily: ['Poppins', 'Raleway', 'Montserrat', 'Roboto', 'serif'].join(
+        ','
+      ),
+      h1: {
+        fontSize: '3rem',
+        fontWeight: 700,
+      },
+      h2: {
+        fontSize: '2.5rem',
+        fontWeight: 700,
+      },
+      h3: {
+        fontSize: '2.25rem',
+        fontWeight: 700,
+      },
+      h4: {
+        fontSize: '1.75rem',
+        fontWeight: 700,
+      },
+      h5: {
+        fontSize: '1.5rem',
+        fontWeight: 700,
+      },
+      h6: {
+        fontSize: '1.25rem',
+        fontWeight: 700,
+      },
+      body1: {
+        fontSize: '1rem',
+        fontWeight: 400,
+      },
+      body2: {
+        fontSize: '0.875rem',
+        fontWeight: 400,
+      },
+      caption: {
+        fontSize: '0.75rem',
+        fontWeight: 300,
+      },
+    },
+    breakpoints: {
+      values: {
+        mobile: 0,
+        tablet: 744,
+        laptop: 992,
+        desktop: 1200,
+      },
+    },
+  });
+}
+
 export const theme = createTheme({
   palette: {
+    mode: 'light',
     primary: {
       main: '#009C7D',
     },
