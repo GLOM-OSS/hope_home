@@ -129,13 +129,15 @@ model FlagProperty {
 }
 
 model Comment {
-    comment_id   String   @id @default(uuid()) @db.VarChar(36)
+    comment_id   String    @id @default(uuid()) @db.VarChar(36)
     comment      String
-    commented_at DateTime @db.DateTime(0)
-    commented_by String   @db.VarChar(36)
-    Person       Person   @relation(fields: [commented_by], references: [person_id], onDelete: Cascade, onUpdate: Cascade)
-    property_id  String   @db.VarChar(36)
-    Property     Property @relation(fields: [property_id], references: [property_id], onDelete: Cascade, onUpdate: Cascade)
+    is_deleted   Boolean   @default(false) @db.TinyInt
+    deleted_at   DateTime? @db.DateTime(0)
+    commented_at DateTime  @db.DateTime(0)
+    commented_by String    @db.VarChar(36)
+    Person       Person    @relation(fields: [commented_by], references: [person_id], onDelete: Cascade, onUpdate: Cascade)
+    property_id  String    @db.VarChar(36)
+    Property     Property  @relation(fields: [property_id], references: [property_id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model LikedProperty {
@@ -147,4 +149,6 @@ model LikedProperty {
     Person            Person    @relation(fields: [liked_by], references: [person_id], onDelete: Cascade, onUpdate: Cascade)
     property_id       String    @db.VarChar(36)
     Property          Property  @relation(fields: [property_id], references: [property_id], onDelete: Cascade, onUpdate: Cascade)
+
+    @@unique([liked_by, property_id])
 }

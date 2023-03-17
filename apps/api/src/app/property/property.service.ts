@@ -15,7 +15,9 @@ export class PropertyService {
       include: {
         HouseDetail: true,
         Publisher: true,
-        LikedProperties: true,
+        LikedProperties: {
+          where: { is_deleted: false },
+        },
       },
       where: { is_flagged: false, ...query, HouseDetail: { type: house_type } },
     });
@@ -60,7 +62,9 @@ export class PropertyService {
       ...property
     } = await this.prismaService.property.findUniqueOrThrow({
       include: {
-        LikedProperties: true,
+        LikedProperties: {
+          where: { is_deleted: false },
+        },
         HouseDetail: true,
         Publisher: true,
         Comments: {
@@ -94,5 +98,16 @@ export class PropertyService {
         created_at: created_at.getTime(),
       },
     };
+  }
+
+  async likeOrUnlike(property_id: string, liked_by: string) {
+    await this.prismaService.likedProperty.upsert({
+      create: {
+        Property: { connect: { property_id } },
+        Person: { connect: { person_id: liked_by } },
+      },
+      update: { deleted_at: new Date(), is_deleted: true },
+      where: { liked_by_property_id: { liked_by, property_id } },
+    });
   }
 }
