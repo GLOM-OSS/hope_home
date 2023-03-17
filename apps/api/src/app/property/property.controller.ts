@@ -9,12 +9,19 @@ import {
   Put,
   Query,
   Req,
-  UseGuards,
+  UploadedFiles,
+  UseGuards
 } from '@nestjs/common';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { Person } from '@prisma/client';
 import { Request } from 'express';
+import { ErrorEnum } from '../../errors';
 import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
-import { CreateCommentDto, QueryPropertiesDto } from './property.dto';
+import {
+  CreateCommentDto,
+  CreateNewPropertyDto,
+  QueryPropertiesDto
+} from './property.dto';
 import { PropertyService } from './property.service';
 
 @Controller('properties')
@@ -37,6 +44,39 @@ export class PropertyController {
   ) {
     const person = request.user as Person;
     return this.propertyService.findOne(property_id, person?.person_id);
+  }
+
+  @Post('new')
+  @UseGuards(JwtAuthGuard)
+  @UseGuards(FilesInterceptor('imageRefs'))
+  async addNewProperty(
+    @Req() request: Request,
+    @Body() newProperty: CreateNewPropertyDto,
+    @UploadedFiles() files: Array<Express.Multer.File>
+  ) {
+    if (files.length === 0)
+      throw new HttpException(
+        ErrorEnum.ERR2.toString(),
+        HttpStatus.BAD_REQUEST
+      );
+    try {
+      const { person_id } = request.user as Person;
+      return this.propertyService.create({
+        ...newProperty,
+        image_ref: files[0].filename,
+        Publisher: { connect: { person_id } },
+        PropertyImages: {
+          createMany: {
+            data: files.map((_) => ({ image_ref: _.filename })),
+          },
+        },
+        //TODO fetch it from an API
+        latitude: 0,
+        longitude: 0,
+      });
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   @UseGuards(JwtAuthGuard)

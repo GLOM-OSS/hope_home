@@ -1,5 +1,6 @@
 import { IHHProperty, IPropertyDetails } from '@hopehome/interfaces';
 import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
 import { QueryPropertiesDto } from './property.dto';
 
@@ -172,6 +173,12 @@ export class PropertyService {
         Property: { connect: { property_id } },
         Person: { connect: { person_id: flag_by } },
       },
+    });
+  }
+
+  async create(newProperty: Prisma.PropertyCreateInput) {
+    return this.prismaService.property.create({
+      data: newProperty,
     });
   }
 }

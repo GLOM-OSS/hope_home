@@ -1,14 +1,14 @@
 import {
   HouseTypeEnum,
   ListingReasonEnum,
-  PropertyTypeEnum,
+  PropertyTypeEnum
 } from '@prisma/client';
 import {
-  IsEnum,
+  IsEnum, IsNumber,
   IsOptional,
   IsString,
   IsUUID,
-  MaxLength,
+  MaxLength
 } from 'class-validator';
 
 export class QueryPropertiesDto {
@@ -33,4 +33,24 @@ export class CreateCommentDto {
   @IsString()
   @MaxLength(199)
   comment: string;
+}
+
+export class CreateNewPropertyDto {
+  @IsNumber()
+  area: number;
+
+  @IsNumber()
+  price: number;
+
+  @IsString()
+  address: string;
+
+  @IsString()
+  description: string;
+
+  @IsEnum(PropertyTypeEnum)
+  property_type: PropertyTypeEnum;
+
+  @IsEnum(ListingReasonEnum)
+  listing_reason: ListingReasonEnum;
 }
