@@ -19,8 +19,7 @@ import { ErrorEnum } from '../../errors';
 import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
 import {
   CreateCommentDto,
-  CreateNewPropertyDto,
-  QueryPropertiesDto
+  CreateNewPropertyDto, QueryPropertiesDto
 } from './property.dto';
 import { PropertyService } from './property.service';
 
@@ -61,19 +60,7 @@ export class PropertyController {
       );
     try {
       const { person_id } = request.user as Person;
-      return this.propertyService.create({
-        ...newProperty,
-        image_ref: files[0].filename,
-        Publisher: { connect: { person_id } },
-        PropertyImages: {
-          createMany: {
-            data: files.map((_) => ({ image_ref: _.filename })),
-          },
-        },
-        //TODO fetch it from an API
-        latitude: 0,
-        longitude: 0,
-      });
+      return this.propertyService.create(newProperty, files, person_id);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }

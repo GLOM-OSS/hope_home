@@ -1,8 +1,9 @@
 import { IHHProperty, IPropertyDetails } from '@hopehome/interfaces';
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
-import { QueryPropertiesDto } from './property.dto';
+import {
+  CreateNewPropertyDto, QueryPropertiesDto
+} from './property.dto';
 
 @Injectable()
 export class PropertyService {
@@ -176,9 +177,25 @@ export class PropertyService {
     });
   }
 
-  async create(newProperty: Prisma.PropertyCreateInput) {
+  async create(
+    newProperty: CreateNewPropertyDto,
+    files: Array<Express.Multer.File>,
+    created_by: string
+  ) {
     return this.prismaService.property.create({
-      data: newProperty,
+      data: {
+        ...newProperty,
+        image_ref: files[0].filename,
+        Publisher: { connect: { person_id: created_by } },
+        PropertyImages: {
+          createMany: {
+            data: files.map((_) => ({ image_ref: _.filename })),
+          },
+        },
+        //TODO fetch it from an API
+        latitude: 0,
+        longitude: 0,
+      },
     });
   }
 }
