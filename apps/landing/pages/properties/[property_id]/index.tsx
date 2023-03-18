@@ -35,6 +35,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       { image_id: '/favicon_green.png', image_ref: '/favicon_green.png' },
       { image_id: '/about_us.png', image_ref: '/about_us.png' },
     ],
+    is_liked: false,
     latitude: 0,
     listing_reason: 'Rent',
     longitude: 0,
