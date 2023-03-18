@@ -1,0 +1,114 @@
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+enum Gender {
+    Male
+    Female
+
+    @@map("gender_enum")
+}
+
+enum Lang {
+    en
+    fr
+
+    @@map("lang_enum")
+}
+
+enum Role {
+    ADMIN
+    CLIENT
+
+    @@map("role_enum")
+}
+
+model Person {
+    person_id       String   @id @default(uuid()) @db.VarChar(36)
+    first_name      String   @db.VarChar(50)
+    last_name       String   @db.VarChar(50)
+    phone_number    String?  @db.VarChar(15)
+    whatsapp_number String   @db.VarChar(15)
+    gender          Gender?
+    email           String   @unique @db.VarChar(50)
+    preferred_lang  Lang     @default(fr)
+    role            Role     @default(CLIENT)
+    password        String?  @db.VarChar(75)
+    created_at      DateTime @default(now()) @db.DateTime(0)
+
+    Properties     Property[]
+    FlagProperties FlagProperty[]
+    ResetPassword  ResetPassword[]
+}
+
+model ResetPassword {
+    reset_password_id String   @id @default(uuid()) @db.VarChar(36)
+    is_used           Boolean  @default(false) @db.TinyInt
+    expires_at        DateTime @db.DateTime(0)
+    reset_by          String   @db.VarChar(36)
+    Person            Person   @relation(fields: [reset_by], references: [person_id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+enum HouseTypeEnum {
+    Appartment
+    Hostel
+    Default
+}
+
+model HouseDetail {
+    house_detail_id String        @id @default(uuid())
+    number_of_rooms Int
+    number_of_baths Int
+    type            HouseTypeEnum
+    created_at      DateTime      @default(now()) @db.DateTime(0)
+
+    Properties Property[]
+}
+
+enum ListingReasonEnum {
+    Rent
+    Sale
+
+    @@map("listing_reason_enum")
+}
+
+enum PropertyTypeEnum {
+    Home
+    Land
+
+    @@map("property_type_enum")
+}
+
+model Property {
+    property_id     String            @id @default(uuid()) @db.VarChar(36)
+    image_ref       String            @db.VarChar(45)
+    price           Int
+    area            Int
+    listing_reason  ListingReasonEnum
+    longitude       Int
+    latitude        Int
+    description     String
+    property_type   PropertyTypeEnum
+    address         String
+    house_detail_id String?           @db.VarChar(36)
+    HouseDetail     HouseDetail?      @relation(fields: [house_detail_id], references: [house_detail_id], onDelete: Cascade, onUpdate: Cascade)
+    published_by    String            @db.VarChar(36)
+    Person          Person            @relation(fields: [published_by], references: [person_id], onDelete: Cascade, onUpdate: Cascade)
+    created_at      DateTime          @default(now()) @db.DateTime(0)
+
+    FlagProperties FlagProperty[]
+}
+
+model FlagProperty {
+    flag_property_id String   @id @default(uuid()) @db.VarChar(36)
+    property_id      String   @db.VarChar(36)
+    Property         Property @relation(fields: [property_id], references: [property_id], onDelete: Cascade, onUpdate: Cascade)
+    flag_by          String   @db.VarChar(36)
+    Person           Person   @relation(fields: [flag_by], references: [person_id], onDelete: Cascade, onUpdate: Cascade)
+    created_at       DateTime @default(now()) @db.DateTime(0)
+}
