@@ -39,3 +39,10 @@ export interface IPropertyDetails extends Omit<IHHProperty, 'image_ref'> {
   comments: IComment[];
   image_refs: { image_id: string; image_ref: string }[];
 }
+
+export interface PropertyQuery {
+  property_type?: PropertyType;
+  listing_reason?: ListingReason;
+  house_type?: HouseType;
+  published_by?: string;
+}

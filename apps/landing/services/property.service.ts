@@ -3,10 +3,13 @@ import {
   CreateNewProperty,
   IHHProperty,
   IPropertyDetails,
+  PropertyQuery,
 } from '@hopehome/interfaces';
 
-export async function getProperties() {
-  const { data } = await http.get<IHHProperty[]>('/properties/all');
+export async function getProperties(query?: PropertyQuery) {
+  const { data } = await http.get<IHHProperty[]>('/properties/all', {
+    params: query,
+  });
   return data;
 }
 
