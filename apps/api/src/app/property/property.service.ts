@@ -16,6 +16,7 @@ export class PropertyService {
     person_id?: string
   ): Promise<IHHProperty[]> {
     const properties = await this.prismaService.property.findMany({
+      orderBy: { created_at: 'desc' },
       include: {
         Publisher: true,
         LikedProperties: {
