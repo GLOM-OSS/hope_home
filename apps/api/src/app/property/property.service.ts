@@ -12,24 +12,25 @@ export class PropertyService {
   constructor(private prismaService: PrismaService) {}
 
   async findAll(
-    { house_type, ...query }: QueryPropertiesDto,
+    query: QueryPropertiesDto,
     person_id?: string
   ): Promise<IHHProperty[]> {
     const properties = await this.prismaService.property.findMany({
       include: {
-        HouseDetail: true,
         Publisher: true,
         LikedProperties: {
           where: { is_deleted: false },
         },
       },
-      where: { is_flagged: false, ...query, HouseDetail: { type: house_type } },
+      where: { is_flagged: false, ...query },
     });
 
     return properties.map(
       ({
         LikedProperties,
-        HouseDetail: { number_of_baths, number_of_rooms, type },
+        number_of_baths,
+        number_of_rooms,
+        house_type,
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         Publisher: { password, created_at, ...publisher },
         ...property
@@ -39,7 +40,7 @@ export class PropertyService {
         house_details: {
           number_of_baths,
           number_of_rooms,
-          type,
+          type: house_type,
         },
         is_liked: Boolean(
           LikedProperties.find((_) => _.liked_by === person_id)
@@ -59,7 +60,9 @@ export class PropertyService {
     const {
       Comments,
       LikedProperties,
-      HouseDetail: { number_of_baths, number_of_rooms, type },
+      number_of_baths,
+      number_of_rooms,
+      house_type,
       PropertyImages,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       Publisher: { password, created_at, ...publisher },
@@ -69,7 +72,6 @@ export class PropertyService {
         LikedProperties: {
           where: { is_deleted: false },
         },
-        HouseDetail: true,
         Publisher: true,
         Comments: {
           select: { comment: true, Person: true },
@@ -98,7 +100,7 @@ export class PropertyService {
         image_id: property_image_id,
         image_ref,
       })),
-      house_details: { number_of_baths, number_of_rooms, type },
+      house_details: { number_of_baths, number_of_rooms, type: house_type },
       publisher_details: {
         ...publisher,
         created_at: created_at.getTime(),
@@ -182,13 +184,14 @@ export class PropertyService {
   }
 
   async create(
-    newProperty: CreateNewPropertyDto,
+    { type, ...newProperty }: CreateNewPropertyDto,
     files: Array<Express.Multer.File>,
     created_by: string
   ) {
     return this.prismaService.property.create({
       data: {
         ...newProperty,
+        house_type: type,
         image_ref: files[0].filename,
         Publisher: { connect: { person_id: created_by } },
         PropertyImages: {
@@ -205,7 +208,7 @@ export class PropertyService {
 
   async update(
     property_id: string,
-    newProperty: UpdatePropertyDto,
+    { type, ...newProperty }: UpdatePropertyDto,
     files: Array<Express.Multer.File>,
     audited_by: string
   ) {
@@ -221,6 +224,7 @@ export class PropertyService {
     return this.prismaService.property.update({
       data: {
         ...newProperty,
+        house_type: type,
         PropertyAudits: {
           create: {
             ...property,

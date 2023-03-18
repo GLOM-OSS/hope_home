@@ -1,3 +1,4 @@
+import { PartialType } from '@nestjs/mapped-types';
 import {
   HouseTypeEnum,
   ListingReasonEnum,
@@ -11,7 +12,6 @@ import {
   IsUUID,
   MaxLength,
 } from 'class-validator';
-import { PartialType } from '@nestjs/mapped-types';
 export class QueryPropertiesDto {
   @IsOptional()
   @IsEnum(PropertyTypeEnum)
@@ -54,6 +54,18 @@ export class CreateNewPropertyDto {
 
   @IsEnum(ListingReasonEnum)
   listing_reason: ListingReasonEnum;
+
+  @IsNumber()
+  @IsOptional()
+  number_of_rooms?: number;
+
+  @IsNumber()
+  @IsOptional()
+  number_of_baths?: number;
+
+  @IsOptional()
+  @IsEnum(HouseTypeEnum)
+  type?: HouseTypeEnum;
 }
 
 export class UpdatePropertyDto extends PartialType(CreateNewPropertyDto) {}
