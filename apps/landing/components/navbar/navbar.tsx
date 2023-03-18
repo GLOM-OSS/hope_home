@@ -189,8 +189,8 @@ export default function Navbar() {
 
   const navItems: INavItem[] = [
     { item: 'about', route: '/about' },
-    { item: 'contact', route: '/pricing' },
-    { item: 'properties', route: '/features' },
+    { item: 'contact', route: '/contact' },
+    { item: 'properties', route: '/properties' },
   ];
 
   const [isSideNavOpen, setIsSideNavOpen] = useState<boolean>(false);
