@@ -8,7 +8,7 @@ import {
   LockPersonRounded,
   ReportRounded,
   VisibilityOffOutlined,
-  VisibilityOutlined
+  VisibilityOutlined,
 } from '@mui/icons-material';
 import {
   Box,
@@ -22,8 +22,9 @@ import {
   RadioGroup,
   TextField,
   Tooltip,
-  Typography
+  Typography,
 } from '@mui/material';
+import { signUp } from '../../services/auth.service';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -85,35 +86,37 @@ export default function Signup() {
         id: 'creatingAccount',
       }),
     });
-    setTimeout(() => {
-      //TODO: CALL API HERE TO sign in with data submitValues
-      // eslint-disable-next-line no-constant-condition
-      if (5 > 4) {
-        setIsSubmitting(false);
+
+    signUp(submitValues)
+      .then(() => {
         notif.update({
           render: formatMessage({
             id: 'accountCreationSuccessfull',
           }),
         });
         setSubmissionNotif(undefined);
-      } else {
+        push('/');
+      })
+      .catch((error) => {
         notif.update({
           type: 'ERROR',
           render: (
             <ErrorMessage
               retryFunction={() => signUserUp(values)}
               notification={notif}
-              //TODO: message should come from backend
-              message={formatMessage({
-                id: 'accountCreationFailed',
-              })}
+              message={
+                error?.message ||
+                formatMessage({
+                  id: 'accountCreationFailed',
+                })
+              }
             />
           ),
           autoClose: false,
           icon: () => <ReportRounded fontSize="medium" color="error" />,
         });
-      }
-    }, 3000);
+      })
+      .finally(() => setIsSubmitting(false));
   }
 
   const { push } = useRouter();
