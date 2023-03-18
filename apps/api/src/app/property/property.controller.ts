@@ -34,7 +34,7 @@ export class PropertyController {
     @Query() queryOptions: QueryPropertiesDto
   ) {
     const person = request.user as Person;
-    return this.propertyService.findAll(queryOptions, person?.person_id);
+    return await this.propertyService.findAll(queryOptions, person?.person_id);
   }
 
   @Get(':property_id/details')
@@ -43,7 +43,7 @@ export class PropertyController {
     @Param('property_id') property_id: string
   ) {
     const person = request.user as Person;
-    return this.propertyService.findOne(property_id, person?.person_id);
+    return await this.propertyService.findOne(property_id, person?.person_id);
   }
 
   @Post('new')
@@ -61,7 +61,7 @@ export class PropertyController {
       );
     try {
       const { person_id } = request.user as Person;
-      return this.propertyService.create(newProperty, files, person_id);
+      return await this.propertyService.create(newProperty, files, person_id);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -78,7 +78,7 @@ export class PropertyController {
   ) {
     try {
       const { person_id } = request.user as Person;
-      return this.propertyService.update(
+      return await this.propertyService.update(
         property_id,
         newProperty,
         files,
@@ -97,7 +97,7 @@ export class PropertyController {
   ) {
     try {
       const { person_id } = request.user as Person;
-      return this.propertyService.likeOrUnlike(property_id, person_id);
+      return await this.propertyService.likeOrUnlike(property_id, person_id);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -112,7 +112,11 @@ export class PropertyController {
   ) {
     try {
       const { person_id } = request.user as Person;
-      return this.propertyService.comment(property_id, comment, person_id);
+      return await this.propertyService.comment(
+        property_id,
+        comment,
+        person_id
+      );
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -126,7 +130,7 @@ export class PropertyController {
   ) {
     try {
       const { person_id } = request.user as Person;
-      return this.propertyService.deleteComment(comment_id, person_id);
+      return await this.propertyService.deleteComment(comment_id, person_id);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -140,7 +144,7 @@ export class PropertyController {
   ) {
     try {
       const { person_id } = request.user as Person;
-      return this.propertyService.flag(property_id, person_id);
+      return await this.propertyService.flag(property_id, person_id);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -154,7 +158,10 @@ export class PropertyController {
   ) {
     try {
       const { person_id } = request.user as Person;
-      return this.propertyService.deleteImage(property_image_id, person_id);
+      return await this.propertyService.deleteImage(
+        property_image_id,
+        person_id
+      );
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }

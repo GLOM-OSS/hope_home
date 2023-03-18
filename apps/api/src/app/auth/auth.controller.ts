@@ -70,7 +70,7 @@ export class AuthController {
         HttpStatus.BAD_REQUEST
       );
     try {
-      return this.authService.resetPassword(email);
+      return await this.authService.resetPassword(email);
     } catch (error) {
       throw new HttpException(
         `Oops, something when wrong: ${error.message}`,
@@ -104,6 +104,6 @@ export class AuthController {
     @Body () newPerson: EditPersonDto
   ) {
     const { person_id } = request.user as Person;
-    return this.authService.updateProfile(person_id, newPerson);
+    return await this.authService.updateProfile(person_id, newPerson);
   }
 }
