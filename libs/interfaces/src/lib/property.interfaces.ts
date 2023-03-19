@@ -1,9 +1,10 @@
 import { IUser } from './auth.interfaces';
 
+export type HouseType = 'Appartment' | 'Hostel' | 'Default';
 export interface IHouseDetails {
   number_of_baths: number;
   number_of_rooms: number;
-  type: 'Appartment' | 'Hostel' | 'Default';
+  type: HouseType;
 }
 
 export interface IHHProperty {
