@@ -17,52 +17,23 @@ import { MapDisplay } from '@hopehome/map-display';
 import Scrollbars from 'rc-scrollbars';
 import PropertyCard from '../../../components/home/propertyCard';
 import ImageDisplay from '../../../components/propertyDetails/imageDisplay';
+import {
+  flagProperty,
+  getPropertyDetails,
+} from '../../../services/property.service';
+import { toast } from 'react-toastify';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { property_id } = context.query;
-  //   try {
-  // TODO: LOAD PROPERTY details here with data property_id
-  const propertyDetails: IPropertyDetails = {
-    address:
-      'Rue de Palmiers Nkolmesseng - Yaounde Rue de Palmiers Nkolmesseng - Yaounde',
-    area: 900,
-    description:
-      'Hi, original neighborhood photos, resident re, original neighborhood photos, resident.,Hi, original neighborhood photos, resident re, original neighborhood photos, resident. In arcu risus vestibulum sollicitudin elit sed sed convallis tincidunt. Risus turpis hac metus facilisi ut enim massa eu. Dolor suscipit sit velit massa adipiscing adipiscing vulputate feugiat turpis. Fames sed ut dignissim tincidunt metus. Morbi varius quis enim gravida.',
-    image_refs: [
-      { image_id: '/hero_background.png', image_ref: '/hero_background.png' },
-      { image_id: '/logo_green.png', image_ref: '/logo_green.png' },
-      { image_id: '/favicon_green.png', image_ref: '/favicon_green.png' },
-      { image_id: '/about_us.png', image_ref: '/about_us.png' },
-    ],
-    is_liked: false,
-    latitude: 0,
-    listing_reason: 'Rent',
-    longitude: 0,
-    price: 500000,
-    property_id: 'make_it_rain',
-    property_type: 'Home',
-    number_of_likes: 2,
-    publisher_details: {
-      created_at: new Date().getTime(),
-      email: '',
-      fullname: 'Kimbi Boston Tanyi',
-      person_id: 'soekls',
-      preferred_lang: 'en',
-      role: 'CLIENT',
-      whatsapp_number: '237657140183',
-      gender: 'Male',
-      phone_number: '237657140183',
-      profile_image_ref: '/logo.png',
-    },
-    comments: [],
-  };
-  return {
-    props: { propertyDetails, similarProperties: [], nearbyProperties: [] },
-  };
-  //   catch (error) {
-  //     return { notFound: true };
-  //   }
+  try {
+    const propertyDetails = await getPropertyDetails(property_id as string);
+    return {
+      props: { propertyDetails, similarProperties: [], nearbyProperties: [] },
+    };
+  } catch (error) {
+    toast.error(error.message || "Oops, une erreur s'est produite.");
+    return { notFound: true };
+  }
 };
 
 export default function PropertyDetails({
@@ -106,35 +77,35 @@ export default function PropertyDetails({
         id: 'signalingProperty',
       }),
     });
-    setTimeout(() => {
-      //TODO: CALL API HERE TO signal property with data property_id
-      // eslint-disable-next-line no-constant-condition
-      if (5 > 4) {
-        setIsSubmitting(false);
+    flagProperty(property_id as string)
+      .then(() => {
         notif.update({
           render: formatMessage({
             id: 'signaledPropertySuccessfully',
           }),
         });
         setSubmissionNotif(undefined);
-      } else {
+      })
+      .catch((error) => {
         notif.update({
           type: 'ERROR',
           render: (
             <ErrorMessage
               retryFunction={() => signalProperty(property_id)}
               notification={notif}
-              //TODO: message should come from backend
-              message={formatMessage({
-                id: 'signalingPropertyFailed',
-              })}
+              message={
+                error?.message ||
+                formatMessage({
+                  id: 'signalingPropertyFailed',
+                })
+              }
             />
           ),
           autoClose: false,
           icon: () => <ReportRounded fontSize="medium" color="error" />,
         });
-      }
-    }, 3000);
+      })
+      .finally(() => setIsSubmitting(false));
   }
 
   return (

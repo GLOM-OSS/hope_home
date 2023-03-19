@@ -26,6 +26,8 @@ import { useIntl } from 'react-intl';
 import { ErrorMessage, useNotification } from '@hopehome/toast';
 import { useState } from 'react';
 import { ConfirmDialog } from '../confirmDialog';
+import { flagProperty, likeOrUnlike } from '../../services/property.service';
+import { toast } from 'react-toastify';
 
 export default function PropertyCard({
   property: {
@@ -36,6 +38,7 @@ export default function PropertyCard({
     listing_reason,
     house_details,
     area,
+    is_liked,
     publisher_details: { whatsapp_number, fullname, profile_image_ref: pi_ref },
     property_id,
   },
@@ -45,6 +48,7 @@ export default function PropertyCard({
   const { formatMessage, formatNumber } = useIntl();
   const { push } = useRouter();
 
+  const [isLiked, setIsLiked] = useState<boolean>(is_liked);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submissionNotif, setSubmissionNotif] = useState<useNotification>();
 
@@ -60,39 +64,48 @@ export default function PropertyCard({
         id: 'signalingProperty',
       }),
     });
-    setTimeout(() => {
-      //TODO: CALL API HERE TO signal property with data property_id
-      // eslint-disable-next-line no-constant-condition
-      if (5 > 4) {
-        setIsSubmitting(false);
+    flagProperty(property_id as string)
+      .then(() => {
         notif.update({
           render: formatMessage({
             id: 'signaledPropertySuccessfully',
           }),
         });
         setSubmissionNotif(undefined);
-      } else {
+      })
+      .catch((error) => {
         notif.update({
           type: 'ERROR',
           render: (
             <ErrorMessage
               retryFunction={() => signalProperty(property_id)}
               notification={notif}
-              //TODO: message should come from backend
-              message={formatMessage({
-                id: 'signalingPropertyFailed',
-              })}
+              message={
+                error?.message ||
+                formatMessage({
+                  id: 'signalingPropertyFailed',
+                })
+              }
             />
           ),
           autoClose: false,
           icon: () => <ReportRounded fontSize="medium" color="error" />,
         });
-      }
-    }, 3000);
+      })
+      .finally(() => setIsSubmitting(false));
   }
 
   const [isConfirmSignalDialogOpen, setIsConfirmSignalDialogOpen] =
     useState<boolean>(false);
+
+  const handleLike = () => {
+    likeOrUnlike(property_id as string)
+      .then(() => setIsLiked(!isLiked))
+      .catch((error) => {
+        setIsLiked(isLiked);
+        toast.error(error?.message || 'Something went wrong !');
+      });
+  };
 
   const handlePropertyClick = (
     type?: 'signal' | 'contact' | 'share' | 'like'
@@ -121,7 +134,7 @@ export default function PropertyCard({
         break;
       }
       case 'like': {
-        // TODO: write function to like or unlike property here
+        handleLike();
         break;
       }
       default: {
@@ -196,6 +209,7 @@ export default function PropertyCard({
           </Box>
           <Checkbox
             color="error"
+            checked={isLiked}
             icon={<FavoriteBorder fontSize="large" />}
             checkedIcon={<Favorite fontSize="large" />}
             onClick={(e) => {

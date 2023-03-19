@@ -1,6 +1,7 @@
 import { IHHProperty } from '@hopehome/interfaces';
 import { Box } from '@mui/material';
 import { GetServerSideProps } from 'next';
+import { toast } from 'react-toastify';
 import AboutSection from '../components/home/about';
 import HeroSection from '../components/home/heroSection';
 import HousingSection from '../components/home/housingSection';
@@ -8,72 +9,20 @@ import InfoSection from '../components/home/infoSection';
 import LandSection from '../components/home/landSection';
 import OurMissions from '../components/home/ourMissions';
 import PropertySection from '../components/home/propertySection';
+import { getProperties } from '../services/property.service';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
-    //CALL API HERE TO LOAD PROPERTIES (recent, land, housing)
-    const properties: IHHProperty[] = [
-      {
-        address:
-          'Rue de Palmiers Nkolmesseng - Yaounde Rue de Palmiers Nkolmesseng - Yaounde',
-        area: 900,
-        description: '',
-        image_ref: '/hero_background.png',
-        latitude: 0,
-        listing_reason: 'Rent',
-        longitude: 0,
-        price: 500000,
-        property_id: 'make_it_rain',
-        property_type: 'Home',
-        number_of_likes: 0,
-        publisher_details: {
-          created_at: new Date().getTime(),
-          email: '',
-          fullname: 'Kimbi Boston Tanyi',
-          person_id: 'soekls',
-          preferred_lang: 'en',
-          role: 'CLIENT',
-          whatsapp_number: '237657140183',
-          gender: 'Male',
-          phone_number: '237657140183',
-          profile_image_ref: '/logo.png',
-        },
-      },
-      {
-        address:
-          'Rue de Palmiers Nkolmesseng - Yaounde Rue de Palmiers Nkolmesseng - Yaounde',
-        area: 900,
-        description: '',
-        image_ref: '/hero_background.png',
-        latitude: 0,
-        listing_reason: 'Rent',
-        longitude: 0,
-        price: 500000,
-        property_id: 'make_it_rain',
-        property_type: 'Home',
-        number_of_likes: 0,
-        publisher_details: {
-          created_at: new Date().getTime(),
-          email: '',
-          fullname: 'Kimbi Boston Tanyi',
-          person_id: 'soekls',
-          preferred_lang: 'en',
-          role: 'CLIENT',
-          whatsapp_number: '237657140183',
-          gender: 'Male',
-          phone_number: '237657140183',
-          profile_image_ref: '/logo.png',
-        },
-      },
-    ];
+    const properties = await getProperties();
     return {
       props: {
-        land: properties,
-        recent: properties,
-        housing: properties,
+        recent: properties.splice(0, 5),
+        land: properties.filter((_) => _.property_type === 'Land'),
+        housing: properties.filter((_) => _.listing_reason === 'Rent'),
       },
     };
   } catch (error) {
+    toast.error(error.message || "Oops, une erreur s'est produite.");
     return { notFound: true };
   }
 };

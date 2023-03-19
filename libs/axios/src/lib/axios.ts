@@ -12,10 +12,10 @@ function axiosInstance(): AxiosInstance {
   });
   axiosInstance.interceptors.request.use(
     (request) => {
-      request.headers.set(
-        'Authorization',
-        `Bearer ${localStorage.getItem('hh-token')}`
-      );
+      // request.headers.set(
+      //   'Authorization',
+      //   `Bearer ${localStorage.getItem('hh-token')}`
+      // );
       request = {
         ...request,
         params: request.params ? { data: encrypt(request.params) } : undefined,
