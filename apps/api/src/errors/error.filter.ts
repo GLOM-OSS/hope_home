@@ -18,9 +18,15 @@ export class ErrorFilter implements ExceptionFilter {
     const statusCode = response['statusCode'];
     const lang =
       req.user?.['preferred_lang'] ?? req.get('preferred_lang') ?? 'fr';
+
     const error = appErros.find((_) => _.code.toString() === response);
     const status = statusCode ?? exception.getStatus();
-    const errorMessage = error?.message[lang === 'en' ? 'en' : 'fr'] ?? response;
+    const errorMessage =
+      error?.message[lang === 'en' ? 'en' : 'fr'] ?? //custom messages
+      response['message'] ?? //nest messages
+      (response as string).split('\n')[ //prisma messages
+        (response as string).split('\n').length - 1
+      ];
     return resp.status(status).json({
       status,
       path: req.url,

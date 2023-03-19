@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { ISignup } from '@hopehome/interfaces';
+import { theme } from '@hopehome/theme';
+import { ErrorMessage, useNotification } from '@hopehome/toast';
 import {
   EastOutlined,
   EmailRounded,
@@ -22,22 +24,12 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
+import { signUp } from '../../services/auth.service';
+import { useFormik } from 'formik';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import * as Yup from 'yup';
-import { useFormik } from 'formik';
-import { theme } from '@hopehome/theme';
-import { ErrorMessage, useNotification } from '@hopehome/toast';
-import { useRouter } from 'next/router';
-import { IGender } from '@hopehome/interfaces';
-
-interface ISignup {
-  email: string;
-  password: string;
-  fullname: string;
-  whatsapp_number: string;
-  phone_number: string;
-  gender: IGender;
-}
 
 export default function Signup() {
   const { formatMessage } = useIntl();
@@ -94,35 +86,37 @@ export default function Signup() {
         id: 'creatingAccount',
       }),
     });
-    setTimeout(() => {
-      //TODO: CALL API HERE TO sign in with data submitValues
-      // eslint-disable-next-line no-constant-condition
-      if (5 > 4) {
-        setIsSubmitting(false);
+
+    signUp(submitValues)
+      .then(() => {
         notif.update({
           render: formatMessage({
             id: 'accountCreationSuccessfull',
           }),
         });
         setSubmissionNotif(undefined);
-      } else {
+        push('/');
+      })
+      .catch((error) => {
         notif.update({
           type: 'ERROR',
           render: (
             <ErrorMessage
               retryFunction={() => signUserUp(values)}
               notification={notif}
-              //TODO: message should come from backend
-              message={formatMessage({
-                id: 'accountCreationFailed',
-              })}
+              message={
+                error?.message ||
+                formatMessage({
+                  id: 'accountCreationFailed',
+                })
+              }
             />
           ),
           autoClose: false,
           icon: () => <ReportRounded fontSize="medium" color="error" />,
         });
-      }
-    }, 3000);
+      })
+      .finally(() => setIsSubmitting(false));
   }
 
   const { push } = useRouter();

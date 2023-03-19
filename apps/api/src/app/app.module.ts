@@ -1,6 +1,6 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 import helmet from 'helmet';
@@ -9,8 +9,11 @@ import { DynamicMulter } from '../multer/multer.module';
 
 import { PrismaModule } from '../prisma/prisma.module';
 import { AppController } from './app.controller';
+import { AppInterceptor } from './app.interceptor';
+import { AppMiddleware } from './app.middleware';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { PropertyModule } from './property/property.module';
 
 @Module({
   imports: [
@@ -22,6 +25,7 @@ import { AuthModule } from './auth/auth.module';
     DynamicMulter,
     PrismaModule,
     AuthModule,
+    PropertyModule,
   ],
   controllers: [AppController],
   providers: [
@@ -29,6 +33,10 @@ import { AuthModule } from './auth/auth.module';
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: AppInterceptor,
     },
   ],
 })
@@ -40,6 +48,6 @@ export class AppModule implements NestModule {
       shell.exec(`npx prisma migrate deploy`);
     }
 
-    consumer.apply(helmet()).forRoutes('*');
+    consumer.apply(helmet(), AppMiddleware).forRoutes('*');
   }
 }

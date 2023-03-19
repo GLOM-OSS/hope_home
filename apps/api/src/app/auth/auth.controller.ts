@@ -1,9 +1,11 @@
 import {
   Body,
   Controller,
+  Get,
   HttpException,
   HttpStatus,
   Post,
+  Put,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -14,9 +16,11 @@ import { ErrorEnum } from '../../errors';
 import {
   CreateNewPasswordDto,
   CreatePersonDto,
+  EditPersonDto,
   GoogleLoginDto,
 } from './auth.dto';
 import { AuthService } from './auth.service';
+import { JwtAuthGuard } from './jwt/jwt-auth.guard';
 import { LocalGuard } from './local/local.guard';
 
 @Controller('auth')
@@ -66,7 +70,7 @@ export class AuthController {
         HttpStatus.BAD_REQUEST
       );
     try {
-      return this.authService.resetPassword(email);
+      return await this.authService.resetPassword(email);
     } catch (error) {
       throw new HttpException(
         `Oops, something when wrong: ${error.message}`,
@@ -85,5 +89,21 @@ export class AuthController {
         HttpStatus.INTERNAL_SERVER_ERROR
       );
     }
+  }
+
+  @Get('user')
+  @UseGuards(JwtAuthGuard)
+  async getUser(@Req() request: Request) {
+    return request.user;
+  }
+
+  @Put('user/edit')
+  @UseGuards(JwtAuthGuard)
+  async updateProfile(
+    @Req() request: Request,
+    @Body () newPerson: EditPersonDto
+  ) {
+    const { person_id } = request.user as Person;
+    return await this.authService.updateProfile(person_id, newPerson);
   }
 }

@@ -6,7 +6,7 @@ import {
   Button,
   InputAdornment,
   TextField,
-  Typography,
+  Typography
 } from '@mui/material';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
@@ -14,6 +14,7 @@ import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import * as Yup from 'yup';
 import { ConfirmDialog } from '../../components/confirmDialog';
+import { resetPassword } from '../../services/auth.service';
 
 interface IResetPassword {
   email: string;
@@ -43,7 +44,7 @@ export default function ForgotPassword() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submissionNotif, setSubmissionNotif] = useState<useNotification>();
 
-  function resetPassword(values: IResetPassword) {
+  function resetPasswordHandler(values: IResetPassword) {
     setIsSubmitting(true);
     const notif = new useNotification();
     if (submissionNotif) {
@@ -55,35 +56,35 @@ export default function ForgotPassword() {
         id: 'resettingPassword',
       }),
     });
-    setTimeout(() => {
-      //TODO: CALL API HERE TO reset user password
-      // eslint-disable-next-line no-constant-condition
-      if (5 > 4) {
-        setIsSubmitting(false);
+    resetPassword(values.email)
+      .then(() => {
         notif.update({
           render: formatMessage({
             id: 'passwordResetSuccessfull',
           }),
         });
         setSubmissionNotif(undefined);
-      } else {
+      })
+      .catch((error) => {
         notif.update({
           type: 'ERROR',
           render: (
             <ErrorMessage
-              retryFunction={() => resetPassword(values)}
+              retryFunction={() => resetPasswordHandler(values)}
               notification={notif}
-              //TODO: message should come from backend
-              message={formatMessage({
-                id: 'passwordResetFailed',
-              })}
+              message={
+                error?.message ||
+                formatMessage({
+                  id: 'passwordResetFailed',
+                })
+              }
             />
           ),
           autoClose: false,
           icon: () => <ReportRounded fontSize="medium" color="error" />,
         });
-      }
-    }, 3000);
+      })
+      .finally(() => setIsSubmitting(false));
   }
 
   const { push } = useRouter();
@@ -93,7 +94,7 @@ export default function ForgotPassword() {
       <ConfirmDialog
         closeDialog={() => setIsConfirmResetDialogOpen(false)}
         confirm={() => {
-          resetPassword(formik.values);
+          resetPasswordHandler(formik.values);
           formik.resetForm();
         }}
         dialogMessage={formatMessage({ id: 'confirmResetPasswordMessage' })}

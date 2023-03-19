@@ -31,38 +31,46 @@ export class AuthService {
       idToken: token,
       audience: process.env.GOOGLE_CLIENT_ID,
     });
-    const { email, family_name, given_name, locale } = ticket.getPayload();
-    return this.registerUser({
+    const { email, name, locale, profile } = ticket.getPayload();
+    const person = await this.prismaService.person.findUnique({
+      where: { email },
+    });
+    const newPerson: Prisma.PersonCreateInput = {
       email,
+      fullname: name,
       whatsapp_number,
-      first_name: family_name,
-      last_name: given_name,
+      profile_image_ref: profile,
+      phone_number: whatsapp_number,
       preferred_lang: locale.startsWith('en')
         ? 'en'
         : locale.startsWith('fr')
         ? 'fr'
         : null,
-    });
+    };
+    if (person) {
+      return this.prismaService.person.update({
+        data: newPerson,
+        where: { email },
+      });
+    } else return this.registerUser(newPerson);
   }
 
   signIn(person: Person) {
     return this.jwtService.sign({ person_id: person.person_id });
   }
 
-  async registerUser({ email, ...newPerson }: Prisma.PersonCreateInput) {
-    const person = await this.prismaService.person.findUnique({
-      where: { email },
+  async registerUser({
+    email,
+    password,
+    ...newPerson
+  }: Prisma.PersonCreateInput) {
+    return this.prismaService.person.create({
+      data: {
+        email,
+        ...newPerson,
+        password: bcrypt.hashSync(password, Number(process.env.SALT)),
+      },
     });
-    if (person) {
-      return this.prismaService.person.update({
-        data: newPerson,
-        where: { email },
-      });
-    } else {
-      return this.prismaService.person.create({
-        data: { email, ...newPerson },
-      });
-    }
   }
 
   async resetPassword(email: string) {
@@ -96,5 +104,14 @@ export class AuthService {
       },
       where: { person_id: reset_by },
     });
+  }
+
+  async updateProfile(person_id: string, newProfile: Prisma.PersonUpdateInput) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...person } = await this.prismaService.person.update({
+      data: newProfile,
+      where: { person_id },
+    });
+    return person;
   }
 }

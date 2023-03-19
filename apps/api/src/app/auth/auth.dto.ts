@@ -1,4 +1,4 @@
-import { Lang } from '@prisma/client';
+import { Gender, Lang } from '@prisma/client';
 import {
   IsEmail,
   IsEnum,
@@ -7,6 +7,7 @@ import {
   IsString,
   IsUUID,
 } from 'class-validator';
+import { PartialType } from '@nestjs/mapped-types';
 
 export class GoogleLoginDto {
   @IsString()
@@ -21,13 +22,17 @@ export class CreatePersonDto {
   email: string;
 
   @IsString()
-  first_name: string;
+  fullname: string;
 
-  @IsString()
-  last_name: string;
+  @IsOptional()
+  @IsEnum(Gender)
+  gender?: Gender;
 
   @IsString()
   password: string;
+
+  @IsPhoneNumber('CM')
+  phone_number: string;
 
   @IsPhoneNumber('CM')
   whatsapp_number: string;
@@ -36,6 +41,8 @@ export class CreatePersonDto {
   @IsOptional()
   preferred_lang?: Lang;
 }
+
+export class EditPersonDto extends PartialType(CreatePersonDto) {}
 
 export class CreateNewPasswordDto {
   @IsUUID()

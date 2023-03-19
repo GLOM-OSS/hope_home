@@ -23,6 +23,7 @@ import { useFormik } from 'formik';
 import { theme } from '@hopehome/theme';
 import { ErrorMessage, useNotification } from '@hopehome/toast';
 import { useRouter } from 'next/router';
+import { signIn } from '../../services/auth.service';
 
 interface ISignin {
   email: string;
@@ -65,35 +66,36 @@ export default function Signin() {
         id: 'signingIn',
       }),
     });
-    setTimeout(() => {
-      //TODO: CALL API HERE TO sign in
-      // eslint-disable-next-line no-constant-condition
-      if (5 > 4) {
-        setIsSubmitting(false);
+    signIn(values)
+      .then(() => {
         notif.update({
           render: formatMessage({
             id: 'signInSuccessfull',
           }),
         });
         setSubmissionNotif(undefined);
-      } else {
+        push('/');
+      })
+      .catch((error) => {
         notif.update({
           type: 'ERROR',
           render: (
             <ErrorMessage
               retryFunction={() => signUserIn(values)}
               notification={notif}
-              //TODO: message should come from backend
-              message={formatMessage({
-                id: 'signInFailed',
-              })}
+              message={
+                error?.message ||
+                formatMessage({
+                  id: 'signInFailed',
+                })
+              }
             />
           ),
           autoClose: false,
           icon: () => <ReportRounded fontSize="medium" color="error" />,
         });
-      }
-    }, 3000);
+      })
+      .finally(() => setIsSubmitting(false));
   }
 
   const { push } = useRouter();
