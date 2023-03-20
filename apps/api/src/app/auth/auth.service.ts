@@ -116,7 +116,10 @@ export class AuthService {
     });
   }
 
-  async updateProfile(personId: string, newProfile: Prisma.PersonUpdateInput) {
+  async updateProfile(
+    personId: string,
+    { password: newPassword, ...newProfile }: Prisma.PersonUpdateInput
+  ) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { created_at, person_id, ...personAudit } =
       await this.prismaService.person.findUniqueOrThrow({
@@ -126,6 +129,9 @@ export class AuthService {
     const { password, ...person } = await this.prismaService.person.update({
       data: {
         ...newProfile,
+        password: newPassword
+          ? bcrypt.hashSync(newPassword as string, Number(process.env.SALT))
+          : undefined,
         PersonAudits: {
           create: {
             ...personAudit,
