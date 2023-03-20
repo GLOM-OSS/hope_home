@@ -7,8 +7,11 @@ import {
   Post,
   Put,
   Req,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { Person } from '@prisma/client';
 import { isEmail } from 'class-validator';
 import { Request } from 'express';
@@ -99,11 +102,16 @@ export class AuthController {
 
   @Put('user/edit')
   @UseGuards(JwtAuthGuard)
+  @UseInterceptors(FileInterceptor('profile'))
   async updateProfile(
     @Req() request: Request,
-    @Body () newPerson: EditPersonDto
+    @Body() newPerson: EditPersonDto,
+    @UploadedFile() file: Express.Multer.File
   ) {
     const { person_id } = request.user as Person;
-    return await this.authService.updateProfile(person_id, newPerson);
+    return await this.authService.updateProfile(person_id, {
+      ...newPerson,
+      profile_image_ref: file ? file.filename : undefined,
+    });
   }
 }

@@ -95,21 +95,43 @@ export class AuthService {
     reset_password_id,
   }: CreateNewPasswordDto) {
     const { reset_by } =
-      await this.prismaService.resetPassword.findUniqueOrThrow({
-        where: { reset_password_id },
+      await this.prismaService.resetPassword.findFirstOrThrow({
+        where: {
+          used_at: null,
+          reset_password_id,
+          expires_at: { gte: new Date() },
+        },
       });
     await this.prismaService.person.update({
       data: {
         password: bcrypt.hashSync(new_password, Number(process.env.SALT)),
+        ResetPasswords: {
+          update: {
+            data: { used_at: new Date() },
+            where: { reset_password_id },
+          },
+        },
       },
       where: { person_id: reset_by },
     });
   }
 
-  async updateProfile(person_id: string, newProfile: Prisma.PersonUpdateInput) {
+  async updateProfile(personId: string, newProfile: Prisma.PersonUpdateInput) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { created_at, person_id, ...personAudit } =
+      await this.prismaService.person.findUniqueOrThrow({
+        where: { person_id: personId },
+      });
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...person } = await this.prismaService.person.update({
-      data: newProfile,
+      data: {
+        ...newProfile,
+        PersonAudits: {
+          create: {
+            ...personAudit,
+          },
+        },
+      },
       where: { person_id },
     });
     return person;

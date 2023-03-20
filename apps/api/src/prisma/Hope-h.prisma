@@ -48,15 +48,33 @@ model Person {
     DeletedComments Comment[]       @relation(name: "comment_deleted_by_key")
     LikedProperties LikedProperty[]
     PropertyAudits  PropertyAudit[]
+    PersonAudits    PersonAudit[]
+}
+
+model PersonAudit {
+    person_audit_id   String   @id @default(uuid()) @db.VarChar(36)
+    fullname          String   @db.VarChar(50)
+    phone_number      String   @db.VarChar(15)
+    whatsapp_number   String   @db.VarChar(15)
+    profile_image_ref String?  @db.VarChar(45)
+    gender            Gender?
+    email             String   @db.VarChar(50)
+    preferred_lang    Lang
+    role              Role
+    password          String?  @db.VarChar(75)
+    audited_at        DateTime @default(now()) @db.DateTime(0)
+    person_id         String   @db.VarChar(36)
+    Person            Person   @relation(fields: [person_id], references: [person_id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model ResetPassword {
-    reset_password_id String   @id @default(uuid()) @db.VarChar(36)
-    is_used           Boolean  @default(false) @db.TinyInt
-    expires_at        DateTime @db.DateTime(0)
-    created_at        DateTime @default(now()) @db.DateTime(0)
-    reset_by          String   @db.VarChar(36)
-    Person            Person   @relation(fields: [reset_by], references: [person_id], onDelete: Cascade, onUpdate: Cascade)
+    reset_password_id String    @id @default(uuid()) @db.VarChar(36)
+    is_used           Boolean   @default(false) @db.TinyInt
+    used_at           DateTime? @db.DateTime(0)
+    expires_at        DateTime  @db.DateTime(0)
+    created_at        DateTime  @default(now()) @db.DateTime(0)
+    reset_by          String    @db.VarChar(36)
+    Person            Person    @relation(fields: [reset_by], references: [person_id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 enum HouseTypeEnum {
