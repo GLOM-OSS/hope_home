@@ -2,12 +2,12 @@ import { IHHProperty } from '@hopehome/interfaces';
 import { Box, Typography } from '@mui/material';
 import { GetServerSideProps } from 'next';
 import { useIntl } from 'react-intl';
-import PropertyCard from '../../components/home/propertyCard';
-import Navbar from '../../components/navbar/secondary_nav/navbar';
+import PropertyCard from '../../../components/home/propertyCard';
+import Navbar from '../../../components/navbar/secondary_nav/navbar';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
-    //CALL API HERE TO LOAD PROPERTIES
+    //CALL API HERE TO LOAD MY saved PROPERTIES
     const properties = [
       {
         address:
@@ -79,9 +79,9 @@ export default function Properties({
 
   return (
     <Box sx={{ mt: 4, padding: `0 7.1%`, mb: 2, display: 'grid', rowGap: 2 }}>
-      <Navbar active="/properties" />
+      <Navbar active="/properties/saved" />
       <Typography variant="h4">
-        {formatMessage({ id: 'AllHopeHomeProperties' })}
+        {formatMessage({ id: 'savedProperties' })}
       </Typography>
       <Box
         sx={{

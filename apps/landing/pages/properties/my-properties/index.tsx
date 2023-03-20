@@ -1,13 +1,13 @@
 import { IHHProperty } from '@hopehome/interfaces';
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
+import PropertyCard from '../../../components/home/propertyCard';
 import { GetServerSideProps } from 'next';
+import Navbar from '../../../components/navbar/secondary_nav/navbar';
 import { useIntl } from 'react-intl';
-import PropertyCard from '../../components/home/propertyCard';
-import Navbar from '../../components/navbar/secondary_nav/navbar';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
-    //CALL API HERE TO LOAD PROPERTIES
+    //CALL API HERE TO LOAD MY PROPERTIES
     const properties = [
       {
         address:
@@ -77,12 +77,40 @@ export default function Properties({
 }) {
   const { formatMessage } = useIntl();
 
+  const getGPSLocation = async (position) => {
+    alert(position.coords.longitude);
+  };
+
+  const handleAccept = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(getGPSLocation);
+    }
+  };
+
   return (
     <Box sx={{ mt: 4, padding: `0 7.1%`, mb: 2, display: 'grid', rowGap: 2 }}>
-      <Navbar active="/properties" />
-      <Typography variant="h4">
-        {formatMessage({ id: 'AllHopeHomeProperties' })}
-      </Typography>
+      <Navbar active="my-properties" />
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: '1fr auto',
+          columnGap: 2,
+          alignItems: 'center',
+        }}
+      >
+        <Typography variant="h4">
+          {formatMessage({ id: 'myPostedProperties' })}
+        </Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          size="small"
+          sx={{ textTransform: 'none' }}
+          onClick={handleAccept}
+        >
+          {formatMessage({ id: 'newPost' })}
+        </Button>
+      </Box>
       <Box
         sx={{
           display: 'grid',
@@ -94,7 +122,11 @@ export default function Properties({
         }}
       >
         {properties.map((property, index) => (
-          <PropertyCard property={property as IHHProperty} key={index} />
+          <PropertyCard
+            property={property as IHHProperty}
+            key={index}
+            canDelete
+          />
         ))}
       </Box>
     </Box>

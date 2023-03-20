@@ -5,6 +5,7 @@ import {
   ChairOutlined,
   Favorite,
   FavoriteBorder,
+  MoreHorizOutlined,
   ReportRounded,
   ShareOutlined,
   SquareFootOutlined,
@@ -16,6 +17,9 @@ import {
   Box,
   Checkbox,
   IconButton,
+  Menu,
+  MenuItem,
+  MenuList,
   Paper,
   Tooltip,
   Typography,
@@ -42,8 +46,10 @@ export default function PropertyCard({
     publisher_details: { whatsapp_number, fullname, profile_image_ref: pi_ref },
     property_id,
   },
+  canDelete = false,
 }: {
   property: IHHProperty;
+  canDelete?: boolean;
 }) {
   const { formatMessage, formatNumber } = useIntl();
   const { push } = useRouter();
@@ -51,6 +57,13 @@ export default function PropertyCard({
   const [isLiked, setIsLiked] = useState<boolean>(is_liked);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submissionNotif, setSubmissionNotif] = useState<useNotification>();
+  const [moreMenuAnchorEl, setMoreMenuAnchorEl] = useState<null | HTMLElement>(
+    null
+  );
+  const [isConfirmDeleteDialogOpen, setIsConfirmDeleteDialogOpen] =
+    useState<boolean>(false);
+  const [isConfirmDelistDialogOpen, setIsConfirmDelistDialogOpen] =
+    useState<boolean>(false);
 
   function signalProperty(property_id: string) {
     setIsSubmitting(true);
@@ -93,6 +106,92 @@ export default function PropertyCard({
         });
       })
       .finally(() => setIsSubmitting(false));
+  }
+
+  function delistProperty(property_id: string) {
+    setIsSubmitting(true);
+    const notif = new useNotification();
+    if (submissionNotif) {
+      submissionNotif.dismiss();
+    }
+    setSubmissionNotif(notif);
+    notif.notify({
+      render: formatMessage({
+        id: 'delistingProperty',
+      }),
+    });
+    setTimeout(() => {
+      //TODO: CALL API HERE TO delist property with data property_id
+      // eslint-disable-next-line no-constant-condition
+      if (5 > 4) {
+        setIsSubmitting(false);
+        notif.update({
+          render: formatMessage({
+            id: 'delistPropertySuccessfully',
+          }),
+        });
+        setSubmissionNotif(undefined);
+      } else {
+        notif.update({
+          type: 'ERROR',
+          render: (
+            <ErrorMessage
+              retryFunction={() => delistProperty(property_id)}
+              notification={notif}
+              //TODO: message should come from backend
+              message={formatMessage({
+                id: 'delistingPropertyFailed',
+              })}
+            />
+          ),
+          autoClose: false,
+          icon: () => <ReportRounded fontSize="medium" color="error" />,
+        });
+      }
+    }, 3000);
+  }
+
+  function deleteProperty(property_id: string) {
+    setIsSubmitting(true);
+    const notif = new useNotification();
+    if (submissionNotif) {
+      submissionNotif.dismiss();
+    }
+    setSubmissionNotif(notif);
+    notif.notify({
+      render: formatMessage({
+        id: 'deletingProperty',
+      }),
+    });
+    setTimeout(() => {
+      //TODO: CALL API HERE TO delete property with data property_id
+      // eslint-disable-next-line no-constant-condition
+      if (5 > 4) {
+        setIsSubmitting(false);
+        notif.update({
+          render: formatMessage({
+            id: 'deletePropertySuccessfully',
+          }),
+        });
+        setSubmissionNotif(undefined);
+      } else {
+        notif.update({
+          type: 'ERROR',
+          render: (
+            <ErrorMessage
+              retryFunction={() => deleteProperty(property_id)}
+              notification={notif}
+              //TODO: message should come from backend
+              message={formatMessage({
+                id: 'deletingPropertyFailed',
+              })}
+            />
+          ),
+          autoClose: false,
+          icon: () => <ReportRounded fontSize="medium" color="error" />,
+        });
+      }
+    }, 3000);
   }
 
   const [isConfirmSignalDialogOpen, setIsConfirmSignalDialogOpen] =
@@ -157,6 +256,57 @@ export default function PropertyCard({
         danger
         dialogTitle={formatMessage({ id: 'confirmSignalProperty' })}
       />
+      <ConfirmDialog
+        closeDialog={() => setIsConfirmDeleteDialogOpen(false)}
+        confirm={() => deleteProperty(property_id)}
+        dialogMessage={formatMessage({
+          id: 'confirmDeletePropertyDialogMessage',
+        })}
+        isDialogOpen={isConfirmDeleteDialogOpen}
+        confirmButton={formatMessage({ id: 'delete' })}
+        danger
+        dialogTitle={formatMessage({ id: 'confirmDeleteProperty' })}
+      />
+      <ConfirmDialog
+        closeDialog={() => setIsConfirmDelistDialogOpen(false)}
+        confirm={() => delistProperty(property_id)}
+        dialogMessage={formatMessage({
+          id: 'confirmDelistPropertyDialogMessage',
+        })}
+        isDialogOpen={isConfirmDelistDialogOpen}
+        confirmButton={formatMessage({ id: 'delist' })}
+        danger
+        dialogTitle={formatMessage({ id: 'confirmDelistProperty' })}
+      />
+      <Menu
+        anchorEl={moreMenuAnchorEl}
+        open={moreMenuAnchorEl !== null}
+        onClose={() => setMoreMenuAnchorEl(null)}
+        sx={{
+          '&.MuiList-root': {
+            padding: 0,
+          },
+        }}
+      >
+        <MenuList dense>
+          <MenuItem
+            onClick={() => {
+              setIsConfirmDelistDialogOpen(true);
+              setMoreMenuAnchorEl(null);
+            }}
+          >
+            {formatMessage({ id: 'delist' })}
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              setIsConfirmDeleteDialogOpen(true);
+              setMoreMenuAnchorEl(null);
+            }}
+          >
+            {formatMessage({ id: 'delete' })}
+          </MenuItem>
+        </MenuList>
+      </Menu>
       <Box
         component={Paper}
         elevation={1}
@@ -207,21 +357,22 @@ export default function PropertyCard({
               {fullname}
             </Typography>
           </Box>
-          <Checkbox
-            color="error"
-            checked={isLiked}
-            icon={<FavoriteBorder fontSize="large" />}
-            checkedIcon={<Favorite fontSize="large" />}
-            onClick={(e) => {
-              e.stopPropagation();
-              handlePropertyClick('like');
-            }}
-            sx={{
-              position: 'absolute',
-              bottom: '10px',
-              right: '10px',
-            }}
-          />
+          {!canDelete && (
+            <Checkbox
+              color="error"
+              icon={<FavoriteBorder fontSize="large" />}
+              checkedIcon={<Favorite fontSize="large" />}
+              onClick={(e) => {
+                e.stopPropagation();
+                handlePropertyClick('like');
+              }}
+              sx={{
+                position: 'absolute',
+                bottom: '10px',
+                right: '10px',
+              }}
+            />
+          )}
           <Box
             sx={{
               position: 'absolute',
@@ -231,31 +382,35 @@ export default function PropertyCard({
               rowGap: 2,
             }}
           >
-            <Tooltip arrow title={formatMessage({ id: 'signalProperty' })}>
-              <IconButton
-                disabled={isSubmitting}
-                size="small"
-                sx={{ backgroundColor: 'rgba(255, 255, 255, 0.4)' }}
-                onClick={(event) => {
-                  event.stopPropagation();
-                  handlePropertyClick('signal');
-                }}
-              >
-                <WarningAmberOutlined color="warning" fontSize="large" />
-              </IconButton>
-            </Tooltip>
-            <Tooltip arrow title={formatMessage({ id: 'whatsappContact' })}>
-              <IconButton
-                size="small"
-                sx={{ backgroundColor: 'rgba(255, 255, 255, 0.4)' }}
-                onClick={(event) => {
-                  event.stopPropagation();
-                  handlePropertyClick('contact');
-                }}
-              >
-                <WhatsApp fontSize="large" color="primary" />
-              </IconButton>
-            </Tooltip>
+            {!canDelete && (
+              <>
+                <Tooltip arrow title={formatMessage({ id: 'signalProperty' })}>
+                  <IconButton
+                    disabled={isSubmitting}
+                    size="small"
+                    sx={{ backgroundColor: 'rgba(255, 255, 255, 0.4)' }}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      handlePropertyClick('signal');
+                    }}
+                  >
+                    <WarningAmberOutlined color="warning" fontSize="large" />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip arrow title={formatMessage({ id: 'whatsappContact' })}>
+                  <IconButton
+                    size="small"
+                    sx={{ backgroundColor: 'rgba(255, 255, 255, 0.4)' }}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      handlePropertyClick('contact');
+                    }}
+                  >
+                    <WhatsApp fontSize="large" color="primary" />
+                  </IconButton>
+                </Tooltip>
+              </>
+            )}
             <Tooltip arrow title={formatMessage({ id: 'shareProperty' })}>
               <IconButton
                 size="small"
@@ -274,32 +429,55 @@ export default function PropertyCard({
           <Box
             sx={{
               display: 'grid',
-              gridTemplateColumns: 'auto 1fr',
-              columnGap: 1,
+              gridTemplateColumns: '1fr auto',
               alignItems: 'center',
             }}
           >
             <Box
               sx={{
-                backgroundColor: theme.palette.primary.main,
-                padding: '8px',
-                borderRadius: '4px',
+                display: 'grid',
+                gridTemplateColumns: 'auto 1fr',
+                columnGap: 1,
+                alignItems: 'center',
               }}
-            />
-            <Typography>
-              {formatMessage({
-                id:
-                  property_type === 'Home'
-                    ? house_details
-                      ? house_details.type === 'Default'
-                        ? 'singleFamilyHome'
-                        : house_details.type === 'Hostel'
-                        ? 'hostel'
-                        : 'appartment'
-                      : 'home'
-                    : 'land',
-              })}
-            </Typography>
+            >
+              <Box
+                sx={{
+                  backgroundColor: theme.palette.primary.main,
+                  padding: '8px',
+                  borderRadius: '4px',
+                }}
+              />
+              <Typography>
+                {formatMessage({
+                  id:
+                    property_type === 'Home'
+                      ? house_details
+                        ? house_details.type === 'Default'
+                          ? 'singleFamilyHome'
+                          : house_details.type === 'Hostel'
+                          ? 'hostel'
+                          : 'appartment'
+                        : 'home'
+                      : 'land',
+                })}
+              </Typography>
+            </Box>
+
+            {canDelete && (
+              <Tooltip arrow title={formatMessage({ id: 'more' })}>
+                <IconButton
+                  size="small"
+                  disabled={isSubmitting}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    setMoreMenuAnchorEl(event.currentTarget);
+                  }}
+                >
+                  <MoreHorizOutlined />
+                </IconButton>
+              </Tooltip>
+            )}
           </Box>
           <Box
             sx={{
