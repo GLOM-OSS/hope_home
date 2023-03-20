@@ -1,10 +1,9 @@
 import { IHHProperty, IPropertyDetails } from '@hopehome/interfaces';
 import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
 import {
-  CreateNewPropertyDto,
-  UpdatePropertyDto,
-  QueryPropertiesDto,
+  CreateNewPropertyDto, QueryPropertiesDto
 } from './property.dto';
 
 @Injectable()
@@ -209,7 +208,7 @@ export class PropertyService {
 
   async update(
     property_id: string,
-    { type, ...newProperty }: UpdatePropertyDto,
+    newProperty: Prisma.PropertyUpdateInput,
     files: Array<Express.Multer.File>,
     audited_by: string
   ) {
@@ -225,7 +224,6 @@ export class PropertyService {
     return this.prismaService.property.update({
       data: {
         ...newProperty,
-        house_type: type,
         PropertyAudits: {
           create: {
             ...property,

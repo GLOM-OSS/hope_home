@@ -114,6 +114,7 @@ model Property {
     house_type      HouseTypeEnum?
     published_by    String            @db.VarChar(36)
     Publisher       Person            @relation(fields: [published_by], references: [person_id], onDelete: Cascade, onUpdate: Cascade)
+    is_deleted      Boolean           @default(false) @db.TinyInt
     created_at      DateTime          @default(now()) @db.DateTime(0)
 
     FlagProperties  FlagProperty[]
@@ -138,6 +139,7 @@ model PropertyAudit {
     number_of_rooms   Int?
     number_of_baths   Int?
     house_type        HouseTypeEnum?
+    is_deleted        Boolean           @default(false) @db.TinyInt
     audited_at        DateTime          @default(now()) @db.DateTime(0)
     audited_by        String            @db.VarChar(36)
     Person            Person            @relation(fields: [audited_by], references: [person_id], onDelete: Cascade, onUpdate: Cascade)

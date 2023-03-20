@@ -73,15 +73,34 @@ export class PropertyController {
   async updateProperty(
     @Req() request: Request,
     @Param('property_id') property_id: string,
-    @Body() newProperty: CreateNewPropertyDto,
+    @Body() { type, ...newProperty }: CreateNewPropertyDto,
     @UploadedFiles() files: Array<Express.Multer.File>
   ) {
     try {
       const { person_id } = request.user as Person;
       return await this.propertyService.update(
         property_id,
-        newProperty,
+        { ...newProperty, house_type: type },
         files,
+        person_id
+      );
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @Put(':property_id/delete')
+  @UseGuards(JwtAuthGuard)
+  async deleteProperty(
+    @Req() request: Request,
+    @Param('property_id') property_id: string
+  ) {
+    try {
+      const { person_id } = request.user as Person;
+      return await this.propertyService.update(
+        property_id,
+        { is_deleted: true },
+        [],
         person_id
       );
     } catch (error) {
