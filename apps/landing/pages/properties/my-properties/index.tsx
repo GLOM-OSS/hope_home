@@ -4,6 +4,10 @@ import PropertyCard from '../../../components/home/propertyCard';
 import { GetServerSideProps } from 'next';
 import Navbar from '../../../components/navbar/secondary_nav/navbar';
 import { useIntl } from 'react-intl';
+import NewPropertyDialog, {
+  INewProperty,
+} from '../../../components/properties/createPropertyDialog';
+import { useState } from 'react';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
@@ -77,58 +81,58 @@ export default function Properties({
 }) {
   const { formatMessage } = useIntl();
 
-  const getGPSLocation = async (position) => {
-    alert(position.coords.longitude);
-  };
-
-  const handleAccept = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(getGPSLocation);
-    }
-  };
+  const [isNewPropertyDialogOpen, setIsNewPropertyDialogOpen] =
+    useState<boolean>(false);
 
   return (
-    <Box sx={{ mt: 4, padding: `0 7.1%`, mb: 2, display: 'grid', rowGap: 2 }}>
-      <Navbar active="my-properties" />
-      <Box
-        sx={{
-          display: 'grid',
-          gridTemplateColumns: '1fr auto',
-          columnGap: 2,
-          alignItems: 'center',
-        }}
-      >
-        <Typography variant="h4">
-          {formatMessage({ id: 'myPostedProperties' })}
-        </Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          size="small"
-          sx={{ textTransform: 'none' }}
-          onClick={handleAccept}
+    <>
+      <NewPropertyDialog
+        handleSubmit={(val: INewProperty) => alert(JSON.stringify(val))}
+        open={isNewPropertyDialogOpen}
+        closeDialog={() => setIsNewPropertyDialogOpen(false)}
+      />
+      <Box sx={{ mt: 4, padding: `0 7.1%`, mb: 2, display: 'grid', rowGap: 2 }}>
+        <Navbar active="my-properties" />
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: '1fr auto',
+            columnGap: 2,
+            alignItems: 'center',
+          }}
         >
-          {formatMessage({ id: 'newPost' })}
-        </Button>
+          <Typography variant="h4">
+            {formatMessage({ id: 'myPostedProperties' })}
+          </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            sx={{ textTransform: 'none' }}
+            onClick={() => setIsNewPropertyDialogOpen(true)}
+          >
+            {formatMessage({ id: 'newPost' })}
+          </Button>
+        </Box>
+        <Box
+          sx={{
+            display: 'grid',
+            justifyItems: 'start',
+            justifyContent: 'center',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 350px))',
+            columnGap: 2,
+            rowGap: 2,
+          }}
+        >
+          {properties.map((property, index) => (
+            <PropertyCard
+              property={property as IHHProperty}
+              key={index}
+              canDelete
+            />
+          ))}
+        </Box>
       </Box>
-      <Box
-        sx={{
-          display: 'grid',
-          justifyItems: 'start',
-          justifyContent: 'center',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 350px))',
-          columnGap: 2,
-          rowGap: 2,
-        }}
-      >
-        {properties.map((property, index) => (
-          <PropertyCard
-            property={property as IHHProperty}
-            key={index}
-            canDelete
-          />
-        ))}
-      </Box>
-    </Box>
+    </>
   );
 }
