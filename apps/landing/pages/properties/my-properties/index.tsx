@@ -8,6 +8,8 @@ import NewPropertyDialog, {
   INewProperty,
 } from '../../../components/properties/createPropertyDialog';
 import { useState } from 'react';
+import { ErrorMessage, useNotification } from '@hopehome/toast';
+import { ReportRounded } from '@mui/icons-material';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
@@ -84,10 +86,56 @@ export default function Properties({
   const [isNewPropertyDialogOpen, setIsNewPropertyDialogOpen] =
     useState<boolean>(false);
 
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [submissionNotif, setSubmissionNotif] = useState<useNotification>();
+
+  const createNewProperty = (property: INewProperty) => {
+    setIsSubmitting(true);
+    const notif = new useNotification();
+    if (submissionNotif) {
+      submissionNotif.dismiss();
+    }
+    setSubmissionNotif(notif);
+    notif.notify({
+      render: formatMessage({
+        id: 'creatingProperty',
+      }),
+    });
+    setTimeout(() => {
+      //TODO: CALL API HERE TO create new property
+      // eslint-disable-next-line no-constant-condition
+      if (5 > 4) {
+        setIsSubmitting(false);
+        notif.update({
+          render: formatMessage({
+            id: 'createdPropertySuccessfully',
+          }),
+        });
+        setSubmissionNotif(undefined);
+      } else {
+        notif.update({
+          type: 'ERROR',
+          render: (
+            <ErrorMessage
+              retryFunction={() => createNewProperty(property)}
+              notification={notif}
+              //TODO: message should come from backend
+              message={formatMessage({
+                id: 'creatingPropertyFailed',
+              })}
+            />
+          ),
+          autoClose: false,
+          icon: () => <ReportRounded fontSize="medium" color="error" />,
+        });
+      }
+    }, 3000);
+  };
+
   return (
     <>
       <NewPropertyDialog
-        handleSubmit={(val: INewProperty) => alert(JSON.stringify(val))}
+        handleSubmit={createNewProperty}
         open={isNewPropertyDialogOpen}
         closeDialog={() => setIsNewPropertyDialogOpen(false)}
       />
@@ -110,6 +158,7 @@ export default function Properties({
             size="small"
             sx={{ textTransform: 'none' }}
             onClick={() => setIsNewPropertyDialogOpen(true)}
+            disabled={isSubmitting}
           >
             {formatMessage({ id: 'newPost' })}
           </Button>
