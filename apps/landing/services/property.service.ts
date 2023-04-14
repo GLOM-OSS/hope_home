@@ -69,6 +69,10 @@ export async function updateProperty(
   return data;
 }
 
+export async function delistProperty(property_id: string) {
+  await http.put(`/properties/${property_id}/delist`);
+}
+
 export async function deleteProperty(property_id: string) {
   await http.put(`/properties/${property_id}/delete`);
 }
