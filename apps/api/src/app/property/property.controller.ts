@@ -90,6 +90,25 @@ export class PropertyController {
     }
   }
 
+  @Put(':property_id/delist')
+  @UseGuards(JwtAuthGuard)
+  async delistProperty(
+    @Req() request: Request,
+    @Param('property_id') property_id: string
+  ) {
+    try {
+      const { person_id } = request.user as Person;
+      return await this.propertyService.update(
+        property_id,
+        { is_listed: false },
+        [],
+        person_id
+      );
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
   @Put(':property_id/delete')
   @UseGuards(JwtAuthGuard)
   async deleteProperty(
