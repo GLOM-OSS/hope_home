@@ -5,12 +5,37 @@ import { PrismaClient } from '@prisma/client';
 export class PrismaService extends PrismaClient implements OnModuleInit {
   constructor() {
     super({
-      log: [
-        {
-          emit: 'stdout',
-          level: 'query',
-        },
-      ],
+      log: ['query', 'error'],
+    });
+
+    this.$use(async (params, next) => {
+      switch (params.action) {
+        case 'update': {
+          params.args['data'] = this.handleDeleteInNestedObject(
+            params.args['data']
+          );
+          break;
+        }
+        case 'delete': {
+          params.action = 'update';
+          params.args['data'] = { is_deleted: true };
+          break;
+        }
+        case 'deleteMany': {
+          params.action = 'updateMany';
+          if (params.args.data) params.args.data['is_deleted'] = true;
+          else params.args['data'] = { is_deleted: true };
+          break;
+        }
+      }
+      if (params.args.where) {
+        if (params.args.where.is_deleted === undefined)
+          params.args.where['is_deleted'] = false;
+      } else params.args['where'] = { is_deleted: false };
+
+      const result = await next(params);
+      // See results here
+      return result;
     });
   }
   async onModuleInit() {
@@ -21,5 +46,21 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
     this.$on('beforeExit', async () => {
       await app.close();
     });
+  }
+
+  private handleDeleteInNestedObject<T>(obj: T): T {
+    const newObj: T = obj;
+    Object.keys(obj).forEach((key: string) => {
+      if (typeof obj[key] === 'object') {
+        return this.handleDeleteInNestedObject(obj[key]);
+      } else if (['delete', 'deleteMany'].includes(key)) {
+        newObj['updateMany'] = {
+          data: { is_deleted: true },
+          where: newObj['deleteMany'],
+        };
+        delete newObj['deleteMany'];
+      }
+    });
+    return newObj;
   }
 }
