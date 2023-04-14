@@ -5,6 +5,7 @@ import {
   IImage,
   IPropertyDetails,
   PropertyQuery,
+  UpdateProperty,
 } from '@hopehome/interfaces';
 
 export async function getProperties(query?: PropertyQuery) {
@@ -52,8 +53,8 @@ export async function createNewProperty(
 
 export async function updateProperty(
   property_id: string,
-  { house_details, ...newProperty }: Partial<CreateNewProperty>,
-  files?: FileList
+  { house_details, ...newProperty }: Partial<UpdateProperty>,
+  files?: File[]
 ) {
   const dataObject = house_details
     ? { ...house_details, ...newProperty }

@@ -30,7 +30,13 @@ import { useIntl } from 'react-intl';
 import { ErrorMessage, useNotification } from '@hopehome/toast';
 import { useState } from 'react';
 import { ConfirmDialog } from '../confirmDialog';
-import { flagProperty, likeOrUnlike } from '../../services/property.service';
+import {
+  deleteProperty,
+  delistProperty,
+  flagProperty,
+  likeOrUnlike,
+  updateProperty,
+} from '../../services/property.service';
 import { toast } from 'react-toastify';
 import ImageDialog from './imageDialog';
 
@@ -109,7 +115,7 @@ export default function PropertyCard({
       .finally(() => setIsSubmitting(false));
   }
 
-  function delistProperty(property_id: string) {
+  function delistPropertyHandler(property_id: string) {
     setIsSubmitting(true);
     const notif = new useNotification();
     if (submissionNotif) {
@@ -121,38 +127,38 @@ export default function PropertyCard({
         id: 'delistingProperty',
       }),
     });
-    setTimeout(() => {
-      //TODO: CALL API HERE TO delist property with data property_id
-      // eslint-disable-next-line no-constant-condition
-      if (5 > 4) {
-        setIsSubmitting(false);
+    delistProperty(property_id)
+      .then(() => {
         notif.update({
           render: formatMessage({
             id: 'delistPropertySuccessfully',
           }),
         });
         setSubmissionNotif(undefined);
-      } else {
+      })
+      .catch((error) => {
         notif.update({
           type: 'ERROR',
           render: (
             <ErrorMessage
-              retryFunction={() => delistProperty(property_id)}
+              retryFunction={() => delistPropertyHandler(property_id)}
               notification={notif}
-              //TODO: message should come from backend
-              message={formatMessage({
-                id: 'delistingPropertyFailed',
-              })}
+              message={
+                error?.message ||
+                formatMessage({
+                  id: 'delistingPropertyFailed',
+                })
+              }
             />
           ),
           autoClose: false,
           icon: () => <ReportRounded fontSize="medium" color="error" />,
         });
-      }
-    }, 3000);
+      })
+      .finally(() => setIsSubmitting(false));
   }
 
-  function deleteProperty(property_id: string) {
+  function deletePropertyHandler(property_id: string) {
     setIsSubmitting(true);
     const notif = new useNotification();
     if (submissionNotif) {
@@ -164,35 +170,35 @@ export default function PropertyCard({
         id: 'deletingProperty',
       }),
     });
-    setTimeout(() => {
-      //TODO: CALL API HERE TO delete property with data property_id
-      // eslint-disable-next-line no-constant-condition
-      if (5 > 4) {
-        setIsSubmitting(false);
+    deleteProperty(property_id)
+      .then(() => {
         notif.update({
           render: formatMessage({
             id: 'deletePropertySuccessfully',
           }),
         });
         setSubmissionNotif(undefined);
-      } else {
+      })
+      .catch((error) => {
         notif.update({
           type: 'ERROR',
           render: (
             <ErrorMessage
-              retryFunction={() => deleteProperty(property_id)}
+              retryFunction={() => deletePropertyHandler(property_id)}
               notification={notif}
-              //TODO: message should come from backend
-              message={formatMessage({
-                id: 'deletingPropertyFailed',
-              })}
+              message={
+                error?.message ||
+                formatMessage({
+                  id: 'deletingPropertyFailed',
+                })
+              }
             />
           ),
           autoClose: false,
           icon: () => <ReportRounded fontSize="medium" color="error" />,
         });
-      }
-    }, 3000);
+      })
+      .finally(() => setIsSubmitting(false));
   }
 
   const [isConfirmSignalDialogOpen, setIsConfirmSignalDialogOpen] =
@@ -265,35 +271,39 @@ export default function PropertyCard({
         id: 'updatingPropertyImages',
       }),
     });
-    setTimeout(() => {
-      //TODO: CALL API HERE TO save property images
-      // eslint-disable-next-line no-constant-condition
-      if (5 > 4) {
-        setIsSubmittingImages(false);
+    updateProperty(
+      property_id,
+      { removedImageIds: val.removedImageIds },
+      val.toBeUploadedImages
+    )
+      .then(() => {
         notif.update({
           render: formatMessage({
             id: 'saveImagesSuccessfully',
           }),
         });
         setImageSubmissionNotif(undefined);
-      } else {
+      })
+      .catch((error) => {
         notif.update({
           type: 'ERROR',
           render: (
             <ErrorMessage
               retryFunction={() => handleSubmitImages(val)}
               notification={notif}
-              //TODO: message should come from backend
-              message={formatMessage({
-                id: 'savingImagesFailed',
-              })}
+              message={
+                error?.message ||
+                formatMessage({
+                  id: 'savingImagesFailed',
+                })
+              }
             />
           ),
           autoClose: false,
           icon: () => <ReportRounded fontSize="medium" color="error" />,
         });
-      }
-    }, 3000);
+      })
+      .finally(() => setIsSubmittingImages(false));
   }
 
   return (
@@ -317,7 +327,7 @@ export default function PropertyCard({
       />
       <ConfirmDialog
         closeDialog={() => setIsConfirmDeleteDialogOpen(false)}
-        confirm={() => deleteProperty(property_id)}
+        confirm={() => deletePropertyHandler(property_id)}
         dialogMessage={formatMessage({
           id: 'confirmDeletePropertyDialogMessage',
         })}
@@ -328,7 +338,7 @@ export default function PropertyCard({
       />
       <ConfirmDialog
         closeDialog={() => setIsConfirmDelistDialogOpen(false)}
-        confirm={() => delistProperty(property_id)}
+        confirm={() => delistPropertyHandler(property_id)}
         dialogMessage={formatMessage({
           id: 'confirmDelistPropertyDialogMessage',
         })}
