@@ -5,6 +5,7 @@ import {
   PropertyTypeEnum,
 } from '@prisma/client';
 import {
+  IsBoolean,
   IsEnum,
   IsNumber,
   IsOptional,
@@ -68,4 +69,8 @@ export class CreateNewPropertyDto {
   type?: HouseTypeEnum;
 }
 
-export class UpdatePropertyDto extends PartialType(CreateNewPropertyDto) {}
+export class UpdatePropertyDto extends PartialType(CreateNewPropertyDto) {
+  @IsBoolean()
+  @IsOptional()
+  is_listed?: boolean;
+}

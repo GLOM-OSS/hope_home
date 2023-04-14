@@ -21,6 +21,7 @@ import {
   CreateCommentDto,
   CreateNewPropertyDto,
   QueryPropertiesDto,
+  UpdatePropertyDto,
 } from './property.dto';
 import { PropertyService } from './property.service';
 
@@ -73,7 +74,7 @@ export class PropertyController {
   async updateProperty(
     @Req() request: Request,
     @Param('property_id') property_id: string,
-    @Body() { type, ...newProperty }: CreateNewPropertyDto,
+    @Body() { type, ...newProperty }: UpdatePropertyDto,
     @UploadedFiles() files: Array<Express.Multer.File>
   ) {
     try {
