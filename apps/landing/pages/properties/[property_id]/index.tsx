@@ -296,10 +296,12 @@ export default function PropertyDetails({
               {formatMessage({ id: 'localInformation' })}
             </Typography>
           </Box>
-          <MapDisplay
-            location={{ lat: latitude, lng: longitude }}
-            zoomLevel={17}
-          />
+          {latitude !== null && longitude !== null && (
+            <MapDisplay
+              location={{ lat: latitude, lng: longitude }}
+              zoomLevel={17}
+            />
+          )}
         </Box>
         <Box>
           <Typography variant="h4" fontWeight={500}>
