@@ -247,4 +247,15 @@ export class PropertyService {
       where: { property_image_id, Property: { published_by: deleted_by } },
     });
   }
+
+  async getPropertyImages(property_id: string) {
+    const propertyImages = await this.prismaService.propertyImage.findMany({
+      select: { property_image_id: true, image_ref: true },
+      where: { property_id },
+    });
+    return propertyImages.map(({ property_image_id: image_id, image_ref }) => ({
+      image_id,
+      image_ref,
+    }));
+  }
 }

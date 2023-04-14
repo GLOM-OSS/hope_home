@@ -47,6 +47,14 @@ export class PropertyController {
     return await this.propertyService.findOne(property_id, person?.person_id);
   }
 
+  @Get(':property_id/images')
+  async getPropertyImages(
+    @Req() request: Request,
+    @Param('property_id') property_id: string
+  ) {
+    return await this.propertyService.getPropertyImages(property_id);
+  }
+
   @Post('new')
   @UseGuards(JwtAuthGuard)
   @UseGuards(FilesInterceptor('imageRefs'))
