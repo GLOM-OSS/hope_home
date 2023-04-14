@@ -22,8 +22,8 @@ export interface CreateNewProperty {
 export interface IHHProperty extends CreateNewProperty {
   property_id: string;
   image_ref: string;
-  latitude: number;
-  longitude: number;
+  latitude: number | null;
+  longitude: number | null;
   is_liked: boolean;
   number_of_likes: number;
 

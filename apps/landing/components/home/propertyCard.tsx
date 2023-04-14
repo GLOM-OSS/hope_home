@@ -32,6 +32,7 @@ import { useState } from 'react';
 import { ConfirmDialog } from '../confirmDialog';
 import { flagProperty, likeOrUnlike } from '../../services/property.service';
 import { toast } from 'react-toastify';
+import ImageDialog from './imageDialog';
 
 export default function PropertyCard({
   property: {
@@ -243,8 +244,66 @@ export default function PropertyCard({
     }
   };
 
+  const [isImageDialogOpen, setIsImageDialogOpen] = useState<boolean>(false);
+
+  const [isSubmittingImages, setIsSubmittingImages] = useState<boolean>(false);
+  const [imageSubmissionNotif, setImageSubmissionNotif] =
+    useState<useNotification>();
+
+  function handleSubmitImages(val: {
+    removedImageIds: string[];
+    toBeUploadedImages: File[];
+  }) {
+    setIsSubmittingImages(true);
+    const notif = new useNotification();
+    if (imageSubmissionNotif) {
+      imageSubmissionNotif.dismiss();
+    }
+    setImageSubmissionNotif(notif);
+    notif.notify({
+      render: formatMessage({
+        id: 'updatingPropertyImages',
+      }),
+    });
+    setTimeout(() => {
+      //TODO: CALL API HERE TO save property images
+      // eslint-disable-next-line no-constant-condition
+      if (5 > 4) {
+        setIsSubmittingImages(false);
+        notif.update({
+          render: formatMessage({
+            id: 'saveImagesSuccessfully',
+          }),
+        });
+        setImageSubmissionNotif(undefined);
+      } else {
+        notif.update({
+          type: 'ERROR',
+          render: (
+            <ErrorMessage
+              retryFunction={() => handleSubmitImages(val)}
+              notification={notif}
+              //TODO: message should come from backend
+              message={formatMessage({
+                id: 'savingImagesFailed',
+              })}
+            />
+          ),
+          autoClose: false,
+          icon: () => <ReportRounded fontSize="medium" color="error" />,
+        });
+      }
+    }, 3000);
+  }
+
   return (
     <>
+      <ImageDialog
+        closeDialog={() => setIsImageDialogOpen(false)}
+        isDialogOpen={isImageDialogOpen}
+        property_id={property_id}
+        handleSubmit={handleSubmitImages}
+      />
       <ConfirmDialog
         closeDialog={() => setIsConfirmSignalDialogOpen(false)}
         confirm={() => signalProperty(property_id)}
@@ -304,6 +363,15 @@ export default function PropertyCard({
             }}
           >
             {formatMessage({ id: 'delete' })}
+          </MenuItem>
+          <MenuItem
+            disabled={isSubmittingImages}
+            onClick={() => {
+              setIsImageDialogOpen(true);
+              setMoreMenuAnchorEl(null);
+            }}
+          >
+            {formatMessage({ id: 'manageImages' })}
           </MenuItem>
         </MenuList>
       </Menu>
