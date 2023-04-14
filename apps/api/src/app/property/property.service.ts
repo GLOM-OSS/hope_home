@@ -207,7 +207,6 @@ export class PropertyService {
   async update(
     property_id: string,
     newProperty: Prisma.PropertyUpdateInput,
-    files: Array<Express.Multer.File>,
     audited_by: string
   ) {
     const {
@@ -226,11 +225,6 @@ export class PropertyService {
           create: {
             ...property,
             audited_by,
-          },
-        },
-        PropertyImages: {
-          createMany: {
-            data: files.map((_) => ({ image_ref: _.filename })),
           },
         },
       },

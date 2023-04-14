@@ -19,6 +19,10 @@ export interface CreateNewProperty {
   house_details?: IHouseDetails;
 }
 
+export interface UpdateProperty extends Partial<CreateNewProperty> {
+  removedImageIds?: string[];
+}
+
 export interface IHHProperty extends CreateNewProperty {
   property_id: string;
   image_ref: string;

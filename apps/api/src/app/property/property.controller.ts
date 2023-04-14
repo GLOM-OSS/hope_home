@@ -79,15 +79,27 @@ export class PropertyController {
   async updateProperty(
     @Req() request: Request,
     @Param('property_id') property_id: string,
-    @Body() { type, ...newProperty }: UpdatePropertyDto,
+    @Body() { type, removedImageIds, ...newProperty }: UpdatePropertyDto,
     @UploadedFiles() files: Array<Express.Multer.File>
   ) {
     try {
       const { person_id } = request.user as Person;
       return await this.propertyService.update(
         property_id,
-        { ...newProperty, house_type: type },
-        files,
+        {
+          ...newProperty,
+          house_type: type,
+          PropertyImages: {
+            createMany: {
+              data: files.map((_) => ({ image_ref: _.filename })),
+            },
+            deleteMany: {
+              OR: (removedImageIds ?? []).map((property_image_id) => ({
+                property_image_id,
+              })),
+            },
+          },
+        },
         person_id
       );
     } catch (error) {
@@ -106,7 +118,6 @@ export class PropertyController {
       return await this.propertyService.update(
         property_id,
         { is_listed: false },
-        [],
         person_id
       );
     } catch (error) {
@@ -125,7 +136,6 @@ export class PropertyController {
       return await this.propertyService.update(
         property_id,
         { is_deleted: true },
-        [],
         person_id
       );
     } catch (error) {

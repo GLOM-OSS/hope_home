@@ -5,13 +5,12 @@ import {
   PropertyTypeEnum,
 } from '@prisma/client';
 import {
-  IsBoolean,
   IsEnum,
   IsNumber,
   IsOptional,
   IsString,
   IsUUID,
-  MaxLength,
+  MaxLength
 } from 'class-validator';
 export class QueryPropertiesDto {
   @IsOptional()
@@ -70,7 +69,7 @@ export class CreateNewPropertyDto {
 }
 
 export class UpdatePropertyDto extends PartialType(CreateNewPropertyDto) {
-  @IsBoolean()
   @IsOptional()
-  is_listed?: boolean;
+  @IsString({ each: true })
+  removedImageIds?: string[];
 }
