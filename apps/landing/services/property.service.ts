@@ -2,6 +2,7 @@ import { http } from '@hopehome/axios';
 import {
   CreateNewProperty,
   IHHProperty,
+  IImage,
   IPropertyDetails,
   PropertyQuery,
 } from '@hopehome/interfaces';
@@ -16,6 +17,13 @@ export async function getProperties(query?: PropertyQuery) {
 export async function getPropertyDetails(property_id: string) {
   const { data } = await http.get<IPropertyDetails>(
     `/properties/${property_id}/details`
+  );
+  return data;
+}
+
+export async function getPropertyImages(property_id: string) {
+  const { data } = await http.get<IImage[]>(
+    `/properties/${property_id}/images`
   );
   return data;
 }

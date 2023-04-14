@@ -9,32 +9,27 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
+import { getPropertyImages } from '../../services/property.service';
 import Image from 'next/image';
 import Scrollbars from 'rc-scrollbars';
 import { ChangeEvent, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { v4 as uuidv4 } from 'uuid';
+import { IImage } from '@hopehome/interfaces';
 
 function useImages(property_id: string) {
-  //TODO: FETCH images of property with data property_id
   const [returnValue, setReturnValue] = useState<{
     isLoading: boolean;
     data: IImage[];
   }>({ isLoading: true, data: undefined });
 
-  setTimeout(() => {
-    setReturnValue({
-      isLoading: false,
-      data: [{ image_id: 'sieol', image_ref: '/about_us.png' }],
-    });
-  }, 3000);
+  getPropertyImages(property_id)
+    .then((images) => {
+      setReturnValue({ data: images, isLoading: false });
+    })
+    .catch((error) => console.log(error));
 
   return returnValue;
-}
-
-interface IImage {
-  image_id: string;
-  image_ref: File | string;
 }
 
 function PropertyImage({

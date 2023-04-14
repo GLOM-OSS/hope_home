@@ -35,9 +35,14 @@ export interface IComment {
   comment: string;
 }
 
+export interface IImage {
+  image_id: string;
+  image_ref: File | string;
+}
+
 export interface IPropertyDetails extends Omit<IHHProperty, 'image_ref'> {
   comments: IComment[];
-  image_refs: { image_id: string; image_ref: string }[];
+  image_refs: IImage[];
 }
 
 export interface PropertyQuery {
