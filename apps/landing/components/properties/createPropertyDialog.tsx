@@ -154,48 +154,6 @@ export default function NewPropertyDialog({
     }
   };
 
-  //   function handleFileInput(e) {
-  //     let files = Object.keys(e.target.files);
-  //     files = files.map((fileKey) => {
-  //       return {
-  //         publication_id: uuidv4(),
-  //         publication_ref: e.target.files[fileKey],
-  //       };
-  //     });
-  //     let displayImgs = files.map((file) => {
-  //       const { publication_id, publication_ref } = file;
-  //       return {
-  //         publication_id,
-  //         publication_ref: URL.createObjectURL(publication_ref),
-  //       };
-  //     });
-
-  //     setDisplayImages([...displayImages, ...displayImgs]);
-  //     setToBeUploadedImages([...toBeUploadedImages, ...files]);
-  //   }
-
-  //   <Box>
-  //   <input
-  //     accept="image/*"
-  //     hidden
-  //     id="raised-button-file"
-  //     //   multiple
-  //     type="file"
-  //     onChange={changeProfileImage}
-  //   />
-  //   <label htmlFor="raised-button-file">
-  //     <Button
-  //       sx={{ textTransform: 'none', justifySelf: 'none' }}
-  //       variant="text"
-  //       color="primary"
-  //       component="span"
-  //       disabled={isSubmitting}
-  //     >
-  //       {formatMessage({ id: 'edit' })}
-  //     </Button>
-  //   </label>
-  // </Box>
-
   const [isConfirmUsePositionDialogOpen, setIsConfirmUsePositionDialogOpen] =
     useState<boolean>(false);
   const [options, setOptions] = useState<readonly PlaceType[]>([]);
