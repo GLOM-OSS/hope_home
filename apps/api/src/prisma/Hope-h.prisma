@@ -107,6 +107,7 @@ model Property {
     latitude        Int
     description     String
     property_type   PropertyTypeEnum
+    is_listed       Boolean           @default(true) @db.TinyInt
     is_flagged      Boolean           @default(false) @db.TinyInt
     address         String
     number_of_rooms Int?
@@ -134,6 +135,7 @@ model PropertyAudit {
     latitude          Int
     description       String
     property_type     PropertyTypeEnum
+    is_listed         Boolean           @default(true) @db.TinyInt
     is_flagged        Boolean           @default(false) @db.TinyInt
     address           String
     number_of_rooms   Int?
