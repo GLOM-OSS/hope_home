@@ -2,9 +2,7 @@ import { IHHProperty, IPropertyDetails } from '@hopehome/interfaces';
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
-import {
-  CreateNewPropertyDto, QueryPropertiesDto
-} from './property.dto';
+import { CreateNewPropertyDto, QueryPropertiesDto } from './property.dto';
 
 @Injectable()
 export class PropertyService {
@@ -241,9 +239,12 @@ export class PropertyService {
   }
 
   async deleteImage(property_image_id: string, deleted_by: string) {
+    await this.prismaService.propertyImage.findUniqueOrThrow({
+      where: { property_image_id },
+    });
     await this.prismaService.propertyImage.updateMany({
       data: { is_deleted: true },
-      where: { property_image_id, property_id: deleted_by },
+      where: { property_image_id, Property: { published_by: deleted_by } },
     });
   }
 }
