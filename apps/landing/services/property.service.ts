@@ -62,11 +62,15 @@ export async function updateProperty(
       const file = files[i];
       formData.append('imageRefs', file);
     }
-  const { data } = await http.post<IHHProperty>(
+  const { data } = await http.put<IHHProperty>(
     `/properties/${property_id}/edit`,
     formData
   );
   return data;
+}
+
+export async function deleteProperty(property_id: string) {
+  await http.put(`/properties/${property_id}/delete`);
 }
 
 export async function likeOrUnlike(property_id: string) {
