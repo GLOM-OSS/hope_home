@@ -48,10 +48,7 @@ export class PropertyController {
   }
 
   @Get(':property_id/images')
-  async getPropertyImages(
-    @Req() request: Request,
-    @Param('property_id') property_id: string
-  ) {
+  async getPropertyImages(@Param('property_id') property_id: string) {
     return await this.propertyService.getPropertyImages(property_id);
   }
 

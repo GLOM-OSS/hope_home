@@ -1,4 +1,4 @@
-import { IHHProperty, IPropertyDetails } from '@hopehome/interfaces';
+import { IHHProperty, IImage, IPropertyDetails } from '@hopehome/interfaces';
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
@@ -248,7 +248,7 @@ export class PropertyService {
     });
   }
 
-  async getPropertyImages(property_id: string) {
+  async getPropertyImages(property_id: string): Promise<IImage[]> {
     const propertyImages = await this.prismaService.propertyImage.findMany({
       select: { property_image_id: true, image_ref: true },
       where: { property_id },
