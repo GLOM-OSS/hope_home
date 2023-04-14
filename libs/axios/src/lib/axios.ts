@@ -8,7 +8,7 @@ export async function getCurrentIp() {
 
 function axiosInstance(): AxiosInstance {
   const axiosInstance = axios.create({
-    baseURL: process.env['NX_API_BASE_URL'] || 'http://api-hh.ingl.io',
+    baseURL: process.env['NX_API_BASE_URL'] || 'https://api-hh.ingl.io',
   });
   axiosInstance.interceptors.request.use(
     (request) => {
@@ -20,9 +20,10 @@ function axiosInstance(): AxiosInstance {
         ...request,
         params: request.params ? { data: encrypt(request.params) } : undefined,
         data:
-          request.data instanceof FormData
-            ? request.data
-            : request.data
+          // request.data instanceof FormData
+          //   ? request.data
+          //   : 
+            request.data
             ? { data: encrypt(request.data) }
             : undefined,
       };
