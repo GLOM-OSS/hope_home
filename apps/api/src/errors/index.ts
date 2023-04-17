@@ -1,6 +1,7 @@
 export enum ErrorEnum {
-  ERR1,
-  ERR2,
+  ERR1 = 'ERR1',
+  ERR2 = 'ERR2',
+  ERR3 = 'ERR3',
 }
 
 export type Error = {
@@ -23,6 +24,13 @@ export const appErros: Error[] = [
     message: {
       fr: 'Au moins une image est requise pour créer une propriété.',
       en: 'At least one image is required to create a property.',
+    },
+  },
+  {
+    code: ErrorEnum.ERR3,
+    message: {
+      fr: 'Incorrect current password.',
+      en: 'Mot de passe incorrect.',
     },
   },
 ];
