@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TemplateMailer</title>
+    <style type="text/css">
+        body {
+            background-color: #ffffff;
+        }
+
+        .main {
+            background-color: rgb(255, 255, 255);
+            color: black;
+            margin: auto;
+            padding: 10px;
+            width: 70%;
+            box-shadow: 7px 6px 5px #888888;
+            display: grid;
+        }
+
+        .logo {
+            text-align: center;
+            height: fit-content;
+        }
+
+        .message {
+            height: fit-content;
+        }
+
+        button {
+            background-color: #68eb94;
+            border: none;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button hover {
+            background-color: #2e0553;
+        }
+
+        .footer {
+            font-size: 10px;
+        }
+
+        .paragraphe {
+            text-align: justify;
+            font-size: 18px;
+        }
+
+        .link {
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="message">
+            <h1>{{resetPasswordTitle}}</h1>
+            <h2>{{resetPasswordSubTitle}}</h2>
+            <p class="paragraphe">{{resetPasswordObject}}</p>
+            <br>
+            <p class="paragraphe">{{resetPasswordMessage}}</p>
+            <a href={{connexion}} class="link">
+                <button>
+                    {{resetPasswordCallToAction}}
+                </button>
+            </a>
+
+        </div>
+    </div>
+    <br>
+    <div class="footerr">
+        <p class="footer">Hope Home est une solution de exposition des biens et proprietés immobilières.
+            @Developeurs GLOM
+        </p>
+    </div>
+</body>
+
+</html>
