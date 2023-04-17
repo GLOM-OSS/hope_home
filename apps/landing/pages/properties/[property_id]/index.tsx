@@ -122,7 +122,7 @@ export default function PropertyDetails({
         dialogTitle={formatMessage({ id: 'confirmSignalProperty' })}
       />
       <Box sx={{ padding: `0 7.1%`, marginTop: 4, display: 'grid', rowGap: 3 }}>
-        <ImageDisplay images={image_refs.map((_) => _.image_ref)} />
+        <ImageDisplay images={image_refs.map((_) => _.image_ref as string)} />
         <Box sx={{ padding: 2, display: 'grid', rowGap: 2 }}>
           <Box
             sx={{

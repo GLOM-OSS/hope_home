@@ -1,71 +1,23 @@
 import { IHHProperty } from '@hopehome/interfaces';
+import { ErrorMessage, useNotification } from '@hopehome/toast';
+import { ReportRounded } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
-import PropertyCard from '../../../components/home/propertyCard';
 import { GetServerSideProps } from 'next';
-import Navbar from '../../../components/navbar/secondary_nav/navbar';
+import { useState } from 'react';
 import { useIntl } from 'react-intl';
+import PropertyCard from '../../../components/home/propertyCard';
+import Navbar from '../../../components/navbar/secondary_nav/navbar';
 import NewPropertyDialog, {
   INewProperty,
 } from '../../../components/properties/createPropertyDialog';
-import { useState } from 'react';
-import { ErrorMessage, useNotification } from '@hopehome/toast';
-import { ReportRounded } from '@mui/icons-material';
+import {
+  createNewProperty,
+  getProperties,
+} from '../../../services/property.service';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
-    //CALL API HERE TO LOAD MY PROPERTIES
-    const properties = [
-      {
-        address:
-          'Rue de Palmiers Nkolmesseng - Yaounde Rue de Palmiers Nkolmesseng - Yaounde',
-        area: 900,
-        description: '',
-        image_ref: '/hero_background.png',
-        latitude: 0,
-        listing_reason: 'Rent',
-        longitude: 0,
-        price: 500000,
-        property_id: 'make_it_rain',
-        property_type: 'Home',
-        publisher_details: {
-          created_at: new Date().getTime(),
-          email: '',
-          fullname: 'Kimbi Boston Tanyi',
-          person_id: 'soekls',
-          preferred_lang: 'en',
-          roles: [],
-          whatsapp_number: '237657140183',
-          gender: 'Male',
-          phone_number: '237657140183',
-          profile_image_ref: '/logo.png',
-        },
-      },
-      {
-        address:
-          'Rue de Palmiers Nkolmesseng - Yaounde Rue de Palmiers Nkolmesseng - Yaounde',
-        area: 900,
-        description: '',
-        image_ref: '/hero_background.png',
-        latitude: 0,
-        listing_reason: 'Rent',
-        longitude: 0,
-        price: 500000,
-        property_id: 'make_it_rain',
-        property_type: 'Home',
-        publisher_details: {
-          created_at: new Date().getTime(),
-          email: '',
-          fullname: 'Kimbi Boston Tanyi',
-          person_id: 'soekls',
-          preferred_lang: 'en',
-          roles: [],
-          whatsapp_number: '237657140183',
-          gender: 'Male',
-          phone_number: '237657140183',
-          profile_image_ref: '/logo.png',
-        },
-      },
-    ];
+    const properties = await getProperties();
     return {
       props: {
         properties,
@@ -89,7 +41,7 @@ export default function Properties({
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submissionNotif, setSubmissionNotif] = useState<useNotification>();
 
-  const createNewProperty = (property: INewProperty) => {
+  const createNewPropertyHandler = (property: INewProperty) => {
     setIsSubmitting(true);
     const notif = new useNotification();
     if (submissionNotif) {
@@ -101,41 +53,41 @@ export default function Properties({
         id: 'creatingProperty',
       }),
     });
-    setTimeout(() => {
-      //TODO: CALL API HERE TO create new property
-      // eslint-disable-next-line no-constant-condition
-      if (5 > 4) {
-        setIsSubmitting(false);
+    createNewProperty(property)
+      .then(() => {
         notif.update({
           render: formatMessage({
             id: 'createdPropertySuccessfully',
           }),
         });
         setSubmissionNotif(undefined);
-      } else {
+      })
+      .catch((error) => {
         notif.update({
           type: 'ERROR',
           render: (
             <ErrorMessage
-              retryFunction={() => createNewProperty(property)}
+              retryFunction={() => createNewPropertyHandler(property)}
               notification={notif}
-              //TODO: message should come from backend
-              message={formatMessage({
-                id: 'creatingPropertyFailed',
-              })}
+              message={
+                error?.message ||
+                formatMessage({
+                  id: 'creatingPropertyFailed',
+                })
+              }
             />
           ),
           autoClose: false,
           icon: () => <ReportRounded fontSize="medium" color="error" />,
         });
-      }
-    }, 3000);
+      })
+      .finally(() => setIsSubmitting(false));
   };
 
   return (
     <>
       <NewPropertyDialog
-        handleSubmit={createNewProperty}
+        handleSubmit={createNewPropertyHandler}
         open={isNewPropertyDialogOpen}
         closeDialog={() => setIsNewPropertyDialogOpen(false)}
       />
