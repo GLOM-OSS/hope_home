@@ -22,7 +22,7 @@ export class MailService {
     const mailObject = {
       to: email,
       from: 'glomexam@gmail.com',
-      subject: 'Authentication',
+      subject: 'Hope Home Credential',
       html: template(messages),
     };
 
