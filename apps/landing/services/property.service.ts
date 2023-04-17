@@ -31,7 +31,7 @@ export async function getPropertyImages(property_id: string) {
 
 export async function createNewProperty(
   { house_details, ...newProperty }: CreateNewProperty,
-  files: FileList
+  files?: FileList
 ) {
   const dataObject = house_details
     ? { ...house_details, ...newProperty }
@@ -43,10 +43,11 @@ export async function createNewProperty(
       formData.append(key, element);
     }
   }
-  for (let i = 0; i < files.length; i++) {
-    const file = files[i];
-    formData.append('imageRefs', file);
-  }
+  if (files)
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      formData.append('imageRefs', file);
+    }
   const { data } = await http.post<IHHProperty>('/properties/new', formData);
   return data;
 }
