@@ -60,14 +60,13 @@ export class PropertyController {
     @Body() newProperty: CreateNewPropertyDto,
     @UploadedFiles() files: Array<Express.Multer.File>
   ) {
-    if (files.length === 0)
-      throw new HttpException(
-        ErrorEnum.ERR2.toString(),
-        HttpStatus.BAD_REQUEST
-      );
     try {
       const { person_id } = request.user as Person;
-      return await this.propertyService.create(newProperty, files, person_id);
+      return await this.propertyService.create(
+        newProperty,
+        files ?? [],
+        person_id
+      );
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -79,16 +78,21 @@ export class PropertyController {
   async updateProperty(
     @Req() request: Request,
     @Param('property_id') property_id: string,
-    @Body() { type, removedImageIds, ...newProperty }: UpdatePropertyDto,
+    @Body() updateData: UpdatePropertyDto,
     @UploadedFiles() files: Array<Express.Multer.File>
   ) {
+    const { removedImageIds, ...newProperty } = updateData;
+    if (Object.keys(updateData).length === 0 && files.length === 0)
+      throw new HttpException(
+        ErrorEnum.ERR2.toString(),
+        HttpStatus.BAD_REQUEST
+      );
     try {
       const { person_id } = request.user as Person;
       return await this.propertyService.update(
         property_id,
         {
           ...newProperty,
-          house_type: type,
           PropertyImages: {
             createMany: {
               data: files.map((_) => ({ image_ref: _.filename })),
