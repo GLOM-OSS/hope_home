@@ -54,9 +54,12 @@ export async function updateProfile(
   profile?: File
 ) {
   const formData = new FormData();
-  Object.keys(newPerson).forEach((key) => {
-    formData.append(key, newPerson[key]);
-  });
+  for (const key in newPerson) {
+    if (Object.prototype.hasOwnProperty.call(newPerson, key)) {
+      const element = newPerson[key];
+      formData.append(key, element);
+    }
+  }
   if (profile) formData.append('profile', profile, profile.name);
   const { data } = await http.put('/user/edit', formData);
   return data;
