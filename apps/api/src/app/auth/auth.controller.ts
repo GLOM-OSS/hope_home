@@ -17,6 +17,7 @@ import { isEmail } from 'class-validator';
 import { Request } from 'express';
 import { ErrorEnum } from '../../errors';
 import {
+  ChangePasswordDto,
   CreateNewPasswordDto,
   CreatePersonDto,
   EditPersonDto,
@@ -80,6 +81,21 @@ export class AuthController {
         HttpStatus.INTERNAL_SERVER_ERROR
       );
     }
+  }
+
+  @Put('change-password')
+  @UseGuards(JwtAuthGuard)
+  async changePassword(
+    @Req() request: Request,
+    @Body() { current_password, new_password }: ChangePasswordDto
+  ) {
+    const { person_id, email } = request.user as Person;
+    const user = await this.authService.validateUser(email, current_password);
+    if (!user)
+      throw new HttpException(ErrorEnum.ERR3, HttpStatus.NOT_ACCEPTABLE);
+    return await this.authService.updateProfile(person_id, {
+      password: new_password,
+    });
   }
 
   @Post('reset-password')

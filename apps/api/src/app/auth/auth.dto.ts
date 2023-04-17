@@ -51,3 +51,11 @@ export class CreateNewPasswordDto {
   @IsString()
   new_password: string;
 }
+
+export class ChangePasswordDto {
+  @IsString()
+  new_password: string;
+  
+  @IsString()
+  current_password: string;
+}
