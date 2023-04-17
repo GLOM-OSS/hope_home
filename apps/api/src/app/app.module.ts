@@ -14,6 +14,7 @@ import { AppMiddleware } from './app.middleware';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { PropertyModule } from './property/property.module';
+import { MailModule } from '@hopehome/mailer';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { PropertyModule } from './property/property.module';
       limit: 10,
     }),
     ConfigModule.forRoot(),
+    MailModule,
     DynamicMulter,
     PrismaModule,
     AuthModule,
