@@ -222,20 +222,21 @@ export default function PropertyCard({
         break;
       }
       case 'contact': {
-        //TODO: CORRECT THIS TO THE RIGHT MESSAGE INDICATING THE PROPERTY IN THE LINK
         push(
           `https://api.whatsapp.com/send/?phone=${whatsapp_number}&text=${encodeURIComponent(
-            'I saw your property on hope home and it interested me'
+            //TODO: use this message for the interestedInProperty below 'I saw your property on hope home and it interested me'
+            formatMessage({ id: 'interestedInProperty' }) +
+              `\n\nhttps://hopehome.ingl.io/${property_id}`
           )}`
         );
         break;
       }
       case 'share': {
-        // TODO: CORRECT THE TEXT AND URL LATER ON TO CONTAIN THE PROPERTY
         navigator.share({
           title: address,
-          text: 'Checkout this cool property I found on HopeHome',
-          url: `https://marketplace.ingl.io/${property_id}`,
+          //TODO: use this message for the sharePropertyMessage below 'Checkout this cool property I found on HopeHome'
+          text: formatMessage({ id: 'sharePropertyMessage' }),
+          url: `https://hopehome.ingl.io/${property_id}`,
         });
         break;
       }
