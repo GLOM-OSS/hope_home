@@ -1,4 +1,6 @@
-import { HouseType, IHHProperty } from '@hopehome/interfaces';
+import {
+  ICreateNewProperty
+} from '@hopehome/interfaces';
 import { theme } from '@hopehome/theme';
 import {
   KeyboardArrowDownOutlined,
@@ -29,22 +31,6 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import * as Yup from 'yup';
 import { ConfirmDialog } from '../confirmDialog';
-
-export interface INewProperty
-  extends Omit<
-    IHHProperty,
-    | 'property_id'
-    | 'image_ref'
-    | 'publisher_details'
-    | 'house_details'
-    | 'is_liked'
-    | 'number_of_likes'
-  > {
-  image_refs: string[];
-  number_of_baths: number | null;
-  number_of_rooms: number | null;
-  house_type: HouseType | null;
-}
 
 interface MainTextMatchedSubstrings {
   offset: number;
@@ -81,7 +67,7 @@ export default function NewPropertyDialog({
 }: {
   open: boolean;
   closeDialog: () => void;
-  handleSubmit: (val: INewProperty) => void;
+  handleSubmit: (val: ICreateNewProperty) => void;
 }) {
   const { formatMessage } = useIntl();
 
@@ -89,8 +75,7 @@ export default function NewPropertyDialog({
   const propertyTypes = ['Home', 'Land'];
   const houseTypes = ['Appartment', 'Hostel', 'Default'];
 
-  const initialValues: INewProperty = {
-    image_refs: [],
+  const initialValues: ICreateNewProperty = {
     price: 0,
     number_of_baths: 0,
     number_of_rooms: 0,
@@ -124,12 +109,12 @@ export default function NewPropertyDialog({
     validationSchema,
     onSubmit: (values, { resetForm }) => {
       const { longitude: lg, latitude: lt, property_type: pt } = values;
-      const nValues: INewProperty = {
+      const nValues: ICreateNewProperty = {
         ...values,
         longitude: lg === 0 && lt === 0 ? null : lg,
         latitude: lg === 0 && lt === 0 ? null : lt,
       };
-      const submitValues: INewProperty =
+      const submitValues: ICreateNewProperty =
         pt === 'Land'
           ? {
               ...nValues,
@@ -353,7 +338,10 @@ export default function NewPropertyDialog({
                   <FormControl fullWidth>
                     <Select
                       IconComponent={KeyboardArrowDownOutlined}
-                      error={formik.touched.house_type && Boolean(formik.errors.house_type)}
+                      error={
+                        formik.touched.house_type &&
+                        Boolean(formik.errors.house_type)
+                      }
                       {...formik.getFieldProps('house_type')}
                       size="small"
                       sx={{ ...theme.typography.caption }}

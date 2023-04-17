@@ -9,27 +9,36 @@ export interface IHouseDetails {
   number_of_baths: number;
   number_of_rooms: number;
 }
-export interface CreateNewProperty {
+export interface ICreateNewProperty {
   area: number;
   price: number;
   address: string;
   description: string;
+  house_type: HouseType;
+  number_of_baths: number;
+  number_of_rooms: number;
+  latitude: number | null;
+  longitude: number | null;
   property_type: PropertyType;
   listing_reason: ListingReason;
-  house_details?: IHouseDetails;
 }
 
-export interface UpdateProperty extends Partial<CreateNewProperty> {
+export interface IUpdateProperty extends Partial<ICreateNewProperty> {
   removedImageIds?: string[];
 }
 
-export interface IHHProperty extends CreateNewProperty {
+export interface IHHProperty
+  extends Omit<
+    ICreateNewProperty,
+    'house_type' | 'number_of_baths' | 'number_of_rooms'
+  > {
   property_id: string;
   image_ref: string;
   latitude: number | null;
   longitude: number | null;
   is_liked: boolean;
   number_of_likes: number;
+  house_details?: IHouseDetails;
 
   publisher_details: IUser;
 }
@@ -49,7 +58,7 @@ export interface IPropertyDetails extends Omit<IHHProperty, 'image_ref'> {
   image_refs: IImage[];
 }
 
-export interface PropertyQuery {
+export interface IPropertyQuery {
   property_type?: PropertyType;
   listing_reason?: ListingReason;
   house_type?: HouseType;

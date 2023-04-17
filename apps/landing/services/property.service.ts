@@ -1,14 +1,14 @@
 import { http } from '@hopehome/axios';
 import {
-  CreateNewProperty,
+  ICreateNewProperty,
   IHHProperty,
   IImage,
   IPropertyDetails,
-  PropertyQuery,
-  UpdateProperty,
+  IPropertyQuery,
+  IUpdateProperty,
 } from '@hopehome/interfaces';
 
-export async function getProperties(query?: PropertyQuery) {
+export async function getProperties(query?: IPropertyQuery) {
   const { data } = await http.get<IHHProperty[]>('/properties/all', {
     params: query,
   });
@@ -30,16 +30,13 @@ export async function getPropertyImages(property_id: string) {
 }
 
 export async function createNewProperty(
-  { house_details, ...newProperty }: CreateNewProperty,
+  newProperty: ICreateNewProperty,
   files?: FileList
 ) {
-  const dataObject = house_details
-    ? { ...house_details, ...newProperty }
-    : newProperty;
   const formData = new FormData();
-  for (const key in dataObject) {
-    if (Object.prototype.hasOwnProperty.call(dataObject, key)) {
-      const element = dataObject[key];
+  for (const key in newProperty) {
+    if (Object.prototype.hasOwnProperty.call(newProperty, key)) {
+      const element = newProperty[key];
       formData.append(key, element);
     }
   }
@@ -54,16 +51,13 @@ export async function createNewProperty(
 
 export async function updateProperty(
   property_id: string,
-  { house_details, ...newProperty }: Partial<UpdateProperty>,
+  newProperty: Partial<IUpdateProperty>,
   files?: File[]
 ) {
-  const dataObject = house_details
-    ? { ...house_details, ...newProperty }
-    : newProperty;
   const formData = new FormData();
-  for (const key in dataObject) {
-    if (Object.prototype.hasOwnProperty.call(dataObject, key)) {
-      const element = dataObject[key];
+  for (const key in newProperty) {
+    if (Object.prototype.hasOwnProperty.call(newProperty, key)) {
+      const element = newProperty[key];
       formData.append(key, element);
     }
   }

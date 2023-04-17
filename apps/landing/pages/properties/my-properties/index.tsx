@@ -1,4 +1,4 @@
-import { IHHProperty } from '@hopehome/interfaces';
+import { ICreateNewProperty, IHHProperty } from '@hopehome/interfaces';
 import { ErrorMessage, useNotification } from '@hopehome/toast';
 import { ReportRounded } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
@@ -7,9 +7,7 @@ import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import PropertyCard from '../../../components/home/propertyCard';
 import Navbar from '../../../components/navbar/secondary_nav/navbar';
-import NewPropertyDialog, {
-  INewProperty,
-} from '../../../components/properties/createPropertyDialog';
+import NewPropertyDialog from '../../../components/properties/createPropertyDialog';
 import {
   createNewProperty,
   getProperties,
@@ -41,7 +39,7 @@ export default function Properties({
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submissionNotif, setSubmissionNotif] = useState<useNotification>();
 
-  const createNewPropertyHandler = (property: INewProperty) => {
+  const createNewPropertyHandler = (property: ICreateNewProperty) => {
     setIsSubmitting(true);
     const notif = new useNotification();
     if (submissionNotif) {
