@@ -10,7 +10,7 @@ import {
   IsOptional,
   IsString,
   IsUUID,
-  MaxLength
+  MaxLength,
 } from 'class-validator';
 export class QueryPropertiesDto {
   @IsOptional()
@@ -45,6 +45,14 @@ export class CreateNewPropertyDto {
 
   @IsString()
   address: string;
+
+  @IsNumber()
+  @IsOptional()
+  latitude?: number;
+  
+  @IsNumber()
+  @IsOptional()
+  longitude?: number;
 
   @IsString()
   description: string;

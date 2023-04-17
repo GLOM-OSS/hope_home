@@ -200,9 +200,6 @@ export class PropertyService {
             data: files.map((_) => ({ image_ref: _.filename })),
           },
         },
-        //TODO fetch it from an API
-        latitude: 0,
-        longitude: 0,
       },
     });
   }
