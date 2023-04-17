@@ -65,6 +65,23 @@ export class AuthController {
     }
   }
 
+  @Post('request-password')
+  async requestPassword(@Body('email') email: string) {
+    if (!isEmail(email))
+      throw new HttpException(
+        ErrorEnum.ERR1.toString(),
+        HttpStatus.BAD_REQUEST
+      );
+    try {
+      return await this.authService.generateNewPassword(email);
+    } catch (error) {
+      throw new HttpException(
+        `Oops, something when wrong: ${error.message}`,
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
+  }
+
   @Post('reset-password')
   async resetPassword(@Body('email') email: string) {
     if (!isEmail(email))

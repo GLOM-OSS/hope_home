@@ -1,4 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import {
+  MailService,
+  ResetPasswordMessages,
+  resetPasswordMessages,
+} from '@hopehome/mailer';
+import { Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Person, Prisma } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
@@ -11,7 +16,8 @@ export class AuthService {
   constructor(
     private prismaService: PrismaService,
     private jwtService: JwtService,
-    private oauth2Client: OAuth2Client
+    private oauth2Client: OAuth2Client,
+    private mailService: MailService
   ) {}
 
   async validateUser(email: string, password: string) {
@@ -71,6 +77,38 @@ export class AuthService {
         password: bcrypt.hashSync(password, Number(process.env.SALT)),
       },
     });
+  }
+
+  async generateNewPassword(email: string) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { created_at, person_id, ...personData } =
+      await this.prismaService.person.findUniqueOrThrow({
+        where: { email },
+      });
+    const newPassword = bcrypt.hashSync(
+      Math.random().toString(36).split('.')[1].toUpperCase(),
+      Number(process.env.SALT)
+    );
+    await this.prismaService.person.update({
+      data: { password: newPassword, PersonAudits: { create: personData } },
+      where: { person_id },
+    });
+    const message = await this.mailService.sendResetPasswordMail(email, {
+      connexion: 'https://home-hope.ingl.io',
+      ...Object.keys(resetPasswordMessages).reduce(
+        (messages, key) => ({
+          ...messages,
+          [key]: resetPasswordMessages[key][
+            personData.preferred_lang
+          ] as string,
+        }),
+        {} as ResetPasswordMessages
+      ),
+    });
+    Logger.verbose(
+      `Reset password email sent successfully. Message ID: ${message?.messageId}`,
+      AuthService.name
+    );
   }
 
   async resetPassword(email: string) {
