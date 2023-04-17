@@ -18,6 +18,7 @@
       "@hopehome/axios": ["libs/axios/src/index.ts"],
       "@hopehome/encrypter": ["libs/encrypter/src/index.ts"],
       "@hopehome/interfaces": ["libs/interfaces/src/index.ts"],
+      "@hopehome/mailer": ["libs/mailer/src/index.ts"],
       "@hopehome/map-display": ["libs/map-display/src/index.ts"],
       "@hopehome/theme": ["libs/theme/src/index.ts"],
       "@hopehome/toast": ["libs/toast/src/index.ts"],
