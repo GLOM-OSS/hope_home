@@ -65,7 +65,7 @@ export class CreateNewPropertyDto {
 
   @IsOptional()
   @IsEnum(HouseTypeEnum)
-  type?: HouseTypeEnum;
+  house_type?: HouseTypeEnum;
 }
 
 export class UpdatePropertyDto extends PartialType(CreateNewPropertyDto) {

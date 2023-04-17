@@ -5,7 +5,7 @@ export type PropertyType = 'Home' | 'Land';
 export type HouseType = 'Appartment' | 'Hostel' | 'Default';
 
 export interface IHouseDetails {
-  type: HouseType;
+  house_type: HouseType;
   number_of_baths: number;
   number_of_rooms: number;
 }

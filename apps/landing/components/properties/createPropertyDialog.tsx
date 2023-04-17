@@ -43,7 +43,7 @@ export interface INewProperty
   image_refs: string[];
   number_of_baths: number | null;
   number_of_rooms: number | null;
-  type: HouseType | null;
+  house_type: HouseType | null;
 }
 
 interface MainTextMatchedSubstrings {
@@ -101,7 +101,7 @@ export default function NewPropertyDialog({
     description: '',
     property_type: 'Home',
     listing_reason: 'Sale',
-    type: 'Appartment',
+    house_type: 'Appartment',
   };
   const validationSchema = Yup.object().shape({
     price: Yup.number().required(),
@@ -114,7 +114,7 @@ export default function NewPropertyDialog({
     description: Yup.string().required(),
     listing_reason: Yup.string().oneOf(listingReasons).required(),
     property_type: Yup.string().oneOf(propertyTypes).required(),
-    type: Yup.string().oneOf(houseTypes).required(),
+    house_type: Yup.string().oneOf(houseTypes).required(),
   });
 
   const [hasUsedPosition, setHasUsedPosition] = useState<boolean>(false);
@@ -133,7 +133,7 @@ export default function NewPropertyDialog({
         pt === 'Land'
           ? {
               ...nValues,
-              type: null,
+              house_type: null,
               number_of_baths: null,
               number_of_rooms: null,
             }
@@ -353,8 +353,8 @@ export default function NewPropertyDialog({
                   <FormControl fullWidth>
                     <Select
                       IconComponent={KeyboardArrowDownOutlined}
-                      error={formik.touched.type && Boolean(formik.errors.type)}
-                      {...formik.getFieldProps('type')}
+                      error={formik.touched.house_type && Boolean(formik.errors.house_type)}
+                      {...formik.getFieldProps('house_type')}
                       size="small"
                       sx={{ ...theme.typography.caption }}
                       input={<OutlinedInput />}
@@ -380,9 +380,9 @@ export default function NewPropertyDialog({
                         </MenuItem>
                       ))}
                     </Select>
-                    {formik.touched.type && formik.errors.type && (
+                    {formik.touched.house_type && formik.errors.house_type && (
                       <FormHelperText sx={{ color: theme.palette.error.main }}>
-                        {formik.errors.type}
+                        {formik.errors.house_type}
                       </FormHelperText>
                     )}
                   </FormControl>

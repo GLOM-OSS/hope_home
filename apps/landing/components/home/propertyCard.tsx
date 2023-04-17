@@ -531,9 +531,9 @@ export default function PropertyCard({
                   id:
                     property_type === 'Home'
                       ? house_details
-                        ? house_details.type === 'Default'
+                        ? house_details.house_type === 'Default'
                           ? 'singleFamilyHome'
-                          : house_details.type === 'Hostel'
+                          : house_details.house_type === 'Hostel'
                           ? 'hostel'
                           : 'appartment'
                         : 'home'

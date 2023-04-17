@@ -36,9 +36,9 @@ export class PropertyService {
         ...property,
         number_of_likes: LikedProperties.length,
         house_details: {
+          house_type,
           number_of_baths,
           number_of_rooms,
-          type: house_type,
         },
         is_liked: Boolean(
           LikedProperties.find((_) => _.liked_by === person_id)
@@ -98,7 +98,11 @@ export class PropertyService {
         image_id: property_image_id,
         image_ref,
       })),
-      house_details: { number_of_baths, number_of_rooms, type: house_type },
+      house_details: {
+        house_type,
+        number_of_baths,
+        number_of_rooms,
+      },
       publisher_details: {
         ...publisher,
         created_at: created_at.getTime(),
@@ -182,14 +186,13 @@ export class PropertyService {
   }
 
   async create(
-    { type, ...newProperty }: CreateNewPropertyDto,
+    newProperty: CreateNewPropertyDto,
     files: Array<Express.Multer.File>,
     created_by: string
   ) {
     return this.prismaService.property.create({
       data: {
         ...newProperty,
-        house_type: type,
         image_ref: files[0].filename,
         Publisher: { connect: { person_id: created_by } },
         PropertyImages: {
