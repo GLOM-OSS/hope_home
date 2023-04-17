@@ -1,31 +1,26 @@
 import { IChangePassword, IUser } from '@hopehome/interfaces';
+import { ErrorMessage, useNotification } from '@hopehome/toast';
 import {
   EmailOutlined,
   LockOutlined,
   ReportRounded,
 } from '@mui/icons-material';
 import { Avatar, Box, Button, Typography } from '@mui/material';
-import EditPasswordDialog from '../../components/profile/editPasswordDialog';
 import { GetServerSideProps } from 'next';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { ErrorMessage, useNotification } from '@hopehome/toast';
 import EditInfoDialog from '../../components/profile/editInfoDialog';
+import EditPasswordDialog from '../../components/profile/editPasswordDialog';
+import {
+  changePassword,
+  getUser,
+  updateProfile,
+} from '../../services/auth.service';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
-    //CALL API HERE TO LOAD MY PROPERTIES
-    const profileData: Omit<
-      IUser,
-      'created_at' | 'person_id' | 'role' | 'gender'
-    > = {
-      email: 'lorraintchakoumi@gmail.com',
-      fullname: 'Lorrain Tchakoumi',
-      preferred_lang: 'en',
-      profile_image_ref: '/favicon_green.png',
-      whatsapp_number: '237657140183',
-      phone_number: '237657140183',
-    };
+    const { created_at, person_id, role, gender, ...profileData } =
+      await getUser();
     return {
       props: {
         profileData,
@@ -45,7 +40,7 @@ export default function Profile({
     phone_number,
   },
 }: {
-  profileData: Omit<IUser, 'created_at' | 'person_id' | 'roles' | 'gender'>;
+  profileData: Omit<IUser, 'created_at' | 'person_id' | 'role' | 'gender'>;
 }) {
   const { formatMessage, formatNumber } = useIntl();
 
@@ -74,37 +69,37 @@ export default function Profile({
         id: 'changingAccountInfo',
       }),
     });
-    setTimeout(() => {
-      //TODO: CALL API HERE TO changeAccountDetails data val
-      // eslint-disable-next-line no-constant-condition
-      if (5 > 4) {
-        setIsSubmitting(false);
+    updateProfile(val)
+      .then(() => {
         notif.update({
           render: formatMessage({
             id: 'changedAccountInfoSuccessfully',
           }),
         });
         setSubmissionNotif(undefined);
-      } else {
+      })
+      .catch((error) => {
         notif.update({
           type: 'ERROR',
           render: (
             <ErrorMessage
               retryFunction={() => changeAccountInfo(val)}
               notification={notif}
-              //TODO: message should come from backend
-              message={formatMessage({
-                id: 'changeAccountInfoFailed',
-              })}
+              message={
+                error?.message ||
+                formatMessage({
+                  id: 'changeAccountInfoFailed',
+                })
+              }
             />
           ),
           autoClose: false,
           icon: () => <ReportRounded fontSize="medium" color="error" />,
         });
-      }
-    }, 3000);
+      })
+      .finally(() => setIsSubmitting(false));
   }
-  function changePassword(val: IChangePassword) {
+  function changePasswordHandler(val: IChangePassword) {
     setIsSubmitting(true);
     const notif = new useNotification();
     if (submissionNotif) {
@@ -116,38 +111,38 @@ export default function Profile({
         id: 'changingPassword',
       }),
     });
-    setTimeout(() => {
-      //TODO: CALL API HERE TO change account password with data val
-      // eslint-disable-next-line no-constant-condition
-      if (5 > 4) {
-        setIsSubmitting(false);
+    changePassword(val.current_password, val.new_password)
+      .then(() => {
         notif.update({
           render: formatMessage({
             id: 'changedPasswordSuccessfully',
           }),
         });
         setSubmissionNotif(undefined);
-      } else {
+      })
+      .catch((error) => {
         notif.update({
           type: 'ERROR',
           render: (
             <ErrorMessage
-              retryFunction={() => changePassword(val)}
+              retryFunction={() => changePasswordHandler(val)}
               notification={notif}
-              //TODO: message should come from backend
-              message={formatMessage({
-                id: 'changePasswordFailed',
-              })}
+              message={
+                error?.message ||
+                formatMessage({
+                  id: 'changePasswordFailed',
+                })
+              }
             />
           ),
           autoClose: false,
           icon: () => <ReportRounded fontSize="medium" color="error" />,
         });
-      }
-    }, 3000);
+      })
+      .finally(() => setIsSubmitting(false));
   }
 
-  function changeProfileImage(e) {
+  function changeProfileImage(e: React.ChangeEvent<HTMLInputElement>) {
     const newProfileImage = e.target.files[0];
 
     setIsSubmitting(true);
@@ -161,41 +156,41 @@ export default function Profile({
         id: 'changingProfileImage',
       }),
     });
-    setTimeout(() => {
-      //TODO: CALL API HERE TO change account profile image with data newProfileImage
-      // eslint-disable-next-line no-constant-condition
-      if (5 > 4) {
-        setIsSubmitting(false);
+    updateProfile({}, newProfileImage)
+      .then(() => {
         notif.update({
           render: formatMessage({
             id: 'changedProfileImageSuccessfully',
           }),
         });
         setSubmissionNotif(undefined);
-      } else {
+      })
+      .catch((error) => {
         notif.update({
           type: 'ERROR',
           render: (
             <ErrorMessage
               retryFunction={() => changeProfileImage(e)}
               notification={notif}
-              //TODO: message should come from backend
-              message={formatMessage({
-                id: 'changeProfileImageFailed',
-              })}
+              message={
+                error?.message ||
+                formatMessage({
+                  id: 'changeProfileImageFailed',
+                })
+              }
             />
           ),
           autoClose: false,
           icon: () => <ReportRounded fontSize="medium" color="error" />,
         });
-      }
-    }, 3000);
+      })
+      .finally(() => setIsSubmitting(false));
   }
 
   return (
     <>
       <EditPasswordDialog
-        submitDialog={(val: IChangePassword) => changePassword(val)}
+        submitDialog={(val: IChangePassword) => changePasswordHandler(val)}
         open={isEditPasswordDialogOpen}
         closeDialog={() => setIsEditPasswordDialogOpen(false)}
       />

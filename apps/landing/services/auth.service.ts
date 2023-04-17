@@ -38,7 +38,26 @@ export async function getUser() {
   return data;
 }
 
-export async function updateProfile(newPerson: Partial<ISignup>) {
-  const { data } = await http.put('/user/edit', newPerson);
+export async function requestNewPassword(email: string) {
+  await http.post('request-password', { email });
+}
+
+export async function changePassword(
+  current_password: string,
+  new_password: string
+) {
+  await http.post('request-password', { current_password, new_password });
+}
+
+export async function updateProfile(
+  newPerson: Partial<ISignup>,
+  profile?: File
+) {
+  const formData = new FormData();
+  Object.keys(newPerson).forEach((key) => {
+    formData.append(key, newPerson[key]);
+  });
+  if (profile) formData.append('profile', profile, profile.name);
+  const { data } = await http.put('/user/edit', formData);
   return data;
 }
