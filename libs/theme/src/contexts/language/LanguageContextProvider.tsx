@@ -32,8 +32,9 @@ function LanguageContextProvider({
 }: LanguageContextProviderProps): JSX.Element {
   const initialState: Language = {
     activeLanguage:
-      // (localStorage.getItem('hope_hope_active_language') as LanguageType) ||
-      'Fr',
+      typeof window !== 'undefined'
+        ? (localStorage.getItem('hope_hope_active_language') as LanguageType)
+        : 'Fr',
     languageDispatch: () => null,
   };
 
