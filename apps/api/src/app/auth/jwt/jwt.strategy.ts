@@ -1,3 +1,4 @@
+import { IUser } from '@hopehome/interfaces';
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
@@ -19,11 +20,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate({ person_id }: IJwtData) {
+  async validate({ person_id }: IJwtData): Promise<IUser | null> {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, ...user } = await this.pismaService.person.findUnique({
-      where: { person_id },
-    });
-    return user;
+    const { password, created_at, ...user } =
+      await this.pismaService.person.findUnique({
+        where: { person_id },
+      });
+    return { ...user, created_at: created_at.getTime() };
   }
 }

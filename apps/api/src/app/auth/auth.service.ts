@@ -10,6 +10,7 @@ import * as bcrypt from 'bcrypt';
 import { OAuth2Client } from 'google-auth-library';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateNewPasswordDto, GoogleLoginDto } from './auth.dto';
+import { IUser } from '@hopehome/interfaces';
 
 @Injectable()
 export class AuthService {
@@ -20,14 +21,14 @@ export class AuthService {
     private mailService: MailService
   ) {}
 
-  async validateUser(email: string, password: string) {
+  async validateUser(email: string, password: string): Promise<IUser | null> {
     const person = await this.prismaService.person.findUnique({
       where: { email },
     });
     if (person && bcrypt.compareSync(person.password, password)) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { password, ...user } = person;
-      return user;
+      const { password, created_at, ...user } = person;
+      return { ...user, created_at: created_at.getTime() };
     }
     return null;
   }
