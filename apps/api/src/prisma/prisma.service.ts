@@ -28,10 +28,11 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
           break;
         }
       }
-      if (params.args.where) {
-        if (params.args.where.is_deleted === undefined)
-          params.args.where['is_deleted'] = false;
-      } else params.args['where'] = { is_deleted: false };
+      if (!['create', 'createMany'].includes(params.action))
+        if (params.args.where) {
+          if (params.args.where.is_deleted === undefined)
+            params.args.where['is_deleted'] = false;
+        } else params.args['where'] = { is_deleted: false };
 
       const result = await next(params);
       // See results here
