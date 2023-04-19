@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './globalStyles.css';
 import { useLanguage, HHThemeProvider } from '@hopehome/theme';
 import createEmotionCache from '../config_mui/createEmotionCache';
+import UserContextProvider from '../contexts/user.provider';
 
 const App = (props) => {
   const { Component, pageProps } = props;
@@ -47,7 +48,9 @@ function CustomApp(props: CustomAppProps) {
       </Head>
       <CacheProvider value={emotionCache}>
         <HHThemeProvider>
-          <App {...{ Component, pageProps, emotionCache }} />
+          <UserContextProvider>
+            <App {...{ Component, pageProps, emotionCache }} />
+          </UserContextProvider>
         </HHThemeProvider>
       </CacheProvider>
     </>
