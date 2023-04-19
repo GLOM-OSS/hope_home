@@ -12,18 +12,18 @@ function axiosInstance(): AxiosInstance {
   });
   axiosInstance.interceptors.request.use(
     (request) => {
-      // request.headers.set(
-      //   'Authorization',
-      //   `Bearer ${localStorage.getItem('hh-token')}`
-      // );
+      if (typeof window !== 'undefined')
+        request.headers.set(
+          'Authorization',
+          `Bearer ${localStorage.getItem('hh-token')}`
+        );
       request = {
         ...request,
         params: request.params ? { data: encrypt(request.params) } : undefined,
         data:
-          // request.data instanceof FormData
-          //   ? request.data
-          //   : 
-            request.data
+          typeof window !== 'undefined' && request.data instanceof FormData
+            ? request.data
+            : request.data
             ? { data: encrypt(request.data) }
             : undefined,
       };
