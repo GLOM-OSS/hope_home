@@ -35,7 +35,15 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
           break;
         }
       }
-      if (!['create', 'createMany', 'findUnique'].includes(params.action))
+      if (
+        ![
+          'create',
+          'update',
+          'createMany',
+          'findUnique',
+          'findUniqueOrThrow',
+        ].includes(params.action)
+      )
         if (params.args.where) {
           if (params.args.where.is_deleted === undefined)
             params.args.where['is_deleted'] = false;
@@ -58,7 +66,8 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
   private handleDeleteInNestedObject<T>(obj: T): T {
     const newObj: T = obj;
     Object.keys(obj).forEach((key: string) => {
-      if (typeof obj[key] === 'object') {
+      const value = obj[key];
+      if (value && typeof value === 'object') {
         return this.handleDeleteInNestedObject(obj[key]);
       } else if (['delete', 'deleteMany'].includes(key)) {
         newObj['updateMany'] = {

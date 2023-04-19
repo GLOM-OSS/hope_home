@@ -4,8 +4,10 @@ import { Box, Button, Drawer, Typography } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { useUser } from '../../contexts/user.provider';
+import { getUser } from '../../services/auth.service';
 
 interface INavItem {
   item: string;
@@ -72,6 +74,16 @@ function SideNav({
   const { formatMessage } = useIntl();
   const { push } = useRouter();
   const { activeLanguage, languageDispatch } = useLanguage();
+  const { activeUser, userDispatch } = useUser();
+
+  useEffect(() => {
+    getUser()
+      .then((user) => {
+        userDispatch({ type: 'LOAD_USER', payload: user });
+      })
+      .catch((error) => console.log(error));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Drawer
@@ -172,8 +184,14 @@ function SideNav({
                 color: 'white',
               }}
             >
-              <NavItem item={'login'} route={'/signin'} />
-              / <NavItem item={'signup'} route={'/signup'} />
+              {activeUser.person_id ? (
+                <Box>{`${activeUser.fullname}`}</Box>
+              ) : (
+                <>
+                  <NavItem item={'login'} route={'/signin'} /> /
+                  <NavItem item={'signup'} route={'/signup'} />
+                </>
+              )}
             </Box>
           </Box>
         </Box>
@@ -192,6 +210,17 @@ export default function Navbar() {
     { item: 'contact', route: '/contact' },
     { item: 'properties', route: '/properties' },
   ];
+
+  const { activeUser, userDispatch } = useUser();
+
+  useEffect(() => {
+    getUser()
+      .then((user) => {
+        userDispatch({ type: 'LOAD_USER', payload: user });
+      })
+      .catch((error) => console.log(error));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [isSideNavOpen, setIsSideNavOpen] = useState<boolean>(false);
   return (
@@ -291,8 +320,26 @@ export default function Navbar() {
                 color: 'white',
               }}
             >
-              <NavItem item={'login'} route={'/signin'} />
-              / <NavItem item={'signup'} route={'/signup'} />
+              {activeUser.person_id ? (
+                <Button
+                  sx={{
+                    borderRadius: '100%',
+                    minWidth: '50px',
+                    height: '50px',
+                    border: `4px solid #ffff`,
+                    color: '#ffff',
+                    ...theme.typography.body1,
+                  }}
+                  color="secondary"
+                  variant="contained"
+                  onClick={() => push('/profile')}
+                >{`${activeUser.fullname[0]}`}</Button>
+              ) : (
+                <>
+                  <NavItem item={'login'} route={'/signin'} /> /
+                  <NavItem item={'signup'} route={'/signup'} />
+                </>
+              )}
             </Box>
           </Box>
         </Box>

@@ -6,42 +6,27 @@ import {
   ReportRounded,
 } from '@mui/icons-material';
 import { Avatar, Box, Button, Typography } from '@mui/material';
-import { GetServerSideProps } from 'next';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import EditInfoDialog from '../../components/profile/editInfoDialog';
 import EditPasswordDialog from '../../components/profile/editPasswordDialog';
+import { useUser } from '../../contexts/user.provider';
 import {
   changePassword,
-  getUser,
-  updateProfile,
+  updateProfile
 } from '../../services/auth.service';
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  try {
-    const { created_at, person_id, role, gender, ...profileData } =
-      await getUser();
-    return {
-      props: {
-        profileData,
-      },
-    };
-  } catch (error) {
-    return { notFound: true };
-  }
-};
-export default function Profile({
-  profileData: {
-    email,
-    fullname,
-    preferred_lang,
-    profile_image_ref,
-    whatsapp_number,
-    phone_number,
-  },
-}: {
-  profileData: Omit<IUser, 'created_at' | 'person_id' | 'role' | 'gender'>;
-}) {
+export default function Profile() {
+  const {
+    activeUser: {
+      email,
+      fullname,
+      preferred_lang,
+      profile_image_ref,
+      whatsapp_number,
+      phone_number,
+    },
+  } = useUser();
   const { formatMessage, formatNumber } = useIntl();
 
   const [isEditPasswordDialogOpen, setIsEditPasswordDialogOpen] =

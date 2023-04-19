@@ -39,14 +39,14 @@ export async function getUser() {
 }
 
 export async function requestNewPassword(email: string) {
-  await http.post('request-password', { email });
+  await http.post('/auth/request-password', { email });
 }
 
 export async function changePassword(
   current_password: string,
   new_password: string
 ) {
-  await http.post('request-password', { current_password, new_password });
+  await http.post('/auth/request-password', { current_password, new_password });
 }
 
 export async function updateProfile(
@@ -61,6 +61,6 @@ export async function updateProfile(
     }
   }
   if (profile) formData.append('profile', profile, profile.name);
-  const { data } = await http.put('/user/edit', formData);
+  const { data } = await http.put('/auth/user/edit', formData);
   return data;
 }
