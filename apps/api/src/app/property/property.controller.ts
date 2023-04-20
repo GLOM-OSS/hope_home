@@ -54,19 +54,13 @@ export class PropertyController {
 
   @Post('new')
   @UseGuards(JwtAuthGuard)
-  @UseGuards(FilesInterceptor('imageRefs'))
   async addNewProperty(
     @Req() request: Request,
-    @Body() newProperty: CreateNewPropertyDto,
-    @UploadedFiles() files: Array<Express.Multer.File>
+    @Body() newProperty: CreateNewPropertyDto
   ) {
     try {
       const { person_id } = request.user as Person;
-      return await this.propertyService.create(
-        newProperty,
-        files ?? [],
-        person_id
-      );
+      return await this.propertyService.create(newProperty, person_id);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -82,6 +76,7 @@ export class PropertyController {
     @UploadedFiles() files: Array<Express.Multer.File>
   ) {
     const { removedImageIds, ...newProperty } = updateData;
+    console.log(updateData, files)
     if (Object.keys(updateData).length === 0 && files.length === 0)
       throw new HttpException(
         ErrorEnum.ERR2.toString(),
@@ -93,6 +88,7 @@ export class PropertyController {
         property_id,
         {
           ...newProperty,
+          image_ref: files[0]?.filename,
           PropertyImages: {
             createMany: {
               data: files.map((_) => ({ image_ref: _.filename })),

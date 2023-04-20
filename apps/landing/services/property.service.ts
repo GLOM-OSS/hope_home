@@ -29,23 +29,8 @@ export async function getPropertyImages(property_id: string) {
   return data;
 }
 
-export async function createNewProperty(
-  newProperty: ICreateNewProperty,
-  files?: FileList
-) {
-  const formData = new FormData();
-  for (const key in newProperty) {
-    if (Object.prototype.hasOwnProperty.call(newProperty, key)) {
-      const element = newProperty[key];
-      formData.append(key, element);
-    }
-  }
-  if (files)
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      formData.append('imageRefs', file);
-    }
-  const { data } = await http.post<IHHProperty>('/properties/new', formData);
+export async function createNewProperty(newProperty: ICreateNewProperty) {
+  const { data } = await http.post<IHHProperty>('/properties/new', newProperty);
   return data;
 }
 

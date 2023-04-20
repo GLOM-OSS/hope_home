@@ -185,21 +185,11 @@ export class PropertyService {
     });
   }
 
-  async create(
-    newProperty: CreateNewPropertyDto,
-    files: Array<Express.Multer.File>,
-    created_by: string
-  ) {
+  async create(newProperty: CreateNewPropertyDto, created_by: string) {
     return this.prismaService.property.create({
       data: {
         ...newProperty,
-        image_ref: files[0].filename,
         Publisher: { connect: { person_id: created_by } },
-        PropertyImages: {
-          createMany: {
-            data: files.map((_) => ({ image_ref: _.filename })),
-          },
-        },
       },
     });
   }
