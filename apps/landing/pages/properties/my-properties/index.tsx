@@ -12,6 +12,7 @@ import {
   createNewProperty,
   getProperties,
 } from '../../../services/property.service';
+import { useUser } from '../../../contexts/user.provider';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
@@ -32,6 +33,9 @@ export default function Properties({
   properties: IHHProperty[];
 }) {
   const { formatMessage } = useIntl();
+  const {
+    activeUser: { person_id },
+  } = useUser();
 
   const [isNewPropertyDialogOpen, setIsNewPropertyDialogOpen] =
     useState<boolean>(false);
@@ -123,13 +127,15 @@ export default function Properties({
             rowGap: 2,
           }}
         >
-          {properties.map((property, index) => (
-            <PropertyCard
-              property={property as IHHProperty}
-              key={index}
-              canDelete
-            />
-          ))}
+          {properties
+            .filter((_) => _.publisher_details.person_id === person_id)
+            .map((property, index) => (
+              <PropertyCard
+                property={property as IHHProperty}
+                key={index}
+                canDelete
+              />
+            ))}
         </Box>
       </Box>
     </>
