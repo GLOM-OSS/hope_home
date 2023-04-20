@@ -103,8 +103,8 @@ model Property {
     price           Int
     area            Int
     listing_reason  ListingReasonEnum
-    longitude       Int?
-    latitude        Int?
+    longitude       Float?
+    latitude        Float?
     description     String
     property_type   PropertyTypeEnum
     is_listed       Boolean           @default(true) @db.TinyInt
