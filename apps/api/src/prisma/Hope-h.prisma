@@ -99,7 +99,7 @@ enum PropertyTypeEnum {
 
 model Property {
     property_id     String            @id @default(uuid()) @db.VarChar(36)
-    image_ref       String            @db.VarChar(45)
+    image_ref       String?            @db.VarChar(45)
     price           Int
     area            Int
     listing_reason  ListingReasonEnum

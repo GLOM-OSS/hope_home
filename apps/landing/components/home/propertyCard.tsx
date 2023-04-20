@@ -394,7 +394,7 @@ export default function PropertyCard({
       >
         <Box sx={{ position: 'relative' }}>
           <Image
-            src={image_ref}
+            src={image_ref ?? '/location-icon.png'}
             alt={property_type}
             height={350}
             width={350}
