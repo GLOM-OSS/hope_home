@@ -194,16 +194,13 @@ export class PropertyService {
     });
   }
 
-  async update(
-    property_id: string,
-    newProperty: Prisma.PropertyUpdateInput,
-    audited_by: string
-  ) {
+  async update(property_id: string, newProperty: Prisma.PropertyUpdateInput) {
     const {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       property_id: _id,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       created_at,
+      published_by,
       ...property
     } = await this.prismaService.property.findUniqueOrThrow({
       where: { property_id },
@@ -214,7 +211,7 @@ export class PropertyService {
         PropertyAudits: {
           create: {
             ...property,
-            audited_by,
+            Person: { connect: { person_id: published_by } },
           },
         },
       },
@@ -222,13 +219,13 @@ export class PropertyService {
     });
   }
 
-  async deleteImage(property_image_id: string, deleted_by: string) {
+  async deleteImage(property_image_id: string) {
     await this.prismaService.propertyImage.findUniqueOrThrow({
       where: { property_image_id },
     });
     await this.prismaService.propertyImage.updateMany({
-      data: { is_deleted: true },
-      where: { property_image_id, Property: { published_by: deleted_by } },
+      data: { is_deleted: true, deleted_at: new Date() },
+      where: { property_image_id },
     });
   }
 

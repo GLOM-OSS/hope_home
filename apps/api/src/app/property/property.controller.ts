@@ -11,11 +11,11 @@ import {
   Req,
   UploadedFiles,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { Person } from '@prisma/client';
 import { Request } from 'express';
-import { ErrorEnum } from '../../errors';
 import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
 import {
   CreateCommentDto,
@@ -68,39 +68,22 @@ export class PropertyController {
 
   @Put(':property_id/edit')
   @UseGuards(JwtAuthGuard)
-  @UseGuards(FilesInterceptor('imageRefs'))
+  @UseInterceptors(FilesInterceptor('imageRefs'))
   async updateProperty(
-    @Req() request: Request,
     @Param('property_id') property_id: string,
     @Body() updateData: UpdatePropertyDto,
     @UploadedFiles() files: Array<Express.Multer.File>
   ) {
-    const { removedImageIds, ...newProperty } = updateData;
-    if (Object.keys(updateData).length === 0 && files.length === 0)
-      throw new HttpException(
-        ErrorEnum.ERR2.toString(),
-        HttpStatus.BAD_REQUEST
-      );
     try {
-      const { person_id } = request.user as Person;
-      return await this.propertyService.update(
-        property_id,
-        {
-          ...newProperty,
-          image_ref: files[0]?.filename,
-          PropertyImages: {
-            createMany: {
-              data: files.map((_) => ({ image_ref: _.filename })),
-            },
-            deleteMany: {
-              OR: (removedImageIds ?? []).map((property_image_id) => ({
-                property_image_id,
-              })),
-            },
+      return await this.propertyService.update(property_id, {
+        ...updateData,
+        image_ref: files[0]?.filename,
+        PropertyImages: {
+          createMany: {
+            data: files.map((_) => ({ image_ref: _.filename })),
           },
         },
-        person_id
-      );
+      });
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -108,17 +91,11 @@ export class PropertyController {
 
   @Put(':property_id/delist')
   @UseGuards(JwtAuthGuard)
-  async delistProperty(
-    @Req() request: Request,
-    @Param('property_id') property_id: string
-  ) {
+  async delistProperty(@Param('property_id') property_id: string) {
     try {
-      const { person_id } = request.user as Person;
-      return await this.propertyService.update(
-        property_id,
-        { is_listed: false },
-        person_id
-      );
+      return await this.propertyService.update(property_id, {
+        is_listed: false,
+      });
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -131,12 +108,9 @@ export class PropertyController {
     @Param('property_id') property_id: string
   ) {
     try {
-      const { person_id } = request.user as Person;
-      return await this.propertyService.update(
-        property_id,
-        { is_deleted: true },
-        person_id
-      );
+      return await this.propertyService.update(property_id, {
+        is_deleted: true,
+      });
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -210,11 +184,7 @@ export class PropertyController {
     @Param('property_image_id') property_image_id: string
   ) {
     try {
-      const { person_id } = request.user as Person;
-      return await this.propertyService.deleteImage(
-        property_image_id,
-        person_id
-      );
+      return await this.propertyService.deleteImage(property_image_id);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }

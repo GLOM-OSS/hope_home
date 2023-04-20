@@ -36,7 +36,7 @@ export async function createNewProperty(newProperty: ICreateNewProperty) {
 
 export async function updateProperty(
   property_id: string,
-  newProperty: Partial<IUpdateProperty>,
+  { removedImageIds, ...newProperty }: Partial<IUpdateProperty>,
   files?: File[]
 ) {
   const formData = new FormData();
@@ -51,6 +51,7 @@ export async function updateProperty(
       const file = files[i];
       formData.append('imageRefs', file);
     }
+  await Promise.all(removedImageIds.map((imageId) => deleteImage(imageId)));
   const { data } = await http.put<IHHProperty>(
     `/properties/${property_id}/edit`,
     formData

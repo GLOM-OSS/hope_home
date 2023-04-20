@@ -10,8 +10,9 @@ import {
   IsOptional,
   IsString,
   IsUUID,
-  MaxLength,
+  MaxLength
 } from 'class-validator';
+
 export class QueryPropertiesDto {
   @IsOptional()
   @IsEnum(PropertyTypeEnum)
@@ -49,7 +50,7 @@ export class CreateNewPropertyDto {
   @IsNumber()
   @IsOptional()
   latitude?: number;
-  
+
   @IsNumber()
   @IsOptional()
   longitude?: number;
@@ -76,8 +77,4 @@ export class CreateNewPropertyDto {
   house_type?: HouseTypeEnum;
 }
 
-export class UpdatePropertyDto extends PartialType(CreateNewPropertyDto) {
-  @IsOptional()
-  @IsString({ each: true })
-  removedImageIds?: string[];
-}
+export class UpdatePropertyDto extends PartialType(CreateNewPropertyDto) {}
