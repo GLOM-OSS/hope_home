@@ -11,7 +11,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
     this.$use(async (params, next) => {
       switch (params.action) {
         case 'findUnique': {
-          if (params.model !== 'Person') {
+          if (!['Person', 'FlagProperty'].includes(params.model)) {
             params.action = 'findFirst';
             params.args.where['is_deleted'] = false;
           }
@@ -42,7 +42,8 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
           'createMany',
           'findUnique',
           'findUniqueOrThrow',
-        ].includes(params.action)
+        ].includes(params.action) &&
+        !['Person', 'FlagProperty'].includes(params.model)
       )
         if (params.args.where) {
           if (params.args.where.is_deleted === undefined)
