@@ -12,7 +12,7 @@ import {
 import { getPropertyImages } from '../../services/property.service';
 import Image from 'next/image';
 import Scrollbars from 'rc-scrollbars';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { v4 as uuidv4 } from 'uuid';
 import { IImage } from '@hopehome/interfaces';
@@ -23,11 +23,15 @@ function useImages(property_id: string) {
     data: IImage[];
   }>({ isLoading: true, data: undefined });
 
-  getPropertyImages(property_id)
-    .then((images) => {
-      setReturnValue({ data: images, isLoading: false });
-    })
-    .catch((error) => console.log(error));
+  useEffect(() => {
+    getPropertyImages(property_id)
+      .then((images) => {
+        setReturnValue({ data: images, isLoading: false });
+      })
+      .catch((error) => console.log(error));
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return returnValue;
 }
