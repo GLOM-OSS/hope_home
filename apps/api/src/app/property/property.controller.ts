@@ -76,7 +76,6 @@ export class PropertyController {
     @UploadedFiles() files: Array<Express.Multer.File>
   ) {
     const { removedImageIds, ...newProperty } = updateData;
-    console.log(updateData, files)
     if (Object.keys(updateData).length === 0 && files.length === 0)
       throw new HttpException(
         ErrorEnum.ERR2.toString(),
