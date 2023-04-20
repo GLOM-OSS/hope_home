@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import {
-    MulterModuleOptions,
-    MulterOptionsFactory
+  MulterModuleOptions,
+  MulterOptionsFactory,
 } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import path from 'path';
@@ -9,22 +9,19 @@ import path from 'path';
 @Injectable()
 export class MulterService implements MulterOptionsFactory {
   createMulterOptions(): MulterModuleOptions {
-    const dest = process.env.DEST
     return {
-      dest,
+      dest: 'uploads/',
       storage: diskStorage({
         destination: (req, file, callback) => {
-          callback(null, dest);
+          callback(null, 'uploads');
         },
         filename: (req, file, callback) => {
           const now = new Date();
-          const fileName = file.originalname.split(' ');
-          let finalName = fileName
-            .join('_')
-            .replace('-' || '-', '_')
-            .toLowerCase();
-          finalName = `${now.getFullYear()}${now.getMonth()}${now.getDate()}
-                ${now.getHours()}${now.getMinutes()}${now.getSeconds()}_${now.getMilliseconds()}_${finalName}`;
+          const fileName = file.originalname.split('.')[0];
+          const ext = path.extname(file.originalname).toLowerCase();
+
+          let finalName = fileName.replace(/[^a-zA-Z0-9 ]/g, '_').toLowerCase();
+          finalName = `${now.getFullYear()}${now.getMonth()}${now.getDate()}${now.getHours()}${now.getMinutes()}${now.getSeconds()}_${finalName}${ext}`;
           callback(null, finalName);
         },
       }),
@@ -40,7 +37,7 @@ export class MulterService implements MulterOptionsFactory {
           '.mp4',
           '.webm',
 
-          '.csv'
+          '.csv',
         ];
         const ext = path.extname(file.originalname).toLowerCase();
         if (!supportedExtensions.includes(ext))
