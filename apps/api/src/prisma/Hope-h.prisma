@@ -99,7 +99,7 @@ enum PropertyTypeEnum {
 
 model Property {
     property_id     String            @id @default(uuid()) @db.VarChar(36)
-    image_ref       String?            @db.VarChar(45)
+    image_ref       String?           @db.VarChar(45)
     price           Int
     area            Int
     listing_reason  ListingReasonEnum
@@ -127,12 +127,12 @@ model Property {
 
 model PropertyAudit {
     property_audit_id String            @id @default(uuid()) @db.VarChar(36)
-    image_ref         String            @db.VarChar(45)
+    image_ref         String?            @db.VarChar(45)
     price             Int
     area              Int
     listing_reason    ListingReasonEnum
-    longitude         Int
-    latitude          Int
+    longitude         Float?
+    latitude          Float?
     description       String
     property_type     PropertyTypeEnum
     is_listed         Boolean           @default(true) @db.TinyInt
@@ -150,11 +150,12 @@ model PropertyAudit {
 }
 
 model PropertyImage {
-    property_image_id String   @id @default(uuid()) @db.VarChar(36)
-    image_ref         String   @db.VarChar(45)
-    is_deleted        Boolean  @default(false) @db.TinyInt
-    property_id       String   @db.VarChar(36)
-    Property          Property @relation(fields: [property_id], references: [property_id], onDelete: Cascade, onUpdate: Cascade)
+    property_image_id String    @id @default(uuid()) @db.VarChar(36)
+    image_ref         String    @db.VarChar(45)
+    is_deleted        Boolean   @default(false) @db.TinyInt
+    deleted_at        DateTime? @db.DateTime(0)
+    property_id       String    @db.VarChar(36)
+    Property          Property  @relation(fields: [property_id], references: [property_id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model FlagProperty {
