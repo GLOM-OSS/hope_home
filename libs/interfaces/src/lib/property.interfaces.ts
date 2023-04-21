@@ -37,6 +37,8 @@ export interface IHHProperty
   latitude: number | null;
   longitude: number | null;
   is_liked: boolean;
+  is_flagged: boolean;
+  is_listed: boolean;
   number_of_likes: number;
   house_details?: IHouseDetails;
 

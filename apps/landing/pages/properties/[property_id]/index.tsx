@@ -8,7 +8,7 @@ import {
   SquareFootOutlined,
   WarningAmberOutlined,
 } from '@mui/icons-material';
-import { Box, Button, Typography } from '@mui/material';
+import { Avatar, Box, Button, CardHeader, Typography } from '@mui/material';
 import { ConfirmDialog } from '../../../components/confirmDialog';
 import { GetServerSideProps } from 'next';
 import { useState } from 'react';
@@ -22,6 +22,7 @@ import {
   getPropertyDetails,
 } from '../../../services/property.service';
 import { toast } from 'react-toastify';
+import Image from 'next/image';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { property_id } = context.query;
@@ -40,6 +41,9 @@ export default function PropertyDetails({
   propertyDetails: {
     address,
     area,
+    is_flagged,
+    is_listed,
+    number_of_likes,
     comments,
     description,
     image_refs,
@@ -59,7 +63,7 @@ export default function PropertyDetails({
   similarProperties: IHHProperty[];
   nearbyProperties: IHHProperty[];
 }) {
-  const { formatMessage, formatNumber } = useIntl();
+  const { formatMessage, formatNumber, formatDate } = useIntl();
   const [isConfirmSignalDialogOpen, setIsConfirmSignalDialogOpen] =
     useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -121,14 +125,21 @@ export default function PropertyDetails({
         danger
         dialogTitle={formatMessage({ id: 'confirmSignalProperty' })}
       />
-      <Box sx={{ padding: `0 7.1%`, marginTop: 4, display: 'grid', rowGap: 3 }}>
+      <Box
+        sx={{
+          padding: `0 7.1% 7.1% 7.1%`,
+          marginTop: 4,
+          display: 'grid',
+          rowGap: 3,
+        }}
+      >
         <ImageDisplay images={image_refs.map((_) => _.image_ref as string)} />
         <Box sx={{ padding: 2, display: 'grid', rowGap: 2 }}>
           <Box
             sx={{
               display: 'grid',
               gridTemplateColumns: {
-                desktop: 'auto 1fr',
+                desktop: '1fr auto',
                 tablet: 'auto',
               },
               columnGap: 1,
@@ -139,7 +150,7 @@ export default function PropertyDetails({
             <Box
               sx={{
                 display: 'grid',
-                gridTemplateColumns: 'auto 1fr',
+                gridTemplateColumns: 'auto auto 1fr',
                 columnGap: 1,
               }}
             >
@@ -164,18 +175,55 @@ export default function PropertyDetails({
                       : 'land',
                 })}
               </Typography>
+              <Button
+                color="secondary"
+                variant="contained"
+                startIcon={<WarningAmberOutlined />}
+                disableElevation
+                onClick={() => setIsConfirmSignalDialogOpen(true)}
+                disabled={isSubmitting}
+                sx={{ textTransform: 'none', justifySelf: 'start' }}
+              >
+                {formatMessage({ id: 'signalProperty' })}
+              </Button>
             </Box>
-            <Button
-              color="secondary"
-              variant="contained"
-              startIcon={<WarningAmberOutlined />}
-              disableElevation
-              onClick={() => setIsConfirmSignalDialogOpen(true)}
-              disabled={isSubmitting}
-              sx={{ textTransform: 'none', justifySelf: 'start' }}
-            >
-              {formatMessage({ id: 'signalProperty' })}
-            </Button>
+            <Box>
+              {is_flagged && (
+                <Typography
+                  sx={{
+                    padding: '4px 8px',
+                    borderRadius: 2,
+                    backgroundColor: theme.palette.error.main,
+                    fontWeight: 300,
+                    color: 'white',
+                  }}
+                >
+                  {formatMessage({
+                    id: 'flagged',
+                  })}
+                </Typography>
+              )}
+              {!is_listed && (
+                <Typography
+                  sx={{
+                    padding: '4px 8px',
+                    borderRadius: 2,
+                    backgroundColor: theme.palette.secondary.main,
+                    fontWeight: 300,
+                    color: 'white',
+                  }}
+                >
+                  {formatMessage({
+                    id: 'notListed',
+                  })}
+                </Typography>
+              )}
+              <Typography variant="body1">
+                {`${number_of_likes} ${formatMessage({
+                  id: 'likes',
+                })}`}
+              </Typography>
+            </Box>
           </Box>
           <Box
             sx={{
@@ -311,58 +359,87 @@ export default function PropertyDetails({
         </Box>
         <Box>
           <Typography variant="h4" fontWeight={500}>
-            {formatMessage({ id: 'similarProperties' })}
+            {formatMessage({ id: 'publisher' })}
           </Typography>
-          <Scrollbars
-            universal
-            autoHide
-            style={{ height: similarProperties.length > 0 ? '557px' : '0px' }}
-          >
-            <Box
-              sx={{
-                display: 'grid',
-                gridAutoFlow: 'column',
-                justifyContent: {
-                  desktop: 'center',
-                  mobile: 'start',
-                },
-                columnGap: 2,
-                alignContent: 'center',
-              }}
-            >
-              {similarProperties.map((property, index) => (
-                <PropertyCard property={property} key={index} />
-              ))}
-            </Box>
-          </Scrollbars>
+          <CardHeader
+            avatar={
+              <Avatar aria-label="recipe">
+                {publisher_details.profile_image_ref ? (
+                  <Image
+                    src={publisher_details.profile_image_ref}
+                    alt={'publisher-profile-image'}
+                  />
+                ) : (
+                  `${publisher_details.fullname[0]}`
+                )}
+              </Avatar>
+            }
+            title={`${publisher_details.fullname}, ${publisher_details.whatsapp_number}`}
+            subheader={`Join on the ${formatDate(publisher_details.created_at, {
+              month: 'short',
+              day: 'numeric',
+              year: 'numeric',
+            })}`}
+          />
         </Box>
-        <Box marginBottom={2}>
-          <Typography variant="h4" fontWeight={500}>
-            {formatMessage({ id: 'nearByProperties' })}
-          </Typography>
-          <Scrollbars
-            universal
-            autoHide
-            style={{ height: similarProperties.length > 0 ? '557px' : '0px' }}
-          >
-            <Box
-              sx={{
-                display: 'grid',
-                gridAutoFlow: 'column',
-                justifyContent: {
-                  desktop: 'center',
-                  mobile: 'start',
-                },
-                columnGap: 2,
-                alignContent: 'center',
-              }}
+        {similarProperties.length > 0 && (
+          <Box>
+            <Typography variant="h4" fontWeight={500}>
+              {formatMessage({ id: 'similarProperties' })}
+            </Typography>
+            <Scrollbars
+              universal
+              autoHide
+              style={{ height: similarProperties.length > 0 ? '557px' : '0px' }}
             >
-              {nearbyProperties.map((property, index) => (
-                <PropertyCard property={property} key={index} />
-              ))}
-            </Box>
-          </Scrollbars>{' '}
-        </Box>
+              <Box
+                sx={{
+                  display: 'grid',
+                  gridAutoFlow: 'column',
+                  justifyContent: {
+                    desktop: 'center',
+                    mobile: 'start',
+                  },
+                  columnGap: 2,
+                  alignContent: 'center',
+                }}
+              >
+                {similarProperties.map((property, index) => (
+                  <PropertyCard property={property} key={index} />
+                ))}
+              </Box>
+            </Scrollbars>
+          </Box>
+        )}
+        {nearbyProperties.length > 0 && (
+          <Box marginBottom={2}>
+            <Typography variant="h4" fontWeight={500}>
+              {formatMessage({ id: 'nearByProperties' })}
+            </Typography>
+            <Scrollbars
+              universal
+              autoHide
+              style={{ height: nearbyProperties.length > 0 ? '557px' : '0px' }}
+            >
+              <Box
+                sx={{
+                  display: 'grid',
+                  gridAutoFlow: 'column',
+                  justifyContent: {
+                    desktop: 'center',
+                    mobile: 'start',
+                  },
+                  columnGap: 2,
+                  alignContent: 'center',
+                }}
+              >
+                {nearbyProperties.map((property, index) => (
+                  <PropertyCard property={property} key={index} />
+                ))}
+              </Box>
+            </Scrollbars>
+          </Box>
+        )}
       </Box>
     </>
   );
