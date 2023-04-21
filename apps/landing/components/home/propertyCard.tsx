@@ -245,7 +245,7 @@ export default function PropertyCard({
         break;
       }
       default: {
-        push(`properties/${property_id}`);
+        push(`/properties/${property_id}`);
         break;
       }
     }
