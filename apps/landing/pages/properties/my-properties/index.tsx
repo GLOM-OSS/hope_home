@@ -28,7 +28,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 export default function Properties({
-  properties,
+  properties: loadedProperties,
 }: {
   properties: IHHProperty[];
 }) {
@@ -43,6 +43,8 @@ export default function Properties({
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submissionNotif, setSubmissionNotif] = useState<useNotification>();
 
+  const [properties, setProperties] = useState(loadedProperties);
+
   const createNewPropertyHandler = (property: ICreateNewProperty) => {
     setIsSubmitting(true);
     const notif = new useNotification();
@@ -56,13 +58,15 @@ export default function Properties({
       }),
     });
     createNewProperty(property)
-      .then(() => {
+      .then((property) => {
         notif.update({
           render: formatMessage({
             id: 'createdPropertySuccessfully',
           }),
         });
         setSubmissionNotif(undefined);
+        setIsNewPropertyDialogOpen(false);
+        setProperties((properties) => [...properties, property]);
       })
       .catch((error) => {
         notif.update({
@@ -132,6 +136,7 @@ export default function Properties({
             .map((property, index) => (
               <PropertyCard
                 property={property as IHHProperty}
+                setProperties={setProperties}
                 key={index}
                 canDelete
               />

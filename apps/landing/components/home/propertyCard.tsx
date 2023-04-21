@@ -28,7 +28,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useIntl } from 'react-intl';
 import { ErrorMessage, useNotification } from '@hopehome/toast';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { ConfirmDialog } from '../confirmDialog';
 import {
   deleteProperty,
@@ -53,9 +53,11 @@ export default function PropertyCard({
     publisher_details: { whatsapp_number, fullname, profile_image_ref: pi_ref },
     property_id,
   },
+  setProperties,
   canDelete = false,
 }: {
   property: IHHProperty;
+  setProperties?: Dispatch<SetStateAction<IHHProperty[]>>;
   canDelete?: boolean;
 }) {
   const { formatMessage, formatNumber } = useIntl();
@@ -134,6 +136,13 @@ export default function PropertyCard({
             id: 'delistPropertySuccessfully',
           }),
         });
+        if (setProperties)
+          setProperties((properties) =>
+            properties.filter(
+              (property) => property.property_id !== property_id
+            )
+          );
+
         setSubmissionNotif(undefined);
       })
       .catch((error) => {
@@ -177,6 +186,12 @@ export default function PropertyCard({
             id: 'deletePropertySuccessfully',
           }),
         });
+        if (setProperties)
+          setProperties((properties) =>
+            properties.filter(
+              (property) => property.property_id !== property_id
+            )
+          );
         setSubmissionNotif(undefined);
       })
       .catch((error) => {
