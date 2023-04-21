@@ -80,7 +80,7 @@ export async function deleteProperty(property_id: string) {
   await http.put(`/properties/${property_id}/delete`);
 }
 
-export async function likeOrUnlike(property_id: string) {
+export async function likeDislike(property_id: string) {
   await http.put(`/properties/${property_id}/like`);
 }
 

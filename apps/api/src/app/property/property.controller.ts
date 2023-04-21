@@ -124,7 +124,7 @@ export class PropertyController {
   ) {
     try {
       const { person_id } = request.user as Person;
-      return await this.propertyService.likeOrUnlike(property_id, person_id);
+      return await this.propertyService.likeDislike(property_id, person_id);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }

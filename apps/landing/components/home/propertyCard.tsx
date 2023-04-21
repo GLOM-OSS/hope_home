@@ -34,7 +34,7 @@ import {
   deleteProperty,
   delistProperty,
   flagProperty,
-  likeOrUnlike,
+  likeDislike,
   updateProperty,
 } from '../../services/property.service';
 import { toast } from 'react-toastify';
@@ -220,12 +220,11 @@ export default function PropertyCard({
     useState<boolean>(false);
 
   const handleLike = () => {
-    likeOrUnlike(property_id as string)
+    likeDislike(property_id as string)
       .then(() => setIsLiked(!isLiked))
-      .catch((error) => {
-        setIsLiked(isLiked);
-        toast.error(error?.message || 'Something went wrong !');
-      });
+      .catch((error) =>
+        toast.error(error?.message || 'Something went wrong !')
+      );
   };
 
   const handlePropertyClick = (

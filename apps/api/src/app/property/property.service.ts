@@ -138,7 +138,7 @@ export class PropertyService {
     };
   }
 
-  async likeOrUnlike(property_id: string, liked_by: string) {
+  async likeDislike(property_id: string, liked_by: string) {
     return this.prismaService.likedProperty.upsert({
       create: {
         Property: { connect: { property_id } },
