@@ -20,7 +20,21 @@ export class PropertyService {
           where: { is_deleted: false },
         },
       },
-      where: { is_flagged: false, ...query },
+      where: {
+        OR: [
+          {
+            ...query,
+            is_deleted: false,
+            is_flagged: false,
+            is_listed: true,
+          },
+          {
+            ...query,
+            is_deleted: false,
+            published_by: String(person_id),
+          },
+        ],
+      },
     });
 
     return properties.map(
@@ -65,7 +79,7 @@ export class PropertyService {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       Publisher: { password, created_at, ...publisher },
       ...property
-    } = await this.prismaService.property.findUniqueOrThrow({
+    } = await this.prismaService.property.findFirstOrThrow({
       include: {
         LikedProperties: {
           where: { is_deleted: false },
@@ -78,7 +92,21 @@ export class PropertyService {
           where: { is_deleted: false },
         },
       },
-      where: { property_id },
+      where: {
+        OR: [
+          {
+            property_id,
+            is_deleted: false,
+            is_flagged: false,
+            is_listed: true,
+          },
+          {
+            property_id,
+            is_deleted: false,
+            published_by: String(person_id),
+          },
+        ],
+      },
     });
     return {
       ...property,
