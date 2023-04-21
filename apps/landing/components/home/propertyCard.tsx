@@ -299,6 +299,7 @@ export default function PropertyCard({
           }),
         });
         setImageSubmissionNotif(undefined);
+        push(`/properties/${property_id}`);
       })
       .catch((error) => {
         notif.update({
