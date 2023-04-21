@@ -46,7 +46,7 @@ export async function changePassword(
   current_password: string,
   new_password: string
 ) {
-  await http.post('/auth/request-password', { current_password, new_password });
+  await http.put('/auth/change-password', { current_password, new_password });
 }
 
 export async function updateProfile(
