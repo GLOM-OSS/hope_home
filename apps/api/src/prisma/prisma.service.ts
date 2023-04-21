@@ -39,6 +39,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
         ![
           'create',
           'update',
+          'upsert',
           'createMany',
           'findUnique',
           'findUniqueOrThrow',
