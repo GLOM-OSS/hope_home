@@ -4,6 +4,7 @@ import { ErrorMessage, useNotification } from '@hopehome/toast';
 import {
   BathtubOutlined,
   ChairOutlined,
+  Favorite,
   ReportRounded,
   SquareFootOutlined,
   WarningAmberOutlined,
@@ -150,31 +151,58 @@ export default function PropertyDetails({
             <Box
               sx={{
                 display: 'grid',
-                gridTemplateColumns: 'auto auto 1fr',
-                columnGap: 1,
+                gridTemplateColumns: {
+                  desktop: 'auto auto 1fr',
+                  tablet: 'auto 1fr',
+                },
+                gap: 1,
               }}
             >
               <Box
                 sx={{
-                  backgroundColor: theme.palette.primary.main,
-                  padding: '16px',
-                  borderRadius: '8px',
+                  columnGap: 1,
+                  display: 'grid',
+                  gridTemplateColumns: 'auto 1fr',
                 }}
-              />
-              <Typography variant="h6">
-                {formatMessage({
-                  id:
-                    property_type === 'Home'
-                      ? house_details
-                        ? house_details.house_type === 'Default'
-                          ? 'singleFamilyHome'
-                          : house_details.house_type === 'Hostel'
-                          ? 'hostel'
-                          : 'appartment'
-                        : 'home'
-                      : 'land',
-                })}
-              </Typography>
+              >
+                <Box
+                  sx={{
+                    backgroundColor:
+                      number_of_likes === 0
+                        ? theme.palette.primary.main
+                        : '#ffff',
+                    border: `1px solid ${theme.palette.primary.main}`,
+                    padding: number_of_likes === 0 ? '16px' : '4px',
+                    borderRadius: '8px',
+                  }}
+                >
+                  {number_of_likes > 0 && (
+                    <Typography
+                      component="span"
+                      letterSpacing={2}
+                      variant="body1"
+                      color="primary"
+                    >
+                      {number_of_likes}
+                      <Favorite fontSize="small" color="error" />
+                    </Typography>
+                  )}
+                </Box>
+                <Typography variant="h6">
+                  {formatMessage({
+                    id:
+                      property_type === 'Home'
+                        ? house_details
+                          ? house_details.house_type === 'Default'
+                            ? 'singleFamilyHome'
+                            : house_details.house_type === 'Hostel'
+                            ? 'hostel'
+                            : 'appartment'
+                          : 'home'
+                        : 'land',
+                  })}
+                </Typography>
+              </Box>
               <Button
                 color="secondary"
                 variant="contained"
@@ -187,7 +215,7 @@ export default function PropertyDetails({
                 {formatMessage({ id: 'signalProperty' })}
               </Button>
             </Box>
-            <Box>
+            <Box sx={{ justifySelf: 'flex-end' }}>
               {is_flagged && (
                 <Typography
                   sx={{
@@ -218,11 +246,6 @@ export default function PropertyDetails({
                   })}
                 </Typography>
               )}
-              <Typography variant="body1">
-                {`${number_of_likes} ${formatMessage({
-                  id: 'likes',
-                })}`}
-              </Typography>
             </Box>
           </Box>
           <Box
@@ -302,8 +325,9 @@ export default function PropertyDetails({
                 display: 'grid',
                 rowGap: 2,
                 justifyItems: 'start',
-                alignContent: 'center',
-                justifySelf: 'end',
+                justifySelf: {
+                  desktop: 'end',
+                },
               }}
             >
               <Typography
