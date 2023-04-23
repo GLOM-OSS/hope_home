@@ -7,14 +7,13 @@ import helmet from 'helmet';
 import * as shell from 'shelljs';
 import { DynamicMulter } from '../multer/multer.module';
 
+import { MailModule } from '@hopehome/mailer';
 import { PrismaModule } from '../prisma/prisma.module';
 import { AppController } from './app.controller';
 import { AppInterceptor } from './app.interceptor';
-import { AppMiddleware } from './app.middleware';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { PropertyModule } from './property/property.module';
-import { MailModule } from '@hopehome/mailer';
 
 @Module({
   imports: [
@@ -50,6 +49,6 @@ export class AppModule implements NestModule {
       shell.exec(`npx prisma migrate deploy`);
     }
 
-    consumer.apply(helmet(), AppMiddleware).forRoutes('*');
+    consumer.apply(helmet()).forRoutes('*');
   }
 }
