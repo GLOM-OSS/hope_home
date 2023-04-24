@@ -24,4 +24,5 @@ EXPOSE 8080
 
 # run app
 WORKDIR /app/dist/apps/api
+RUN mkdir uploads
 CMD ["node", "main.js"]
