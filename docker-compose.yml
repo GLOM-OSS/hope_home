@@ -19,6 +19,7 @@ services:
       - JWT_SECRET='32d07665.2022e4'
       - PORT=8080
       - NODE_ENV=production
+      - SALT=12
     ports:
       - "95:8080"
     depends_on:
