@@ -19,8 +19,8 @@
         "production": {
           "fileReplacements": [
             {
-              "replace": "apps/admin/src/environments/environment.ts",
-              "with": "apps/admin/src/environments/environment.prod.ts"
+              "replace": "apps/landing/src/environments/environment.ts",
+              "with": "apps/landing/src/environments/environment.prod.ts"
             }
           ],
           "optimization": true,
