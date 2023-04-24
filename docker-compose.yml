@@ -15,7 +15,7 @@ services:
       context: .
     restart: always
     environment:
-      - DATABASE_URL=mysql://root:12345678@mysql_container:3306/hopehome_api_db
+      - DATABASE_URL=mysql://root:12345678@mysql_container:3306/hope_home
       - JWT_SECRET='32d07665.2022e4'
       - PORT=8080
     ports:
