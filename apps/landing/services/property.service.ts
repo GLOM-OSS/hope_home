@@ -9,8 +9,14 @@ import {
 } from '@hopehome/interfaces';
 const baseURL = process.env['NX_API_BASE_URL'] || 'https://api-hh.ingl.io';
 
-export async function getProperties(query?: IPropertyQuery) {
+export async function getProperties(
+  accessToken?: string,
+  query?: IPropertyQuery
+) {
   const { data } = await http.get<IHHProperty[]>('/properties/all', {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
     params: query,
   });
   return data.map(({ image_ref, ...property }) => ({
@@ -19,10 +25,17 @@ export async function getProperties(query?: IPropertyQuery) {
   }));
 }
 
-export async function getPropertyDetails(property_id: string) {
+export async function getPropertyDetails(
+  property_id: string,
+  accessToken?: string
+) {
   const {
     data: { image_refs, ...property },
-  } = await http.get<IPropertyDetails>(`/properties/${property_id}/details`);
+  } = await http.get<IPropertyDetails>(`/properties/${property_id}/details`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
   return {
     ...property,
     image_refs: image_refs.map(({ image_id, image_ref }) => ({
@@ -32,9 +45,17 @@ export async function getPropertyDetails(property_id: string) {
   };
 }
 
-export async function getPropertyImages(property_id: string) {
+export async function getPropertyImages(
+  property_id: string,
+  accessToken?: string
+) {
   const { data } = await http.get<IImage[]>(
-    `/properties/${property_id}/images`
+    `/properties/${property_id}/images`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
   );
   return data.map(({ image_id, image_ref }) => ({
     image_id,
