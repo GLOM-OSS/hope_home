@@ -6,7 +6,7 @@ import {
   Button,
   InputAdornment,
   TextField,
-  Typography
+  Typography,
 } from '@mui/material';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
@@ -14,7 +14,7 @@ import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import * as Yup from 'yup';
 import { ConfirmDialog } from '../../components/confirmDialog';
-import { resetPassword } from '../../services/auth.service';
+import { requestNewPassword } from '../../services/auth.service';
 
 interface IResetPassword {
   email: string;
@@ -56,7 +56,7 @@ export default function ForgotPassword() {
         id: 'resettingPassword',
       }),
     });
-    resetPassword(values.email)
+    requestNewPassword(values.email)
       .then(() => {
         notif.update({
           render: formatMessage({
@@ -64,6 +64,7 @@ export default function ForgotPassword() {
           }),
         });
         setSubmissionNotif(undefined);
+        push('/sign-in');
       })
       .catch((error) => {
         notif.update({
