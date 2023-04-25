@@ -86,17 +86,20 @@ export class AuthService {
       await this.prismaService.person.findUniqueOrThrow({
         where: { email },
       });
-    const newPassword = bcrypt.hashSync(
-      Math.random().toString(36).split('.')[1].toUpperCase(),
-      Number(process.env.SALT)
-    );
+    const newPassword = Math.random().toString(36).split('.')[1].toUpperCase();
     await this.prismaService.person.update({
-      data: { password: newPassword, PersonAudits: { create: personData } },
+      data: {
+        password: bcrypt.hashSync(newPassword, Number(process.env.SALT)),
+        PersonAudits: { create: personData },
+      },
       where: { person_id },
     });
+    const { fullname, preferred_lang: lang } = personData;
+    const { resetPasswordSubTitle, resetPasswordObject, ...messages } =
+      resetPasswordMessages;
     const message = await this.mailService.sendResetPasswordMail(email, {
       connexion: 'https://hopehome.ingl.io/',
-      ...Object.keys(resetPasswordMessages).reduce(
+      ...Object.keys(messages).reduce(
         (messages, key) => ({
           ...messages,
           [key]: resetPasswordMessages[key][
@@ -105,6 +108,8 @@ export class AuthService {
         }),
         {} as ResetPasswordMessages
       ),
+      resetPasswordObject: resetPasswordObject(newPassword)[lang],
+      resetPasswordSubTitle: resetPasswordSubTitle(fullname)[lang],
     });
     Logger.verbose(
       `Reset password email sent successfully. Message ID: ${message?.messageId}`,
