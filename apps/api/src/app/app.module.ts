@@ -14,6 +14,7 @@ import { AppInterceptor } from './app.interceptor';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { PropertyModule } from './property/property.module';
+import { AppMiddleware } from './app.middleware';
 
 @Module({
   imports: [
@@ -49,6 +50,6 @@ export class AppModule implements NestModule {
       shell.exec(`npx prisma migrate deploy`);
     }
 
-    consumer.apply(helmet()).forRoutes('*');
+    consumer.apply(helmet(), AppMiddleware).forRoutes('*');
   }
 }
