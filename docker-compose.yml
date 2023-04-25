@@ -1,6 +1,29 @@
 version: '3.3'
 
 services:
+  mysql_container:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=12345678
+      - MYSQL_DATABASE=squoolr_api_db
+    command: mysqld --sql_mode=""
+    volumes:
+      - mysql:/data
+  api:
+    build:
+      dockerfile: ./Dockerfile.api
+      context: .
+    restart: always
+    environment:
+      - DATABASE_URL=mysql://root:12345678@mysql_container:3306/hope_home
+      - JWT_SECRET='32d07665.2022e4'
+      - PORT=8080
+      - NODE_ENV=production
+      - SALT=12
+    ports:
+      - "95:8080"
+    depends_on:
+      - mysql_container
   landing:
     build:
       dockerfile: ./Dockerfile.landing
@@ -8,3 +31,8 @@ services:
     restart: always
     ports:
       - "93:3000"
+    depends_on:
+      - api
+volumes:
+  mysql:
+    driver: local
