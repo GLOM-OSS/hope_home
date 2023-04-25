@@ -9,6 +9,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 
 import { AppModule } from './app/app.module';
 import { ErrorFilter } from './errors/error.filter';
+import path from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
@@ -19,7 +20,7 @@ async function bootstrap() {
       optionsSuccessStatus: 204,
     },
   });
-  app.useStaticAssets('uploads');
+  app.useStaticAssets(path.join(__dirname, './assets'));
   app.useGlobalPipes(
     new ValidationPipe({
       forbidNonWhitelisted: true,
