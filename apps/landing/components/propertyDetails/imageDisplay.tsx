@@ -20,7 +20,7 @@ function ImageDialog({
 }) {
   const { formatMessage } = useIntl();
 
-  const [index, setIndex] = useState<number>(1);
+  const [index, setIndex] = useState<number>(0);
   return (
     <Dialog
       TransitionComponent={DialogTransition}
