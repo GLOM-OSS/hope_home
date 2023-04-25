@@ -4,7 +4,6 @@ import { readFileSync } from 'fs';
 import * as Handlebars from 'handlebars';
 import { ResetPasswordMessages } from './messages';
 import path = require('path');
-// import { createTestAccount, createTransport } from 'nodemailer';
 
 @Injectable()
 export class MailService {
@@ -23,20 +22,6 @@ export class MailService {
       html: template(messages),
     };
 
-    // if (process.env.NODE_ENV === 'production')
     return await this.mailerService.sendMail(mailObject);
-
-    // const account = await createTestAccount();
-    // console.log(account)
-    // const transporter = createTransport({
-    //   host: account.smtp.host,
-    //   port: account.smtp.port,
-    //   secure: account.smtp.secure,
-    //   auth: {
-    //     user: ,
-    //     pass: account.pass,
-    //   },
-    // });
-    // return await transporter.sendMail(mailObject);
   }
 }
