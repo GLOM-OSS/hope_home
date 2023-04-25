@@ -20,7 +20,7 @@ async function bootstrap() {
       optionsSuccessStatus: 204,
     },
   });
-  app.useStaticAssets(path.join(__dirname, './assets'));
+  app.useStaticAssets(path.join(__dirname, './assets/uploads'));
   app.useGlobalPipes(
     new ValidationPipe({
       forbidNonWhitelisted: true,

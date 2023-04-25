@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { readFileSync } from 'fs';
 import * as Handlebars from 'handlebars';
 import { ResetPasswordMessages } from './messages';
-// import path = require('path');
+import path = require('path');
 // import { createTestAccount, createTransport } from 'nodemailer';
 
 @Injectable()
@@ -12,7 +12,7 @@ export class MailService {
 
   async sendResetPasswordMail(email: string, messages: ResetPasswordMessages) {
     const source = readFileSync(
-      `${process.env.NX_API_BASE_URL}/templates/msg-reset.hbs`,
+      path.join(__dirname, './assets/templates/msg-reset.hbs'),
       'utf8'
     );
     const template = Handlebars.compile(source);
