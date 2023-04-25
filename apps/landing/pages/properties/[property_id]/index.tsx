@@ -28,7 +28,11 @@ import Image from 'next/image';
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { property_id } = context.query;
   try {
-    const propertyDetails = await getPropertyDetails(property_id as string);
+    const accessToken = context.req.cookies['Bearer'];
+    const propertyDetails = await getPropertyDetails(
+      property_id as string,
+      accessToken
+    );
     return {
       props: { propertyDetails, similarProperties: [], nearbyProperties: [] },
     };

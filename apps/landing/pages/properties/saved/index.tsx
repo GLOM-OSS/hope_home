@@ -5,16 +5,21 @@ import { useIntl } from 'react-intl';
 import PropertyCard from '../../../components/home/propertyCard';
 import Navbar from '../../../components/navbar/secondary_nav/navbar';
 import { getProperties } from '../../../services/property.service';
+import { toast } from 'react-toastify';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
-    const properties = await getProperties();
+    const accessToken = context.req.cookies['Bearer'];
+    const properties = await getProperties(accessToken, {
+      is_user_property: true,
+    });
     return {
       props: {
-        properties,
+        properties: properties.filter((_) => accessToken && _.is_liked),
       },
     };
   } catch (error) {
+    toast.error(error.message || 'Unexpected error !!!');
     return { notFound: true };
   }
 };
