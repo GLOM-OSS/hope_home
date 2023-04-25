@@ -95,7 +95,7 @@ export class AuthService {
       where: { person_id },
     });
     const message = await this.mailService.sendResetPasswordMail(email, {
-      connexion: 'https://home-hope.ingl.io',
+      connexion: 'https://homehope.ingl.io',
       ...Object.keys(resetPasswordMessages).reduce(
         (messages, key) => ({
           ...messages,
