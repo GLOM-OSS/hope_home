@@ -64,5 +64,5 @@ export interface IPropertyQuery {
   property_type?: PropertyType;
   listing_reason?: ListingReason;
   house_type?: HouseType;
-  published_by?: string;
+  is_user_property?: boolean;
 }
