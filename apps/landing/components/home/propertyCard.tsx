@@ -454,6 +454,7 @@ export default function PropertyCard({
           {!canDelete && (
             <Checkbox
               color="error"
+              checked={isLiked}
               icon={<FavoriteBorder fontSize="large" />}
               checkedIcon={<Favorite fontSize="large" />}
               onClick={(e) => {
