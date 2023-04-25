@@ -5,11 +5,11 @@ import {
   PropertyTypeEnum,
 } from '@prisma/client';
 import {
+  IsBoolean,
   IsEnum,
   IsNumber,
   IsOptional,
   IsString,
-  IsUUID,
   MaxLength
 } from 'class-validator';
 
@@ -26,9 +26,9 @@ export class QueryPropertiesDto {
   @IsEnum(HouseTypeEnum)
   house_type?: HouseTypeEnum;
 
-  @IsUUID()
+  @IsBoolean()
   @IsOptional()
-  published_by?: string;
+  is_user_property?: boolean;
 }
 
 export class CreateCommentDto {
