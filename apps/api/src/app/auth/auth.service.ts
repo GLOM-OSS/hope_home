@@ -25,7 +25,7 @@ export class AuthService {
     const person = await this.prismaService.person.findUnique({
       where: { email },
     });
-    if (person && bcrypt.compareSync(person.password, password)) {
+    if (person && bcrypt.compareSync(password, person.password)) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, created_at, ...user } = person;
       return { ...user, created_at: created_at.getTime() };
