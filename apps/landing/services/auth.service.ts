@@ -7,6 +7,7 @@ export async function signUp(newPerson: ISignup) {
   } = await http.post('/auth/register', newPerson);
   document.cookie = `__hht=${access_token};`;
   localStorage.setItem('hh-token', access_token);
+  return await getUser();
 }
 
 export async function signIn(login: ISignIn) {
@@ -15,6 +16,7 @@ export async function signIn(login: ISignIn) {
   } = await http.post<{ access_token: string }>('/auth/sign-in', login);
   document.cookie = `__hht=${access_token};`;
   localStorage.setItem('hh-token', access_token);
+  return await getUser();
 }
 
 export async function verifyCredential(token: string, whatsapp_number: number) {
@@ -23,6 +25,7 @@ export async function verifyCredential(token: string, whatsapp_number: number) {
   } = await http.post('/auth/google', { token, whatsapp_number });
   document.cookie = `__hht=${access_token};`;
   localStorage.setItem('hh-token', access_token);
+  return await getUser();
 }
 
 export async function resetPassword(email: string) {

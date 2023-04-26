@@ -30,6 +30,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import * as Yup from 'yup';
+import { useUser } from 'apps/landing/contexts/user.provider';
 
 export default function Signup() {
   const { formatMessage } = useIntl();
@@ -66,6 +67,7 @@ export default function Signup() {
     },
   });
 
+  const { userDispatch } = useUser();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submissionNotif, setSubmissionNotif] = useState<useNotification>();
 
@@ -88,12 +90,13 @@ export default function Signup() {
     });
 
     signUp(submitValues)
-      .then(() => {
+      .then((user) => {
         notif.update({
           render: formatMessage({
             id: 'accountCreationSuccessfull',
           }),
         });
+        userDispatch({ type: 'LOAD_USER', payload: user });
         setSubmissionNotif(undefined);
         push('/');
       })

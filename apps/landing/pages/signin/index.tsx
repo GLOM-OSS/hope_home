@@ -24,6 +24,7 @@ import { theme } from '@hopehome/theme';
 import { ErrorMessage, useNotification } from '@hopehome/toast';
 import { useRouter } from 'next/router';
 import { signIn } from '../../services/auth.service';
+import { useUser } from 'apps/landing/contexts/user.provider';
 
 interface ISignin {
   email: string;
@@ -51,6 +52,7 @@ export default function Signin() {
     },
   });
 
+  const { userDispatch } = useUser();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submissionNotif, setSubmissionNotif] = useState<useNotification>();
 
@@ -67,12 +69,13 @@ export default function Signin() {
       }),
     });
     signIn(values)
-      .then(() => {
+      .then((user) => {
         notif.update({
           render: formatMessage({
             id: 'signInSuccessfull',
           }),
         });
+        userDispatch({ type: 'LOAD_USER', payload: user });
         setSubmissionNotif(undefined);
         push('/');
       })
