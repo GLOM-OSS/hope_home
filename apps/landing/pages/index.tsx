@@ -13,7 +13,7 @@ import { getProperties } from '../services/property.service';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
-    const accessToken = context.req.cookies['Bearer'];
+    const accessToken = context.req.cookies['__hht'];
     const properties = await getProperties(accessToken);
     return {
       props: {
