@@ -45,6 +45,7 @@ export class PropertyService {
         ...property
       }) => ({
         ...property,
+        created_at: property.created_at.getTime(),
         number_of_likes: LikedProperties.length,
         house_details: {
           house_type,
@@ -107,6 +108,7 @@ export class PropertyService {
     });
     return {
       ...property,
+      created_at: property.created_at.getTime(),
       number_of_likes: LikedProperties.length,
       comments: Comments.map(
         // eslint-disable-next-line @typescript-eslint/no-unused-vars

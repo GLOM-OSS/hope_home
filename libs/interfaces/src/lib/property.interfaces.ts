@@ -40,6 +40,7 @@ export interface IHHProperty
   is_flagged: boolean;
   is_listed: boolean;
   number_of_likes: number;
+  created_at: number;
   house_details?: IHouseDetails;
 
   publisher_details: IUser;
