@@ -1,4 +1,4 @@
-import { http } from '@hopehome/axios';
+import { baseURL, http } from '@hopehome/axios';
 import {
   ICreateNewProperty,
   IHHProperty,
@@ -7,7 +7,6 @@ import {
   IPropertyQuery,
   IUpdateProperty,
 } from '@hopehome/interfaces';
-const baseURL = process.env['NX_API_BASE_URL'] || 'https://api-hh.ingl.io';
 
 export async function getProperties(
   accessToken?: string,
