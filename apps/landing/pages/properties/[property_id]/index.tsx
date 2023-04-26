@@ -38,7 +38,7 @@ import { useRouter } from 'next/router';
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { property_id } = context.query;
   try {
-    const accessToken = context.req.cookies['Bearer'];
+    const accessToken = context.req.cookies['__hht'];
     const propertyDetails = await getPropertyDetails(
       property_id as string,
       accessToken

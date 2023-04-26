@@ -5,7 +5,7 @@ export async function signUp(newPerson: ISignup) {
   const {
     data: { access_token },
   } = await http.post('/auth/register', newPerson);
-  document.cookie = `Bearer=${access_token};`;
+  document.cookie = `__hht=${access_token};`;
   localStorage.setItem('hh-token', access_token);
 }
 
@@ -13,7 +13,7 @@ export async function signIn(login: ISignIn) {
   const {
     data: { access_token },
   } = await http.post<{ access_token: string }>('/auth/sign-in', login);
-  document.cookie = `Bearer=${access_token};`;
+  document.cookie = `__hht=${access_token};`;
   localStorage.setItem('hh-token', access_token);
 }
 
@@ -21,7 +21,7 @@ export async function verifyCredential(token: string, whatsapp_number: number) {
   const {
     data: { access_token },
   } = await http.post('/auth/google', { token, whatsapp_number });
-  document.cookie = `Bearer=${access_token};`;
+  document.cookie = `__hht=${access_token};`;
   localStorage.setItem('hh-token', access_token);
 }
 
