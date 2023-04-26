@@ -7,9 +7,11 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt/jwt.strategy';
 import { LocalStrategy } from './local/local.strategy';
+import { DynamicMulter } from '../../multer/multer.module';
 
 @Module({
   imports: [
+    DynamicMulter,
     PassportModule,
     ConfigModule.forRoot(),
     JwtModule.register({

@@ -135,7 +135,7 @@ export class AuthController {
 
   @Put('user/edit')
   @UseGuards(JwtAuthGuard)
-  @UseInterceptors(FileInterceptor('profile'))
+  @UseInterceptors(FileInterceptor('profileImageRef'))
   async updateProfile(
     @Req() request: Request,
     @Body() newPerson: EditPersonDto,
