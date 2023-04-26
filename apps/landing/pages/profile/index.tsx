@@ -11,10 +11,7 @@ import { useIntl } from 'react-intl';
 import EditInfoDialog from '../../components/profile/editInfoDialog';
 import EditPasswordDialog from '../../components/profile/editPasswordDialog';
 import { useUser } from '../../contexts/user.provider';
-import {
-  changePassword,
-  updateProfile
-} from '../../services/auth.service';
+import { changePassword, updateProfile } from '../../services/auth.service';
 
 export default function Profile() {
   const {
@@ -26,6 +23,7 @@ export default function Profile() {
       whatsapp_number,
       phone_number,
     },
+    userDispatch,
   } = useUser();
   const { formatMessage, formatNumber } = useIntl();
 
@@ -61,6 +59,7 @@ export default function Profile() {
             id: 'changedAccountInfoSuccessfully',
           }),
         });
+        userDispatch({ type: 'UPDATE_USER', payload: val });
         setSubmissionNotif(undefined);
       })
       .catch((error) => {
@@ -147,6 +146,10 @@ export default function Profile() {
           render: formatMessage({
             id: 'changedProfileImageSuccessfully',
           }),
+        });
+        userDispatch({
+          type: 'UPDATE_USER',
+          payload: { profile_image_ref: URL.createObjectURL(newProfileImage) },
         });
         setSubmissionNotif(undefined);
       })

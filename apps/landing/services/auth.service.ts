@@ -1,4 +1,4 @@
-import { http } from '@hopehome/axios';
+import { baseURL, http } from '@hopehome/axios';
 import { ISignup, ISignIn, IUser } from '@hopehome/interfaces';
 
 export async function signUp(newPerson: ISignup) {
@@ -37,8 +37,13 @@ export async function setNewPassword(
 }
 
 export async function getUser() {
-  const { data } = await http.get<IUser>('/auth/user');
-  return data;
+  const {
+    data: { profile_image_ref: image_ref, ...user },
+  } = await http.get<IUser>('/auth/user');
+  return {
+    ...user,
+    profile_image_ref: image_ref ? `${baseURL}/${image_ref}` : null,
+  };
 }
 
 export async function requestNewPassword(email: string) {
@@ -63,7 +68,7 @@ export async function updateProfile(
       formData.append(key, element);
     }
   }
-  if (profile) formData.append('profile', profile, profile.name);
+  if (profile) formData.append('profileImageRef', profile, profile.name);
   const { data } = await http.put('/auth/user/edit', formData);
   return data;
 }
