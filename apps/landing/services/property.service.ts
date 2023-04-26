@@ -29,7 +29,11 @@ export async function getPropertyDetails(
   accessToken?: string
 ) {
   const {
-    data: { image_refs, ...property },
+    data: {
+      image_refs,
+      publisher_details: { profile_image_ref: image_ref, ...publisher },
+      ...property
+    },
   } = await http.get<IPropertyDetails>(`/properties/${property_id}/details`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -37,6 +41,10 @@ export async function getPropertyDetails(
   });
   return {
     ...property,
+    publisher_details: {
+      ...publisher,
+      profile_image_ref: image_ref ? `${baseURL}/${image_ref}` : null,
+    },
     image_refs: image_refs.map(({ image_id, image_ref }) => ({
       image_id,
       image_ref: `${baseURL}/${image_ref}`,
