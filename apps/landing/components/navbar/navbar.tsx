@@ -66,10 +66,12 @@ function SideNav({
   open,
   close,
   navItems,
+  goToProfile,
 }: {
   close: () => void;
   open: boolean;
   navItems: INavItem[];
+  goToProfile: () => void;
 }) {
   const { formatMessage } = useIntl();
   const { push } = useRouter();
@@ -185,7 +187,11 @@ function SideNav({
               }}
             >
               {activeUser.person_id ? (
-                <Box>{`${activeUser.fullname}`}</Box>
+                <Button
+                  variant="text"
+                  color="inherit"
+                  onClick={() => goToProfile()}
+                >{`${activeUser.fullname}`}</Button>
               ) : (
                 <>
                   <NavItem item={'login'} route={'/signin'} /> /
@@ -222,6 +228,11 @@ export default function Navbar() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const goToProfile = () => {
+    push('/profile');
+    setIsSideNavOpen(false);
+  };
+
   const [isSideNavOpen, setIsSideNavOpen] = useState<boolean>(false);
   return (
     <>
@@ -229,6 +240,7 @@ export default function Navbar() {
         close={() => setIsSideNavOpen(false)}
         open={isSideNavOpen}
         navItems={navItems}
+        goToProfile={goToProfile}
       />
       <Box
         sx={{
@@ -332,7 +344,7 @@ export default function Navbar() {
                   }}
                   color="secondary"
                   variant="contained"
-                  onClick={() => push('/profile')}
+                  onClick={() => goToProfile()}
                 >{`${activeUser.fullname[0]}`}</Button>
               ) : (
                 <>
