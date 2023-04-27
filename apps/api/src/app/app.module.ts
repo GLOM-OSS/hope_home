@@ -46,8 +46,9 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     if (process.env.NODE_ENV === 'production') {
       console.log(process.env.DATABASE_URL);
-      shell.exec(`npx prisma migrate dev --name deploy`);
-      shell.exec(`npx prisma migrate deploy`);
+      shell.exec(
+        `npx prisma migrate reset && npx prisma migrate dev --name deploy && npx prisma migrate deploy`
+      );
     }
 
     consumer.apply(helmet(), AppMiddleware).forRoutes('*');
