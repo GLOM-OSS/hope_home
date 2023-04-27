@@ -1,24 +1,24 @@
+import { IUser } from '@hopehome/interfaces';
 import {
   MailService,
   ResetPasswordMessages,
   resetPasswordMessages,
 } from '@hopehome/mailer';
+import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Person, Prisma } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
-import { OAuth2Client } from 'google-auth-library';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateNewPasswordDto, GoogleLoginDto } from './auth.dto';
-import { IUser } from '@hopehome/interfaces';
 
 @Injectable()
 export class AuthService {
   constructor(
     private prismaService: PrismaService,
     private jwtService: JwtService,
-    private oauth2Client: OAuth2Client,
-    private mailService: MailService
+    private mailService: MailService,
+    private httpService: HttpService
   ) {}
 
   async validateUser(email: string, password: string): Promise<IUser | null> {
@@ -34,11 +34,16 @@ export class AuthService {
   }
 
   async googleSignIn({ token, whatsapp_number }: GoogleLoginDto) {
-    const ticket = await this.oauth2Client.verifyIdToken({
-      idToken: token,
-      audience: process.env.GOOGLE_CLIENT_ID,
+    const {
+      data: { email, name, locale },
+    } = await this.httpService.axiosRef.get<{
+      name: string;
+      email: string;
+      locale: string;
+      picture: string;
+    }>('https://www.googleapis.com/userinfo/v2/me', {
+      headers: { Authorization: `Bearer ${token}` },
     });
-    const { email, name, locale, profile } = ticket.getPayload();
     const person = await this.prismaService.person.findUnique({
       where: { email },
     });
@@ -46,7 +51,6 @@ export class AuthService {
       email,
       fullname: name,
       whatsapp_number,
-      profile_image_ref: profile,
       phone_number: whatsapp_number,
       preferred_lang: locale.startsWith('en')
         ? 'en'
