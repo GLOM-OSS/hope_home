@@ -7,8 +7,8 @@ services:
       - MYSQL_ROOT_PASSWORD=12345678
       - MYSQL_DATABASE=squoolr_api_db
     command: mysqld --sql_mode=""
-    volumes:
-      - mysql:/data
+    # volumes:
+    #   - mysql:/data
   api:
     build:
       dockerfile: ./Dockerfile.api
@@ -33,6 +33,6 @@ services:
       - "93:3000"
     depends_on:
       - api
-volumes:
-  mysql:
-    driver: local
+# volumes:
+#   mysql:
+#     driver: local
