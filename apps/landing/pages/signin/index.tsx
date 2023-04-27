@@ -19,14 +19,14 @@ import {
   Typography,
 } from '@mui/material';
 import { useGoogleLogin } from '@react-oauth/google';
-import AdditionalDataDialog from 'apps/landing/components/profile/additionalDataDialog';
-import { useUser } from 'apps/landing/contexts/user.provider';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
+import AdditionalDataDialog from '../../components/profile/additionalDataDialog';
+import { useUser } from '../../contexts/user.provider';
 import { signIn, verifyCredential } from '../../services/auth.service';
 
 interface ISignin {
