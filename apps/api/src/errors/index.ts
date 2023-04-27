@@ -2,6 +2,7 @@ export enum ErrorEnum {
   ERR1 = 'ERR1',
   ERR2 = 'ERR2',
   ERR3 = 'ERR3',
+  ERR4 = 'ERR4',
 }
 
 export type Error = {
@@ -31,6 +32,13 @@ export const appErros: Error[] = [
     message: {
       fr: 'Incorrect current password.',
       en: 'Mot de passe incorrect.',
+    },
+  },
+  {
+    code: ErrorEnum.ERR4,
+    message: {
+      fr: 'Un compte existe déjà avec cette adresse email.',
+      en: 'An account already exist with this email address.',
     },
   },
 ];

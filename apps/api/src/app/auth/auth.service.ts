@@ -5,12 +5,13 @@ import {
   resetPasswordMessages,
 } from '@hopehome/mailer';
 import { HttpService } from '@nestjs/axios';
-import { Injectable, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Person, Prisma } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateNewPasswordDto, GoogleLoginDto } from './auth.dto';
+import { ErrorEnum } from '../../errors';
 
 @Injectable()
 export class AuthService {
@@ -75,6 +76,11 @@ export class AuthService {
     password,
     ...newPerson
   }: Prisma.PersonCreateInput) {
+    const person = await this.prismaService.person.findUnique({
+      where: { email },
+    });
+    if (person)
+      throw new HttpException(ErrorEnum.ERR4, HttpStatus.NOT_ACCEPTABLE);
     return this.prismaService.person.create({
       data: {
         email,
