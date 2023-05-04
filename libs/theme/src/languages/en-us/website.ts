@@ -53,4 +53,25 @@ export const website = {
   shopNow: 'Shop now',
   findYourPerfectHome: 'Find Your Perfect Home',
   discoverYourNewHome: 'Discover Your New Home',
+
+
+  localInformation: 'Informations locales',
+  hostel:'Maison individuelle',
+  savedProperties: 'Mes biens sauvegardés',
+  myPostedProperties: '',
+  aboutOurTeam: 'Notre équipe',
+  ourAdvantages: 'Nos missions',
+  welcomeBack: 'Bon Retour Mme Cyntiche!',
+  welcomeMessage:"Nous sommes ravis de vous revoir, nous sommes certains que votre expérience sera tout aussi agréable qu\'avant!",
+  dontHaveAnAccount:'Don\'t have an account??',
+  signUp: 'Sign Up',
+  forgotPassword: 'Forgot password ?',
+  loginWithGoogle: 'Login with Google',
+  enterEmail: 'Phone number',
+  enterPassword: 'Password',
+  createHopeHomeAccount: 'Créer un compte',
+  createAccountMessage: 'Accédez à nos propositions de biens exclusives et profitez d\'une expérience de qualité',
+  alreadyHaveAnAccount:'Already have an account ?',
+  signinInstead:'Login',
+
 };
