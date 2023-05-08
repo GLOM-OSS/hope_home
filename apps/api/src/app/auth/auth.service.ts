@@ -85,7 +85,9 @@ export class AuthService {
       data: {
         email,
         ...newPerson,
-        password: bcrypt.hashSync(password, Number(process.env.SALT)),
+        password: password
+          ? bcrypt.hashSync(password, Number(process.env.SALT))
+          : undefined,
       },
     });
   }
