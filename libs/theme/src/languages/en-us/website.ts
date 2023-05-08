@@ -101,4 +101,8 @@ export const website = {
   favorites: 'Favorites',
   singleFamilyHome: 'Maison individuelle',
   appartment: 'Appartment',
+  exploreHomesText:
+    "Dive into homes for sale, original photos of the area, resident reviews and local information to find what's right for you.",
+  exploreLandsText:
+    "Dive into lots for sale, original neighborhood photos, resident reviews and local information to find what's right for you.",
 };

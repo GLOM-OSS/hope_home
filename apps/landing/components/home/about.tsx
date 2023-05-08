@@ -10,21 +10,15 @@ export default function AboutSection() {
       <Typography sx={{ textAlign: 'center' }} variant="h4">
         {formatMessage({ id: 'about' })}
       </Typography>
-      <Box>
-        <Typography textAlign="justify" variant="h6" fontWeight="400">
-          sit amet consectetur. In arcu risus vestibulum sollicitudin elit sed
-          sed convallis tincidunt. Risus turpis hac metus facilisi ut enim massa
+      <Box sx={{ textAlign: 'center' }}>
+        <Typography  variant="h6" fontWeight="400">
+          {formatMessage({ id: 'ourTeamText1' })}
         </Typography>
-        <Typography textAlign="justify" variant="h6" fontWeight="400">
-          sit amet consectetur. In arcu risus vestibulum sollicitudin elit sed
-          sed convallis tincidunt. Risus turpis hac metus facilisi ut enim massa
-          eu. Dolor suscipit sit velit massa adipiscing adipiscing vulputate
-          feugiat turpis. Fames sed ut dignissim tincidunt metus. Morbi varius
-          quis enim gravida., sit amet consectetur. In arcu risus vestibulum
-          sollicitudin elit sed sed convallis tincidunt. Risus turpis hac metus
-          facilisi ut enim massa eu. Dolor suscipit sit velit massa adipiscing
-          adipiscing vulputate feugiat turpis. Fames sed ut dignissim tincidunt
-          metus. Morbi varius quis enim gravida.
+        <Typography  variant="h6" fontWeight="400">
+          {formatMessage({ id: 'ourTeamText2' })}
+        </Typography>
+        <Typography  variant="h6" fontWeight="400">
+          {formatMessage({ id: 'ourTeamText3' })}
         </Typography>
       </Box>
       <Image

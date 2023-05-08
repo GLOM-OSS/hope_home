@@ -40,7 +40,7 @@ export const website = {
   viewMore: 'Voir plus',
   exploreLands: 'Explorer les terrains',
   viewAll: 'Voir tout',
-  exploreHomes: 'Explorer les maisons',
+  exploreHomes: 'Explorer les logements',
   propertyManagerResources: 'Ressources du gestionnaire immobilier',
   comingSoon: 'Bientôt',
   advertiseYourRental: 'Annoncez votre location',
@@ -100,4 +100,8 @@ export const website = {
   favorites: 'Favoris',
   singleFamilyHome: 'Sigle Family home',
   appartment: 'Appartment',
+  exploreHomesText:
+    'Plongez dans les maisons à vendre, les photos originales du coin, les commentaires des résidents et les informations locales pour trouver ce qui vous convient le mieux.',
+  exploreLandsText:
+    'Plongez dans les terrains à vendre, les photos originales du quartier, les commentaires des résidents et les informations locales pour trouver ce qui vous convient le mieux.',
 };
