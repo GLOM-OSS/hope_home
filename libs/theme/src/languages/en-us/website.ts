@@ -74,4 +74,31 @@ export const website = {
     'Access our exclusive property proposals and enjoy a quality experience',
   alreadyHaveAnAccount: 'Already have an account ?',
   signinInstead: 'Login',
+  map: 'Map',
+  information: 'Information',
+
+  aboutUsSummary:
+    'Hope Home is a company specialized in rental management and purchase of real estate, including houses, apartments, rooms, as well as land. We also offer subdivision services',
+  ourTeamText1:
+    'Our goal is to provide our clients with professional and courteous real estate services, based on our extensive experience and expertise in the field',
+  ourTeamText2:
+    'Our dynamic team is made up of real estate experts who are ready to answer any questions you may have regarding the purchase, sale or rental of your property. We pride ourselves on being a trustworthy company with values such as integrity, transparency and professionalism.',
+  ourTeamText3:
+    "At Hope Home, we pride ourselves on our ability to find solutions to meet our clients' needs. We work hard to ensure that every transaction is a pleasant experience for all parties involved. We look forward to helping you achieve your real estate goals",
+
+  ourMissionText:
+    'Our mission is to provide quality service to our clients as well as to our partner owners, while promoting a local economy and responsible tourism, which includes : ',
+  missionTitle1: 'Find what suits you',
+  mission1:
+    'Hope Home takes charge of understanding your needs according to your request, in order to respond to them in an efficient manner.',
+  missionTitle2: 'Accompany you',
+  mission2:
+    'Hope Home accompanies its clients throughout the process of buying or selling, providing advice and information on the different steps to follow.',
+  allProperties: 'All our properties',
+
+  forSale: 'For sale',
+  land: 'Land',
+  favorites: 'Favorites',
+  singleFamilyHome: 'Maison individuelle',
+  appartment: 'Appartment',
 };

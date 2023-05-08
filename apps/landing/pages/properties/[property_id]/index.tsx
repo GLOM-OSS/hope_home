@@ -368,7 +368,15 @@ export default function PropertyDetails({
             </Box>
           </Box>
         </Box>
-        <Box>
+        <Box
+          sx={{
+            display: 'grid',
+            rowGap: 2,
+          }}
+        >
+          <Typography variant="h4" fontWeight={500}>
+            {formatMessage({ id: 'localInformation' })}
+          </Typography>
           <Box
             sx={{
               display: 'grid',
@@ -381,7 +389,7 @@ export default function PropertyDetails({
               {formatMessage({ id: 'map' })}
             </Button>
             <Typography variant="h4" fontWeight={500}>
-              {formatMessage({ id: 'localInformation' })}
+              {formatMessage({ id: 'information' })}
             </Typography>
           </Box>
           {latitude !== null && longitude !== null && (
@@ -448,7 +456,13 @@ export default function PropertyDetails({
               </Tooltip>
             }
           />
-          <Typography variant="body1" color='text.secondary' marginTop={1} textAlign='end' fontWeight={500}>
+          <Typography
+            variant="body1"
+            color="text.secondary"
+            marginTop={1}
+            textAlign="end"
+            fontWeight={500}
+          >
             {`${formatMessage({ id: 'publisherThe' })} ${formatDate(
               created_at,
               {

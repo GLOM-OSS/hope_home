@@ -51,13 +51,13 @@ export default function About() {
   const advantages: IAdvantage[] = [
     {
       icon: <AutoStoriesOutlined color="primary" fontSize="large" />,
-      description: `For every stage of the DevOps Lifecy for the Eliminate point solution tool sprawl with our comprehensive`,
-      title: 'Small business',
+      description: formatMessage({ id: 'mission1' }),
+      title: formatMessage({ id: 'missionTitle1' }),
     },
     {
       icon: <BlockOutlined color="primary" fontSize="large" />,
-      description: `For every stage of the DevOps Lifecy for the Eliminate point solution tool sprawl with our comprehensive`,
-      title: 'Large business',
+      description: formatMessage({ id: 'mission2' }),
+      title: formatMessage({ id: 'missionTitle2' }),
     },
   ];
   return (
@@ -65,8 +65,7 @@ export default function About() {
       <Box sx={{ display: 'grid', rowGap: 3 }}>
         <Typography variant="h4">{formatMessage({ id: 'aboutUs' })}</Typography>
         <Typography variant="h6" fontWeight={400}>
-          Take a deep dive and browse homes for sale, original neighborhood
-          photos, resident reviews
+          {formatMessage({ id: 'aboutUsSummary' })}
         </Typography>
       </Box>
       <Box
@@ -87,22 +86,13 @@ export default function About() {
             {formatMessage({ id: 'aboutOurTeam' })}
           </Typography>
           <Typography mt={2} textAlign="justify">
-            Hi, original neighborhood photos, resident re, original neighborhood
-            photos, resident.,Hi, original neighborhood photos, resident re,
-            original neighborhood photos, resident. In arcu risus vestibulum
-            sollicitudin elit sed sed convallis tincidunt. Risus turpis hac
-            metus facilisi ut enim massa eu. Dolor suscipit sit velit massa
-            adipiscing adipiscing vulputate feugiat turpis. Fames sed ut
-            dignissim tincidunt metus. Morbi varius quis enim gravida.
+            {formatMessage({ id: 'ourTeamText1' })}
+          </Typography>
+          <Typography mt={2} textAlign="justify">
+            {formatMessage({ id: 'ourTeamText2' })}
           </Typography>
           <Typography mt={4} textAlign="justify">
-            Hi, original neighborhood photos, resident re, original neighborhood
-            photos, resident.,Hi, original neighborhood photos, resident re,
-            original neighborhood photos, resident. In arcu risus vestibulum
-            sollicitudin elit sed sed convallis tincidunt. Risus turpis hac
-            metus facilisi ut enim massa eu. Dolor suscipit sit velit massa
-            adipiscing adipiscing vulputate feugiat turpis. Fames sed ut
-            dignissim tincidunt metus. Morbi varius quis enim gravida.
+            {formatMessage({ id: 'ourTeamText3' })}
           </Typography>
         </Box>
         <Image
@@ -131,12 +121,10 @@ export default function About() {
         <Box>
           <Divider sx={{ backgroundColor: 'black' }} />
           <Typography variant="h5" fontWeight={500} mt={3}>
-            {formatMessage({ id: 'ourAdvantages' })}
+            {formatMessage({ id: 'ourMissions' })}
           </Typography>
           <Typography mt={2} textAlign="justify">
-            Hi, original neighborhood photos, resident re, original neighborhood
-            photos, resident.,Hi, original neighborhood photos, resident re,
-            original neighborhood photos, resident. In arcu risus vestibulum{' '}
+            {formatMessage({ id: 'ourMissionText' })}
           </Typography>
           <Box mt={4} sx={{ display: 'grid', rowGap: 2 }}>
             {advantages.map((advantage, index) => (

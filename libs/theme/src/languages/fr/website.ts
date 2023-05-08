@@ -73,4 +73,31 @@ export const website = {
     "Accédez à nos propositions de biens exclusifs et profitez d'une expérience de qualité",
   alreadyHaveAnAccount: 'Vous avez déjà un compte ?',
   signinInstead: 'Se connecter',
+  map: 'Carte',
+  information: 'Information',
+
+  aboutUsSummary:
+    'Hope Home est une entreprise spécialisée dans la gestion locative et achat de biens immobiliers, notamment des maisons, des appartements, des chambres, ainsi que des terrains. Nous offrons également des serices de lotissement.',
+  ourTeamText1:
+    'Notre objectif est de fournir à nos clients des services immobiliers professionnels et courtois, en misant sur notre grande expérience et notre expertise dans le domaine.',
+  ourTeamText2:
+    "Notre équipe dynamique est composée d'experts en immobilier qui sont prêts à répondre à toutes vos questions concernant l'achat, la vente ou la location de votre bien immobilier. Nous sommes fiers d'être une entreprise digne de confiance, avec des valeurs telles que l'intégrité, la transparence et le professionnalisme.",
+  ourTeamText3:
+    'Chez Hope Home, nous sommes fiers de notre capacité à trouver des solutions pour répondre aux besoins de nos clients. Nous travaillons dur pour nous assurer que chaque transaction est une expérience agréable pour tous les parties impliquées. Nous sommes impatients de vous aider à atteindre vos objectifs immobiliers.',
+
+  ourMissionText:
+    "Notre mission est d’offrir un service de qualité à nos clients ainsi qu'à nos propriétaires partenaires, tout en favorisant une économie locale et un tourisme responsable, ce qui passe par : ",
+  missionTitle1: 'Trouver ce qui vous correspond',
+  mission1:
+    'Hope Home se charge de comprendre votre besoin en fonction de votre demande, afin d’y répondre de façon efficace.',
+  missionTitle2: 'Vous accompagnez',
+  mission2:
+    "Hope Home accompagne ses clients tout au long du processus d'achat ou de la vente, en leur fournissant des conseils et des informations sur les différentes étapes à suivre.",
+
+  allProperties: 'Toutes nos propriétés',
+  forSale: 'A vendre',
+  land: 'Terrain',
+  favorites: 'Favoris',
+  singleFamilyHome: 'Sigle Family home',
+  appartment: 'Appartment',
 };

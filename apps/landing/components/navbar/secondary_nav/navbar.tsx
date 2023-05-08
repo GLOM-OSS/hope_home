@@ -9,8 +9,8 @@ export default function Navbar({ active }: { active: string }) {
   const { formatMessage } = useIntl();
 
   const navLinks: { name: string; link: string }[] = [
-    { name: 'properties', link: '/properties' },
-    { name: 'saved', link: '/properties/saved' },
+    { name: formatMessage({ id: 'properties' }), link: '/properties' },
+    { name: formatMessage({ id: 'favorites' }), link: '/properties/saved' },
   ];
 
   return (
