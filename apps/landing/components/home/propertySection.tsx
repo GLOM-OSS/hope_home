@@ -4,6 +4,7 @@ import { Box, Button, Typography } from '@mui/material';
 import Scrollbars from 'rc-scrollbars';
 import { useIntl } from 'react-intl';
 import PropertyCard from './propertyCard';
+import { useRouter } from 'next/router';
 
 export default function PropertySection({
   properties,
@@ -11,6 +12,7 @@ export default function PropertySection({
   properties: IHHProperty[];
 }) {
   const { formatMessage } = useIntl();
+  const { push } = useRouter();
 
   return (
     <Box sx={{ padding: `0 7.1%`, display: 'grid', rowGap: 3 }}>
@@ -49,6 +51,7 @@ export default function PropertySection({
         endIcon={<EastOutlined />}
         sx={{ justifySelf: 'center', textTransform: 'none' }}
         size="large"
+        onClick={() => push('/properties')}
       >
         {formatMessage({ id: 'viewMore' })}
       </Button>
