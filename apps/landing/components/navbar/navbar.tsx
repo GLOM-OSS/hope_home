@@ -14,7 +14,15 @@ interface INavItem {
   route: string;
 }
 
-function NavItem({ route, item }: { route: string; item: string }) {
+function NavItem({
+  route,
+  item,
+  handleLink,
+}: {
+  route: string;
+  item: string;
+  handleLink: () => void;
+}) {
   const { pathname } = useRouter();
   const { formatMessage } = useIntl();
 
@@ -57,7 +65,15 @@ function NavItem({ route, item }: { route: string; item: string }) {
         },
       }}
     >
-      <Link href={route}>{formatMessage({ id: item })}</Link>
+      <Link
+        href={route}
+        onClick={(e) => {
+          e.preventDefault();
+          handleLink();
+        }}
+      >
+        {formatMessage({ id: item })}
+      </Link>
     </Typography>
   );
 }
@@ -66,12 +82,10 @@ function SideNav({
   open,
   close,
   navItems,
-  goToProfile,
 }: {
   close: () => void;
   open: boolean;
   navItems: INavItem[];
-  goToProfile: () => void;
 }) {
   const { formatMessage } = useIntl();
   const { push } = useRouter();
@@ -148,7 +162,15 @@ function SideNav({
             }}
           >
             {navItems.map(({ item, route }, index) => (
-              <NavItem item={item} route={route} key={index} />
+              <NavItem
+                handleLink={() => {
+                  push(route);
+                  close();
+                }}
+                item={item}
+                route={route}
+                key={index}
+              />
             ))}
           </Box>
           <Box
@@ -190,12 +212,30 @@ function SideNav({
                 <Button
                   variant="text"
                   color="inherit"
-                  onClick={() => goToProfile()}
+                  onClick={() => {
+                    push('/profile');
+                    close();
+                  }}
                 >{`${activeUser.fullname}`}</Button>
               ) : (
                 <>
-                  <NavItem item={'login'} route={'/signin'} /> /
-                  <NavItem item={'signup'} route={'/signup'} />
+                  <NavItem
+                    handleLink={() => {
+                      push('/signin');
+                      close();
+                    }}
+                    item={'login'}
+                    route={'/signin'}
+                  />{' '}
+                  /
+                  <NavItem
+                    handleLink={() => {
+                      push('/signup');
+                      close();
+                    }}
+                    item={'signup'}
+                    route={'/signup'}
+                  />
                 </>
               )}
             </Box>
@@ -228,11 +268,6 @@ export default function Navbar() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const goToProfile = () => {
-    push('/profile');
-    setIsSideNavOpen(false);
-  };
-
   const [isSideNavOpen, setIsSideNavOpen] = useState<boolean>(false);
   return (
     <>
@@ -240,7 +275,6 @@ export default function Navbar() {
         close={() => setIsSideNavOpen(false)}
         open={isSideNavOpen}
         navItems={navItems}
-        goToProfile={goToProfile}
       />
       <Box
         sx={{
@@ -293,7 +327,15 @@ export default function Navbar() {
             }}
           >
             {navItems.map(({ item, route }, index) => (
-              <NavItem item={item} route={route} key={index} />
+              <NavItem
+                handleLink={() => {
+                  push(route);
+                  close();
+                }}
+                item={item}
+                route={route}
+                key={index}
+              />
             ))}
           </Box>
           <Box
@@ -344,12 +386,30 @@ export default function Navbar() {
                   }}
                   color="secondary"
                   variant="contained"
-                  onClick={() => goToProfile()}
+                  onClick={() => {
+                    setIsSideNavOpen(false);
+                    push('/profile');
+                  }}
                 >{`${activeUser.fullname[0]}`}</Button>
               ) : (
                 <>
-                  <NavItem item={'login'} route={'/signin'} /> /
-                  <NavItem item={'signup'} route={'/signup'} />
+                  <NavItem
+                    handleLink={() => {
+                      push('/signin');
+                      close();
+                    }}
+                    item={'login'}
+                    route={'/signin'}
+                  />{' '}
+                  /
+                  <NavItem
+                    handleLink={() => {
+                      push('/signup');
+                      close();
+                    }}
+                    item={'signup'}
+                    route={'/signup'}
+                  />
                 </>
               )}
             </Box>
