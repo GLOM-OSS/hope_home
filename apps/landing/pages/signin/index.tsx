@@ -293,7 +293,7 @@ export default function Signin() {
             sx={{ marginTop: 6.25, textTransform: 'none' }}
             endIcon={<EastOutlined />}
           >
-            {formatMessage({ id: 'signin' })}
+            {formatMessage({ id: 'login' })}
           </Button>
         </Box>
         <Typography textAlign={'center'}>
@@ -310,7 +310,7 @@ export default function Signin() {
             }}
             color={theme.palette.primary.main}
           >
-            {formatMessage({ id: 'signIn' })}
+            {formatMessage({ id: 'signUp' })}
           </Typography>
         </Typography>
       </Box>

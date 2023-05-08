@@ -313,7 +313,7 @@ export default function Signup() {
           sx={{ marginTop: 6.25, textTransform: 'none' }}
           endIcon={<EastOutlined />}
         >
-          {formatMessage({ id: 'signin' })}
+          {formatMessage({ id: 'signup' })}
         </Button>
       </Box>
       <Typography textAlign={'center'}>
