@@ -113,14 +113,21 @@ export const website = {
   joinedOn: 'Rejoint le',
   description: 'Description',
   publisher: ' Auteur ',
-  sendMessage : 'Envoyer un message',
-  yourMessageTemplate : "Nous voulons juste signaler que vous avez un excellent service",
-  yourMessage : 'Votre message',
-  email : 'Email',
-  yourName : 'Votre nom',
-  contactUsSummary:"Nous serions ravis de recevoir vos questions, commentaires ou demandes d'informations. N'hésitez pas à nous contacter par e-mail, téléphone ou via notre formulaire ci dessous.",
-  ownerMessageSummary:"Vous pouvez contacter directement le propriétaire de votre bien pour toute demande particulière ou pour signaler un problème. Nous encourageons la communication directe et ouverte entre nos clients et les propriétaires pour assurer une expérience satisfaisante pour tous.",
-  ownerMessage:'Message au propriétaire',
-  customerCareMessage:"Notre service clientèle est à votre disposition pour répondre à toutes vos questions et résoudre les éventuels problèmes que vous pourriez rencontrer. Nous travaillons en permanence pour vous offrir un service de qualité et une expérience positive.",
-  contactUsMessage:"Vous pouvez également remplir le formulaire et nous vous répondrons rapidement."
+  sendMessage: 'Envoyer un message',
+  yourMessageTemplate:
+    'Nous voulons juste signaler que vous avez un excellent service',
+  yourMessage: 'Votre message',
+  email: 'Email',
+  yourName: 'Votre nom',
+  contactUsSummary:
+    "Nous serions ravis de recevoir vos questions, commentaires ou demandes d'informations. N'hésitez pas à nous contacter par e-mail, téléphone ou via notre formulaire ci dessous.",
+  ownerMessageSummary:
+    'Vous pouvez contacter directement le propriétaire de votre bien pour toute demande particulière ou pour signaler un problème. Nous encourageons la communication directe et ouverte entre nos clients et les propriétaires pour assurer une expérience satisfaisante pour tous.',
+  ownerMessage: 'Message au propriétaire',
+  customerCareMessage:
+    'Notre service clientèle est à votre disposition pour répondre à toutes vos questions et résoudre les éventuels problèmes que vous pourriez rencontrer. Nous travaillons en permanence pour vous offrir un service de qualité et une expérience positive.',
+  contactUsMessage:
+    'Vous pouvez également remplir le formulaire et nous vous répondrons rapidement.',
+  feedbackStars:
+    "Retour d'expérience positif ***** sur la base de plus de 100 avis récents",
 };
