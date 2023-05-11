@@ -21,9 +21,7 @@ export default function PropertySection({
           {formatMessage({ id: 'exploreRecentProperties' })}
         </Typography>
         <Typography textAlign="center" variant="h6" fontWeight={400}>
-          Take a deep dive and browse homes for sale, original neighborhood
-          photos, resident revies and local insights to find what is right for
-          you.
+          {formatMessage({ id: 'exploreHomesText' })}
         </Typography>
       </Box>
       <Scrollbars universal autoHide style={{ height: '557px' }}>
