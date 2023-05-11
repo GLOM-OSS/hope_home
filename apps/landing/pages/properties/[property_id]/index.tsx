@@ -425,7 +425,7 @@ export default function PropertyDetails({
               </Avatar>
             }
             title={publisher_details.fullname}
-            subheader={`${formatMessage({ id: 'joinThe' })} ${formatDate(
+            subheader={`${formatMessage({ id: 'joinedOn' })} ${formatDate(
               publisher_details.created_at,
               {
                 month: 'short',
@@ -463,14 +463,11 @@ export default function PropertyDetails({
             textAlign="end"
             fontWeight={500}
           >
-            {`${formatMessage({ id: 'publisherThe' })} ${formatDate(
-              created_at,
-              {
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric',
-              }
-            )}`}
+            {`${formatMessage({ id: 'publishedOn' })} ${formatDate(created_at, {
+              month: 'short',
+              day: 'numeric',
+              year: 'numeric',
+            })}`}
           </Typography>
         </Box>
         {similarProperties.length > 0 && (
