@@ -104,4 +104,11 @@ export const website = {
     'Plongez dans les maisons à vendre, les photos originales du coin, les commentaires des résidents et les informations locales pour trouver ce qui vous convient le mieux.',
   exploreLandsText:
     'Plongez dans les terrains à vendre, les photos originales du quartier, les commentaires des résidents et les informations locales pour trouver ce qui vous convient le mieux.',
+  followUs: 'Suivez-nous',
+  ourCollaborators: 'Nos collaborateurs',
+  nosPages: 'Nos pages',
+  close: 'Fermer',
+  noImages: "Aucune image n'est publiée ici",
+  publishedOn: 'Publié le',
+  joinedOn: 'Rejoint le',
 };

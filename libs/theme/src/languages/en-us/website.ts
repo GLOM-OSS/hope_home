@@ -105,4 +105,12 @@ export const website = {
     "Dive into homes for sale, original photos of the area, resident reviews and local information to find what's right for you.",
   exploreLandsText:
     "Dive into lots for sale, original neighborhood photos, resident reviews and local information to find what's right for you.",
+
+  followUs: 'Follow us',
+  ourCollaborators: 'Our collaborators',
+  ourPages: 'Our pages',
+  close: 'Close',
+  noImages: 'No Images posted here!',
+  publishedOn: 'Published on',
+  joinedOn: 'Joined on',
 };
