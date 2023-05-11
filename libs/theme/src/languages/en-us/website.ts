@@ -114,7 +114,6 @@ export const website = {
   joinedOn: 'Joined on',
   description: 'Description',
   publisher: 'Publisher',
-
   sendMessage: 'Send message',
   yourMessageTemplate: 'We just want to signal that you have a great service',
   yourMessage: 'Your message',
@@ -129,5 +128,6 @@ export const website = {
     'Our customer service department is available to answer any questions you may have and resolve any issues you may have. We are constantly working to provide you with a quality service and a positive experience.',
   contactUsSummary:
     'We would be delighted to receive your questions, comments or requests for information. Please feel free to contact us by e-mail, phone or via our form below.',
-  feedbackStars:'Positive Feedback ***** based on the recent 100+ reviews'
+  feedbackStars: 'Positive Feedback ***** based on the recent 100+ reviews',
+  myProperties: 'My properties',
 };

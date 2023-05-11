@@ -130,4 +130,5 @@ export const website = {
     'Vous pouvez également remplir le formulaire et nous vous répondrons rapidement.',
   feedbackStars:
     "Retour d'expérience positif ***** sur la base de plus de 100 avis récents",
+  myProperties: 'Mes propriétés',
 };
