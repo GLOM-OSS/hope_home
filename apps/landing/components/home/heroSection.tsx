@@ -1,10 +1,12 @@
 import { theme } from '@hopehome/theme';
 import { EastOutlined, SearchOutlined } from '@mui/icons-material';
 import { Box, Button, lighten, TextField, Typography } from '@mui/material';
+import { useRouter } from 'next/router';
 import { useIntl } from 'react-intl';
 
 export default function HeroSection() {
   const { formatMessage } = useIntl();
+  const { push } = useRouter();
   return (
     <Box
       style={{
@@ -68,6 +70,7 @@ export default function HeroSection() {
         endIcon={<EastOutlined />}
         sx={{ justifySelf: 'center', textTransform: 'none' }}
         size="large"
+        onClick={() => push('/properties')}
       >
         {formatMessage({ id: 'shopNow' })}
       </Button>
