@@ -86,7 +86,7 @@ export default function HeroSection() {
         }}
       >
         <Typography variant="body2">
-          Positive Feedback ***** based on the recent 100+ reviews
+          {formatMessage({ id: 'feedbackStars' })}
         </Typography>
       </Box>
     </Box>
