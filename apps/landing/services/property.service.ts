@@ -1,4 +1,4 @@
-import { http } from '@hopehome/axios';
+import { baseURL, http } from '@hopehome/axios';
 import {
   ICreateNewProperty,
   IHHProperty,
@@ -7,10 +7,15 @@ import {
   IPropertyQuery,
   IUpdateProperty,
 } from '@hopehome/interfaces';
-const baseURL = process.env['NX_API_BASE_URL'] || 'https://api-hh.ingl.io';
 
-export async function getProperties(query?: IPropertyQuery) {
+export async function getProperties(
+  accessToken?: string,
+  query?: IPropertyQuery
+) {
   const { data } = await http.get<IHHProperty[]>('/properties/all', {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
     params: query,
   });
   return data.map(({ image_ref, ...property }) => ({
@@ -19,12 +24,27 @@ export async function getProperties(query?: IPropertyQuery) {
   }));
 }
 
-export async function getPropertyDetails(property_id: string) {
+export async function getPropertyDetails(
+  property_id: string,
+  accessToken?: string
+) {
   const {
-    data: { image_refs, ...property },
-  } = await http.get<IPropertyDetails>(`/properties/${property_id}/details`);
+    data: {
+      image_refs,
+      publisher_details: { profile_image_ref: image_ref, ...publisher },
+      ...property
+    },
+  } = await http.get<IPropertyDetails>(`/properties/${property_id}/details`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
   return {
     ...property,
+    publisher_details: {
+      ...publisher,
+      profile_image_ref: image_ref ? `${baseURL}/${image_ref}` : null,
+    },
     image_refs: image_refs.map(({ image_id, image_ref }) => ({
       image_id,
       image_ref: `${baseURL}/${image_ref}`,
@@ -32,9 +52,17 @@ export async function getPropertyDetails(property_id: string) {
   };
 }
 
-export async function getPropertyImages(property_id: string) {
+export async function getPropertyImages(
+  property_id: string,
+  accessToken?: string
+) {
   const { data } = await http.get<IImage[]>(
-    `/properties/${property_id}/images`
+    `/properties/${property_id}/images`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
   );
   return data.map(({ image_id, image_ref }) => ({
     image_id,

@@ -9,11 +9,12 @@ import path from 'path';
 @Injectable()
 export class MulterService implements MulterOptionsFactory {
   createMulterOptions(): MulterModuleOptions {
+    const destPath = path.join(__dirname, './assets/uploads/');
     return {
-      dest: 'uploads/',
+      dest: destPath,
       storage: diskStorage({
         destination: (req, file, callback) => {
-          callback(null, 'uploads');
+          callback(null, destPath);
         },
         filename: (req, file, callback) => {
           const now = new Date();

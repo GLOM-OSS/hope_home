@@ -5,6 +5,7 @@ import { Box, Button, lighten, Typography } from '@mui/material';
 import Scrollbars from 'rc-scrollbars';
 import { useIntl } from 'react-intl';
 import PropertyCard from './propertyCard';
+import { useRouter } from 'next/router';
 
 export default function LandSection({
   properties,
@@ -12,6 +13,7 @@ export default function LandSection({
   properties: IHHProperty[];
 }) {
   const { formatMessage } = useIntl();
+  const { push } = useRouter();
 
   return (
     <Box
@@ -27,9 +29,7 @@ export default function LandSection({
           {formatMessage({ id: 'exploreLands' })}
         </Typography>
         <Typography textAlign="center" variant="h6" fontWeight={400}>
-          Take a deep dive and browse homes for sale, original neighborhood
-          photos, resident reviews and local insights to find what is right for
-          you.{' '}
+          {formatMessage({ id: 'exploreLandsText' })}
         </Typography>
       </Box>
       <Scrollbars universal autoHide style={{ height: '557px' }}>
@@ -57,6 +57,7 @@ export default function LandSection({
         endIcon={<EastOutlined />}
         sx={{ justifySelf: 'center', textTransform: 'none' }}
         size="large"
+        onClick={() => push('/properties')}
       >
         {formatMessage({ id: 'viewMore' })}
       </Button>

@@ -404,7 +404,7 @@ export default function PropertyCard({
       <Box
         component={Paper}
         elevation={1}
-        sx={{ width: '350px' }}
+        sx={{ width: '350px', cursor: 'pointer' }}
         onClick={() => handlePropertyClick()}
       >
         <Box sx={{ position: 'relative' }}>
@@ -454,6 +454,7 @@ export default function PropertyCard({
           {!canDelete && (
             <Checkbox
               color="error"
+              checked={isLiked}
               icon={<FavoriteBorder fontSize="large" />}
               checkedIcon={<Favorite fontSize="large" />}
               onClick={(e) => {

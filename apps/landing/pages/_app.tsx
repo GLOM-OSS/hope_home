@@ -9,6 +9,7 @@ import './globalStyles.css';
 import { useLanguage, HHThemeProvider } from '@hopehome/theme';
 import createEmotionCache from '../config_mui/createEmotionCache';
 import UserContextProvider from '../contexts/user.provider';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const App = (props) => {
   const { Component, pageProps } = props;
@@ -48,9 +49,11 @@ function CustomApp(props: CustomAppProps) {
       </Head>
       <CacheProvider value={emotionCache}>
         <HHThemeProvider>
-          <UserContextProvider>
-            <App {...{ Component, pageProps, emotionCache }} />
-          </UserContextProvider>
+          <GoogleOAuthProvider clientId="562313049834-07ekkibpmtfq0b2m68i56anbck3utj2p.apps.googleusercontent.com">
+            <UserContextProvider>
+              <App {...{ Component, pageProps, emotionCache }} />
+            </UserContextProvider>
+          </GoogleOAuthProvider>
         </HHThemeProvider>
       </CacheProvider>
     </>

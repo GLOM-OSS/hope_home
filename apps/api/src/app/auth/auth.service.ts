@@ -1,31 +1,32 @@
+import { IUser } from '@hopehome/interfaces';
 import {
   MailService,
   ResetPasswordMessages,
   resetPasswordMessages,
 } from '@hopehome/mailer';
-import { Injectable, Logger } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Person, Prisma } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
-import { OAuth2Client } from 'google-auth-library';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateNewPasswordDto, GoogleLoginDto } from './auth.dto';
-import { IUser } from '@hopehome/interfaces';
+import { ErrorEnum } from '../../errors';
 
 @Injectable()
 export class AuthService {
   constructor(
     private prismaService: PrismaService,
     private jwtService: JwtService,
-    private oauth2Client: OAuth2Client,
-    private mailService: MailService
+    private mailService: MailService,
+    private httpService: HttpService
   ) {}
 
   async validateUser(email: string, password: string): Promise<IUser | null> {
     const person = await this.prismaService.person.findUnique({
       where: { email },
     });
-    if (person && bcrypt.compareSync(person.password, password)) {
+    if (person && bcrypt.compareSync(password, person.password)) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, created_at, ...user } = person;
       return { ...user, created_at: created_at.getTime() };
@@ -34,11 +35,16 @@ export class AuthService {
   }
 
   async googleSignIn({ token, whatsapp_number }: GoogleLoginDto) {
-    const ticket = await this.oauth2Client.verifyIdToken({
-      idToken: token,
-      audience: process.env.GOOGLE_CLIENT_ID,
+    const {
+      data: { email, name, locale },
+    } = await this.httpService.axiosRef.get<{
+      name: string;
+      email: string;
+      locale: string;
+      picture: string;
+    }>('https://www.googleapis.com/userinfo/v2/me', {
+      headers: { Authorization: `Bearer ${token}` },
     });
-    const { email, name, locale, profile } = ticket.getPayload();
     const person = await this.prismaService.person.findUnique({
       where: { email },
     });
@@ -46,7 +52,6 @@ export class AuthService {
       email,
       fullname: name,
       whatsapp_number,
-      profile_image_ref: profile,
       phone_number: whatsapp_number,
       preferred_lang: locale.startsWith('en')
         ? 'en'
@@ -71,11 +76,18 @@ export class AuthService {
     password,
     ...newPerson
   }: Prisma.PersonCreateInput) {
+    const person = await this.prismaService.person.findUnique({
+      where: { email },
+    });
+    if (person)
+      throw new HttpException(ErrorEnum.ERR4, HttpStatus.NOT_ACCEPTABLE);
     return this.prismaService.person.create({
       data: {
         email,
         ...newPerson,
-        password: bcrypt.hashSync(password, Number(process.env.SALT)),
+        password: password
+          ? bcrypt.hashSync(password, Number(process.env.SALT))
+          : undefined,
       },
     });
   }
@@ -86,17 +98,20 @@ export class AuthService {
       await this.prismaService.person.findUniqueOrThrow({
         where: { email },
       });
-    const newPassword = bcrypt.hashSync(
-      Math.random().toString(36).split('.')[1].toUpperCase(),
-      Number(process.env.SALT)
-    );
+    const newPassword = Math.random().toString(36).split('.')[1].toUpperCase();
     await this.prismaService.person.update({
-      data: { password: newPassword, PersonAudits: { create: personData } },
+      data: {
+        password: bcrypt.hashSync(newPassword, Number(process.env.SALT)),
+        PersonAudits: { create: personData },
+      },
       where: { person_id },
     });
+    const { fullname, preferred_lang: lang } = personData;
+    const { resetPasswordSubTitle, resetPasswordObject, ...messages } =
+      resetPasswordMessages;
     const message = await this.mailService.sendResetPasswordMail(email, {
-      connexion: 'https://homehope.ingl.io',
-      ...Object.keys(resetPasswordMessages).reduce(
+      connexion: 'https://hopehome.ingl.io/',
+      ...Object.keys(messages).reduce(
         (messages, key) => ({
           ...messages,
           [key]: resetPasswordMessages[key][
@@ -105,6 +120,8 @@ export class AuthService {
         }),
         {} as ResetPasswordMessages
       ),
+      resetPasswordObject: resetPasswordObject(newPassword)[lang],
+      resetPasswordSubTitle: resetPasswordSubTitle(fullname)[lang],
     });
     Logger.verbose(
       `Reset password email sent successfully. Message ID: ${message?.messageId}`,

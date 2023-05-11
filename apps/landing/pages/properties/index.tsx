@@ -8,7 +8,8 @@ import { getProperties } from '../../services/property.service';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
-    const properties = await getProperties();
+    const accessToken = context.req.cookies['__hht'];
+    const properties = await getProperties(accessToken);
     return {
       props: {
         properties,
@@ -30,7 +31,7 @@ export default function Properties({
     <Box sx={{ mt: 4, padding: `0 7.1%`, mb: 2, display: 'grid', rowGap: 2 }}>
       <Navbar active="/properties" />
       <Typography variant="h4">
-        {formatMessage({ id: 'AllHopeHomeProperties' })}
+        {formatMessage({ id: 'allProperties' })}
       </Typography>
       <Box
         sx={{

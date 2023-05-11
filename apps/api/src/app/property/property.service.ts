@@ -9,7 +9,7 @@ export class PropertyService {
   constructor(private prismaService: PrismaService) {}
 
   async findAll(
-    query: QueryPropertiesDto,
+    { is_user_property, ...query }: QueryPropertiesDto,
     person_id?: string
   ): Promise<IHHProperty[]> {
     const properties = await this.prismaService.property.findMany({
@@ -20,21 +20,18 @@ export class PropertyService {
           where: { is_deleted: false },
         },
       },
-      where: {
-        OR: [
-          {
+      where: is_user_property
+        ? {
+            ...query,
+            is_deleted: false,
+            published_by: person_id,
+          }
+        : {
             ...query,
             is_deleted: false,
             is_flagged: false,
             is_listed: true,
           },
-          {
-            ...query,
-            is_deleted: false,
-            published_by: String(person_id),
-          },
-        ],
-      },
     });
 
     return properties.map(
@@ -48,6 +45,7 @@ export class PropertyService {
         ...property
       }) => ({
         ...property,
+        created_at: property.created_at.getTime(),
         number_of_likes: LikedProperties.length,
         house_details: {
           house_type,
@@ -110,6 +108,7 @@ export class PropertyService {
     });
     return {
       ...property,
+      created_at: property.created_at.getTime(),
       number_of_likes: LikedProperties.length,
       comments: Comments.map(
         // eslint-disable-next-line @typescript-eslint/no-unused-vars

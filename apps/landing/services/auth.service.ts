@@ -1,25 +1,31 @@
-import { http } from '@hopehome/axios';
+import { baseURL, http } from '@hopehome/axios';
 import { ISignup, ISignIn, IUser } from '@hopehome/interfaces';
 
 export async function signUp(newPerson: ISignup) {
   const {
     data: { access_token },
   } = await http.post('/auth/register', newPerson);
+  document.cookie = `__hht=${access_token};`;
   localStorage.setItem('hh-token', access_token);
+  return await getUser();
 }
 
 export async function signIn(login: ISignIn) {
   const {
     data: { access_token },
   } = await http.post<{ access_token: string }>('/auth/sign-in', login);
+  document.cookie = `__hht=${access_token};`;
   localStorage.setItem('hh-token', access_token);
+  return await getUser();
 }
 
-export async function verifyCredential(token: string, whatsapp_number: number) {
+export async function verifyCredential(token: string, whatsapp_number: string) {
   const {
     data: { access_token },
   } = await http.post('/auth/google', { token, whatsapp_number });
+  document.cookie = `__hht=${access_token};`;
   localStorage.setItem('hh-token', access_token);
+  return await getUser();
 }
 
 export async function resetPassword(email: string) {
@@ -34,8 +40,13 @@ export async function setNewPassword(
 }
 
 export async function getUser() {
-  const { data } = await http.get<IUser>('/auth/user');
-  return data;
+  const {
+    data: { profile_image_ref: image_ref, ...user },
+  } = await http.get<IUser>('/auth/user');
+  return {
+    ...user,
+    profile_image_ref: image_ref ? `${baseURL}/${image_ref}` : null,
+  };
 }
 
 export async function requestNewPassword(email: string) {
@@ -60,7 +71,7 @@ export async function updateProfile(
       formData.append(key, element);
     }
   }
-  if (profile) formData.append('profile', profile, profile.name);
+  if (profile) formData.append('profileImageRef', profile, profile.name);
   const { data } = await http.put('/auth/user/edit', formData);
   return data;
 }

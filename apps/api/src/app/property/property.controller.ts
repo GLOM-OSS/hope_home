@@ -11,11 +11,12 @@ import {
   Req,
   UploadedFiles,
   UseGuards,
-  UseInterceptors,
+  UseInterceptors
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { Person } from '@prisma/client';
 import { Request } from 'express';
+import { IsPublic } from '../auth/auth.decorator';
 import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
 import {
   CreateCommentDto,
@@ -25,10 +26,12 @@ import {
 } from './property.dto';
 import { PropertyService } from './property.service';
 
+@UseGuards(JwtAuthGuard)
 @Controller('properties')
 export class PropertyController {
   constructor(private propertyService: PropertyService) {}
 
+  @IsPublic()
   @Get('all')
   async getProperties(
     @Req() request: Request,
@@ -38,6 +41,7 @@ export class PropertyController {
     return await this.propertyService.findAll(queryOptions, person?.person_id);
   }
 
+  @IsPublic()
   @Get(':property_id/details')
   async getPropertyDetails(
     @Req() request: Request,
@@ -47,13 +51,13 @@ export class PropertyController {
     return await this.propertyService.findOne(property_id, person?.person_id);
   }
 
+  @IsPublic()
   @Get(':property_id/images')
   async getPropertyImages(@Param('property_id') property_id: string) {
     return await this.propertyService.getPropertyImages(property_id);
   }
 
   @Post('new')
-  @UseGuards(JwtAuthGuard)
   async addNewProperty(
     @Req() request: Request,
     @Body() newProperty: CreateNewPropertyDto
@@ -67,7 +71,6 @@ export class PropertyController {
   }
 
   @Put(':property_id/edit')
-  @UseGuards(JwtAuthGuard)
   @UseInterceptors(FilesInterceptor('imageRefs'))
   async updateProperty(
     @Param('property_id') property_id: string,
@@ -90,7 +93,6 @@ export class PropertyController {
   }
 
   @Put(':property_id/delist')
-  @UseGuards(JwtAuthGuard)
   async delistProperty(@Param('property_id') property_id: string) {
     try {
       return await this.propertyService.update(property_id, {
@@ -102,11 +104,7 @@ export class PropertyController {
   }
 
   @Put(':property_id/delete')
-  @UseGuards(JwtAuthGuard)
-  async deleteProperty(
-    @Req() request: Request,
-    @Param('property_id') property_id: string
-  ) {
+  async deleteProperty(@Param('property_id') property_id: string) {
     try {
       return await this.propertyService.update(property_id, {
         is_deleted: true,
@@ -116,7 +114,6 @@ export class PropertyController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
   @Put(':property_id/like')
   async handlePropertyLike(
     @Req() request: Request,
@@ -130,7 +127,6 @@ export class PropertyController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post(':property_id/comment')
   async commentOnProperty(
     @Req() request: Request,
@@ -149,7 +145,6 @@ export class PropertyController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
   @Put('comments/:comment_id/delete')
   async deleteComment(
     @Req() request: Request,
@@ -163,7 +158,6 @@ export class PropertyController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
   @Put(':property_id/flag')
   async flagProperty(
     @Req() request: Request,
@@ -177,12 +171,8 @@ export class PropertyController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
   @Put('images/:property_image_id/delete')
-  async deleteImage(
-    @Req() request: Request,
-    @Param('property_image_id') property_image_id: string
-  ) {
+  async deleteImage(@Param('property_image_id') property_image_id: string) {
     try {
       return await this.propertyService.deleteImage(property_image_id);
     } catch (error) {

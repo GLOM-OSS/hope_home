@@ -4,6 +4,7 @@ import { Box, Button, Typography } from '@mui/material';
 import Scrollbars from 'rc-scrollbars';
 import { useIntl } from 'react-intl';
 import PropertyCard from './propertyCard';
+import { useRouter } from 'next/router';
 
 export default function HousingSection({
   properties,
@@ -11,6 +12,7 @@ export default function HousingSection({
   properties: IHHProperty[];
 }) {
   const { formatMessage } = useIntl();
+  const { push } = useRouter();
 
   return (
     <Box sx={{ padding: `0 7.1%`, display: 'grid', rowGap: 3 }}>
@@ -19,9 +21,7 @@ export default function HousingSection({
           {formatMessage({ id: 'exploreHomes' })}
         </Typography>
         <Typography textAlign="center" variant="h6" fontWeight={400}>
-          Take a deep dive and browse homes for sale, original neighborhood
-          photos, resident reviews and local insights to find what is right for
-          you.
+          {formatMessage({ id: 'exploreHomesText' })}
         </Typography>
       </Box>
       <Scrollbars universal autoHide style={{ height: '657px' }}>
@@ -47,6 +47,7 @@ export default function HousingSection({
         endIcon={<EastOutlined />}
         sx={{ justifySelf: 'center', textTransform: 'none' }}
         size="large"
+        onClick={() => push('/properties')}
       >
         {formatMessage({ id: 'viewAll' })}
       </Button>

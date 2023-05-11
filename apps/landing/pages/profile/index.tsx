@@ -3,29 +3,37 @@ import { ErrorMessage, useNotification } from '@hopehome/toast';
 import {
   EmailOutlined,
   LockOutlined,
+  Logout,
   ReportRounded,
 } from '@mui/icons-material';
-import { Avatar, Box, Button, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import {
+  Avatar,
+  Box,
+  Button,
+  IconButton,
+  Tooltip,
+  Typography,
+} from '@mui/material';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import EditInfoDialog from '../../components/profile/editInfoDialog';
 import EditPasswordDialog from '../../components/profile/editPasswordDialog';
 import { useUser } from '../../contexts/user.provider';
-import {
-  changePassword,
-  updateProfile
-} from '../../services/auth.service';
+import { changePassword, updateProfile } from '../../services/auth.service';
+import { useRouter } from 'next/router';
 
 export default function Profile() {
   const {
     activeUser: {
       email,
       fullname,
+      person_id,
       preferred_lang,
       profile_image_ref,
       whatsapp_number,
       phone_number,
     },
+    userDispatch,
   } = useUser();
   const { formatMessage, formatNumber } = useIntl();
 
@@ -34,6 +42,7 @@ export default function Profile() {
   const [isEditInfoDialogOpen, setIsEditInfoDialogOpen] =
     useState<boolean>(false);
 
+  const { push } = useRouter();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submissionNotif, setSubmissionNotif] = useState<useNotification>();
 
@@ -61,6 +70,7 @@ export default function Profile() {
             id: 'changedAccountInfoSuccessfully',
           }),
         });
+        userDispatch({ type: 'UPDATE_USER', payload: val });
         setSubmissionNotif(undefined);
       })
       .catch((error) => {
@@ -148,6 +158,10 @@ export default function Profile() {
             id: 'changedProfileImageSuccessfully',
           }),
         });
+        userDispatch({
+          type: 'UPDATE_USER',
+          payload: { profile_image_ref: URL.createObjectURL(newProfileImage) },
+        });
         setSubmissionNotif(undefined);
       })
       .catch((error) => {
@@ -172,6 +186,23 @@ export default function Profile() {
       .finally(() => setIsSubmitting(false));
   }
 
+  const handleLogOut = () => {
+    document.cookie = document.cookie
+      .split('; ')
+      .filter((row) => !row.startsWith('__hht'))
+      .join('; ');
+    localStorage.removeItem('hh-token');
+    userDispatch({ type: 'LOG_OUT' });
+    push('/');
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (!person_id) push('/');
+    }, 2000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <EditPasswordDialog
@@ -193,9 +224,27 @@ export default function Profile() {
         submitDialog={(val) => changeAccountInfo(val)}
       />
       <Box sx={{ mt: 4, padding: `0 7.1%`, mb: 2, display: 'grid', rowGap: 2 }}>
-        <Typography variant="h4">
-          {formatMessage({ id: 'accountSettings' })}
-        </Typography>
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: '1fr auto',
+            alignItems: 'center',
+            columnGap: 1,
+          }}
+        >
+          <Typography variant="h4">
+            {formatMessage({ id: 'accountSettings' })}
+          </Typography>
+          <Tooltip arrow title={formatMessage({ id: 'logOut' })}>
+            <IconButton
+              size="small"
+              sx={{ backgroundColor: 'rgba(255, 255, 255, 0.4)' }}
+              onClick={handleLogOut}
+            >
+              <Logout fontSize="medium" color="error" />
+            </IconButton>
+          </Tooltip>
+        </Box>
         <Box
           sx={{
             display: 'grid',

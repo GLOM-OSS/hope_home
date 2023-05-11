@@ -8,8 +8,17 @@ import {
   ReportRounded,
   SquareFootOutlined,
   WarningAmberOutlined,
+  WhatsApp,
 } from '@mui/icons-material';
-import { Avatar, Box, Button, CardHeader, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Button,
+  CardHeader,
+  IconButton,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { ConfirmDialog } from '../../../components/confirmDialog';
 import { GetServerSideProps } from 'next';
 import { useState } from 'react';
@@ -24,11 +33,16 @@ import {
 } from '../../../services/property.service';
 import { toast } from 'react-toastify';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { property_id } = context.query;
   try {
-    const propertyDetails = await getPropertyDetails(property_id as string);
+    const accessToken = context.req.cookies['__hht'];
+    const propertyDetails = await getPropertyDetails(
+      property_id as string,
+      accessToken
+    );
     return {
       props: { propertyDetails, similarProperties: [], nearbyProperties: [] },
     };
@@ -56,6 +70,7 @@ export default function PropertyDetails({
     property_type,
     publisher_details,
     house_details,
+    created_at,
   },
   similarProperties,
   nearbyProperties,
@@ -64,6 +79,7 @@ export default function PropertyDetails({
   similarProperties: IHHProperty[];
   nearbyProperties: IHHProperty[];
 }) {
+  const { push } = useRouter();
   const { formatMessage, formatNumber, formatDate } = useIntl();
   const [isConfirmSignalDialogOpen, setIsConfirmSignalDialogOpen] =
     useState<boolean>(false);
@@ -352,7 +368,15 @@ export default function PropertyDetails({
             </Box>
           </Box>
         </Box>
-        <Box>
+        <Box
+          sx={{
+            display: 'grid',
+            rowGap: 2,
+          }}
+        >
+          <Typography variant="h4" fontWeight={500}>
+            {formatMessage({ id: 'localInformation' })}
+          </Typography>
           <Box
             sx={{
               display: 'grid',
@@ -365,7 +389,7 @@ export default function PropertyDetails({
               {formatMessage({ id: 'map' })}
             </Button>
             <Typography variant="h4" fontWeight={500}>
-              {formatMessage({ id: 'localInformation' })}
+              {formatMessage({ id: 'information' })}
             </Typography>
           </Box>
           {latitude !== null && longitude !== null && (
@@ -391,20 +415,63 @@ export default function PropertyDetails({
                 {publisher_details.profile_image_ref ? (
                   <Image
                     src={publisher_details.profile_image_ref}
-                    alt={'publisher-profile-image'}
+                    height={60}
+                    width={60}
+                    alt="publisher-profile-image"
                   />
                 ) : (
                   `${publisher_details.fullname[0]}`
                 )}
               </Avatar>
             }
-            title={`${publisher_details.fullname}, ${publisher_details.whatsapp_number}`}
-            subheader={`Join on the ${formatDate(publisher_details.created_at, {
-              month: 'short',
-              day: 'numeric',
-              year: 'numeric',
-            })}`}
+            title={publisher_details.fullname}
+            subheader={`${formatMessage({ id: 'joinThe' })} ${formatDate(
+              publisher_details.created_at,
+              {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+              }
+            )}`}
+            action={
+              <Tooltip arrow title={formatMessage({ id: 'whatsappContact' })}>
+                <IconButton
+                  size="small"
+                  sx={{ backgroundColor: 'rgba(255, 255, 255, 0.4)' }}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    push(
+                      `https://api.whatsapp.com/send/?phone=${
+                        publisher_details.whatsapp_number
+                      }&text=${encodeURIComponent(
+                        //TODO: use this message for the interestedInProperty below 'I saw your property on hope home and it interested me'
+                        formatMessage({ id: 'interestedInProperty' }) +
+                          `\n\nhttps://hopehome.ingl.io/${property_id}`
+                      )}`
+                    );
+                  }}
+                >
+                  <WhatsApp fontSize="large" color="primary" />
+                </IconButton>
+              </Tooltip>
+            }
           />
+          <Typography
+            variant="body1"
+            color="text.secondary"
+            marginTop={1}
+            textAlign="end"
+            fontWeight={500}
+          >
+            {`${formatMessage({ id: 'publisherThe' })} ${formatDate(
+              created_at,
+              {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+              }
+            )}`}
+          </Typography>
         </Box>
         {similarProperties.length > 0 && (
           <Box>

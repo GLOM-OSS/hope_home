@@ -40,6 +40,7 @@ export interface IHHProperty
   is_flagged: boolean;
   is_listed: boolean;
   number_of_likes: number;
+  created_at: number;
   house_details?: IHouseDetails;
 
   publisher_details: IUser;
@@ -64,5 +65,5 @@ export interface IPropertyQuery {
   property_type?: PropertyType;
   listing_reason?: ListingReason;
   house_type?: HouseType;
-  published_by?: string;
+  is_user_property?: boolean;
 }

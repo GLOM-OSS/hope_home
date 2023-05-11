@@ -55,5 +55,7 @@ function axiosInstance(): AxiosInstance {
 
   return axiosInstance;
 }
+export const baseURL =
+  process.env['NX_API_BASE_URL'] || 'https://api-hh.ingl.io';
 
 export const http = axiosInstance();

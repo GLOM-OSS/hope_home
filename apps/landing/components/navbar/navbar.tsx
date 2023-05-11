@@ -14,7 +14,15 @@ interface INavItem {
   route: string;
 }
 
-function NavItem({ route, item }: { route: string; item: string }) {
+function NavItem({
+  route,
+  item,
+  handleLink,
+}: {
+  route: string;
+  item: string;
+  handleLink: () => void;
+}) {
   const { pathname } = useRouter();
   const { formatMessage } = useIntl();
 
@@ -57,7 +65,15 @@ function NavItem({ route, item }: { route: string; item: string }) {
         },
       }}
     >
-      <Link href={route}>{formatMessage({ id: item })}</Link>
+      <Link
+        href={route}
+        onClick={(e) => {
+          e.preventDefault();
+          handleLink();
+        }}
+      >
+        {formatMessage({ id: item })}
+      </Link>
     </Typography>
   );
 }
@@ -146,7 +162,15 @@ function SideNav({
             }}
           >
             {navItems.map(({ item, route }, index) => (
-              <NavItem item={item} route={route} key={index} />
+              <NavItem
+                handleLink={() => {
+                  push(route);
+                  close();
+                }}
+                item={item}
+                route={route}
+                key={index}
+              />
             ))}
           </Box>
           <Box
@@ -185,11 +209,33 @@ function SideNav({
               }}
             >
               {activeUser.person_id ? (
-                <Box>{`${activeUser.fullname}`}</Box>
+                <Button
+                  variant="text"
+                  color="inherit"
+                  onClick={() => {
+                    push('/profile');
+                    close();
+                  }}
+                >{`${activeUser.fullname}`}</Button>
               ) : (
                 <>
-                  <NavItem item={'login'} route={'/signin'} /> /
-                  <NavItem item={'signup'} route={'/signup'} />
+                  <NavItem
+                    handleLink={() => {
+                      push('/signin');
+                      close();
+                    }}
+                    item={'login'}
+                    route={'/signin'}
+                  />{' '}
+                  /
+                  <NavItem
+                    handleLink={() => {
+                      push('/signup');
+                      close();
+                    }}
+                    item={'signup'}
+                    route={'/signup'}
+                  />
                 </>
               )}
             </Box>
@@ -281,7 +327,15 @@ export default function Navbar() {
             }}
           >
             {navItems.map(({ item, route }, index) => (
-              <NavItem item={item} route={route} key={index} />
+              <NavItem
+                handleLink={() => {
+                  push(route);
+                  close();
+                }}
+                item={item}
+                route={route}
+                key={index}
+              />
             ))}
           </Box>
           <Box
@@ -332,12 +386,30 @@ export default function Navbar() {
                   }}
                   color="secondary"
                   variant="contained"
-                  onClick={() => push('/profile')}
+                  onClick={() => {
+                    setIsSideNavOpen(false);
+                    push('/profile');
+                  }}
                 >{`${activeUser.fullname[0]}`}</Button>
               ) : (
                 <>
-                  <NavItem item={'login'} route={'/signin'} /> /
-                  <NavItem item={'signup'} route={'/signup'} />
+                  <NavItem
+                    handleLink={() => {
+                      push('/signin');
+                      close();
+                    }}
+                    item={'login'}
+                    route={'/signin'}
+                  />{' '}
+                  /
+                  <NavItem
+                    handleLink={() => {
+                      push('/signup');
+                      close();
+                    }}
+                    item={'signup'}
+                    route={'/signup'}
+                  />
                 </>
               )}
             </Box>
