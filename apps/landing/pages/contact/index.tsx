@@ -160,7 +160,7 @@ export default function Contact() {
               variant="standard"
               label={formatMessage({ id: 'yourName' })}
               required
-              placeholder={formatMessage({ id: 'John Doe' })}
+              placeholder="John Doe"
               error={formik.touched.name && Boolean(formik.errors.name)}
               helperText={formik.touched.name && formik.errors.name}
               {...formik.getFieldProps('name')}
@@ -170,7 +170,7 @@ export default function Contact() {
               label={formatMessage({ id: 'email' })}
               type="email"
               required
-              placeholder={formatMessage({ id: 'xxx@service.tld' })}
+              placeholder="xxx@service.tld"
               error={formik.touched.email && Boolean(formik.errors.email)}
               helperText={formik.touched.email && formik.errors.email}
               {...formik.getFieldProps('email')}
