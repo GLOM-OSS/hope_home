@@ -2,7 +2,7 @@ import { MailerService as Mailer } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
 import { readFileSync } from 'fs';
 import * as Handlebars from 'handlebars';
-import { ResetPasswordMessages } from './messages';
+import { ContactUsMessages, ResetPasswordMessages } from './messages';
 import path = require('path');
 
 @Injectable()
@@ -17,8 +17,24 @@ export class MailService {
     const template = Handlebars.compile(source);
     const mailObject = {
       to: email,
-      from: 'glomexam@gmail.com',
+      from: process.env.EMAIL_USER,
       subject: 'Hope Home Credential',
+      html: template(messages),
+    };
+
+    return await this.mailerService.sendMail(mailObject);
+  }
+
+  async sendContactUsMail(email: string, messages: ContactUsMessages) {
+    const source = readFileSync(
+      path.join(__dirname, './assets/templates/contact-us.hbs'),
+      'utf8'
+    );
+    const template = Handlebars.compile(source);
+    const mailObject = {
+      to: email,
+      from: process.env.EMAIL_USER,
+      subject: 'Service Clientèles, Hope Home',
       html: template(messages),
     };
 
