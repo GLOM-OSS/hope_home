@@ -5,12 +5,7 @@ import * as Yup from 'yup';
 import { useIntl } from 'react-intl';
 import { useState } from 'react';
 import { ErrorMessage, useNotification } from '@hopehome/toast';
-
-interface IMessage {
-  name: string;
-  email: string;
-  message: string;
-}
+import { IMessage } from '@hopehome/interfaces';
 
 export default function Contact() {
   const { formatMessage } = useIntl();
