@@ -42,8 +42,8 @@ export function Index({
       <HeroSection />
       <PropertySection properties={recent} />
       <InfoSection />
-      <HousingSection properties={housing} />
-      <LandSection properties={land} />
+      {housing.length > 0 && <HousingSection properties={housing} />}
+      {land.length > 0 && <LandSection properties={land} />}
       <Box sx={{ padding: `0 7.1%`, display: 'grid', rowGap: 7 }}>
         <OurMissions />
         <AboutSection />
