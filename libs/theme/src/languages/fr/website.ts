@@ -104,4 +104,7 @@ export const website = {
     'Plongez dans les maisons à vendre, les photos originales du coin, les commentaires des résidents et les informations locales pour trouver ce qui vous convient le mieux.',
   exploreLandsText:
     'Plongez dans les terrains à vendre, les photos originales du quartier, les commentaires des résidents et les informations locales pour trouver ce qui vous convient le mieux.',
+  interestedInProperty: "J'ai vu votre bien sur hope home et il m'a intéressé",
+  sharePropertyMessage:
+    "Jetez un coup d'œil à ce bien sympa que j'ai trouvé sur HopeHome",
 };
