@@ -20,6 +20,9 @@ services:
       - PORT=8080
       - NODE_ENV=production
       - SALT=12
+      - EMAIL_USER='glomexam@gmail.com'
+      - EMAIL_HOST='smtp.gmail.com'
+      - EMAIL_PASSWORD='valuability9103'
     ports:
       - "95:8080"
     depends_on:
