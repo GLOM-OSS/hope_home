@@ -604,7 +604,7 @@ export default function PropertyCard({
             {address.length > 87 ? `${address.slice(0, 87)}...` : address}
           </Typography>
           <Box sx={{ display: 'grid', gridAutoFlow: 'column', columnGap: 2 }}>
-            {house_details && (
+            {property_type !== 'Land' && house_details && (
               <>
                 <Box
                   sx={{
