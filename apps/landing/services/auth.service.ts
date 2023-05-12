@@ -1,5 +1,5 @@
 import { baseURL, http } from '@hopehome/axios';
-import { ISignup, ISignIn, IUser } from '@hopehome/interfaces';
+import { ISignup, ISignIn, IUser, IMessage } from '@hopehome/interfaces';
 
 export async function signUp(newPerson: ISignup) {
   const {
@@ -74,4 +74,10 @@ export async function updateProfile(
   if (profile) formData.append('profileImageRef', profile, profile.name);
   const { data } = await http.put('/auth/user/edit', formData);
   return data;
+}
+
+export async function sendMessage(message: IMessage) {
+  await http.post('/email', message, {
+    headers: { 'accept-language': 'fr' },
+  });
 }

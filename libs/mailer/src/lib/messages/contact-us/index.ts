@@ -13,6 +13,7 @@ export const contactUsMessages = {
 };
 
 export type ContactUsMessages = {
+  logo: string;
   subject: string;
   message: string;
   messageDisclaimer: string;
