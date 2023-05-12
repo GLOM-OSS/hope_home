@@ -281,7 +281,7 @@ export default function PropertyCard({
     setImageSubmissionNotif(notif);
     notif.notify({
       render: formatMessage({
-        id: 'updatingPropertyImages',
+        id: 'savingPropertyImages',
       }),
     });
     updateProperty(

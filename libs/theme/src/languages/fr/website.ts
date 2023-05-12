@@ -66,8 +66,6 @@ export const website = {
   signUp: "S'inscrire",
   forgotPassword: 'Mot de passe oublié ?',
   loginWithGoogle: 'Se connecter avec Google',
-  enterEmail: 'Numéro de téléphone',
-  enterPassword: 'Mot de passe',
   createHopeHomeAccount: 'Créer un compte',
   createAccountMessage:
     "Accédez à nos propositions de biens exclusifs et profitez d'une expérience de qualité",
@@ -98,7 +96,7 @@ export const website = {
   forSale: 'A vendre',
   land: 'Terrain',
   favorites: 'Favoris',
-  singleFamilyHome: 'Sigle Family home',
+  singleFamilyHome: 'Maison individuelle',
   appartment: 'Appartment',
   exploreHomesText:
     'Plongez dans les maisons à vendre, les photos originales du coin, les commentaires des résidents et les informations locales pour trouver ce qui vous convient le mieux.',
@@ -134,4 +132,48 @@ export const website = {
   feedbackStars:
     "Retour d'expérience positif ***** sur la base de plus de 100 avis récents",
   myProperties: 'Mes propriétés',
+  newPost: 'Nouvelle publications',
+
+  delete: 'Supprimer',
+  manageImages: 'Gérer les images',
+  managePropertyImages: 'Gérer les images des propriétés',
+  addImages: 'Ajouter des images',
+  noNewImages: "Il n'y a pas d'image nouvellement ajoutée",
+  save: 'Enregistrer',
+  confirmDeletePropertyDialogMessage:
+    "Voulez-vous vraiment supprimer cette propriété ? Cette action n'est pas réversible",
+  confirmDelistPropertyDialogMessage:
+    'Voulez-vous vraiment supprimer ce bien ?',
+  confirmDelistProperty: 'Delist property',
+  confirmDeleteProperty: 'Delete property',
+  delist: 'Supprimer',
+  signupWithGoogle: "S'inscrire avec Google",
+  fullname: 'Nom Complet',
+  enterFullname: 'Entrer votre nom.',
+  password: 'Mot de passe',
+  phoneNumber: 'Numéro de téléphone',
+  whatsappNumber: 'Numéro de whatsApp',
+  enterEmail: 'Entrer votre adresse email',
+  enterPassword: 'Entrer votre mot de passe',
+  enterPhoneNumber: 'Entrer votre numéro de téléphone',
+  enterWhatsappNumber: 'Entrer votre numéro whatsapp',
+  gender: 'Genre',
+  female: 'Femme',
+  male: 'Homme',
+
+  signalingProperty: 'Signalisation de la propriété...',
+  signaledPropertySuccessfully: 'Propriété signalée avec succès !',
+  signalingPropertyFailed:
+    "La signalisation de la propriété a échoué !!!', signaledPropertySuccessfully : 'Propriété signalée avec succès !",
+  delistingProperty: 'Suppression de la propriété...',
+  delistPropertySuccessfully:
+    ' La propriété a été retirée de la liste avec succès !',
+  delistingPropertyFailed: 'La suppression de la propriété a échoué ! !!',
+  delistingPropertySuccessfully: 'La suppression de la propriété a réussi !',
+  deletingProperty: 'Suppression de la propriété...',
+  deletPropertySuccessfully: 'Suppression de la propriété réussie !',
+  deletingPropertyFailed: 'La suppression de la propriété a échoué ! !!',
+  savingPropertyImages: 'Sauvegarde des images de la propriété...',
+  saveImagesSuccessfully: 'Sauvegarde des images de la propriété réussie !',
+  savingImagesFailed: "L'enregistrement des images de la propriété a échoué",
 };

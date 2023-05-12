@@ -111,7 +111,7 @@ export default function Properties({
           }}
         >
           <Typography variant="h4">
-            {formatMessage({ id: 'myPostedProperties' })}
+            {formatMessage({ id: 'myProperties' })}
           </Typography>
           <Button
             variant="contained"
