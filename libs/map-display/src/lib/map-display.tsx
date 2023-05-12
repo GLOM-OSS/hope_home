@@ -1,6 +1,28 @@
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import GoogleMapReact from 'google-map-react';
 import Image from 'next/image';
+
+function LocationPin({ text }: { text: string }) {
+  return (
+    <Box
+      sx={{
+        display: 'grid',
+        justifyContent: 'start',
+        justifyItems: 'center',
+        alignSelf: 'start',
+        textAlign: 'center',
+      }}
+    >
+      <Image
+        alt="hope home"
+        width={50}
+        height={60}
+        src={'/favicon_green.png'}
+      />
+      <Typography>{text}</Typography>
+    </Box>
+  );
+}
 
 export function MapDisplay({
   location: { lat, lng },
@@ -22,17 +44,3 @@ export function MapDisplay({
     </Box>
   );
 }
-
-const LocationPin = ({ text }: { text: string }) => (
-  <div
-    style={{
-      display: 'flex',
-      textAlign: 'center',
-      alignItems: 'center',
-      transform: 'translate(-50%, -50%)',
-    }}
-  >
-    <Image alt="hope home" width={40} height={60} src={'/favicon_green.png'} />
-    {text}
-  </div>
-);

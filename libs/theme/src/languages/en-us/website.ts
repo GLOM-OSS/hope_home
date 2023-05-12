@@ -106,5 +106,30 @@ export const website = {
   exploreLandsText:
     "Dive into lots for sale, original neighborhood photos, resident reviews and local information to find what's right for you.",
   interestedInProperty: 'I saw your property on hope home and it interested me',
-  sharePropertyMessage: 'Checkout this cool property I found on HopeHome'
+  sharePropertyMessage: 'Checkout this cool property I found on HopeHome',
+  followUs: 'Follow us',
+  ourCollaborators: 'Our collaborators',
+  ourPages: 'Our pages',
+  close: 'Close',
+  noImages: 'No Images posted here!',
+  publishedOn: 'Published on',
+  joinedOn: 'Joined on',
+  description: 'Description',
+  publisher: 'Publisher',
+  sendMessage: 'Send message',
+  yourMessageTemplate: 'We just want to signal that you have a great service',
+  yourMessage: 'Your message',
+  email: 'Email',
+  yourName: 'Your name',
+  contactUsMessage:
+    'You can also fill out the form and we will get back to you shortly.',
+  ownerMessageSummary:
+    'You can contact the owner of your property directly with any special requests or to report a problem. We encourage direct and open communication between our guests and owners to ensure a satisfactory experience for all.',
+  ownerMessage: 'Message to the owner',
+  customerCareMessage:
+    'Our customer service department is available to answer any questions you may have and resolve any issues you may have. We are constantly working to provide you with a quality service and a positive experience.',
+  contactUsSummary:
+    'We would be delighted to receive your questions, comments or requests for information. Please feel free to contact us by e-mail, phone or via our form below.',
+  feedbackStars: 'Positive Feedback ***** based on the recent 100+ reviews',
+  myProperties: 'My properties',
 };

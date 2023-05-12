@@ -80,7 +80,7 @@ export default function Signin() {
         });
         userDispatch({ type: 'LOAD_USER', payload: user });
         setSubmissionNotif(undefined);
-        push('/');
+        push('/properties');
       })
       .catch((error) => {
         notif.update({
