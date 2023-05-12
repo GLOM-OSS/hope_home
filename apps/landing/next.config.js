@@ -16,7 +16,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'app-hh.ingl.io',
+        hostname: 'api-hh.ingl.io',
       },
       {
         port: '8000',
