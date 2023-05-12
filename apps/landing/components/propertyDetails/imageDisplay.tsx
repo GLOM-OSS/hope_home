@@ -144,7 +144,7 @@ export default function ImageDisplay({ images }: { images: string[] }) {
               width="100%"
               height={400}
               style={{
-                objectFit: 'cover',
+                objectFit: 'contain',
                 borderTopLeftRadius: '10px',
                 borderBottomLeftRadius: '10px',
               }}
