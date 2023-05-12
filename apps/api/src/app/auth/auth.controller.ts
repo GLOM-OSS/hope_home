@@ -45,10 +45,7 @@ export class AuthController {
       const accessToken = this.authService.signIn(person);
       return { access_token: accessToken };
     } catch (error) {
-      throw new HttpException(
-        `Oops, something when wrong: ${error.message}`,
-        HttpStatus.INTERNAL_SERVER_ERROR
-      );
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 

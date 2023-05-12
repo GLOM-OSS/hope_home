@@ -14,7 +14,8 @@ export class GoogleLoginDto {
   token: string;
 
   @IsPhoneNumber('CM')
-  whatsapp_number: string;
+  @IsOptional()
+  whatsapp_number?: string;
 }
 
 export class CreatePersonDto {

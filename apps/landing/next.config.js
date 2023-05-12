@@ -15,13 +15,13 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
+        protocol: 'https',
+        hostname: 'app-hh.ingl.io',
+      },
+      {
         port: '8000',
         protocol: 'http',
         hostname: 'localhost',
-      },
-      {
-        protocol: 'https',
-        hostname: 'app-hh.ingl.io',
       },
     ],
   },

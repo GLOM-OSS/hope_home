@@ -24,13 +24,16 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { signUp } from '../../services/auth.service';
+import { signUp, verifyCredential } from '../../services/auth.service';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import * as Yup from 'yup';
 import { useUser } from 'apps/landing/contexts/user.provider';
+import { useGoogleLogin } from '@react-oauth/google';
+import { toast } from 'react-toastify';
+import AdditionalDataDialog from 'apps/landing/components/profile/additionalDataDialog';
 
 export default function Signup() {
   const { formatMessage } = useIntl();
@@ -125,6 +128,63 @@ export default function Signup() {
   const { push } = useRouter();
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [accessToken, setAccessToken] = useState<string>();
+  const [isAdditionalDataDialogOpen, setIsAdditionalDataDialogOpen] =
+    useState(false);
+  const loginHandler = useGoogleLogin({
+    onSuccess(tokenResponse) {
+      console.log(tokenResponse);
+      setAccessToken(tokenResponse.access_token);
+      setIsAdditionalDataDialogOpen(true);
+    },
+    onError(errorResponse) {
+      toast.error(errorResponse.error_description);
+    },
+  });
+  const finalizeLogin = (values: { whatsapp_number: string }) => {
+    setIsSubmitting(true);
+    const notif = new useNotification();
+    if (submissionNotif) {
+      submissionNotif.dismiss();
+    }
+    setSubmissionNotif(notif);
+    notif.notify({
+      render: formatMessage({
+        id: 'signingIn',
+      }),
+    });
+    verifyCredential(accessToken, values.whatsapp_number)
+      .then((user) => {
+        notif.update({
+          render: formatMessage({
+            id: 'accountCreationSuccessfull',
+          }),
+        });
+        userDispatch({ type: 'LOAD_USER', payload: user });
+        setSubmissionNotif(undefined);
+        push('/');
+      })
+      .catch((error) => {
+        notif.update({
+          type: 'ERROR',
+          render: (
+            <ErrorMessage
+              retryFunction={() => finalizeLogin(values)}
+              notification={notif}
+              message={
+                error?.message ||
+                formatMessage({
+                  id: 'accountCreationFailed',
+                })
+              }
+            />
+          ),
+          autoClose: false,
+          icon: () => <ReportRounded fontSize="medium" color="error" />,
+        });
+      })
+      .finally(() => setIsSubmitting(false));
+  };
 
   return (
     <Box
@@ -136,6 +196,11 @@ export default function Signup() {
         rowGap: 3,
       }}
     >
+      <AdditionalDataDialog
+        open={isAdditionalDataDialogOpen}
+        closeDialog={() => setIsAdditionalDataDialogOpen(false)}
+        submitDialog={finalizeLogin}
+      />
       <Box>
         <Typography variant="h4" textAlign={'center'}>
           {formatMessage({ id: 'createHopeHomeAccount' })}
@@ -153,6 +218,7 @@ export default function Signup() {
           textTransform: 'none',
           justifySelf: 'center',
         }}
+        onClick={() => loginHandler()}
       >
         {formatMessage({ id: 'signupWithGoogle' })}
       </Button>

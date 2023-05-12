@@ -25,7 +25,6 @@ import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
-import AdditionalDataDialog from '../../components/profile/additionalDataDialog';
 import { useUser } from '../../contexts/user.provider';
 import { signIn, verifyCredential } from '../../services/auth.service';
 
@@ -108,20 +107,15 @@ export default function Signin() {
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const [accessToken, setAccessToken] = useState<string>();
-  const [isAdditionalDataDialogOpen, setIsAdditionalDataDialogOpen] =
-    useState(false);
   const loginHandler = useGoogleLogin({
     onSuccess(tokenResponse) {
-      console.log(tokenResponse);
-      setAccessToken(tokenResponse.access_token);
-      setIsAdditionalDataDialogOpen(true);
+      finalizeLogin(tokenResponse.access_token);
     },
     onError(errorResponse) {
       toast.error(errorResponse.error_description);
     },
   });
-  const finalizeLogin = (values: { whatsapp_number: string }) => {
+  const finalizeLogin = (accessToken: string) => {
     setIsSubmitting(true);
     const notif = new useNotification();
     if (submissionNotif) {
@@ -133,7 +127,7 @@ export default function Signin() {
         id: 'signingIn',
       }),
     });
-    verifyCredential(accessToken, values.whatsapp_number)
+    verifyCredential(accessToken)
       .then((user) => {
         notif.update({
           render: formatMessage({
@@ -149,7 +143,7 @@ export default function Signin() {
           type: 'ERROR',
           render: (
             <ErrorMessage
-              retryFunction={() => finalizeLogin(values)}
+              retryFunction={() => finalizeLogin(accessToken)}
               notification={notif}
               message={
                 error?.message ||
@@ -167,153 +161,146 @@ export default function Signin() {
   };
 
   return (
-    <>
-      <AdditionalDataDialog
-        open={isAdditionalDataDialogOpen}
-        closeDialog={() => setIsAdditionalDataDialogOpen(false)}
-        submitDialog={finalizeLogin}
-      />
-      <Box
-        sx={{
-          padding: `0 7.1%`,
-          marginTop: 4,
-          mb: 4,
-          display: 'grid',
-          rowGap: 3,
-        }}
-      >
-        <Box>
-          <Typography variant="h4" textAlign={'center'}>
-            {formatMessage({ id: 'welcomeBack' })}
-          </Typography>
-          <Typography textAlign={'center'}>
-            {formatMessage({ id: 'welcomeMessage' })}
-          </Typography>
-        </Box>
-        <Button
-          variant="contained"
-          size="large"
-          startIcon={<Google />}
-          sx={{
-            borderRadius: '32px',
-            textTransform: 'none',
-            justifySelf: 'center',
-          }}
-          onClick={() => loginHandler()}
-        >
-          {formatMessage({ id: 'loginWithGoogle' })}
-        </Button>
-        <Box
-          component="form"
-          sx={{ justifySelf: 'center' }}
-          onSubmit={formik.handleSubmit}
-        >
-          <TextField
-            fullWidth
-            required
-            autoFocus
-            label={formatMessage({ id: 'email' })}
-            placeholder={formatMessage({ id: 'enterEmail' })}
-            variant="standard"
-            type="email"
-            error={formik.touched.email && Boolean(formik.errors.email)}
-            helperText={formik.touched.email && formik.errors.email}
-            {...formik.getFieldProps('email')}
-            disabled={isSubmitting}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <EmailRounded color="primary" />
-                </InputAdornment>
-              ),
-            }}
-          />
-          <TextField
-            fullWidth
-            required
-            label={formatMessage({ id: 'password' })}
-            placeholder={formatMessage({ id: 'enterPassword' })}
-            variant="standard"
-            type={showPassword ? 'text' : 'password'}
-            error={formik.touched.password && Boolean(formik.errors.password)}
-            helperText={formik.touched.password && formik.errors.password}
-            {...formik.getFieldProps('password')}
-            disabled={isSubmitting}
-            sx={{ marginTop: theme.spacing(3.125) }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <LockPersonRounded color="primary" />
-                </InputAdornment>
-              ),
-              endAdornment: (
-                <Tooltip
-                  arrow
-                  title={formatMessage({
-                    id: showPassword ? 'hidePassword' : 'showPassword',
-                  })}
-                >
-                  <IconButton
-                    size="small"
-                    onClick={() => setShowPassword((prev) => !prev)}
-                  >
-                    {showPassword ? (
-                      <VisibilityOffOutlined />
-                    ) : (
-                      <VisibilityOutlined />
-                    )}
-                  </IconButton>
-                </Tooltip>
-              ),
-            }}
-          />
-          <Typography
-            variant="body2"
-            onClick={() => push('/forgot-password')}
-            sx={{
-              color: theme.palette.primary.main,
-              '&:hover': { color: theme.palette.primary.dark },
-              cursor: 'pointer',
-              textAlign: 'end',
-            }}
-          >
-            {formatMessage({ id: 'forgotPassword' })}
-          </Typography>
-          <Button
-            color="primary"
-            variant="contained"
-            size="large"
-            fullWidth
-            type="submit"
-            disabled={
-              isSubmitting ||
-              formik.values.password === '' ||
-              formik.values.email === ''
-            }
-            sx={{ marginTop: 6.25, textTransform: 'none' }}
-            endIcon={<EastOutlined />}
-          >
-            {formatMessage({ id: 'login' })}
-          </Button>
-        </Box>
+    <Box
+      sx={{
+        padding: `0 7.1%`,
+        marginTop: 4,
+        mb: 4,
+        display: 'grid',
+        rowGap: 3,
+      }}
+    >
+      <Box>
+        <Typography variant="h4" textAlign={'center'}>
+          {formatMessage({ id: 'welcomeBack' })}
+        </Typography>
         <Typography textAlign={'center'}>
-          {formatMessage({ id: 'dontHaveAnAccount' }) + ' '}
-          <Typography
-            component="span"
-            onClick={() => push('/signup')}
-            sx={{
-              color: theme.palette.primary.main,
-              cursor: 'pointer',
-              '&:hover': {
-                color: theme.palette.primary.dark,
-              },
-            }}
-            color={theme.palette.primary.main}
-          >
-            {formatMessage({ id: 'signUp' })}
-          </Typography>
+          {formatMessage({ id: 'welcomeMessage' })}
         </Typography>
       </Box>
-    </>
+      <Button
+        variant="contained"
+        size="large"
+        startIcon={<Google />}
+        sx={{
+          borderRadius: '32px',
+          textTransform: 'none',
+          justifySelf: 'center',
+        }}
+        onClick={() => loginHandler()}
+      >
+        {formatMessage({ id: 'loginWithGoogle' })}
+      </Button>
+      <Box
+        component="form"
+        sx={{ justifySelf: 'center' }}
+        onSubmit={formik.handleSubmit}
+      >
+        <TextField
+          fullWidth
+          required
+          autoFocus
+          label={formatMessage({ id: 'email' })}
+          placeholder={formatMessage({ id: 'enterEmail' })}
+          variant="standard"
+          type="email"
+          error={formik.touched.email && Boolean(formik.errors.email)}
+          helperText={formik.touched.email && formik.errors.email}
+          {...formik.getFieldProps('email')}
+          disabled={isSubmitting}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <EmailRounded color="primary" />
+              </InputAdornment>
+            ),
+          }}
+        />
+        <TextField
+          fullWidth
+          required
+          label={formatMessage({ id: 'password' })}
+          placeholder={formatMessage({ id: 'enterPassword' })}
+          variant="standard"
+          type={showPassword ? 'text' : 'password'}
+          error={formik.touched.password && Boolean(formik.errors.password)}
+          helperText={formik.touched.password && formik.errors.password}
+          {...formik.getFieldProps('password')}
+          disabled={isSubmitting}
+          sx={{ marginTop: theme.spacing(3.125) }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <LockPersonRounded color="primary" />
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <Tooltip
+                arrow
+                title={formatMessage({
+                  id: showPassword ? 'hidePassword' : 'showPassword',
+                })}
+              >
+                <IconButton
+                  size="small"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                >
+                  {showPassword ? (
+                    <VisibilityOffOutlined />
+                  ) : (
+                    <VisibilityOutlined />
+                  )}
+                </IconButton>
+              </Tooltip>
+            ),
+          }}
+        />
+        <Typography
+          variant="body2"
+          onClick={() => push('/forgot-password')}
+          sx={{
+            color: theme.palette.primary.main,
+            '&:hover': { color: theme.palette.primary.dark },
+            cursor: 'pointer',
+            textAlign: 'end',
+          }}
+        >
+          {formatMessage({ id: 'forgotPassword' })}
+        </Typography>
+        <Button
+          color="primary"
+          variant="contained"
+          size="large"
+          fullWidth
+          type="submit"
+          disabled={
+            isSubmitting ||
+            formik.values.password === '' ||
+            formik.values.email === ''
+          }
+          sx={{ marginTop: 6.25, textTransform: 'none' }}
+          endIcon={<EastOutlined />}
+        >
+          {formatMessage({ id: 'login' })}
+        </Button>
+      </Box>
+      <Typography textAlign={'center'}>
+        {formatMessage({ id: 'dontHaveAnAccount' }) + ' '}
+        <Typography
+          component="span"
+          onClick={() => push('/signup')}
+          sx={{
+            color: theme.palette.primary.main,
+            cursor: 'pointer',
+            '&:hover': {
+              color: theme.palette.primary.dark,
+            },
+          }}
+          color={theme.palette.primary.main}
+        >
+          {formatMessage({ id: 'signUp' })}
+        </Typography>
+      </Typography>
+    </Box>
   );
 }

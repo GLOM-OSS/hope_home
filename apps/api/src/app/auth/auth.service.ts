@@ -9,9 +9,9 @@ import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Person, Prisma } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
+import { ErrorEnum } from '../../errors';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateNewPasswordDto, GoogleLoginDto } from './auth.dto';
-import { ErrorEnum } from '../../errors';
 
 @Injectable()
 export class AuthService {
@@ -51,8 +51,8 @@ export class AuthService {
     const newPerson: Prisma.PersonCreateInput = {
       email,
       fullname: name,
-      whatsapp_number,
-      phone_number: whatsapp_number,
+      whatsapp_number: whatsapp_number ?? undefined,
+      phone_number: whatsapp_number ?? undefined,
       preferred_lang: locale.startsWith('en')
         ? 'en'
         : locale.startsWith('fr')
@@ -64,7 +64,8 @@ export class AuthService {
         data: newPerson,
         where: { email },
       });
-    } else return this.registerUser(newPerson);
+    } else if (whatsapp_number) return this.registerUser(newPerson);
+    else throw new HttpException(ErrorEnum.ERR6, HttpStatus.UNAUTHORIZED);
   }
 
   signIn(person: Person) {
@@ -108,8 +109,8 @@ export class AuthService {
             is_used: true,
             used_at: new Date(),
             expires_at: new Date(),
-          }
-        }
+          },
+        },
       },
       where: { person_id },
     });

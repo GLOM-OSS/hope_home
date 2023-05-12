@@ -19,7 +19,7 @@ export async function signIn(login: ISignIn) {
   return await getUser();
 }
 
-export async function verifyCredential(token: string, whatsapp_number: string) {
+export async function verifyCredential(token: string, whatsapp_number?: string) {
   const {
     data: { access_token },
   } = await http.post('/auth/google', { token, whatsapp_number });
