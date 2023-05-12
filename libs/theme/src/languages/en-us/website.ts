@@ -105,6 +105,8 @@ export const website = {
     "Dive into homes for sale, original photos of the area, resident reviews and local information to find what's right for you.",
   exploreLandsText:
     "Dive into lots for sale, original neighborhood photos, resident reviews and local information to find what's right for you.",
+  interestedInProperty: 'I saw your property on hope home and it interested me',
+  sharePropertyMessage: 'Checkout this cool property I found on HopeHome',
   followUs: 'Follow us',
   ourCollaborators: 'Our collaborators',
   ourPages: 'Our pages',

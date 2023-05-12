@@ -5,12 +5,8 @@ import * as Yup from 'yup';
 import { useIntl } from 'react-intl';
 import { useState } from 'react';
 import { ErrorMessage, useNotification } from '@hopehome/toast';
-
-interface IMessage {
-  name: string;
-  email: string;
-  message: string;
-}
+import { IMessage } from '@hopehome/interfaces';
+import { sendMessage } from '../../services/auth.service';
 
 export default function Contact() {
   const { formatMessage } = useIntl();
@@ -34,7 +30,7 @@ export default function Contact() {
     initialValues,
     validationSchema,
     onSubmit: (values, { resetForm }) => {
-      sendMessage(values);
+      sendMessageHandler(values);
       resetForm();
     },
   });
@@ -42,7 +38,7 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submissionNotif, setSubmissionNotif] = useState<useNotification>();
 
-  function sendMessage(message: IMessage) {
+  function sendMessageHandler(message: IMessage) {
     setIsSubmitting(true);
     const notif = new useNotification();
     if (submissionNotif) {
@@ -54,25 +50,24 @@ export default function Contact() {
         id: 'sendingMail',
       }),
     });
-    setTimeout(() => {
-      //TODO: CALL API HERE TO SEND MAIL TO ADMIN
-      // eslint-disable-next-line no-constant-condition
-      if (4 < 5) {
+    sendMessage(message)
+      .then(() => {
         notif.update({
           render: formatMessage({
             id: 'mailSentSuccessfully',
           }),
         });
         setSubmissionNotif(undefined);
-      } else {
+      })
+      .catch((error) => {
         notif.update({
           type: 'ERROR',
           render: (
             <ErrorMessage
-              retryFunction={() => sendMessage(message)}
+              retryFunction={() => sendMessageHandler(message)}
               notification={notif}
               message={
-                //TODO: message should come from backend
+                error?.message ||
                 formatMessage({
                   id: 'sendmailFailed',
                 })
@@ -82,8 +77,8 @@ export default function Contact() {
           autoClose: false,
           icon: () => <ReportRounded fontSize="medium" color="error" />,
         });
-      }
-    }, 3000);
+      })
+      .finally(() => setIsSubmitting(false));
   }
 
   return (

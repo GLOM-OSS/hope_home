@@ -103,6 +103,13 @@ export class AuthService {
       data: {
         password: bcrypt.hashSync(newPassword, Number(process.env.SALT)),
         PersonAudits: { create: personData },
+        ResetPasswords: {
+          create: {
+            is_used: true,
+            used_at: new Date(),
+            expires_at: new Date(),
+          }
+        }
       },
       where: { person_id },
     });
