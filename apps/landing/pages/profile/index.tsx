@@ -361,7 +361,7 @@ export default function Profile() {
         </Box>
         <Box sx={{ display: 'grid', rowGap: 1 }}>
           <Typography fontWeight={500}>
-            {formatMessage({ id: 'preferredLanguage' })}
+            {formatMessage({ id: 'preferredLang' })}
           </Typography>
           <Typography
             variant="body2"

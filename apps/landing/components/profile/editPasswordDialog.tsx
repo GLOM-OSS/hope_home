@@ -127,7 +127,7 @@ export default function EditPasswordDialog({
             color="primary"
             sx={{ textTransform: 'none' }}
           >
-            {formatMessage({ id: 'changePassword' })}
+            {formatMessage({ id: 'save' })}
           </Button>
         </DialogActions>
       </Box>
