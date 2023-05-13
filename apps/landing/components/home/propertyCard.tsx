@@ -457,8 +457,26 @@ export default function PropertyCard({
             <Checkbox
               color="error"
               checked={isLiked}
-              icon={<FavoriteBorder fontSize="large" />}
-              checkedIcon={<Favorite fontSize="large" />}
+              icon={
+                <FavoriteBorder
+                  sx={{
+                    fontSize: {
+                      desktop: '2.1875rem',
+                      mobile: '1.5rem',
+                    },
+                  }}
+                />
+              }
+              checkedIcon={
+                <Favorite
+                  sx={{
+                    fontSize: {
+                      desktop: '2.1875rem',
+                      mobile: '1.5rem',
+                    },
+                  }}
+                />
+              }
               onClick={(e) => {
                 e.stopPropagation();
                 handlePropertyClick('like');
@@ -491,7 +509,15 @@ export default function PropertyCard({
                       handlePropertyClick('signal');
                     }}
                   >
-                    <WarningAmberOutlined color="warning" fontSize="large" />
+                    <WarningAmberOutlined
+                      color="warning"
+                      sx={{
+                        fontSize: {
+                          desktop: '2.1875rem',
+                          mobile: '1.5rem',
+                        },
+                      }}
+                    />
                   </IconButton>
                 </Tooltip>
                 <Tooltip arrow title={formatMessage({ id: 'whatsappContact' })}>
@@ -503,7 +529,15 @@ export default function PropertyCard({
                       handlePropertyClick('contact');
                     }}
                   >
-                    <WhatsApp fontSize="large" color="primary" />
+                    <WhatsApp
+                      sx={{
+                        fontSize: {
+                          desktop: '2.1875rem',
+                          mobile: '1.5rem',
+                        },
+                      }}
+                      color="primary"
+                    />
                   </IconButton>
                 </Tooltip>
               </>
@@ -517,7 +551,14 @@ export default function PropertyCard({
                   handlePropertyClick('share');
                 }}
               >
-                <ShareOutlined fontSize="large" />
+                <ShareOutlined
+                  sx={{
+                    fontSize: {
+                      desktop: '2.1875rem',
+                      mobile: '1.5rem',
+                    },
+                  }}
+                />
               </IconButton>
             </Tooltip>
           </Box>
