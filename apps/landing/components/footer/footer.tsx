@@ -176,7 +176,16 @@ export default function Footer() {
           },
         }}
       >
-        <Typography variant="body2" sx={{ color: 'grey' }}>
+        <Typography
+          variant="body2"
+          sx={{
+            color: 'grey',
+            textAlign: 'center',
+            marginBottom: {
+              mobile: '8px',
+            },
+          }}
+        >
           &copy;
           {` ${new Date().getFullYear()} SCI Hope Home. ${formatMessage({
             id: 'allRightsReserved',
