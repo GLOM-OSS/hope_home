@@ -105,7 +105,7 @@ export const website = {
   interestedInProperty: 'I saw your property on hope home and it interested me',
   sharePropertyMessage: 'Checkout this cool property I found on HopeHome',
   followUs: 'Follow us',
-  ourCollaborators: 'Our collaborators',
+  ourCollaborators: 'Our partners',
   ourPages: 'Our pages',
   close: 'Close',
   noImages: 'No Images posted here!',
@@ -127,7 +127,7 @@ export const website = {
     'Our customer service department is available to answer any questions you may have and resolve any issues you may have. We are constantly working to provide you with a quality service and a positive experience.',
   contactUsSummary:
     'We would be delighted to receive your questions, comments or requests for information. Please feel free to contact us by e-mail, phone or via our form below.',
-  feedbackStars: 'Positive Feedback ***** based on the recent 100+ reviews',
+  feedbackStars: '5 star rating according to the reviews',
   myProperties: 'My properties',
   newPost: 'New post',
 

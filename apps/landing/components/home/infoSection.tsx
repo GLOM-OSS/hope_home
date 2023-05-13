@@ -49,7 +49,16 @@ function PerkItem({
           </Typography>
         )}
       </Box>
-      <Typography variant="h6" sx={{ fontWeight: '400' }}>
+      <Typography
+        variant="h6"
+        sx={{
+          fontWeight: '400',
+          fontSize: {
+            desktop: theme.typography.h6.fontSize,
+            mobile: '1.1rem',
+          },
+        }}
+      >
         {formatMessage({
           id: title,
         })}
@@ -119,7 +128,17 @@ export default function InfoSection() {
         <Typography sx={{ textAlign: 'center' }} variant="h4">
           {formatMessage({ id: 'yourMostIdealSolutions' })}
         </Typography>
-        <Typography variant="h6" fontWeight={400} textAlign="center">
+        <Typography
+          variant="h6"
+          fontWeight={400}
+          textAlign="center"
+          sx={{
+            fontSize: {
+              desktop: theme.typography.h6.fontSize,
+              mobile: '1.1rem',
+            },
+          }}
+        >
           {formatMessage({ id: 'infoSectionSubTitle' })}
         </Typography>
       </Box>

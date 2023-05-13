@@ -402,12 +402,19 @@ export default function PropertyCard({
       <Box
         component={Paper}
         elevation={1}
-        sx={{ width: '350px', cursor: 'pointer' }}
+        sx={{
+          width: {
+            desktop: '350px',
+            mobile: '307px',
+          },
+          cursor: 'pointer',
+        }}
         onClick={() => handlePropertyClick()}
       >
         <Box sx={{ position: 'relative' }}>
           <Image
             src={image_ref ?? '/location-icon.png'}
+            className="property-image"
             alt={property_type}
             height={350}
             width={350}
@@ -444,6 +451,10 @@ export default function PropertyCard({
                 width: '260px',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
+                fontSize: {
+                  desktop: theme.typography.h6.fontSize,
+                  mobile: '1.1rem',
+                },
               }}
             >
               {fullname}
@@ -453,8 +464,26 @@ export default function PropertyCard({
             <Checkbox
               color="error"
               checked={isLiked}
-              icon={<FavoriteBorder fontSize="large" />}
-              checkedIcon={<Favorite fontSize="large" />}
+              icon={
+                <FavoriteBorder
+                  sx={{
+                    fontSize: {
+                      desktop: '2.1875rem',
+                      mobile: '1.5rem',
+                    },
+                  }}
+                />
+              }
+              checkedIcon={
+                <Favorite
+                  sx={{
+                    fontSize: {
+                      desktop: '2.1875rem',
+                      mobile: '1.5rem',
+                    },
+                  }}
+                />
+              }
               onClick={(e) => {
                 e.stopPropagation();
                 handlePropertyClick('like');
@@ -487,7 +516,15 @@ export default function PropertyCard({
                       handlePropertyClick('signal');
                     }}
                   >
-                    <WarningAmberOutlined color="warning" fontSize="large" />
+                    <WarningAmberOutlined
+                      color="warning"
+                      sx={{
+                        fontSize: {
+                          desktop: '2.1875rem',
+                          mobile: '1.5rem',
+                        },
+                      }}
+                    />
                   </IconButton>
                 </Tooltip>
                 <Tooltip arrow title={formatMessage({ id: 'whatsappContact' })}>
@@ -499,7 +536,15 @@ export default function PropertyCard({
                       handlePropertyClick('contact');
                     }}
                   >
-                    <WhatsApp fontSize="large" color="primary" />
+                    <WhatsApp
+                      sx={{
+                        fontSize: {
+                          desktop: '2.1875rem',
+                          mobile: '1.5rem',
+                        },
+                      }}
+                      color="primary"
+                    />
                   </IconButton>
                 </Tooltip>
               </>
@@ -513,12 +558,29 @@ export default function PropertyCard({
                   handlePropertyClick('share');
                 }}
               >
-                <ShareOutlined fontSize="large" />
+                <ShareOutlined
+                  sx={{
+                    fontSize: {
+                      desktop: '2.1875rem',
+                      mobile: '1.5rem',
+                    },
+                  }}
+                />
               </IconButton>
             </Tooltip>
           </Box>
         </Box>
-        <Box sx={{ padding: 2, display: 'grid', rowGap: 2 }}>
+        <Box
+          sx={{
+            padding: 2,
+            display: 'grid',
+            rowGap: 2,
+            width: {
+              mobile: '307px',
+              desktop: '350px',
+            },
+          }}
+        >
           <Box
             sx={{
               display: 'grid',
@@ -580,7 +642,15 @@ export default function PropertyCard({
               alignItems: 'center',
             }}
           >
-            <Typography variant="h5">
+            <Typography
+              variant="h5"
+              sx={{
+                fontSize: {
+                  desktop: theme.typography.h5.fontSize,
+                  mobile: '1.3rem',
+                },
+              }}
+            >
               {formatNumber(price, {
                 style: 'currency',
                 currency: 'XAF',
@@ -593,6 +663,10 @@ export default function PropertyCard({
                 backgroundColor: theme.palette.primary.main,
                 fontWeight: 300,
                 color: 'white',
+                fontSize: {
+                  desktop: theme.typography.body1.fontSize,
+                  mobile: '0.85rem',
+                },
               }}
             >
               {formatMessage({
@@ -645,7 +719,8 @@ export default function PropertyCard({
                 gridTemplateColumns: 'auto 1fr',
                 columnGap: 0.5,
                 alignItems: 'end',
-                justifySelf: house_details ? 'end' : 'start',
+                justifySelf:
+                  house_details && property_type !== 'Land' ? 'end' : 'start',
               }}
             >
               <SquareFootOutlined />

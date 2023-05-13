@@ -49,7 +49,7 @@ function NavItem({
             `/${pathname.split('/').filter((_) => _ !== '')[0]}` === route
               ? '100%'
               : 0,
-          backgroundColor: theme.palette.primary.main,
+          backgroundColor: theme.palette.secondary.main,
           borderRadius: '5px',
         },
         '&:hover::before': {
@@ -298,12 +298,22 @@ export default function Navbar() {
           onClick={() => push('/')}
         >
           <Image
+            className="main-logo"
             src="/logo_white.png"
             alt="Hope Home icon"
             height={60}
             width={60}
           />
-          <Typography variant="h4" color="white">
+          <Typography
+            variant="h4"
+            color="white"
+            sx={{
+              fontSize: {
+                desktop: theme.typography.h4.fontSize,
+                mobile: theme.typography.h6.fontSize,
+              },
+            }}
+          >
             Hope Home
           </Typography>
         </Box>

@@ -4,10 +4,18 @@ import {
   ArrowForwardIosOutlined,
   CloseOutlined,
 } from '@mui/icons-material';
-import { Box, Dialog, IconButton, Tooltip, Typography } from '@mui/material';
+import {
+  Box,
+  Dialog,
+  IconButton,
+  Tooltip,
+  Typography,
+  lighten,
+} from '@mui/material';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { DialogTransition } from '../dialog-transition';
+import { theme } from '@hopehome/theme';
 
 function ImageDialog({
   handleClose,
@@ -117,7 +125,11 @@ export default function ImageDisplay({ images }: { images: string[] }) {
         open={isImageDialogOpen}
       />
       <Box
-        sx={{ cursor: 'pointer' }}
+        sx={{
+          cursor: 'pointer',
+          backgroundColor: lighten(theme.palette.primary.main, 0.8),
+          borderRadius: '10px',
+        }}
         onClick={() => setIsImageDialogOpen(true)}
       >
         {images.length === 0 ? (
@@ -128,7 +140,10 @@ export default function ImageDisplay({ images }: { images: string[] }) {
             alt={'property'}
             width="100%"
             height={400}
-            style={{ objectFit: 'cover', borderRadius: '10px' }}
+            style={{
+              objectFit: 'contain',
+              borderRadius: '10px',
+            }}
           />
         ) : images.length === 2 ? (
           <Box
@@ -155,7 +170,7 @@ export default function ImageDisplay({ images }: { images: string[] }) {
               width="100%"
               height={400}
               style={{
-                objectFit: 'cover',
+                objectFit: 'contain',
                 borderTopRightRadius: '10px',
                 borderBottomRightRadius: '10px',
               }}
@@ -175,7 +190,7 @@ export default function ImageDisplay({ images }: { images: string[] }) {
               width="100%"
               height={400}
               style={{
-                objectFit: 'cover',
+                objectFit: 'contain',
                 borderTopLeftRadius: '10px',
                 borderBottomLeftRadius: '10px',
               }}
@@ -187,7 +202,7 @@ export default function ImageDisplay({ images }: { images: string[] }) {
                 width="100%"
                 height={190}
                 style={{
-                  objectFit: 'cover',
+                  objectFit: 'contain',
                   borderTopRightRadius: '10px',
                 }}
               />
@@ -197,7 +212,7 @@ export default function ImageDisplay({ images }: { images: string[] }) {
                 width="100%"
                 height={190}
                 style={{
-                  objectFit: 'cover',
+                  objectFit: 'contain',
                   borderBottomRightRadius: '10px',
                 }}
               />
@@ -217,7 +232,7 @@ export default function ImageDisplay({ images }: { images: string[] }) {
               width="100%"
               height={400}
               style={{
-                objectFit: 'cover',
+                objectFit: 'contain',
                 borderTopLeftRadius: '10px',
                 borderBottomLeftRadius: '10px',
               }}
@@ -229,7 +244,7 @@ export default function ImageDisplay({ images }: { images: string[] }) {
                 width="100%"
                 height={190}
                 style={{
-                  objectFit: 'cover',
+                  objectFit: 'contain',
                   borderTopRightRadius: '10px',
                 }}
               />
@@ -240,7 +255,7 @@ export default function ImageDisplay({ images }: { images: string[] }) {
                   width="100%"
                   height={195}
                   style={{
-                    objectFit: 'cover',
+                    objectFit: 'contain',
                     borderBottomRightRadius: '10px',
                   }}
                 />
@@ -257,7 +272,16 @@ export default function ImageDisplay({ images }: { images: string[] }) {
                     borderBottomRightRadius: '10px',
                   }}
                 >
-                  <Typography variant="h6" color="white">
+                  <Typography
+                    variant="h6"
+                    color="white"
+                    sx={{
+                      fontSize: {
+                        desktop: theme.typography.h6.fontSize,
+                        mobile: '1.1rem',
+                      },
+                    }}
+                  >
                     {`+${images.length - 3}`}
                   </Typography>
                 </Box>

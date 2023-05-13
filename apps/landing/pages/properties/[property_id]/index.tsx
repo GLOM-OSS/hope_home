@@ -204,7 +204,15 @@ export default function PropertyDetails({
                     </Typography>
                   )}
                 </Box>
-                <Typography variant="h6">
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontSize: {
+                      desktop: theme.typography.h6.fontSize,
+                      mobile: '1.1rem',
+                    },
+                  }}
+                >
                   {formatMessage({
                     id:
                       property_type === 'Home'
@@ -277,13 +285,22 @@ export default function PropertyDetails({
             }}
           >
             <Box>
-              <Typography variant="h6" fontWeight="400">
+              <Typography
+                variant="h6"
+                fontWeight="400"
+                sx={{
+                  fontSize: {
+                    desktop: theme.typography.h6.fontSize,
+                    mobile: '1.1rem',
+                  },
+                }}
+              >
                 {address}
               </Typography>
               <Box
                 sx={{ display: 'grid', gridAutoFlow: 'column', columnGap: 2 }}
               >
-                {house_details && (
+                {property_type !== 'Land' && house_details && (
                   <>
                     <Box
                       sx={{
@@ -324,7 +341,10 @@ export default function PropertyDetails({
                     gridTemplateColumns: 'auto 1fr',
                     columnGap: 0.5,
                     alignItems: 'end',
-                    justifySelf: house_details ? 'end' : 'start',
+                    justifySelf:
+                      house_details && property_type !== 'Land'
+                        ? 'end'
+                        : 'start',
                   }}
                 >
                   <SquareFootOutlined fontSize="large" />

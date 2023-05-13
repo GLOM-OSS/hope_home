@@ -7,12 +7,18 @@ function NumberCircle({ value }: { value: number }) {
   return (
     <Box
       sx={{
-        borderRadius: '100%',
-        padding: '10px 21px',
+        borderRadius: '50%',
+        padding: {
+          desktop: '10px 21px',
+          mobile: '3px 13px',
+        },
         width: 'fit-content',
         border: `1px solid ${theme.palette.primary.main}`,
         color: theme.palette.primary.main,
-        fontSize: '1.5rem',
+        fontSize: {
+          desktop: '1.5rem',
+          mobile: '1.3rem',
+        },
         fontWeight: 'bolder',
       }}
     >
@@ -42,7 +48,16 @@ function MissionItem({
       <NumberCircle value={index} />
       <Box>
         <Typography variant="h5">{title}</Typography>
-        <Typography variant="h6" fontWeight="400">
+        <Typography
+          variant="h6"
+          fontWeight="400"
+          sx={{
+            fontSize: {
+              desktop: theme.typography.h6.fontSize,
+              mobile: '1.1rem',
+            },
+          }}
+        >
           {value}
         </Typography>
       </Box>

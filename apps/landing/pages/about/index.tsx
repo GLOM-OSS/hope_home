@@ -36,7 +36,16 @@ function AdvantageCard({
         >
           {icon}
         </Box>
-        <Typography variant="h6" fontWeight={500}>
+        <Typography
+          variant="h6"
+          fontWeight={500}
+          sx={{
+            fontSize: {
+              desktop: theme.typography.h6.fontSize,
+              mobile: '1.1rem',
+            },
+          }}
+        >
           {title}
         </Typography>
       </Box>
@@ -64,7 +73,16 @@ export default function About() {
     <Box sx={{ mt: 4, padding: `0 7.1%`, mb: 2 }}>
       <Box sx={{ display: 'grid', rowGap: 3 }}>
         <Typography variant="h4">{formatMessage({ id: 'aboutUs' })}</Typography>
-        <Typography variant="h6" fontWeight={400}>
+        <Typography
+          variant="h6"
+          fontWeight={400}
+          sx={{
+            fontSize: {
+              desktop: theme.typography.h6.fontSize,
+              mobile: '1.1rem',
+            },
+          }}
+        >
           {formatMessage({ id: 'aboutUsSummary' })}
         </Typography>
       </Box>
