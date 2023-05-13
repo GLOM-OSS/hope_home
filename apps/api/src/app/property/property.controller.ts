@@ -11,7 +11,7 @@ import {
   Req,
   UploadedFiles,
   UseGuards,
-  UseInterceptors
+  UseInterceptors,
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { Person } from '@prisma/client';
@@ -22,6 +22,7 @@ import {
   CreateCommentDto,
   CreateNewPropertyDto,
   QueryPropertiesDto,
+  SearchPropertiesDto,
   UpdatePropertyDto,
 } from './property.dto';
 import { PropertyService } from './property.service';
@@ -30,6 +31,11 @@ import { PropertyService } from './property.service';
 @Controller('properties')
 export class PropertyController {
   constructor(private propertyService: PropertyService) {}
+
+  @Get()
+  async searchProperties(@Query() searchQuery: SearchPropertiesDto) {
+    return await this.propertyService.searchProperties(searchQuery);
+  }
 
   @IsPublic()
   @Get('all')
