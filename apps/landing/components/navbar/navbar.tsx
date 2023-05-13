@@ -49,7 +49,7 @@ function NavItem({
             `/${pathname.split('/').filter((_) => _ !== '')[0]}` === route
               ? '100%'
               : 0,
-          backgroundColor: theme.palette.primary.main,
+          backgroundColor: theme.palette.secondary.main,
           borderRadius: '5px',
         },
         '&:hover::before': {
