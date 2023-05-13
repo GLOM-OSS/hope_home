@@ -2,11 +2,19 @@ import { theme } from '@hopehome/theme';
 import { EastOutlined, SearchOutlined } from '@mui/icons-material';
 import { Box, Button, lighten, TextField, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { useIntl } from 'react-intl';
 
-export default function HeroSection() {
+export default function HeroSection({
+  searchHandler,
+}: {
+  searchHandler: (keywords: string) => void;
+}) {
   const { formatMessage } = useIntl();
   const { push } = useRouter();
+
+  const [keywords, setKeywords] = useState('');
+
   return (
     <Box
       style={{
@@ -46,9 +54,10 @@ export default function HeroSection() {
         >
           <TextField
             fullWidth
-            placeholder="Mkolda, Yaoundé"
+            placeholder="Home; Ahala, Yaoundé; 150000, 250000; Appartment moderne 03 chambres un sallon, deux douche et une cuisine moderne..."
             sx={{ backgroundColor: 'white' }}
             color="primary"
+            onChange={(e) => setKeywords(e.target.value)}
           />
           <Button
             startIcon={<SearchOutlined />}
@@ -60,6 +69,7 @@ export default function HeroSection() {
                 margin: 0,
               },
             }}
+            onClick={() => searchHandler(keywords)}
           />
         </Box>
       </Box>

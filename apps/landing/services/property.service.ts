@@ -5,6 +5,7 @@ import {
   IImage,
   IPropertyDetails,
   IPropertyQuery,
+  ISearchProperty,
   IUpdateProperty,
 } from '@hopehome/interfaces';
 
@@ -127,4 +128,15 @@ export async function flagProperty(property_id: string) {
 
 export async function deleteImage(property_image_id: string) {
   await http.put(`/properties/images/${property_image_id}/delete`);
+}
+
+export async function searchProperties(searchQuery: ISearchProperty) {
+  console.log(searchQuery)
+  const { data } = await http.get<IHHProperty[]>(`/properties`, {
+    params: searchQuery,
+  });
+  return data.map(({ image_ref, ...property }) => ({
+    ...property,
+    image_ref: image_ref ? `${baseURL}/${image_ref}` : null,
+  }));
 }
