@@ -25,7 +25,16 @@ export default function LandSection({
       }}
     >
       <Box>
-        <Typography variant="h1" textAlign="center">
+        <Typography
+          variant="h1"
+          textAlign="center"
+          sx={{
+            fontSize: {
+              mobile: '2rem',
+              desktop: '3rem',
+            },
+          }}
+        >
           {formatMessage({ id: 'exploreLands' })}
         </Typography>
         <Typography textAlign="center" variant="h6" fontWeight={400}>
