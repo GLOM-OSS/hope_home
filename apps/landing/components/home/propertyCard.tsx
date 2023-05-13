@@ -402,12 +402,19 @@ export default function PropertyCard({
       <Box
         component={Paper}
         elevation={1}
-        sx={{ width: '350px', cursor: 'pointer' }}
+        sx={{
+          width: {
+            desktop: '350px',
+            mobile: '307px',
+          },
+          cursor: 'pointer',
+        }}
         onClick={() => handlePropertyClick()}
       >
         <Box sx={{ position: 'relative' }}>
           <Image
             src={image_ref ?? '/location-icon.png'}
+            className="property-image"
             alt={property_type}
             height={350}
             width={350}
@@ -563,7 +570,17 @@ export default function PropertyCard({
             </Tooltip>
           </Box>
         </Box>
-        <Box sx={{ padding: 2, display: 'grid', rowGap: 2 }}>
+        <Box
+          sx={{
+            padding: 2,
+            display: 'grid',
+            rowGap: 2,
+            width: {
+              mobile: '307px',
+              desktop: '350px',
+            },
+          }}
+        >
           <Box
             sx={{
               display: 'grid',
@@ -625,7 +642,15 @@ export default function PropertyCard({
               alignItems: 'center',
             }}
           >
-            <Typography variant="h5">
+            <Typography
+              variant="h5"
+              sx={{
+                fontSize: {
+                  desktop: theme.typography.h5.fontSize,
+                  mobile: '1.3rem',
+                },
+              }}
+            >
               {formatNumber(price, {
                 style: 'currency',
                 currency: 'XAF',
@@ -638,6 +663,10 @@ export default function PropertyCard({
                 backgroundColor: theme.palette.primary.main,
                 fontWeight: 300,
                 color: 'white',
+                fontSize: {
+                  desktop: theme.typography.body1.fontSize,
+                  mobile: '0.85rem',
+                },
               }}
             >
               {formatMessage({
