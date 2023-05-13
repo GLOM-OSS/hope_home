@@ -5,13 +5,15 @@ import {
   PropertyTypeEnum,
 } from '@prisma/client';
 import {
+  IsArray,
   IsBoolean,
   IsEnum,
   IsNumber,
   IsOptional,
   IsString,
-  MaxLength
+  MaxLength,
 } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class QueryPropertiesDto {
   @IsOptional()
@@ -78,3 +80,38 @@ export class CreateNewPropertyDto {
 }
 
 export class UpdatePropertyDto extends PartialType(CreateNewPropertyDto) {}
+
+export class PriceInterval {
+  @IsNumber()
+  @IsOptional()
+  lower_bound?: number;
+
+  @IsNumber()
+  @IsOptional()
+  upper_bound?: number;
+}
+export class SearchPropertiesDto {
+  @IsEnum(PropertyTypeEnum)
+  property_type: PropertyTypeEnum;
+
+  @IsString()
+  @IsOptional()
+  address?: string;
+
+  @IsArray()
+  @IsOptional()
+  @Type(() => PriceInterval)
+  priceInterval?: PriceInterval;
+
+  @IsOptional()
+  @IsEnum(HouseTypeEnum)
+  house_type?: HouseTypeEnum;
+
+  @IsNumber()
+  @IsOptional()
+  number_of_rooms?: number;
+
+  @IsNumber()
+  @IsOptional()
+  number_of_baths?: number;
+}

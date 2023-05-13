@@ -11,7 +11,7 @@ import {
   Req,
   UploadedFiles,
   UseGuards,
-  UseInterceptors
+  UseInterceptors,
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { Person } from '@prisma/client';
@@ -22,6 +22,7 @@ import {
   CreateCommentDto,
   CreateNewPropertyDto,
   QueryPropertiesDto,
+  SearchPropertiesDto,
   UpdatePropertyDto,
 } from './property.dto';
 import { PropertyService } from './property.service';
@@ -178,5 +179,10 @@ export class PropertyController {
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+  }
+
+  @Get('/search')
+  async searchProperties(@Query() searchQuery: SearchPropertiesDto) {
+    return await this.propertyService.searchProperties(searchQuery);
   }
 }

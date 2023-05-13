@@ -1,8 +1,17 @@
 import { IHHProperty, IImage, IPropertyDetails } from '@hopehome/interfaces';
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import {
+  LikedProperty,
+  Person,
+  Prisma,
+  Property
+} from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
-import { CreateNewPropertyDto, QueryPropertiesDto } from './property.dto';
+import {
+  CreateNewPropertyDto,
+  QueryPropertiesDto,
+  SearchPropertiesDto,
+} from './property.dto';
 
 @Injectable()
 export class PropertyService {
@@ -34,33 +43,7 @@ export class PropertyService {
           },
     });
 
-    return properties.map(
-      ({
-        LikedProperties,
-        number_of_baths,
-        number_of_rooms,
-        house_type,
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        Publisher: { password, created_at, ...publisher },
-        ...property
-      }) => ({
-        ...property,
-        created_at: property.created_at.getTime(),
-        number_of_likes: LikedProperties.length,
-        house_details: {
-          house_type,
-          number_of_baths,
-          number_of_rooms,
-        },
-        is_liked: Boolean(
-          LikedProperties.find((_) => _.liked_by === person_id)
-        ),
-        publisher_details: {
-          ...publisher,
-          created_at: created_at.getTime(),
-        },
-      })
-    );
+    return this.processProperties(properties, person_id);
   }
 
   async findOne(
@@ -267,5 +250,77 @@ export class PropertyService {
       image_id,
       image_ref,
     }));
+  }
+
+  async searchProperties({
+    property_type,
+    address,
+    house_type,
+    number_of_baths,
+    number_of_rooms,
+    priceInterval,
+  }: SearchPropertiesDto) {
+    const properties = await this.prismaService.property.findMany({
+      include: {
+        Publisher: true,
+        LikedProperties: {
+          where: { is_deleted: false },
+        },
+      },
+      where: {
+        property_type,
+        OR: [
+          { house_type },
+          { number_of_rooms },
+          { number_of_baths },
+          { address: { contains: address } },
+          {
+            price: priceInterval
+              ? {
+                  gte: priceInterval?.lower_bound,
+                  lte: priceInterval?.upper_bound ?? undefined,
+                }
+              : undefined,
+          },
+        ],
+      },
+    });
+    return this.processProperties(properties);
+  }
+
+  private processProperties(
+    properties: (Property & {
+      Publisher: Person;
+      LikedProperties: LikedProperty[];
+    })[],
+    person_id?: string
+  ): IHHProperty[] {
+    return properties.map(
+      ({
+        LikedProperties,
+        number_of_baths,
+        number_of_rooms,
+        house_type,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        Publisher: { password, created_at, ...publisher },
+        ...property
+      }) => ({
+        ...property,
+        created_at: property.created_at.getTime(),
+        number_of_likes: LikedProperties.length,
+        house_details: {
+          house_type,
+          number_of_baths,
+          number_of_rooms,
+        },
+        is_liked: Boolean(
+          LikedProperties.find((_) => _.liked_by === person_id)
+        ),
+        publisher_details: {
+          ...publisher,
+          created_at: created_at.getTime(),
+        },
+      })
+    );
   }
 }
