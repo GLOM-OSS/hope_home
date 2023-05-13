@@ -6,7 +6,7 @@ import {
   Instagram,
   WhatsApp,
 } from '@mui/icons-material';
-import { Box, Divider, Typography } from '@mui/material';
+import { Box, Divider, Tooltip, Typography } from '@mui/material';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useIntl } from 'react-intl';
@@ -112,6 +112,31 @@ export default function Footer() {
                 orientation="horizontal"
                 sx={{ backgroundColor: 'grey' }}
               />
+              <Box
+                sx={{
+                  display: 'grid',
+                  gridTemplateColumns: 'auto auto 1fr',
+                  columnGap: 2,
+                  mt: 2,
+                }}
+              >
+                <Tooltip arrow title="Innov BTP">
+                  <Image
+                    src="/innov_btp_logo.png"
+                    alt="Innov BTP"
+                    width={100}
+                    height={93}
+                  />
+                </Tooltip>
+                <Tooltip arrow title="Hope Investment Fund">
+                  <Image
+                    src="/hope_investment_fund_logo.png"
+                    alt="Innov BTP"
+                    width={125}
+                    height={86}
+                  />
+                </Tooltip>
+              </Box>
             </Box>
           </Box>
           <Box
