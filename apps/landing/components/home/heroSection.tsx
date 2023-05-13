@@ -9,10 +9,13 @@ export default function HeroSection() {
   const { push } = useRouter();
   return (
     <Box
-      style={{
+      sx={{
         height: '70vh',
         display: 'grid',
-        rowGap: theme.spacing(10),
+        rowGap: {
+          desktop: theme.spacing(10),
+          mobile: theme.spacing(5),
+        },
         alignContent: 'center',
         position: 'relative',
         backgroundColor: theme.palette.primary.light,
@@ -22,13 +25,26 @@ export default function HeroSection() {
     >
       <Box
         sx={{
-          width: '70%',
+          width: {
+            mobile: '90%',
+            desktop: '70%',
+          },
           justifySelf: 'center',
           display: 'grid',
           rowGap: 2,
         }}
       >
-        <Typography variant="h1" sx={{ textAlign: 'center', color: 'white' }}>
+        <Typography
+          variant="h1"
+          sx={{
+            textAlign: 'center',
+            color: 'white',
+            fontSize: {
+              mobile: '2rem',
+              desktop: '3rem',
+            },
+          }}
+        >
           {formatMessage({ id: 'discoverYourNewHome' })}
         </Typography>
         <Typography
@@ -80,7 +96,10 @@ export default function HeroSection() {
           left: '50%',
           transform: 'translate(-50%, 50%)',
           position: 'absolute',
-          padding: '16px 32px',
+          padding: {
+            desktop: '16px 32px',
+            mobile: '8px 16px',
+          },
           display: 'grid',
           justifyContent: 'center',
           alignContent: 'center',
