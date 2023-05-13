@@ -32,6 +32,11 @@ import { PropertyService } from './property.service';
 export class PropertyController {
   constructor(private propertyService: PropertyService) {}
 
+  @Get()
+  async searchProperties(@Query() searchQuery: SearchPropertiesDto) {
+    return await this.propertyService.searchProperties(searchQuery);
+  }
+
   @IsPublic()
   @Get('all')
   async getProperties(
@@ -179,10 +184,5 @@ export class PropertyController {
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-  }
-
-  @Get('/search')
-  async searchProperties(@Query() searchQuery: SearchPropertiesDto) {
-    return await this.propertyService.searchProperties(searchQuery);
   }
 }
