@@ -3,7 +3,6 @@ import {
   Button,
   Dialog,
   DialogActions,
-  DialogTitle,
   TextField,
   Typography,
 } from '@mui/material';
@@ -18,7 +17,7 @@ export default function AdditionalDataDialog({
 }: {
   open: boolean;
   closeDialog: () => void;
-  submitDialog: (val: { whatsapp_number: string }) => void;
+  submitDialog: (whatsapp_number: string) => void;
 }) {
   const { formatMessage } = useIntl();
 
@@ -38,9 +37,7 @@ export default function AdditionalDataDialog({
     initialValues,
     validationSchema,
     onSubmit: (values, { resetForm }) => {
-      submitDialog({
-        whatsapp_number: values.whatsapp_number,
-      });
+      submitDialog(values.whatsapp_number);
       resetForm();
       closeDialog();
     },
@@ -48,12 +45,14 @@ export default function AdditionalDataDialog({
 
   return (
     <Dialog open={open}>
-      <DialogTitle>{formatMessage({ id: 'AdditionalInfo' })}</DialogTitle>
       <Box
         component="form"
         onSubmit={formik.handleSubmit}
-        sx={{ display: 'grid', rowGap: 2, padding: '0 8px' }}
+        sx={{ display: 'grid', rowGap: 2, padding: 2, maxWidth: 400 }}
       >
+        <Typography variant="body1">
+          {formatMessage({ id: 'whatsappDialogText' })}
+        </Typography>
         <TextField
           fullWidth
           required
@@ -80,7 +79,7 @@ export default function AdditionalDataDialog({
             color="primary"
             sx={{ textTransform: 'none' }}
           >
-            {formatMessage({ id: 'SignIn' })}
+            {formatMessage({ id: 'save' })}
           </Button>
         </DialogActions>
       </Box>
