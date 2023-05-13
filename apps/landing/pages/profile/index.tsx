@@ -187,10 +187,8 @@ export default function Profile() {
   }
 
   const handleLogOut = () => {
-    document.cookie = document.cookie
-      .split('; ')
-      .filter((row) => !row.startsWith('__hht'))
-      .join('; ');
+    const expires = 'expires=' + new Date().toUTCString();
+    document.cookie = `${document.cookie};${expires};path=/`;
     localStorage.removeItem('hh-token');
     userDispatch({ type: 'LOG_OUT' });
     push('/');
