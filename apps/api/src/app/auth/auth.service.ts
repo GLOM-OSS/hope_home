@@ -64,8 +64,7 @@ export class AuthService {
         data: newPerson,
         where: { email },
       });
-    } else if (whatsapp_number) return this.registerUser(newPerson);
-    else throw new HttpException(ErrorEnum.ERR6, HttpStatus.UNAUTHORIZED);
+    } else return this.registerUser(newPerson);
   }
 
   signIn(person: Person) {
