@@ -139,7 +139,7 @@ export default function Footer() {
               </Box>
               <Box sx={{ alignSelf: 'end', display: 'grid', rowGap: 1 }}>
                 {[
-                  { Icon: CallOutlined, title: '+237 699 999 999' },
+                  { Icon: CallOutlined, title: '+237 694 248 972' },
                   { Icon: EmailOutlined, title: 'hopehome@gmail.com' },
                 ].map(({ Icon, title }, index) => (
                   <Box
