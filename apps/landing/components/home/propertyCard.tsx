@@ -444,6 +444,10 @@ export default function PropertyCard({
                 width: '260px',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
+                fontSize: {
+                  desktop: theme.typography.h6.fontSize,
+                  mobile: '1.1rem',
+                },
               }}
             >
               {fullname}

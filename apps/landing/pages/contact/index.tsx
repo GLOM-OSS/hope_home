@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { ErrorMessage, useNotification } from '@hopehome/toast';
 import { IMessage } from '@hopehome/interfaces';
 import { sendMessage } from '../../services/auth.service';
+import { theme } from '@hopehome/theme';
 
 export default function Contact() {
   const { formatMessage } = useIntl();
@@ -87,7 +88,16 @@ export default function Contact() {
         <Typography variant="h4">
           {formatMessage({ id: 'contactUs' })}
         </Typography>
-        <Typography variant="h6" fontWeight={400}>
+        <Typography
+          variant="h6"
+          fontWeight={400}
+          sx={{
+            fontSize: {
+              desktop: theme.typography.h6.fontSize,
+              mobile: '1.1rem',
+            },
+          }}
+        >
           {formatMessage({ id: 'contactUsSummary' })}
         </Typography>
       </Box>

@@ -204,7 +204,15 @@ export default function PropertyDetails({
                     </Typography>
                   )}
                 </Box>
-                <Typography variant="h6">
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontSize: {
+                      desktop: theme.typography.h6.fontSize,
+                      mobile: '1.1rem',
+                    },
+                  }}
+                >
                   {formatMessage({
                     id:
                       property_type === 'Home'
@@ -277,7 +285,16 @@ export default function PropertyDetails({
             }}
           >
             <Box>
-              <Typography variant="h6" fontWeight="400">
+              <Typography
+                variant="h6"
+                fontWeight="400"
+                sx={{
+                  fontSize: {
+                    desktop: theme.typography.h6.fontSize,
+                    mobile: '1.1rem',
+                  },
+                }}
+              >
                 {address}
               </Typography>
               <Box

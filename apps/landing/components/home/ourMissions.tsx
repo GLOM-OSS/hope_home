@@ -42,7 +42,16 @@ function MissionItem({
       <NumberCircle value={index} />
       <Box>
         <Typography variant="h5">{title}</Typography>
-        <Typography variant="h6" fontWeight="400">
+        <Typography
+          variant="h6"
+          fontWeight="400"
+          sx={{
+            fontSize: {
+              desktop: theme.typography.h6.fontSize,
+              mobile: '1.1rem',
+            },
+          }}
+        >
           {value}
         </Typography>
       </Box>

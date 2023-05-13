@@ -8,6 +8,7 @@ import { Box, Dialog, IconButton, Tooltip, Typography } from '@mui/material';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { DialogTransition } from '../dialog-transition';
+import { theme } from '@hopehome/theme';
 
 function ImageDialog({
   handleClose,
@@ -257,7 +258,16 @@ export default function ImageDisplay({ images }: { images: string[] }) {
                     borderBottomRightRadius: '10px',
                   }}
                 >
-                  <Typography variant="h6" color="white">
+                  <Typography
+                    variant="h6"
+                    color="white"
+                    sx={{
+                      fontSize: {
+                        desktop: theme.typography.h6.fontSize,
+                        mobile: '1.1rem',
+                      },
+                    }}
+                  >
                     {`+${images.length - 3}`}
                   </Typography>
                 </Box>
