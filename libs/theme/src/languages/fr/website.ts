@@ -106,7 +106,7 @@ export const website = {
   sharePropertyMessage:
     "Jetez un coup d'œil à ce bien sympa que j'ai trouvé sur HopeHome",
   followUs: 'Suivez-nous',
-  ourCollaborators: 'Nos collaborateurs',
+  ourCollaborators: 'Nos partenaires',
   ourPages: 'Nos pages',
   close: 'Fermer',
   noImages: "Aucune image n'est publiée ici",

@@ -105,7 +105,7 @@ export const website = {
   interestedInProperty: 'I saw your property on hope home and it interested me',
   sharePropertyMessage: 'Checkout this cool property I found on HopeHome',
   followUs: 'Follow us',
-  ourCollaborators: 'Our collaborators',
+  ourCollaborators: 'Our partners',
   ourPages: 'Our pages',
   close: 'Close',
   noImages: 'No Images posted here!',
