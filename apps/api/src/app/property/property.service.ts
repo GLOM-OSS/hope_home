@@ -1,11 +1,6 @@
 import { IHHProperty, IImage, IPropertyDetails } from '@hopehome/interfaces';
 import { Injectable } from '@nestjs/common';
-import {
-  LikedProperty,
-  Person,
-  Prisma,
-  Property
-} from '@prisma/client';
+import { LikedProperty, Person, Prisma, Property } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
 import {
   CreateNewPropertyDto,
@@ -255,11 +250,10 @@ export class PropertyService {
   async searchProperties({
     property_type,
     address,
-    house_type,
-    number_of_baths,
-    number_of_rooms,
     priceInterval,
+    description,
   }: SearchPropertiesDto) {
+    console.log({ description });
     const properties = await this.prismaService.property.findMany({
       include: {
         Publisher: true,
@@ -268,11 +262,8 @@ export class PropertyService {
         },
       },
       where: {
-        property_type,
         OR: [
-          { house_type },
-          { number_of_rooms },
-          { number_of_baths },
+          { property_type: property_type },
           { address: { contains: address } },
           {
             price: priceInterval
@@ -281,6 +272,11 @@ export class PropertyService {
                   lte: priceInterval?.upper_bound ?? undefined,
                 }
               : undefined,
+          },
+          {
+            AND: description
+              .split(' ')
+              .map((keyword) => ({ description: { contains: keyword } })),
           },
         ],
       },
