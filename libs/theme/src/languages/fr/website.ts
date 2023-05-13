@@ -129,8 +129,7 @@ export const website = {
     'Notre service clientèle est à votre disposition pour répondre à toutes vos questions et résoudre les éventuels problèmes que vous pourriez rencontrer. Nous travaillons en permanence pour vous offrir un service de qualité et une expérience positive.',
   contactUsMessage:
     'Vous pouvez également remplir le formulaire et nous vous répondrons rapidement.',
-  feedbackStars:
-    "Retour d'expérience positif ***** sur la base de plus de 100 avis récents",
+  feedbackStars: 'Expérience 5 étoiles selon les avis reçus.',
   myProperties: 'Mes propriétés',
   newPost: 'Nouvelle publications',
 
