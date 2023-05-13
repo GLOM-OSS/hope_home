@@ -300,7 +300,7 @@ export default function PropertyDetails({
               <Box
                 sx={{ display: 'grid', gridAutoFlow: 'column', columnGap: 2 }}
               >
-                {house_details && (
+                {property_type !== 'Land' && house_details && (
                   <>
                     <Box
                       sx={{
@@ -341,7 +341,10 @@ export default function PropertyDetails({
                     gridTemplateColumns: 'auto 1fr',
                     columnGap: 0.5,
                     alignItems: 'end',
-                    justifySelf: house_details ? 'end' : 'start',
+                    justifySelf:
+                      house_details && property_type !== 'Land'
+                        ? 'end'
+                        : 'start',
                   }}
                 >
                   <SquareFootOutlined fontSize="large" />

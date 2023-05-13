@@ -719,7 +719,8 @@ export default function PropertyCard({
                 gridTemplateColumns: 'auto 1fr',
                 columnGap: 0.5,
                 alignItems: 'end',
-                justifySelf: house_details ? 'end' : 'start',
+                justifySelf:
+                  house_details && property_type !== 'Land' ? 'end' : 'start',
               }}
             >
               <SquareFootOutlined />
