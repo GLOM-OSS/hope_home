@@ -1,19 +1,26 @@
 import { CacheProvider, EmotionCache } from '@emotion/react';
+import { HHThemeProvider, useLanguage } from '@hopehome/theme';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import { useEffect } from 'react';
-import LandingLayout from '../components/layout/layout';
-import './styles.css';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import './globalStyles.css';
-import { useLanguage, HHThemeProvider } from '@hopehome/theme';
+import LandingLayout from '../components/layout/layout';
+import AdditionalDataDialog from '../components/profile/additionalDataDialog';
 import createEmotionCache from '../config_mui/createEmotionCache';
-import UserContextProvider from '../contexts/user.provider';
-import { GoogleOAuthProvider } from '@react-oauth/google';
+import UserContextProvider, { useUser } from '../contexts/user.provider';
+import { updateProfile } from '../services/auth.service';
+import './globalStyles.css';
+import './styles.css';
 
 const App = (props) => {
   const { Component, pageProps } = props;
   const { languageDispatch } = useLanguage();
+  const {
+    activeUser: { whatsapp_number, person_id },
+    userDispatch,
+  } = useUser();
   useEffect(() => {
     languageDispatch({
       type:
@@ -23,8 +30,32 @@ const App = (props) => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const [isAdditionalDataDialogOpen, setIsAdditionalDataDialogOpen] = useState(
+    person_id && !whatsapp_number
+  );
+
+  useEffect(() => {
+    setIsAdditionalDataDialogOpen(person_id && !whatsapp_number);
+  }, [person_id, whatsapp_number]);
+
+  const updateWhatsappNumber = (whatsapp_number: string) => {
+    updateProfile({ whatsapp_number })
+      .then(() => {
+        userDispatch({ type: 'UPDATE_USER', payload: { whatsapp_number } });
+        setIsAdditionalDataDialogOpen(false);
+      })
+      .catch((error) =>
+        toast.error(error.message || "Oops, une erreur s'est produite.")
+      );
+  };
+
   return (
     <>
+      <AdditionalDataDialog
+        open={isAdditionalDataDialogOpen}
+        submitDialog={updateWhatsappNumber}
+        closeDialog={() => setIsAdditionalDataDialogOpen(false)}
+      />
       <LandingLayout>
         <Component {...pageProps} />
       </LandingLayout>

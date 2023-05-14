@@ -175,4 +175,19 @@ export const website = {
   savingPropertyImages: 'Sauvegarde des images de la propriété...',
   saveImagesSuccessfully: 'Sauvegarde des images de la propriété réussie !',
   savingImagesFailed: "L'enregistrement des images de la propriété a échoué",
+
+  whatsappDialogText:
+    'Veuillez completer votre profile en entrant votre numero whatsapp.',
+  changePassword: 'Changez votre mot de passe',
+  passwordMismatch: 'Les mots de passe ne correspondent pas.',
+  currentPassword: 'Mot de passe courant',
+  enterCurrentPassword: 'Entrer votre mot de passe courant',
+  newPassword: 'Nouveau mot de passe',
+  enterNewPassword: 'Entrer un nouveau mot de passe',
+  confirmNewPassword: 'Confirmez votre nouveau mot de passse',
+  updateProfile: 'Mettre à jour votre profil',
+  preferredLang: 'Langue préférée',
+  accountSettings: 'Profile utilisateur',
+  edit: 'Modifier',
+  profileImage: 'Photo de profile',
 };

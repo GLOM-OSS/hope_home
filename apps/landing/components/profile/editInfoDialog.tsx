@@ -80,7 +80,7 @@ export default function EditInfoDialog({
 
   return (
     <Dialog open={open} onClose={closeDialog}>
-      <DialogTitle>{formatMessage({ id: 'changePassword' })}</DialogTitle>
+      <DialogTitle>{formatMessage({ id: 'updateProfile' })}</DialogTitle>
       <Box
         component="form"
         onSubmit={formik.handleSubmit}
@@ -203,7 +203,7 @@ export default function EditInfoDialog({
             color="primary"
             sx={{ textTransform: 'none' }}
           >
-            {formatMessage({ id: 'changePassword' })}
+            {formatMessage({ id: 'save' })}
           </Button>
         </DialogActions>
       </Box>

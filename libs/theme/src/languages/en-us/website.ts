@@ -170,4 +170,19 @@ export const website = {
   savingPropertyImages: 'Saving property images...',
   saveImagesSuccessfully: 'Saved property images successfully !',
   savingImagesFailed: 'Saving property images failed',
+
+  whatsappDialogText:
+    'Please, complete your profile by providing you whatsapp number',
+  changePassword: 'Change your password',
+  passwordMismatch: 'Passwords mismatch.',
+  currentPassword: 'Current password',
+  enterCurrentPassword: 'Enter your current password',
+  newPassword: 'New password',
+  enterNewPassword: 'Enter a new password',
+  confirmNewPassword: 'Confirm your new password',
+  updateProfile: 'Update your profile',
+  preferredLang: 'Preferred language',
+  accountSettings: 'User profile',
+  edit: 'Edit',
+  profileImage: 'Profile image',
 };

@@ -24,16 +24,15 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { signUp, verifyCredential } from '../../services/auth.service';
+import { useGoogleLogin } from '@react-oauth/google';
+import { useUser } from 'apps/landing/contexts/user.provider';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
-import * as Yup from 'yup';
-import { useUser } from 'apps/landing/contexts/user.provider';
-import { useGoogleLogin } from '@react-oauth/google';
 import { toast } from 'react-toastify';
-import AdditionalDataDialog from 'apps/landing/components/profile/additionalDataDialog';
+import * as Yup from 'yup';
+import { signUp, verifyCredential } from '../../services/auth.service';
 
 export default function Signup() {
   const { formatMessage } = useIntl();
@@ -128,20 +127,15 @@ export default function Signup() {
   const { push } = useRouter();
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [accessToken, setAccessToken] = useState<string>();
-  const [isAdditionalDataDialogOpen, setIsAdditionalDataDialogOpen] =
-    useState(false);
   const loginHandler = useGoogleLogin({
     onSuccess(tokenResponse) {
-      console.log(tokenResponse);
-      setAccessToken(tokenResponse.access_token);
-      setIsAdditionalDataDialogOpen(true);
+      finalizeLogin(tokenResponse.access_token);
     },
     onError(errorResponse) {
       toast.error(errorResponse.error_description);
     },
   });
-  const finalizeLogin = (values: { whatsapp_number: string }) => {
+  const finalizeLogin = (accessToken: string) => {
     setIsSubmitting(true);
     const notif = new useNotification();
     if (submissionNotif) {
@@ -153,7 +147,7 @@ export default function Signup() {
         id: 'signingIn',
       }),
     });
-    verifyCredential(accessToken, values.whatsapp_number)
+    verifyCredential(accessToken)
       .then((user) => {
         notif.update({
           render: formatMessage({
@@ -169,7 +163,7 @@ export default function Signup() {
           type: 'ERROR',
           render: (
             <ErrorMessage
-              retryFunction={() => finalizeLogin(values)}
+              retryFunction={() => finalizeLogin(accessToken)}
               notification={notif}
               message={
                 error?.message ||
@@ -196,11 +190,6 @@ export default function Signup() {
         rowGap: 3,
       }}
     >
-      <AdditionalDataDialog
-        open={isAdditionalDataDialogOpen}
-        closeDialog={() => setIsAdditionalDataDialogOpen(false)}
-        submitDialog={finalizeLogin}
-      />
       <Box>
         <Typography variant="h4" textAlign={'center'}>
           {formatMessage({ id: 'createHopeHomeAccount' })}

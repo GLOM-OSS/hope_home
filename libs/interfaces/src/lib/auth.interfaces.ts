@@ -22,7 +22,7 @@ export interface IUser {
   person_id: string;
   fullname: string;
   phone_number?: string;
-  whatsapp_number: string;
+  whatsapp_number?: string;
   gender?: Gender;
   email: string;
   preferred_lang: Lang;
