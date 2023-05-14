@@ -119,6 +119,7 @@ export default function Footer() {
                   gridTemplateColumns: 'auto auto 1fr',
                   columnGap: 2,
                   mt: 2,
+                  alignItems: 'center',
                 }}
               >
                 <Tooltip arrow title="Innov BTP">
@@ -134,7 +135,7 @@ export default function Footer() {
                     src="/hope_investment_fund_logo.png"
                     alt="Innov BTP"
                     width={125}
-                    height={86}
+                    height={62.1}
                   />
                 </Tooltip>
               </Box>
