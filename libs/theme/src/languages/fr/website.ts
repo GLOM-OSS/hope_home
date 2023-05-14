@@ -131,7 +131,7 @@ export const website = {
     'Vous pouvez également remplir le formulaire et nous vous répondrons rapidement.',
   feedbackStars: 'Expérience 5 étoiles selon les avis reçus.',
   myProperties: 'Mes propriétés',
-  newPost: 'Nouvelle publications',
+  newPost: 'Nouvelle publication',
 
   delete: 'Supprimer',
   manageImages: 'Gérer les images',
