@@ -143,8 +143,8 @@ export const website = {
     "Voulez-vous vraiment supprimer cette propriété ? Cette action n'est pas réversible",
   confirmDelistPropertyDialogMessage:
     'Voulez-vous vraiment supprimer ce bien ?',
-  confirmDelistProperty: 'Delist property',
-  confirmDeleteProperty: 'Delete property',
+  confirmDelistProperty: 'Confirmer la désactivation du bien',
+  confirmDeleteProperty: 'Confirmer la suppression du bien',
   delist: 'Supprimer',
   signupWithGoogle: "S'inscrire avec Google",
   fullname: 'Nom Complet',
