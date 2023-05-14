@@ -3,7 +3,8 @@ import {
   CallOutlined,
   EmailOutlined,
   Facebook,
-  Instagram,
+  LinkedIn,
+  Twitter,
   WhatsApp,
 } from '@mui/icons-material';
 import { Box, Divider, Tooltip, Typography } from '@mui/material';
@@ -158,8 +159,43 @@ export default function Footer() {
                   mb: 5,
                 }}
               >
-                {[WhatsApp, Facebook, Instagram].map((Icon, index) => (
-                  <Icon fontSize="medium" key={index} />
+                {[
+                  {
+                    Icon: Facebook,
+                    tooltip: 'Facebook',
+                    color: '#1877F2',
+                    link: 'https://facebook.com',
+                  },
+                  {
+                    Icon: WhatsApp,
+                    tooltip: 'WhatsApp',
+                    color: '#075E54',
+                    link: 'https://whatsapp.com',
+                  },
+                  {
+                    Icon: Twitter,
+                    tooltip: 'Twitter',
+                    color: '#1DA1F2',
+                    link: 'https://twitter.com',
+                  },
+                  {
+                    Icon: LinkedIn,
+                    tooltip: 'LinkedIn',
+                    color: '#0072b1',
+                    link: 'https://linkedin.com',
+                  },
+                ].map(({ Icon, tooltip, color, link }, index) => (
+                  <Tooltip arrow title={tooltip} key={index}>
+                    <Icon
+                      fontSize="medium"
+                      onClick={() => push(link)}
+                      sx={{
+                        '&:hover': {
+                          color: color,
+                        },
+                      }}
+                    />
+                  </Tooltip>
                 ))}
               </Box>
               <Box sx={{ alignSelf: 'end', display: 'grid', rowGap: 1 }}>
