@@ -63,7 +63,10 @@ export default function Navbar({ active }: { active: string }) {
           href={link}
           sx={{
             height: '100%',
-            padding: `0 ${theme.spacing(0.25)}`,
+            padding: {
+              desktop: `0 ${theme.spacing(0.25)}`,
+              mobile: `0 ${theme.spacing(0.7)}`,
+            },
             color: active === link ? theme.palette.primary.main : 'white',
             backgroundColor:
               active === link ? 'white' : theme.palette.primary.main,
