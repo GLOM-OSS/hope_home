@@ -87,7 +87,6 @@ function SideNav({
   open: boolean;
   navItems: INavItem[];
 }) {
-  const { formatMessage } = useIntl();
   const { push } = useRouter();
   const { activeLanguage, languageDispatch } = useLanguage();
   const { activeUser, userDispatch } = useUser();
@@ -195,9 +194,7 @@ function SideNav({
                 });
               }}
             >
-              {formatMessage({
-                id: activeLanguage === 'En' ? 'english' : 'french',
-              })}
+              {activeLanguage === 'En' ? 'Français' : 'English'}
             </Button>
             <Box
               sx={{
@@ -247,7 +244,6 @@ function SideNav({
 }
 
 export default function Navbar() {
-  const { formatMessage } = useIntl();
   const { activeLanguage, languageDispatch } = useLanguage();
   const { push } = useRouter();
 
@@ -371,9 +367,7 @@ export default function Navbar() {
                 });
               }}
             >
-              {formatMessage({
-                id: activeLanguage === 'En' ? 'english' : 'french',
-              })}
+              {activeLanguage === 'En' ? 'Français' : 'English'}
             </Button>
             <Box
               sx={{
