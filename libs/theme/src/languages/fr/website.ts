@@ -12,7 +12,7 @@ export const website = {
   shop: 'Magasin',
   shopAll: 'Tous les magasins',
   viewRentals: 'Voir les Logements',
-  aboutUs: 'About Us',
+  aboutUs: 'À propos de nous',
   myAccount: 'Mon Compte',
   contactUs: 'Nous Contacter',
   registerNow: "S'inscrire Maintenant",
