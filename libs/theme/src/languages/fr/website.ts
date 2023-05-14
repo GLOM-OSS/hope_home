@@ -190,4 +190,31 @@ export const website = {
   accountSettings: 'Profile utilisateur',
   edit: 'Modifier',
   profileImage: 'Photo de profile',
+
+  addNewProperty: 'Ajouter des propriétés',
+  propertyType: 'Type de bien',
+  listingReason: 'Raison de publication',
+  houseTypes: 'Type de maison',
+  address: 'Adresse',
+  area: ' Superficie ',
+  numberOfRooms: 'Nombre de pièces',
+  numberOfBaths: 'Nombre de salles de bain',
+  price: 'Prix du bien',
+  useCurrentPosition: 'Utiliser la position Google',
+  longitude: 'Longitude',
+  latitude: 'Latitude',
+  createProperty: 'Créer propriété',
+  Sale: ' Vente ',
+  Rent: ' Location',
+
+  Appartment: 'Appartement',
+  Hostel: 'Mini Cité',
+  Default: 'Maison familiale',
+
+  Home: 'Maison',
+  Land: 'Terrain',
+
+  confirmUseCurrentPositionMessage: `Vérifiez que vous êtes bien sur les lieux avant d'utiliser cette fonctionnalité. \nCela s'affichera sur la carte pour que les clients puissent le voir. \nSi vous n'êtes pas à la position, vous pouvez saisir manuellement la valeur ou la laisser vide. \nEtes-vous sûr de vouloir continuer ? `,
+  usePosition: 'Je consens à utiliser la position',
+  useCurrentLocation: 'Utiliser la position actuelle ?',
 };
