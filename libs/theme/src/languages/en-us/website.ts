@@ -211,4 +211,7 @@ export const website = {
   confirmUseCurrentPositionMessage: `Make sure you are at the property before using this feature. \nThis will display on the map for users to see. \nIf you're not at the position, you can manually enter the value or leave it empty.  \nAre you sure you want to continue?`,
   usePosition: 'I consent to use position',
   useCurrentLocation: 'Use Current Location ?',
+
+  showPassword: 'Show Password',
+  hidePassword:'Hide Password'
 };

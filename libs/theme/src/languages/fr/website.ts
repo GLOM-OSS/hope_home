@@ -217,4 +217,6 @@ export const website = {
   confirmUseCurrentPositionMessage: `Vérifiez que vous êtes bien sur les lieux avant d'utiliser cette fonctionnalité. \nCela s'affichera sur la carte pour que les clients puissent le voir. \nSi vous n'êtes pas à la position, vous pouvez saisir manuellement la valeur ou la laisser vide. \nEtes-vous sûr de vouloir continuer ? `,
   usePosition: 'Je consens à utiliser la position',
   useCurrentLocation: 'Utiliser la position actuelle ?',
+  showPassword: 'Afficher le mot de passe',
+  hidePassword: 'Cacher le mot de passe',
 };
