@@ -419,26 +419,54 @@ export default function Navbar() {
             </Box>
           </Box>
         </Box>
-        <Button
-          startIcon={<MenuOutlined />}
-          onClick={() => setIsSideNavOpen(true)}
-          variant="text"
-          color="inherit"
+        <Box
           sx={{
-            color: 'white',
-            justifySelf: 'end',
-            '& .MuiButton-startIcon': {
-              margin: 0,
-            },
-            '& .MuiSvgIcon-root': {
-              fontSize: '30px !important',
-            },
             display: {
               mobile: 'block',
               desktop: 'none',
             },
+            gridTemplateColumns: '1fr auto',
+            columnGap: 2,
+            alignItems: 'center',
+            justifySelf: 'end',
+            justifyItems: 'center',
           }}
-        />
+        >
+          <Button
+            variant="text"
+            color="inherit"
+            size="small"
+            sx={{
+              textTransform: 'none',
+              color: 'white',
+              ...theme.typography.body1,
+            }}
+            startIcon={<Language />}
+            onClick={() => {
+              languageDispatch({
+                type: activeLanguage === 'En' ? 'USE_FRENCH' : 'USE_ENGLISH',
+              });
+            }}
+          >
+            {activeLanguage === 'En' ? 'Fr' : 'En'}
+          </Button>
+          <Button
+            startIcon={<MenuOutlined />}
+            onClick={() => setIsSideNavOpen(true)}
+            variant="text"
+            color="inherit"
+            sx={{
+              color: 'white',
+              justifySelf: 'end',
+              '& .MuiButton-startIcon': {
+                margin: 0,
+              },
+              '& .MuiSvgIcon-root': {
+                fontSize: '30px !important',
+              },
+            }}
+          />
+        </Box>
       </Box>
     </>
   );
