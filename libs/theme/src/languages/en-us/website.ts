@@ -141,8 +141,8 @@ export const website = {
     'Do you really want to delete this property ? This action is not reversible',
   confirmDelistPropertyDialogMessage:
     'Do you really want to delist this property ?',
-  confirmDelistProperty: 'Delist property',
-  confirmDeleteProperty: 'Delete property',
+  confirmDelistProperty: 'Confirm Delist property?',
+  confirmDeleteProperty: 'Confirm Delete property?',
   delist: 'Delist',
   signupWithGoogle: 'Sign up with Google',
   fullname: 'Fullname',
@@ -185,4 +185,33 @@ export const website = {
   accountSettings: 'User profile',
   edit: 'Edit',
   profileImage: 'Profile image',
+
+  addNewProperty: 'Add New Property',
+  propertyType: 'Property type',
+  listingReason: 'Listing reason',
+  houseTypes: 'House type',
+  address: 'Address',
+  area: 'Area',
+  numberOfRooms: 'Number of rooms',
+  numberOfBaths: 'Number of bathrooms',
+  price: 'Property price',
+  useCurrentPosition: 'Use Google position',
+  longitude: 'Longitude',
+  latitude: 'Latitude',
+  createProperty: 'Create Property',
+  Sale: 'Sale',
+  Rent: 'Rent',
+  Appartment: 'Appartment',
+  Hostel: 'Hostel',
+  Default: 'Family house',
+
+  Home: 'Maison',
+  Land: 'Land',
+
+  confirmUseCurrentPositionMessage: `Make sure you are at the property before using this feature. \nThis will display on the map for users to see. \nIf you're not at the position, you can manually enter the value or leave it empty.  \nAre you sure you want to continue?`,
+  usePosition: 'I consent to use position',
+  useCurrentLocation: 'Use Current Location ?',
+
+  showPassword: 'Show Password',
+  hidePassword:'Hide Password'
 };
