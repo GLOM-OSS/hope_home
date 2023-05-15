@@ -64,13 +64,15 @@ export class PropertyController {
   }
 
   @Post('new')
+  @UseInterceptors(FilesInterceptor('imageRefs'))
   async addNewProperty(
     @Req() request: Request,
-    @Body() newProperty: CreateNewPropertyDto
+    @Body() newProperty: CreateNewPropertyDto,
+    @UploadedFiles() files: Array<Express.Multer.File>
   ) {
     try {
       const { person_id } = request.user as Person;
-      return await this.propertyService.create(newProperty, person_id);
+      return await this.propertyService.create(newProperty, files, person_id);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }

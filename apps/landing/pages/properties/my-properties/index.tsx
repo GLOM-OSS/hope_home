@@ -60,7 +60,8 @@ export default function Properties({
         id: 'creatingProperty',
       }),
     });
-    createNewProperty(property)
+    //TODO replace the empty array by the files array
+    createNewProperty(property, [])
       .then((property) => {
         notif.update({
           render: formatMessage({

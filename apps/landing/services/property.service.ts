@@ -71,8 +71,23 @@ export async function getPropertyImages(
   }));
 }
 
-export async function createNewProperty(newProperty: ICreateNewProperty) {
-  const { data } = await http.post<IHHProperty>('/properties/new', newProperty);
+export async function createNewProperty(
+  newProperty: ICreateNewProperty,
+  files: File[]
+) {
+  const formData = new FormData();
+  for (const key in newProperty) {
+    if (Object.prototype.hasOwnProperty.call(newProperty, key)) {
+      const element = newProperty[key];
+      formData.append(key, element);
+    }
+  }
+  if (files)
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      formData.append('imageRefs', file);
+    }
+  const { data } = await http.post<IHHProperty>('/properties/new', formData);
   return data;
 }
 
@@ -131,7 +146,7 @@ export async function deleteImage(property_image_id: string) {
 }
 
 export async function searchProperties(searchQuery: ISearchProperty) {
-  console.log(searchQuery)
+  console.log(searchQuery);
   const { data } = await http.get<IHHProperty[]>(`/properties`, {
     params: searchQuery,
   });
