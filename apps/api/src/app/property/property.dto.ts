@@ -9,6 +9,7 @@ import {
   IsBoolean,
   IsEnum,
   IsNumber,
+  IsNumberString,
   IsOptional,
   IsString,
   MaxLength,
@@ -39,21 +40,21 @@ export class CreateCommentDto {
 }
 
 export class CreateNewPropertyDto {
-  @IsNumber()
+  @IsNumberString()
   area: number;
 
-  @IsNumber()
+  @IsNumberString()
   price: number;
 
   @IsString()
   address: string;
 
-  @IsNumber()
   @IsOptional()
+  @IsNumberString()
   latitude?: number;
 
-  @IsNumber()
   @IsOptional()
+  @IsNumberString()
   longitude?: number;
 
   @IsString()
@@ -65,12 +66,12 @@ export class CreateNewPropertyDto {
   @IsEnum(ListingReasonEnum)
   listing_reason: ListingReasonEnum;
 
-  @IsNumber()
   @IsOptional()
+  @IsNumberString()
   number_of_rooms?: number;
 
-  @IsNumber()
   @IsOptional()
+  @IsNumberString()
   number_of_baths?: number;
 
   @IsOptional()

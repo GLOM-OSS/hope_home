@@ -79,7 +79,7 @@ export async function createNewProperty(
   for (const key in newProperty) {
     if (Object.prototype.hasOwnProperty.call(newProperty, key)) {
       const element = newProperty[key];
-      formData.append(key, element);
+      if (element) formData.append(key, element);
     }
   }
   if (files)
