@@ -10,7 +10,7 @@ import { useFormik } from 'formik';
 import { useIntl } from 'react-intl';
 import * as Yup from 'yup';
 
-export default function AdditionalDataDialog({
+export default function WhatsappDialog({
   open,
   closeDialog,
   submitDialog,

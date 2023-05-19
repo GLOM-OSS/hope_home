@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LandingLayout from '../components/layout/layout';
-import AdditionalDataDialog from '../components/profile/additionalDataDialog';
+import WhatsappDialog from '../components/profile/additionalDataDialog';
 import createEmotionCache from '../config_mui/createEmotionCache';
 import UserContextProvider, { useUser } from '../contexts/user.provider';
 import { updateProfile } from '../services/auth.service';
@@ -30,19 +30,18 @@ const App = (props) => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const [isAdditionalDataDialogOpen, setIsAdditionalDataDialogOpen] = useState(
-    person_id && !whatsapp_number
-  );
+  const [isWhatsappDialogOpen, setIsWhatsappDialogOpen] =
+    useState<boolean>(person_id && !whatsapp_number);
 
   useEffect(() => {
-    setIsAdditionalDataDialogOpen(person_id && !whatsapp_number);
+    setIsWhatsappDialogOpen(person_id && !whatsapp_number);
   }, [person_id, whatsapp_number]);
 
   const updateWhatsappNumber = (whatsapp_number: string) => {
     updateProfile({ whatsapp_number })
       .then(() => {
         userDispatch({ type: 'UPDATE_USER', payload: { whatsapp_number } });
-        setIsAdditionalDataDialogOpen(false);
+        setIsWhatsappDialogOpen(false);
       })
       .catch((error) =>
         toast.error(error.message || "Oops, une erreur s'est produite.")
@@ -51,10 +50,10 @@ const App = (props) => {
 
   return (
     <>
-      <AdditionalDataDialog
-        open={isAdditionalDataDialogOpen}
+      <WhatsappDialog
+        open={isWhatsappDialogOpen}
         submitDialog={updateWhatsappNumber}
-        closeDialog={() => setIsAdditionalDataDialogOpen(false)}
+        closeDialog={() => setIsWhatsappDialogOpen(false)}
       />
       <LandingLayout>
         <Component {...pageProps} />
