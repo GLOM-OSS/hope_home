@@ -264,7 +264,11 @@ export class PropertyService {
     let newImageRef: string = null;
     if (property_image_ref === image_ref) {
       const propertyImage = await this.prismaService.propertyImage.findFirst({
-        where: { property_image_id: { not: property_image_id }, property_id },
+        where: {
+          property_image_id: { not: property_image_id },
+          is_deleted: false,
+          property_id,
+        },
       });
       if (propertyImage) newImageRef = propertyImage.image_ref;
     }
