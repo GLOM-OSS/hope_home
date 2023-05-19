@@ -251,11 +251,26 @@ export class PropertyService {
   }
 
   async deleteImage(property_image_id: string) {
-    await this.prismaService.propertyImage.findUniqueOrThrow({
+    const {
+      Property: { image_ref: property_image_ref },
+      image_ref,
+    } = await this.prismaService.propertyImage.findUniqueOrThrow({
+      select: { Property: { select: { image_ref: true } }, image_ref: true },
       where: { property_image_id },
     });
-    await this.prismaService.propertyImage.updateMany({
-      data: { is_deleted: true, deleted_at: new Date() },
+    let newImageRef: string = null;
+    if (property_image_ref === image_ref) {
+      const propertyImage = await this.prismaService.propertyImage.findFirst({
+        where: { property_image_id: { not: property_image_id } },
+      });
+      if (propertyImage) newImageRef = propertyImage.image_ref;
+    }
+    await this.prismaService.propertyImage.update({
+      data: {
+        is_deleted: true,
+        deleted_at: new Date(),
+        Property: { update: { image_ref: newImageRef } },
+      },
       where: { property_image_id },
     });
   }
