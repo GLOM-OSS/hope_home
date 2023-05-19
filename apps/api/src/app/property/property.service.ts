@@ -191,13 +191,27 @@ export class PropertyService {
   }
 
   async create(
-    newProperty: CreateNewPropertyDto,
+    {
+      latitude,
+      longitude,
+      price,
+      area,
+      number_of_baths,
+      number_of_rooms,
+      ...newProperty
+    }: CreateNewPropertyDto,
     files: Array<Express.Multer.File>,
     created_by: string
   ) {
     const { property_id } = await this.prismaService.property.create({
       data: {
         ...newProperty,
+        area: Number(area),
+        price: Number(price),
+        latitude: latitude ? Number(latitude) : undefined,
+        longitude: longitude ? Number(longitude) : undefined,
+        number_of_baths: number_of_baths ? Number(number_of_baths) : undefined,
+        number_of_rooms: number_of_rooms ? Number(number_of_rooms) : undefined,
         image_ref: files[0]?.filename,
         PropertyImages: {
           createMany: {
