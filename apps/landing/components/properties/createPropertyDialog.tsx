@@ -180,7 +180,7 @@ export default function NewPropertyDialog({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (!autocompleteService.current && (window as any).google) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const places = (window as any).google.maps.places;
+      const places = (window as any).google.maps?.places;
       if (places)
         autocompleteService.current = new places.AutocompleteService();
     }
