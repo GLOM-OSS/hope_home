@@ -63,7 +63,7 @@ export default function PropertyCard({
   const { formatMessage, formatNumber } = useIntl();
   const { push } = useRouter();
 
-  const [isLiked, setIsLiked] = useState<boolean>(is_liked);
+  const [isLiked, setIsLiked] = useState<boolean | null>(is_liked);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submissionNotif, setSubmissionNotif] = useState<useNotification>();
   const [moreMenuAnchorEl, setMoreMenuAnchorEl] = useState<null | HTMLElement>(
@@ -460,41 +460,43 @@ export default function PropertyCard({
               {fullname}
             </Typography>
           </Box>
-          {!canDelete && (
-            <Checkbox
-              color="error"
-              checked={isLiked}
-              icon={
-                <FavoriteBorder
+          {!canDelete &&
+            isLiked !==
+              null && (
+                <Checkbox
+                  color="error"
+                  checked={isLiked}
+                  icon={
+                    <FavoriteBorder
+                      sx={{
+                        fontSize: {
+                          desktop: '2.1875rem',
+                          mobile: '1.5rem',
+                        },
+                      }}
+                    />
+                  }
+                  checkedIcon={
+                    <Favorite
+                      sx={{
+                        fontSize: {
+                          desktop: '2.1875rem',
+                          mobile: '1.5rem',
+                        },
+                      }}
+                    />
+                  }
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handlePropertyClick('like');
+                  }}
                   sx={{
-                    fontSize: {
-                      desktop: '2.1875rem',
-                      mobile: '1.5rem',
-                    },
+                    position: 'absolute',
+                    bottom: '10px',
+                    right: '10px',
                   }}
                 />
-              }
-              checkedIcon={
-                <Favorite
-                  sx={{
-                    fontSize: {
-                      desktop: '2.1875rem',
-                      mobile: '1.5rem',
-                    },
-                  }}
-                />
-              }
-              onClick={(e) => {
-                e.stopPropagation();
-                handlePropertyClick('like');
-              }}
-              sx={{
-                position: 'absolute',
-                bottom: '10px',
-                right: '10px',
-              }}
-            />
-          )}
+              )}
           <Box
             sx={{
               position: 'absolute',

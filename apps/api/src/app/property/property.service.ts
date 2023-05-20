@@ -355,9 +355,9 @@ export class PropertyService {
           number_of_baths,
           number_of_rooms,
         },
-        is_liked: Boolean(
-          LikedProperties.find((_) => _.liked_by === person_id)
-        ),
+        is_liked: person_id
+          ? Boolean(LikedProperties.find((_) => _.liked_by === person_id))
+          : null,
         publisher_details: {
           ...publisher,
           created_at: created_at.getTime(),

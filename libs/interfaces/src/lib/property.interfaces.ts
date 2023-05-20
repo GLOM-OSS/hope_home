@@ -36,7 +36,7 @@ export interface IHHProperty
   image_ref: string;
   latitude: number | null;
   longitude: number | null;
-  is_liked: boolean;
+  is_liked: boolean | null;
   is_flagged: boolean;
   is_listed: boolean;
   number_of_likes: number;
