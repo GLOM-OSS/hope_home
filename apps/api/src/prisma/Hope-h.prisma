@@ -105,7 +105,7 @@ model Property {
     listing_reason  ListingReasonEnum
     longitude       Float?
     latitude        Float?
-    description     String
+    description     String            @db.LongText
     property_type   PropertyTypeEnum
     is_listed       Boolean           @default(true) @db.TinyInt
     is_flagged      Boolean           @default(false) @db.TinyInt
@@ -135,7 +135,7 @@ model PropertyAudit {
     listing_reason    ListingReasonEnum
     longitude         Float?
     latitude          Float?
-    description       String
+    description       String            @db.LongText
     property_type     PropertyTypeEnum
     is_listed         Boolean           @default(true) @db.TinyInt
     is_flagged        Boolean           @default(false) @db.TinyInt
