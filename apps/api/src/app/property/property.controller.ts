@@ -22,8 +22,7 @@ import {
   CreateCommentDto,
   CreateNewPropertyDto,
   QueryPropertiesDto,
-  SearchPropertiesDto,
-  UpdatePropertyDto,
+  UpdatePropertyDto
 } from './property.dto';
 import { PropertyService } from './property.service';
 
@@ -33,8 +32,8 @@ export class PropertyController {
   constructor(private propertyService: PropertyService) {}
 
   @Get()
-  async searchProperties(@Query() searchQuery: SearchPropertiesDto) {
-    return await this.propertyService.searchProperties(searchQuery);
+  async searchProperties(@Query('keywords') keywords: string) {
+    return await this.propertyService.searchProperties(keywords);
   }
 
   @IsPublic()

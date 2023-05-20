@@ -67,13 +67,3 @@ export interface IPropertyQuery {
   house_type?: HouseType;
   is_user_property?: boolean;
 }
-
-export interface ISearchProperty {
-  property_type: PropertyType;
-  address?: string;
-  description: string;
-  priceInterval?: {
-    lower_bound?: number;
-    upper_bound?: number;
-  };
-}

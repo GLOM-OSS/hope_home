@@ -2,11 +2,7 @@ import { IHHProperty, IImage, IPropertyDetails } from '@hopehome/interfaces';
 import { Injectable } from '@nestjs/common';
 import { LikedProperty, Person, Prisma, Property } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
-import {
-  CreateNewPropertyDto,
-  QueryPropertiesDto,
-  SearchPropertiesDto,
-} from './property.dto';
+import { CreateNewPropertyDto, QueryPropertiesDto } from './property.dto';
 
 @Injectable()
 export class PropertyService {
@@ -293,40 +289,30 @@ export class PropertyService {
     }));
   }
 
-  async searchProperties({
-    property_type,
-    address,
-    priceInterval,
-    description,
-  }: SearchPropertiesDto) {
-    console.log({ description });
-    const properties = await this.prismaService.property.findMany({
+  async searchProperties(keywords: string) {
+    let properties = await this.prismaService.property.findMany({
       include: {
         Publisher: true,
         LikedProperties: {
           where: { is_deleted: false },
         },
       },
-      where: {
-        OR: [
-          { property_type: property_type },
-          { address: { contains: address } },
-          {
-            price: priceInterval
-              ? {
-                  gte: priceInterval?.lower_bound,
-                  lte: priceInterval?.upper_bound ?? undefined,
-                }
-              : undefined,
-          },
-          {
-            AND: description
-              .split(' ')
-              .map((keyword) => ({ description: { contains: keyword } })),
-          },
-        ],
-      },
+      where: { is_deleted: false, is_flagged: false, is_listed: true },
     });
+    const words = keywords.split(',' || ' ');
+    properties = properties.filter(({ description, address }) =>
+      words.reduce(
+        (isIncluded, word) =>
+          isIncluded
+            ? isIncluded
+            : [address, description]
+                .join(' ')
+                .toLowerCase()
+                .includes(word.toLowerCase()),
+        false
+      )
+    );
+
     return this.processProperties(properties);
   }
 

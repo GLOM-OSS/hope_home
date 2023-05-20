@@ -1,5 +1,5 @@
-import { IHHProperty, PropertyType } from '@hopehome/interfaces';
-import { Box, capitalize } from '@mui/material';
+import { IHHProperty } from '@hopehome/interfaces';
+import { Box } from '@mui/material';
 import { GetServerSideProps } from 'next';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
@@ -41,26 +41,7 @@ export function Index({
   const [recentProperties, setRecentProperties] = useState(recent);
 
   const searchPropertiesHandler = (keywords: string) => {
-    const [
-      property_type, //1
-      address, //2
-      priceInterval, //3
-      description, //4
-    ] = keywords.split(',');
-
-    searchProperties({
-      property_type: ['Home', 'Land'].includes(capitalize(property_type?.trim()))
-        ? (capitalize(property_type.trim()) as PropertyType)
-        : undefined,
-      address,
-      description: [property_type, address, description].join(' '),
-      priceInterval: priceInterval
-        ? {
-            lower_bound: Number(priceInterval.split(',')[0]),
-            upper_bound: Number(priceInterval.split(',')[0]),
-          }
-        : undefined,
-    })
+    searchProperties(keywords)
       .then((properties) => {
         setRecentProperties(properties);
       })

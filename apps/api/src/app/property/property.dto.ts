@@ -4,7 +4,6 @@ import {
   ListingReasonEnum,
   PropertyTypeEnum,
 } from '@prisma/client';
-import { Type } from 'class-transformer';
 import {
   IsBoolean,
   IsEnum,
@@ -89,21 +88,4 @@ export class PriceInterval {
   @IsNumber()
   @IsOptional()
   upper_bound?: number;
-}
-export class SearchPropertiesDto {
-  @IsString()
-  @IsOptional()
-  property_type: PropertyTypeEnum;
-
-  @IsString()
-  @IsOptional()
-  address?: string;
-
-  @IsOptional()
-  @Type(() => PriceInterval)
-  priceInterval?: PriceInterval;
-
-  @IsString()
-  @IsOptional()
-  description: string;
 }
