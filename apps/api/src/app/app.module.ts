@@ -20,7 +20,7 @@ import { AppMiddleware } from './app.middleware';
   imports: [
     ThrottlerModule.forRoot({
       ttl: 60,
-      limit: 10,
+      limit: 50,
     }),
     ConfigModule.forRoot(),
     MailModule,
