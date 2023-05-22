@@ -64,7 +64,7 @@ export default function ForgotPassword() {
           }),
         });
         setSubmissionNotif(undefined);
-        push('/sign-in');
+        push('/signin');
       })
       .catch((error) => {
         notif.update({
