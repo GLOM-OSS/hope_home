@@ -50,6 +50,7 @@ export default function PropertyCard({
     house_details,
     area,
     is_liked,
+    number_of_likes,
     publisher_details: { whatsapp_number, fullname, profile_image_ref: pi_ref },
     property_id,
   },
@@ -460,43 +461,41 @@ export default function PropertyCard({
               {fullname}
             </Typography>
           </Box>
-          {!canDelete &&
-            isLiked !==
-              null && (
-                <Checkbox
-                  color="error"
-                  checked={isLiked}
-                  icon={
-                    <FavoriteBorder
-                      sx={{
-                        fontSize: {
-                          desktop: '2.1875rem',
-                          mobile: '1.5rem',
-                        },
-                      }}
-                    />
-                  }
-                  checkedIcon={
-                    <Favorite
-                      sx={{
-                        fontSize: {
-                          desktop: '2.1875rem',
-                          mobile: '1.5rem',
-                        },
-                      }}
-                    />
-                  }
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handlePropertyClick('like');
-                  }}
+          {!canDelete && isLiked !== null && (
+            <Checkbox
+              color="error"
+              checked={isLiked}
+              icon={
+                <FavoriteBorder
                   sx={{
-                    position: 'absolute',
-                    bottom: '10px',
-                    right: '10px',
+                    fontSize: {
+                      desktop: '2.1875rem',
+                      mobile: '1.5rem',
+                    },
                   }}
                 />
-              )}
+              }
+              checkedIcon={
+                <Favorite
+                  sx={{
+                    fontSize: {
+                      desktop: '2.1875rem',
+                      mobile: '1.5rem',
+                    },
+                  }}
+                />
+              }
+              onClick={(e) => {
+                e.stopPropagation();
+                handlePropertyClick('like');
+              }}
+              sx={{
+                position: 'absolute',
+                bottom: '10px',
+                right: '10px',
+              }}
+            />
+          )}
           <Box
             sx={{
               position: 'absolute',
@@ -593,7 +592,7 @@ export default function PropertyCard({
             <Box
               sx={{
                 display: 'grid',
-                gridTemplateColumns: 'auto 1fr',
+                gridTemplateColumns: 'auto 1fr auto',
                 columnGap: 1,
                 alignItems: 'center',
               }}
@@ -618,6 +617,14 @@ export default function PropertyCard({
                         : 'home'
                       : 'land',
                 })}
+              </Typography>
+              <Typography
+                component="span"
+                letterSpacing={2}
+                variant="caption"
+                color="inherit"
+              >
+                {`${number_of_likes} like(s)`}
               </Typography>
             </Box>
 
