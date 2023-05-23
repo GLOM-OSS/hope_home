@@ -17,7 +17,7 @@ export class MailService {
     const template = Handlebars.compile(source);
     const mailObject = {
       to: email,
-      from: process.env.EMAIL_USER,
+      from: process.env.EMAIL,
       subject: 'Hope Home Credential',
       html: template(messages),
     };
@@ -25,15 +25,15 @@ export class MailService {
     return await this.mailerService.sendMail(mailObject);
   }
 
-  async sendContactUsMail(email: string, messages: ContactUsMessages) {
+  async sendContactUsMail(messages: ContactUsMessages) {
     const source = readFileSync(
       path.join(__dirname, './assets/templates/contact-us.hbs'),
       'utf8'
     );
     const template = Handlebars.compile(source);
     const mailObject = {
-      to: email,
-      from: process.env.EMAIL_USER,
+      from: process.env.EMAIL,
+      to: process.env.ADMIN_EMAIL,
       subject: 'Service Clientèles, Hope Home',
       html: template(messages),
     };
