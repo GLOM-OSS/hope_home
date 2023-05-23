@@ -184,9 +184,7 @@ export default function Contact() {
               variant="standard"
               label={formatMessage({ id: 'yourMessage' })}
               required
-              placeholder={formatMessage({
-                id: formatMessage({ id: 'yourMessageTemplate' }),
-              })}
+              placeholder={formatMessage({ id: 'yourMessageTemplate' })}
               error={formik.touched.message && Boolean(formik.errors.message)}
               helperText={formik.touched.message && formik.errors.message}
               multiline

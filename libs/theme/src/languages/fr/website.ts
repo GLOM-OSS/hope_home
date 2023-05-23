@@ -145,7 +145,7 @@ export const website = {
     'Voulez-vous vraiment supprimer ce bien ?',
   confirmDelistProperty: 'Confirmer la désactivation du bien',
   confirmDeleteProperty: 'Confirmer la suppression du bien',
-  delist: 'Supprimer',
+  delist: 'Désactiver',
   signupWithGoogle: "S'inscrire avec Google",
   fullname: 'Nom Complet',
   enterFullname: 'Entrer votre nom.',
@@ -219,4 +219,8 @@ export const website = {
   useCurrentLocation: 'Utiliser la position actuelle ?',
   showPassword: 'Afficher le mot de passe',
   hidePassword: 'Cacher le mot de passe',
+
+  sendingMail: 'Envoie du message en cours...',
+  mailSentSuccessfully: 'Le message a été envoyé avec success !!!',
+  sendmailFailed: "Désolé, l'envoie du message a échoué !!!",
 };

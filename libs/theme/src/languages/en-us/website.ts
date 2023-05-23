@@ -213,5 +213,9 @@ export const website = {
   useCurrentLocation: 'Use Current Location ?',
 
   showPassword: 'Show Password',
-  hidePassword:'Hide Password'
+  hidePassword: 'Hide Password',
+
+  sendingMail: 'Sending message...',
+  mailSentSuccessfully: 'Message send successfully !!!',
+  sendmailFailed: 'Sorry, Message was not send !!!',
 };
