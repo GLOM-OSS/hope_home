@@ -20,11 +20,11 @@ services:
       - PORT=8080
       - NODE_ENV=production
       - SALT=12
-      - EMAIL_USER='glomexam@gmail.com'
+      - EMAIL='glomexam@gmail.com'
       - EMAIL_HOST='smtp.gmail.com'
       - EMAIL_PASSWORD='valuability9103!'
-      - GOOGLE_SECRET='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'
-      - GOOGLE_CLIENT_ID='562313049834-07ekkibpmtfq0b2m68i56anbck3utj2p.apps.googleusercontent.com'
+      - CLIENT_SECRET='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'
+      - CLIENT_ID='562313049834-07ekkibpmtfq0b2m68i56anbck3utj2p.apps.googleusercontent.com'
       - DEFAULT_PASSWORD='12345678'
     ports:
       - "95:8080"
