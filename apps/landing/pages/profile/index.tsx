@@ -14,20 +14,24 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import EditInfoDialog from '../../components/profile/editInfoDialog';
 import EditPasswordDialog from '../../components/profile/editPasswordDialog';
 import { useUser } from '../../contexts/user.provider';
-import { changePassword, updateProfile } from '../../services/auth.service';
-import { useRouter } from 'next/router';
+import {
+  changePassword,
+  getUser,
+  updateProfile,
+} from '../../services/auth.service';
+import { toast } from 'react-toastify';
 
 export default function Profile() {
   const {
     activeUser: {
       email,
       fullname,
-      person_id,
       preferred_lang,
       profile_image_ref,
       whatsapp_number,
@@ -45,6 +49,18 @@ export default function Profile() {
   const { push } = useRouter();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submissionNotif, setSubmissionNotif] = useState<useNotification>();
+
+  useEffect(() => {
+    getUser()
+      .then((user) => {
+        userDispatch({ type: 'LOAD_USER', payload: user });
+      })
+      .catch((error) => {
+        toast.error(error);
+        push('/');
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function changeAccountInfo(
     val: Omit<
@@ -193,13 +209,6 @@ export default function Profile() {
     userDispatch({ type: 'LOG_OUT' });
     push('/');
   };
-
-  useEffect(() => {
-    setTimeout(() => {
-      if (!person_id) push('/');
-    }, 2000);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <>
