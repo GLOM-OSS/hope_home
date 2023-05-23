@@ -1,7 +1,7 @@
 import { MailerModule } from '@nestjs-modules/mailer';
-import { Global, Module } from '@nestjs/common';
-import { MailService } from './mail.service';
+import { Global, Logger, Module } from '@nestjs/common';
 import { google } from 'googleapis';
+import { MailService } from './mail.service';
 
 @Global()
 @Module({
@@ -16,15 +16,20 @@ import { google } from 'googleapis';
         oauth2.setCredentials({
           refresh_token: process.env.REFRESH_TOKEN,
         });
-        const accessToken = await oauth2.getAccessToken();
+        const accessToken = await new Promise<string>((resolve) =>
+          oauth2.getAccessToken((err, token) => {
+            if (err) Logger.error(err, MailModule.name);
+            resolve(token);
+          })
+        );
         return {
           transport: {
             service: 'gmail',
             secure: true,
             auth: {
+              accessToken,
               type: 'OAuth2',
               user: process.env.EMAIL,
-              accessToken: accessToken.token,
               clientId: process.env.CLIENT_ID,
               clientSecret: process.env.CLIENT_SECRET,
               refreshToken: process.env.REFRESH_TOKEN,
