@@ -4,7 +4,8 @@ datasource db {
 }
 
 generator client {
-    provider = "prisma-client-js"
+    provider        = "prisma-client-js"
+    previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 enum Gender {
@@ -124,7 +125,8 @@ model Property {
     LikedProperties LikedProperty[]
     PropertyAudits  PropertyAudit[]
 
-    @@index([property_type, address, price])
+    @@fulltext([description])
+    @@fulltext([address, description])
 }
 
 model PropertyAudit {

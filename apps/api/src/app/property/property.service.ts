@@ -290,29 +290,23 @@ export class PropertyService {
   }
 
   async searchProperties(keywords: string) {
-    let properties = await this.prismaService.property.findMany({
+    const words = keywords.split(',' || ';');
+    console.log(words)
+    const properties = await this.prismaService.property.findMany({
       include: {
         Publisher: true,
         LikedProperties: {
           where: { is_deleted: false },
         },
       },
-      where: { is_deleted: false, is_flagged: false, is_listed: true },
+      where: {
+        is_deleted: false,
+        is_flagged: false,
+        is_listed: true,
+        address: { search: words.join(' ') },
+        description: { search: words.join(' ') },
+      },
     });
-    const words = keywords.split(',' || ' ');
-    properties = properties.filter(({ description, address }) =>
-      words.reduce(
-        (isIncluded, word) =>
-          isIncluded
-            ? isIncluded
-            : [address, description]
-                .join(' ')
-                .toLowerCase()
-                .includes(word.toLowerCase()),
-        false
-      )
-    );
-
     return this.processProperties(properties);
   }
 
