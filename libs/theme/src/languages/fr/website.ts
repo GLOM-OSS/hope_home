@@ -223,4 +223,7 @@ export const website = {
   sendingMail: 'Envoie du message en cours...',
   mailSentSuccessfully: 'Le message a été envoyé avec success !!!',
   sendmailFailed: "Désolé, l'envoie du message a échoué !!!",
+
+  more: 'Voir plus',
+  logOut: 'Log out',
 };

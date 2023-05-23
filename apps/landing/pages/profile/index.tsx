@@ -313,7 +313,7 @@ export default function Profile() {
         </Box>
         <Box sx={{ display: 'grid', rowGap: 1 }}>
           <Typography fontWeight={500}>
-            {formatMessage({ id: 'username' })}
+            {formatMessage({ id: 'yourName' })}
           </Typography>
           <Typography
             variant="body2"

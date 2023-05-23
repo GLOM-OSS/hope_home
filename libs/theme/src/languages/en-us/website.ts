@@ -218,4 +218,7 @@ export const website = {
   sendingMail: 'Sending message...',
   mailSentSuccessfully: 'Message send successfully !!!',
   sendmailFailed: 'Sorry, Message was not send !!!',
+
+  more: 'See more',
+  logOut: 'Se deconnecter',
 };

@@ -158,7 +158,7 @@ export default function EditInfoDialog({
             sx={{ minWidth: '200px' }}
             size="small"
             input={
-              <OutlinedInput label={formatMessage({ id: 'questionType' })} />
+              <OutlinedInput label={formatMessage({ id: 'preferredLang' })} />
             }
             MenuProps={{
               PaperProps: {
