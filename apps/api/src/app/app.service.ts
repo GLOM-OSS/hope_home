@@ -11,10 +11,12 @@ export class AppService {
   }
 
   sendMessage({ email, message, name }: CreateMessage, lang: Lang) {
-    const { messageDisclaimer, subject } = contactUsMessages;
-    return this.mailService.sendContactUsMail(email, {
+    const { messageDisclaimer, reponseTo, subject } = contactUsMessages;
+    return this.mailService.sendContactUsMail({
+      email,
       message,
       subject: subject[lang],
+      responseTo: reponseTo[lang],
       messageDisclaimer: messageDisclaimer(name)[lang],
       logo: 'https://hopehome.ingl.io/favicon_green.png',
     });
