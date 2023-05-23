@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LandingLayout from '../components/layout/layout';
-import WhatsappDialog from '../components/profile/additionalDataDialog';
+import WhatsappDialog from '../components/profile/whatsappDialog';
 import createEmotionCache from '../config_mui/createEmotionCache';
 import UserContextProvider, { useUser } from '../contexts/user.provider';
 import { updateProfile } from '../services/auth.service';
@@ -30,8 +30,9 @@ const App = (props) => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const [isWhatsappDialogOpen, setIsWhatsappDialogOpen] =
-    useState<boolean>(person_id && !whatsapp_number);
+  const [isWhatsappDialogOpen, setIsWhatsappDialogOpen] = useState<boolean>(
+    Boolean(person_id && !whatsapp_number)
+  );
 
   useEffect(() => {
     setIsWhatsappDialogOpen(person_id && !whatsapp_number);
