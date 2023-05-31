@@ -1,7 +1,5 @@
 import { theme } from '@hopehome/theme';
-import { HomeOutlined } from '@mui/icons-material';
-import { Box, Tooltip } from '@mui/material';
-import Link from 'next/link';
+import { Box } from '@mui/material';
 import { useIntl } from 'react-intl';
 import NavItem from './navItem';
 
@@ -9,6 +7,7 @@ export default function Navbar({ active }: { active: string }) {
   const { formatMessage } = useIntl();
 
   const navLinks: { name: string; link: string }[] = [
+    { name: 'myProperties', link: '/properties/my-properties' },
     { name: 'properties', link: '/properties' },
     { name: 'favorites', link: '/properties/saved' },
   ];
@@ -27,37 +26,6 @@ export default function Navbar({ active }: { active: string }) {
         justifySelf: 'center',
       }}
     >
-      <Link
-        href={'/properties/my-properties'}
-        style={{
-          justifySelf: 'center',
-          alignSelf: 'center',
-        }}
-      >
-        <Tooltip arrow title={formatMessage({ id: 'myProperties' })}>
-          <HomeOutlined
-            sx={{
-              color:
-                active === 'my-properties'
-                  ? theme.palette.primary.main
-                  : 'white',
-              backgroundColor:
-                active === 'my-properties'
-                  ? 'white'
-                  : theme.palette.primary.main,
-              transition: 'color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-              textDecoration: 'none',
-              textAlign: 'center',
-              borderRadius: '50px',
-              justifySelf: 'center',
-              '&:hover': {
-                transition: 'color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-                color: theme.palette.primary.light,
-              },
-            }}
-          />
-        </Tooltip>
-      </Link>
       {navLinks.map(({ link, name }, index) => (
         <NavItem
           href={link}

@@ -102,7 +102,7 @@ export default function Properties({
         closeDialog={() => setIsNewPropertyDialogOpen(false)}
       />
       <Box sx={{ mt: 4, padding: `0 7.1%`, mb: 2, display: 'grid', rowGap: 2 }}>
-        <Navbar active="my-properties" />
+        <Navbar active="/properties/my-properties" />
         <Box
           sx={{
             display: 'grid',
