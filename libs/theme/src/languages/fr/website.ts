@@ -142,7 +142,7 @@ export const website = {
   confirmDeletePropertyDialogMessage:
     "Voulez-vous vraiment supprimer cette propriété ? Cette action n'est pas réversible",
   confirmDelistPropertyDialogMessage:
-    'Voulez-vous vraiment supprimer ce bien ?',
+    'Voulez-vous vraiment désactivation ce bien ?',
   confirmDelistProperty: 'Confirmer la désactivation du bien',
   confirmDeleteProperty: 'Confirmer la suppression du bien',
   delist: 'Désactiver',
@@ -226,4 +226,8 @@ export const website = {
 
   more: 'Voir plus',
   logOut: 'Log out',
+
+  list: 'Activer',
+  confirmListPropertyDialogMessage: 'Voulez-vous vraiment réactiver ce bien ?',
+  confirmListProperty: 'Confirmer la résactivation du bien',
 };

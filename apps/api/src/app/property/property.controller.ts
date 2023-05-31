@@ -22,7 +22,7 @@ import {
   CreateCommentDto,
   CreateNewPropertyDto,
   QueryPropertiesDto,
-  UpdatePropertyDto
+  UpdatePropertyDto,
 } from './property.dto';
 import { PropertyService } from './property.service';
 
@@ -100,10 +100,18 @@ export class PropertyController {
   }
 
   @Put(':property_id/delist')
-  async delistProperty(@Param('property_id') property_id: string) {
+  async delistProperty(
+    @Req() request: Request,
+    @Param('property_id') property_id: string
+  ) {
+    const { person_id } = request.user as Person;
     try {
+      const property = await this.propertyService.findOne(
+        property_id,
+        person_id
+      );
       return await this.propertyService.update(property_id, {
-        is_listed: false,
+        is_listed: !property.is_listed,
       });
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);

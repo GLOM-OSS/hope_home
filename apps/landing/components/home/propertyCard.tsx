@@ -50,6 +50,7 @@ export default function PropertyCard({
     house_details,
     area,
     is_liked,
+    is_listed,
     number_of_likes,
     publisher_details: { whatsapp_number, fullname, profile_image_ref: pi_ref },
     property_id,
@@ -139,8 +140,10 @@ export default function PropertyCard({
         });
         if (setProperties)
           setProperties((properties) =>
-            properties.filter(
-              (property) => property.property_id !== property_id
+            properties.map((property) =>
+              property.property_id === property_id
+                ? { ...property, is_listed: !property.is_listed }
+                : property
             )
           );
 
@@ -355,12 +358,16 @@ export default function PropertyCard({
         closeDialog={() => setIsConfirmDelistDialogOpen(false)}
         confirm={() => delistPropertyHandler(property_id)}
         dialogMessage={formatMessage({
-          id: 'confirmDelistPropertyDialogMessage',
+          id: is_listed
+            ? 'confirmDelistPropertyDialogMessage'
+            : 'confirmListPropertyDialogMessage',
         })}
         isDialogOpen={isConfirmDelistDialogOpen}
-        confirmButton={formatMessage({ id: 'delist' })}
+        confirmButton={formatMessage({ id: is_listed ? 'delist' : 'list' })}
         danger
-        dialogTitle={formatMessage({ id: 'confirmDelistProperty' })}
+        dialogTitle={formatMessage({
+          id: is_listed ? 'confirmDelistProperty' : 'confirmListProperty',
+        })}
       />
       <Menu
         anchorEl={moreMenuAnchorEl}
@@ -379,7 +386,7 @@ export default function PropertyCard({
               setMoreMenuAnchorEl(null);
             }}
           >
-            {formatMessage({ id: 'delist' })}
+            {formatMessage({ id: is_listed ? 'delist' : 'list' })}
           </MenuItem>
           <MenuItem
             onClick={() => {
@@ -408,9 +415,9 @@ export default function PropertyCard({
             desktop: '350px',
             mobile: '307px',
           },
-          cursor: 'pointer',
+          cursor: is_listed ? 'pointer' : 'default',
         }}
-        onClick={() => handlePropertyClick()}
+        onClick={() => (is_listed ? handlePropertyClick() : {})}
       >
         <Box sx={{ position: 'relative' }}>
           <Image
@@ -441,25 +448,33 @@ export default function PropertyCard({
               columnGap: 2,
             }}
           >
-            <Avatar
-              alt={fullname}
-              src={pi_ref}
-              sx={{ width: 56, height: 56 }}
-            />
-            <Typography
-              variant="h6"
-              sx={{
-                width: '260px',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                fontSize: {
-                  desktop: theme.typography.h6.fontSize,
-                  mobile: '1.1rem',
-                },
-              }}
-            >
-              {fullname}
-            </Typography>
+            {is_listed ? (
+              <>
+                <Avatar
+                  alt={fullname}
+                  src={pi_ref}
+                  sx={{ width: 56, height: 56 }}
+                />
+                <Typography
+                  variant="h6"
+                  sx={{
+                    width: '260px',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    fontSize: {
+                      desktop: theme.typography.h6.fontSize,
+                      mobile: '1.1rem',
+                    },
+                  }}
+                >
+                  {fullname}
+                </Typography>
+              </>
+            ) : (
+              <Typography variant="h4" color="error">
+                {formatMessage({ id: 'delist' })}
+              </Typography>
+            )}
           </Box>
           {!canDelete && isLiked !== null && (
             <Checkbox

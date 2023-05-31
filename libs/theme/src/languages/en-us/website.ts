@@ -221,4 +221,9 @@ export const website = {
 
   more: 'See more',
   logOut: 'Se deconnecter',
+
+  list: 'List',
+  confirmListPropertyDialogMessage:
+  'Do you really want to list this property ?',
+confirmListProperty: 'Confirm list property?',
 };
