@@ -35,7 +35,7 @@ const App = (props) => {
   );
 
   useEffect(() => {
-    setIsWhatsappDialogOpen(person_id && !whatsapp_number);
+    setIsWhatsappDialogOpen(Boolean(person_id && !whatsapp_number));
   }, [person_id, whatsapp_number]);
 
   const updateWhatsappNumber = (whatsapp_number: string) => {
