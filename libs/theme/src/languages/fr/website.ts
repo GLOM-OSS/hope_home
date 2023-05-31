@@ -228,6 +228,7 @@ export const website = {
   logOut: 'Log out',
 
   list: 'Activer',
+  notListed: 'Déactiver',
   confirmListPropertyDialogMessage: 'Voulez-vous vraiment réactiver ce bien ?',
   confirmListProperty: 'Confirmer la résactivation du bien',
 };

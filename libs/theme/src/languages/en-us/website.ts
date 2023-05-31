@@ -223,7 +223,8 @@ export const website = {
   logOut: 'Se deconnecter',
 
   list: 'List',
+  notListed: 'Not listed',
   confirmListPropertyDialogMessage:
-  'Do you really want to list this property ?',
-confirmListProperty: 'Confirm list property?',
+    'Do you really want to list this property ?',
+  confirmListProperty: 'Confirm list property?',
 };
