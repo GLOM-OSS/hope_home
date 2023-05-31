@@ -223,8 +223,8 @@ export default function Profile() {
           fullname,
           preferred_lang,
           whatsapp_number:
-            whatsapp_number.length > 0 ? whatsapp_number.slice(3) : '',
-          phone_number: phone_number.length > 0 ? phone_number.slice(3) : '',
+            whatsapp_number?.length > 0 ? whatsapp_number.slice(3) : '',
+          phone_number: phone_number?.length > 0 ? phone_number.slice(3) : '',
         }}
         closeDialog={() => setIsEditInfoDialogOpen(false)}
         open={isEditInfoDialogOpen}
