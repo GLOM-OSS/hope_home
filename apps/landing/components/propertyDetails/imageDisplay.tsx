@@ -106,7 +106,7 @@ function ImageDialog({
         <img
           src={images[index]}
           alt={'property'}
-          style={{ objectFit: 'contain', height: '100vh', width: '100%' }}
+          style={{ objectFit: 'cover', height: '100vh', width: '100%' }}
         />
       </Box>
     </Dialog>
@@ -146,7 +146,7 @@ export default function ImageDisplay({ images }: { images: string[] }) {
             width="100%"
             height={400}
             style={{
-              objectFit: 'contain',
+              objectFit: 'cover',
               borderRadius: '10px',
             }}
           />
@@ -168,7 +168,7 @@ export default function ImageDisplay({ images }: { images: string[] }) {
                 currentTarget.src = '/logo_green.png';
               }}
               style={{
-                objectFit: 'contain',
+                objectFit: 'cover',
                 borderTopLeftRadius: '10px',
                 borderBottomLeftRadius: '10px',
               }}
@@ -183,7 +183,7 @@ export default function ImageDisplay({ images }: { images: string[] }) {
                 currentTarget.src = '/logo_green.png';
               }}
               style={{
-                objectFit: 'contain',
+                objectFit: 'cover',
                 borderTopRightRadius: '10px',
                 borderBottomRightRadius: '10px',
               }}
@@ -207,7 +207,7 @@ export default function ImageDisplay({ images }: { images: string[] }) {
                 currentTarget.src = '/logo_green.png';
               }}
               style={{
-                objectFit: 'contain',
+                objectFit: 'cover',
                 borderTopLeftRadius: '10px',
                 borderBottomLeftRadius: '10px',
               }}
@@ -223,7 +223,7 @@ export default function ImageDisplay({ images }: { images: string[] }) {
                   currentTarget.src = '/logo_green.png';
                 }}
                 style={{
-                  objectFit: 'contain',
+                  objectFit: 'cover',
                   borderTopRightRadius: '10px',
                 }}
               />
@@ -237,7 +237,7 @@ export default function ImageDisplay({ images }: { images: string[] }) {
                   currentTarget.src = '/logo_green.png';
                 }}
                 style={{
-                  objectFit: 'contain',
+                  objectFit: 'cover',
                   borderBottomRightRadius: '10px',
                 }}
               />
@@ -261,7 +261,7 @@ export default function ImageDisplay({ images }: { images: string[] }) {
                 currentTarget.src = '/logo_green.png';
               }}
               style={{
-                objectFit: 'contain',
+                objectFit: 'cover',
                 borderTopLeftRadius: '10px',
                 borderBottomLeftRadius: '10px',
               }}
@@ -277,7 +277,7 @@ export default function ImageDisplay({ images }: { images: string[] }) {
                 }}
                 height={190}
                 style={{
-                  objectFit: 'contain',
+                  objectFit: 'cover',
                   borderTopRightRadius: '10px',
                 }}
               />
@@ -292,7 +292,7 @@ export default function ImageDisplay({ images }: { images: string[] }) {
                     currentTarget.src = '/logo_green.png';
                   }}
                   style={{
-                    objectFit: 'contain',
+                    objectFit: 'cover',
                     borderBottomRightRadius: '10px',
                   }}
                 />
