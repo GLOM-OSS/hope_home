@@ -112,14 +112,24 @@ export class PropertyService {
   }
 
   async likeDislike(property_id: string, liked_by: string) {
-    return this.prismaService.likedProperty.upsert({
-      create: {
-        Property: { connect: { property_id } },
-        Person: { connect: { person_id: liked_by } },
-      },
-      update: { deleted_at: new Date(), is_deleted: true },
+    const likedProperty = await this.prismaService.likedProperty.findUnique({
       where: { liked_by_property_id: { liked_by, property_id } },
     });
+    if (likedProperty)
+      return this.prismaService.likedProperty.update({
+        data: {
+          is_deleted: !likedProperty.is_deleted,
+          deleted_at: likedProperty.is_deleted ? null : new Date(),
+        },
+        where: { liked_by_property_id: { liked_by, property_id } },
+      });
+    else
+      return this.prismaService.likedProperty.create({
+        data: {
+          Property: { connect: { property_id } },
+          Person: { connect: { person_id: liked_by } },
+        },
+      });
   }
 
   async comment(property_id: string, comment: string, commented_by: string) {
@@ -291,7 +301,7 @@ export class PropertyService {
 
   async searchProperties(keywords: string) {
     const words = keywords.split(',' || ';');
-    console.log(words)
+    console.log(words);
     const properties = await this.prismaService.property.findMany({
       include: {
         Publisher: true,
