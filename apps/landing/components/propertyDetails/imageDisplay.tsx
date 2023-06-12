@@ -133,7 +133,12 @@ export default function ImageDisplay({ images }: { images: string[] }) {
         onClick={() => setIsImageDialogOpen(true)}
       >
         {images.length === 0 ? (
-          <Typography>{formatMessage({ id: 'noImages' })}</Typography>
+          <Typography
+            sx={{ padding: '10px 3px', textAlign: 'center' }}
+            variant="h5"
+          >
+            {formatMessage({ id: 'noImages' })}
+          </Typography>
         ) : images.length === 1 ? (
           <img
             src={images[0]}
