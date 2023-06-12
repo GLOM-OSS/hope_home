@@ -62,7 +62,9 @@ export default function PropertyCard({
     property_id,
   },
   setProperties,
+  canManage = false,
 }: {
+  canManage?: boolean;
   property: IHHProperty;
   setProperties?: Dispatch<SetStateAction<IHHProperty[]>>;
 }) {
@@ -651,7 +653,7 @@ export default function PropertyCard({
               </Typography>
             </Box>
 
-            {canDelete && (
+            {canManage && canDelete && (
               <Tooltip arrow title={formatMessage({ id: 'more' })}>
                 <IconButton
                   size="small"
