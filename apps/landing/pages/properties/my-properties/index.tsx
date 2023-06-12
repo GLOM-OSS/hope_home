@@ -3,7 +3,7 @@ import { ErrorMessage, useNotification } from '@hopehome/toast';
 import { ReportRounded } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
 import { GetServerSideProps } from 'next';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import PropertyCard from '../../../components/home/propertyCard';
 import Navbar from '../../../components/navbar/secondary_nav/navbar';
@@ -13,6 +13,7 @@ import {
   getProperties,
 } from '../../../services/property.service';
 import { useUser } from '../../../contexts/user.provider';
+import { useRouter } from 'next/router';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
@@ -93,6 +94,15 @@ export default function Properties({
       })
       .finally(() => setIsSubmitting(false));
   };
+
+  const {
+    activeUser: { person_id: p_id },
+  } = useUser();
+  const { push } = useRouter();
+  useEffect(() => {
+    if (!p_id) push('/properties');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>

@@ -2,14 +2,21 @@ import { theme } from '@hopehome/theme';
 import { Box } from '@mui/material';
 import { useIntl } from 'react-intl';
 import NavItem from './navItem';
+import { useUser } from '../../../contexts/user.provider';
 
 export default function Navbar({ active }: { active: string }) {
   const { formatMessage } = useIntl();
+  const {
+    activeUser: { person_id },
+  } = useUser();
 
-  const navLinks: { name: string; link: string }[] = [
+  const connectedNavLinks: { name: string; link: string }[] = [
     { name: 'myProperties', link: '/properties/my-properties' },
     { name: 'properties', link: '/properties' },
     { name: 'favorites', link: '/properties/saved' },
+  ];
+  const unAuthenticatedUserLinks: { name: string; link: string }[] = [
+    { name: 'properties', link: '/properties' },
   ];
 
   return (
@@ -26,24 +33,26 @@ export default function Navbar({ active }: { active: string }) {
         justifySelf: 'center',
       }}
     >
-      {navLinks.map(({ link, name }, index) => (
-        <NavItem
-          href={link}
-          sx={{
-            height: '100%',
-            padding: {
-              desktop: `0 ${theme.spacing(0.25)}`,
-              mobile: `0 ${theme.spacing(0.7)}`,
-            },
-            color: active === link ? theme.palette.primary.main : 'white',
-            backgroundColor:
-              active === link ? 'white' : theme.palette.primary.main,
-          }}
-          key={index}
-        >
-          {formatMessage({ id: name })}
-        </NavItem>
-      ))}
+      {(person_id ? connectedNavLinks : unAuthenticatedUserLinks).map(
+        ({ link, name }, index) => (
+          <NavItem
+            href={link}
+            sx={{
+              height: '100%',
+              padding: {
+                desktop: `0 ${theme.spacing(0.25)}`,
+                mobile: `0 ${theme.spacing(0.7)}`,
+              },
+              color: active === link ? theme.palette.primary.main : 'white',
+              backgroundColor:
+                active === link ? 'white' : theme.palette.primary.main,
+            }}
+            key={index}
+          >
+            {formatMessage({ id: name })}
+          </NavItem>
+        )
+      )}
     </Box>
   );
 }

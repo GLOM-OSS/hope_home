@@ -6,6 +6,9 @@ import PropertyCard from '../../../components/home/propertyCard';
 import Navbar from '../../../components/navbar/secondary_nav/navbar';
 import { getProperties } from '../../../services/property.service';
 import { toast } from 'react-toastify';
+import { useUser } from '../../../contexts/user.provider';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
@@ -30,6 +33,14 @@ export default function Properties({
   properties: IHHProperty[];
 }) {
   const { formatMessage } = useIntl();
+  const {
+    activeUser: { person_id: p_id },
+  } = useUser();
+  const { push } = useRouter();
+  useEffect(() => {
+    if (!p_id) push('/properties');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Box sx={{ mt: 4, padding: `0 7.1%`, mb: 2, display: 'grid', rowGap: 2 }}>
