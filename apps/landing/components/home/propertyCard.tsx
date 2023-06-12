@@ -636,12 +636,8 @@ export default function PropertyCard({
                   id:
                     property_type === 'Home'
                       ? house_details
-                        ? house_details.house_type === 'Default'
-                          ? 'singleFamilyHome'
-                          : house_details.house_type === 'Hostel'
-                          ? 'hostel'
-                          : 'appartment'
-                        : 'home'
+                        ? house_details.house_type
+                        : 'Home'
                       : 'land',
                 })}
               </Typography>
