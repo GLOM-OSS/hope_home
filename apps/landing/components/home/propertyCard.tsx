@@ -426,7 +426,7 @@ export default function PropertyCard({
             alt={property_type}
             onError={({ currentTarget }) => {
               currentTarget.onerror = null;
-              currentTarget.src = '/logo_green';
+              currentTarget.src = '/logo_green.png';
             }}
             height={350}
             width={350}

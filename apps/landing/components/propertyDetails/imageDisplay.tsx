@@ -163,6 +163,10 @@ export default function ImageDisplay({ images }: { images: string[] }) {
               alt={'property'}
               width="100%"
               height={400}
+              onError={({ currentTarget }) => {
+                currentTarget.onerror = null;
+                currentTarget.src = '/logo_green.png';
+              }}
               style={{
                 objectFit: 'contain',
                 borderTopLeftRadius: '10px',
@@ -174,6 +178,10 @@ export default function ImageDisplay({ images }: { images: string[] }) {
               alt={'property'}
               width="100%"
               height={400}
+              onError={({ currentTarget }) => {
+                currentTarget.onerror = null;
+                currentTarget.src = '/logo_green.png';
+              }}
               style={{
                 objectFit: 'contain',
                 borderTopRightRadius: '10px',
@@ -194,6 +202,10 @@ export default function ImageDisplay({ images }: { images: string[] }) {
               alt={'property'}
               width="100%"
               height={400}
+              onError={({ currentTarget }) => {
+                currentTarget.onerror = null;
+                currentTarget.src = '/logo_green.png';
+              }}
               style={{
                 objectFit: 'contain',
                 borderTopLeftRadius: '10px',
@@ -206,6 +218,10 @@ export default function ImageDisplay({ images }: { images: string[] }) {
                 alt={'property'}
                 width="100%"
                 height={190}
+                onError={({ currentTarget }) => {
+                  currentTarget.onerror = null;
+                  currentTarget.src = '/logo_green.png';
+                }}
                 style={{
                   objectFit: 'contain',
                   borderTopRightRadius: '10px',
@@ -216,6 +232,10 @@ export default function ImageDisplay({ images }: { images: string[] }) {
                 alt={'property'}
                 width="100%"
                 height={190}
+                onError={({ currentTarget }) => {
+                  currentTarget.onerror = null;
+                  currentTarget.src = '/logo_green.png';
+                }}
                 style={{
                   objectFit: 'contain',
                   borderBottomRightRadius: '10px',
@@ -236,6 +256,10 @@ export default function ImageDisplay({ images }: { images: string[] }) {
               alt={'property'}
               width="100%"
               height={400}
+              onError={({ currentTarget }) => {
+                currentTarget.onerror = null;
+                currentTarget.src = '/logo_green.png';
+              }}
               style={{
                 objectFit: 'contain',
                 borderTopLeftRadius: '10px',
@@ -247,6 +271,10 @@ export default function ImageDisplay({ images }: { images: string[] }) {
                 src={images[1]}
                 alt={'property'}
                 width="100%"
+                onError={({ currentTarget }) => {
+                  currentTarget.onerror = null;
+                  currentTarget.src = '/logo_green.png';
+                }}
                 height={190}
                 style={{
                   objectFit: 'contain',
@@ -259,6 +287,10 @@ export default function ImageDisplay({ images }: { images: string[] }) {
                   alt={'property'}
                   width="100%"
                   height={195}
+                  onError={({ currentTarget }) => {
+                    currentTarget.onerror = null;
+                    currentTarget.src = '/logo_green.png';
+                  }}
                   style={{
                     objectFit: 'contain',
                     borderBottomRightRadius: '10px',
