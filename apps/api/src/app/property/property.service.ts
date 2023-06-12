@@ -112,8 +112,8 @@ export class PropertyService {
   }
 
   async likeDislike(property_id: string, liked_by: string) {
-    const likedProperty = await this.prismaService.likedProperty.findUnique({
-      where: { liked_by_property_id: { liked_by, property_id } },
+    const likedProperty = await this.prismaService.likedProperty.findFirst({
+      where: { liked_by, property_id },
     });
     if (likedProperty)
       return this.prismaService.likedProperty.update({
