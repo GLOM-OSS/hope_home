@@ -57,9 +57,15 @@ export default function PropertySection({
             alignContent: 'center',
           }}
         >
-          {properties.map((property, index) => (
-            <PropertyCard property={property} key={index} />
-          ))}
+          {properties.length === 0 ? (
+            <Typography sx={{ textAlign: 'center' }} variant="h4">
+              {formatMessage({ id: 'noPropertiesToDisplay' })}
+            </Typography>
+          ) : (
+            properties.map((property, index) => (
+              <PropertyCard property={property} key={index} />
+            ))
+          )}
         </Box>
       </Scrollbars>
       <Button
