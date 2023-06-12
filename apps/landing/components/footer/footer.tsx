@@ -82,22 +82,22 @@ export default function Footer() {
             </Box>
             <Box
               sx={{
-                // borderTop: '2px solid grey',
                 paddingTop: 1,
                 display: 'grid',
                 rowGap: 1,
               }}
             >
               {[
-                { route: '', title: 'aboutUs' },
-                { route: '', title: 'contactUs' },
-                { route: '', title: 'shop' },
-                { route: '', title: 'registerNow' },
-              ].map(({ title }, index) => (
+                { route: '/about', title: 'aboutUs' },
+                { route: '/contact', title: 'contactUs' },
+                { route: '/properties', title: 'shop' },
+                { route: '/signup', title: 'registerNow' },
+              ].map(({ title, route }, index) => (
                 <Typography
                   key={index}
                   variant="body2"
                   sx={{ cursor: 'pointer' }}
+                  onClick={() => push(route)}
                 >
                   {formatMessage({ id: title })}
                 </Typography>
