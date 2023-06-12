@@ -39,6 +39,7 @@ import {
 } from '../../services/property.service';
 import { toast } from 'react-toastify';
 import ImageDialog from './imageDialog';
+import { useUser } from '../../contexts/user.provider';
 
 export default function PropertyCard({
   property: {
@@ -56,14 +57,16 @@ export default function PropertyCard({
     property_id,
   },
   setProperties,
-  canDelete = false,
 }: {
   property: IHHProperty;
   setProperties?: Dispatch<SetStateAction<IHHProperty[]>>;
-  canDelete?: boolean;
 }) {
   const { formatMessage, formatNumber } = useIntl();
   const { push } = useRouter();
+  const {
+    activeUser: { person_id },
+  } = useUser();
+  const canDelete = !!person_id;
 
   const [isLiked, setIsLiked] = useState<boolean | null>(is_liked);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);

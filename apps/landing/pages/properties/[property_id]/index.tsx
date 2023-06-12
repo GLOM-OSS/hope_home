@@ -34,6 +34,7 @@ import {
 import { toast } from 'react-toastify';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useUser } from '../../../contexts/user.provider';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { property_id } = context.query;
@@ -128,6 +129,11 @@ export default function PropertyDetails({
       })
       .finally(() => setIsSubmitting(false));
   }
+
+  const {
+    activeUser: { person_id },
+  } = useUser();
+  const isCreatedByActiveUser = !!person_id;
 
   return (
     <>
@@ -454,26 +460,30 @@ export default function PropertyDetails({
               }
             )}`}
             action={
-              <Tooltip arrow title={formatMessage({ id: 'whatsappContact' })}>
-                <IconButton
-                  size="small"
-                  sx={{ backgroundColor: 'rgba(255, 255, 255, 0.4)' }}
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    push(
-                      `https://api.whatsapp.com/send/?phone=${
-                        publisher_details.whatsapp_number
-                      }&text=${encodeURIComponent(
-                        //TODO: use this message for the interestedInProperty below 'I saw your property on hope home and it interested me'
-                        formatMessage({ id: 'interestedInProperty' }) +
-                          `\n\nhttps://hopehome.ingl.io/${property_id}`
-                      )}`
-                    );
-                  }}
-                >
-                  <WhatsApp fontSize="large" color="primary" />
-                </IconButton>
-              </Tooltip>
+              isCreatedByActiveUser ? (
+                ''
+              ) : (
+                <Tooltip arrow title={formatMessage({ id: 'whatsappContact' })}>
+                  <IconButton
+                    size="small"
+                    sx={{ backgroundColor: 'rgba(255, 255, 255, 0.4)' }}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      push(
+                        `https://api.whatsapp.com/send/?phone=${
+                          publisher_details.whatsapp_number
+                        }&text=${encodeURIComponent(
+                          //TODO: use this message for the interestedInProperty below 'I saw your property on hope home and it interested me'
+                          formatMessage({ id: 'interestedInProperty' }) +
+                            `\n\nhttps://hopehome.ingl.io/${property_id}`
+                        )}`
+                      );
+                    }}
+                  >
+                    <WhatsApp fontSize="large" color="primary" />
+                  </IconButton>
+                </Tooltip>
+              )
             }
           />
           <Typography
