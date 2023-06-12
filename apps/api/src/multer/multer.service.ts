@@ -21,7 +21,7 @@ export class MulterService implements MulterOptionsFactory {
           const fileName = file.originalname.split('.')[0];
           const ext = path.extname(file.originalname).toLowerCase();
 
-          let finalName = fileName.replace(/[^a-zA-Z0-9 ]/g, '_').toLowerCase();
+          let finalName = fileName.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase();
           finalName = `${now.getFullYear()}${now.getMonth()}${now.getDate()}${now.getHours()}${now.getMinutes()}${now.getSeconds()}_${finalName}${ext}`;
           callback(null, finalName);
         },
