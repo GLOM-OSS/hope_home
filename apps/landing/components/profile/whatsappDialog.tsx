@@ -37,7 +37,7 @@ export default function WhatsappDialog({
     initialValues,
     validationSchema,
     onSubmit: (values, { resetForm }) => {
-      submitDialog(values.whatsapp_number);
+      submitDialog(`+237${values.whatsapp_number}`);
       resetForm();
       closeDialog();
     },
