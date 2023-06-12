@@ -53,7 +53,12 @@ export default function PropertyCard({
     is_liked,
     is_listed,
     number_of_likes,
-    publisher_details: { whatsapp_number, fullname, profile_image_ref: pi_ref },
+    publisher_details: {
+      whatsapp_number,
+      fullname,
+      profile_image_ref: pi_ref,
+      person_id: publisher_pid,
+    },
     property_id,
   },
   setProperties,
@@ -66,7 +71,7 @@ export default function PropertyCard({
   const {
     activeUser: { person_id },
   } = useUser();
-  const canDelete = !!person_id;
+  const canDelete = person_id === publisher_pid;
 
   const [isLiked, setIsLiked] = useState<boolean | null>(is_liked);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
