@@ -227,4 +227,7 @@ export const website = {
   confirmListPropertyDialogMessage:
     'Do you really want to list this property ?',
   confirmListProperty: 'Confirm list property?',
+
+  resetPassword: 'Reset Password',
+  resetPasswordMessage: 'Enter your email so we can send a reset link!',
 };

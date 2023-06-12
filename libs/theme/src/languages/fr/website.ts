@@ -231,4 +231,8 @@ export const website = {
   notListed: 'Déactiver',
   confirmListPropertyDialogMessage: 'Voulez-vous vraiment réactiver ce bien ?',
   confirmListProperty: 'Confirmer la résactivation du bien',
+
+  resetPassword: 'Réinitialiser le mot de passe',
+  resetPasswordMessage:
+    'Entrez votre email pour que nous puissions vous envoyer un lien de réinitialisation!',
 };
