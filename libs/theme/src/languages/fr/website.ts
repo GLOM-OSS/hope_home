@@ -164,11 +164,11 @@ export const website = {
   signaledPropertySuccessfully: 'Propriété signalée avec succès !',
   signalingPropertyFailed:
     "La signalisation de la propriété a échoué !!!', signaledPropertySuccessfully : 'Propriété signalée avec succès !",
-  delistingProperty: 'Suppression de la propriété...',
+  delistingProperty: 'Desactivation de la propriété...',
   delistPropertySuccessfully:
-    ' La propriété a été retirée de la liste avec succès !',
-  delistingPropertyFailed: 'La suppression de la propriété a échoué ! !!',
-  delistingPropertySuccessfully: 'La suppression de la propriété a réussi !',
+    ' La propriété a été desactivée de la liste avec succès !',
+  delistingPropertyFailed: 'La desactivation de la propriété a échoué ! !!',
+  delistingPropertySuccessfully: 'La desactivation de la propriété a réussi !',
   deletingProperty: 'Suppression de la propriété...',
   deletPropertySuccessfully: 'Suppression de la propriété réussie !',
   deletingPropertyFailed: 'La suppression de la propriété a échoué ! !!',
