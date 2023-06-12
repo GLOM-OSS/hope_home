@@ -230,4 +230,6 @@ export const website = {
 
   resetPassword: 'Reset Password',
   resetPasswordMessage: 'Enter your email so we can send a reset link!',
+
+  noPropertiesToDisplay: 'No Properties to display...',
 };

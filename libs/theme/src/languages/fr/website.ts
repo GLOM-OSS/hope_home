@@ -235,4 +235,5 @@ export const website = {
   resetPassword: 'Réinitialiser le mot de passe',
   resetPasswordMessage:
     'Entrez votre email pour que nous puissions vous envoyer un lien de réinitialisation!',
+  noPropertiesToDisplay: 'Aucune propriété à afficher...',
 };
