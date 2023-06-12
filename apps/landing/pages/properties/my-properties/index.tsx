@@ -152,7 +152,6 @@ export default function Properties({
                 property={property as IHHProperty}
                 setProperties={setProperties}
                 key={index}
-                canDelete
               />
             ))}
         </Box>
