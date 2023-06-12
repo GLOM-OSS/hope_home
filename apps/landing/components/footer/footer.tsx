@@ -202,8 +202,12 @@ export default function Footer() {
               <Box sx={{ alignSelf: 'end', display: 'grid', rowGap: 1 }}>
                 {[
                   { Icon: CallOutlined, title: '+237 694 248 972' },
-                  { Icon: EmailOutlined, title: 'hopehome694@gmail.com' },
-                ].map(({ Icon, title }, index) => (
+                  {
+                    Icon: EmailOutlined,
+                    title: 'hopehome694@gmail.com',
+                    subject: 'mailto:hopehome694@gmail.com',
+                  },
+                ].map(({ Icon, title, subject }, index) => (
                   <Box
                     sx={{
                       display: 'grid',
@@ -214,7 +218,17 @@ export default function Footer() {
                     key={index}
                   >
                     <Icon />
-                    <Typography variant="body2">{title}</Typography>
+                    {subject ? (
+                      <Typography
+                        variant="body2"
+                        component={'a'}
+                        href={subject}
+                      >
+                        {title}
+                      </Typography>
+                    ) : (
+                      <Typography variant="body2">{title}</Typography>
+                    )}
                   </Box>
                 ))}
               </Box>
