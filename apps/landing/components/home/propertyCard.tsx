@@ -424,6 +424,10 @@ export default function PropertyCard({
             src={image_ref ?? '/location-icon.png'}
             className="property-image"
             alt={property_type}
+            onError={({ currentTarget }) => {
+              currentTarget.onerror = null;
+              currentTarget.src = '/logo_green';
+            }}
             height={350}
             width={350}
             style={{
