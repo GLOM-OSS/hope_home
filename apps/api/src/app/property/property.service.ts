@@ -1,5 +1,5 @@
 import { IHHProperty, IImage, IPropertyDetails } from '@hopehome/interfaces';
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { LikedProperty, Person, Prisma, Property } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateNewPropertyDto, QueryPropertiesDto } from './property.dto';
@@ -112,8 +112,8 @@ export class PropertyService {
   }
 
   async likeDislike(property_id: string, liked_by: string) {
-    const likedProperty = await this.prismaService.likedProperty.findUnique({
-      where: { liked_by_property_id: { liked_by, property_id } },
+    const likedProperty = await this.prismaService.likedProperty.findFirst({
+      where: { liked_by, property_id },
     });
     if (likedProperty)
       return this.prismaService.likedProperty.update({
@@ -231,7 +231,11 @@ export class PropertyService {
     return properties.find((_) => _.property_id === property_id);
   }
 
-  async update(property_id: string, newProperty: Prisma.PropertyUpdateInput) {
+  async update(
+    property_id: string,
+    newProperty: Prisma.PropertyUpdateInput,
+    audited_by: string
+  ) {
     const {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       property_id: _id,
@@ -242,6 +246,7 @@ export class PropertyService {
     } = await this.prismaService.property.findUniqueOrThrow({
       where: { property_id },
     });
+    if (published_by !== audited_by) throw new UnauthorizedException();
     return this.prismaService.property.update({
       data: {
         ...newProperty,
@@ -256,17 +261,20 @@ export class PropertyService {
     });
   }
 
-  async deleteImage(property_image_id: string) {
+  async deleteImage(property_image_id: string, audited_by: string) {
     const {
-      Property: { image_ref: property_image_ref, property_id },
+      Property: { image_ref: property_image_ref, property_id, published_by },
       image_ref,
     } = await this.prismaService.propertyImage.findUniqueOrThrow({
       select: {
-        Property: { select: { image_ref: true, property_id: true } },
+        Property: {
+          select: { image_ref: true, property_id: true, published_by: true },
+        },
         image_ref: true,
       },
       where: { property_image_id },
     });
+    if (published_by !== audited_by) throw new UnauthorizedException();
     let newImageRef: string = null;
     if (property_image_ref === image_ref) {
       const propertyImage = await this.prismaService.propertyImage.findFirst({

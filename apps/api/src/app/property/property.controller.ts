@@ -80,11 +80,13 @@ export class PropertyController {
   @Put(':property_id/edit')
   @UseInterceptors(FilesInterceptor('imageRefs'))
   async updateProperty(
+    @Req() request: Request,
     @Param('property_id') property_id: string,
     @Body() updateData: UpdatePropertyDto,
     @UploadedFiles() files: Array<Express.Multer.File>
   ) {
     try {
+      const { person_id } = request.user as Person;
       return await this.propertyService.update(property_id, {
         ...updateData,
         image_ref: files[0]?.filename,
@@ -93,7 +95,7 @@ export class PropertyController {
             data: files.map((_) => ({ image_ref: _.filename })),
           },
         },
-      });
+      }, person_id);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -112,18 +114,26 @@ export class PropertyController {
       );
       return await this.propertyService.update(property_id, {
         is_listed: !property.is_listed,
-      });
+      }, person_id);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
   @Put(':property_id/delete')
-  async deleteProperty(@Param('property_id') property_id: string) {
+  async deleteProperty(
+    @Req() request: Request,
+    @Param('property_id') property_id: string
+  ) {
     try {
-      return await this.propertyService.update(property_id, {
-        is_deleted: true,
-      });
+      const { person_id } = request.user as Person;
+      return await this.propertyService.update(
+        property_id,
+        {
+          is_deleted: true,
+        },
+        person_id
+      );
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -187,9 +197,16 @@ export class PropertyController {
   }
 
   @Put('images/:property_image_id/delete')
-  async deleteImage(@Param('property_image_id') property_image_id: string) {
+  async deleteImage(
+    @Req() request: Request,
+    @Param('property_image_id') property_image_id: string
+  ) {
     try {
-      return await this.propertyService.deleteImage(property_image_id);
+      const { person_id } = request.user as Person;
+      return await this.propertyService.deleteImage(
+        property_image_id,
+        person_id
+      );
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
