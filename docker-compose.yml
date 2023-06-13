@@ -21,7 +21,7 @@ services:
       - PORT=8080
       - EMAIL=glomexam@gmail.com
       - ADMIN_EMAIL=hopehome694@gmail.com
-      - CLIENT_SECRET=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
+      - CLIENT_SECRET=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
       - CLIENT_ID=562313049834-07ekkibpmtfq0b2m68i56anbck3utj2p.apps.googleusercontent.com
       - REFRESH_TOKEN=1//04iy19xdZJ2KqCgYIARAAGAQSNwF-L9Ir0x8cZLb2xN7B31wYfQZCeW0B1weU-flgK_dV9luFJBxF3JQysvErq1GgREzZfKlYI4A
       - NODE_ENV=production
