@@ -62,7 +62,9 @@ export default function PropertyCard({
     property_id,
   },
   setProperties,
+  canManage = false,
 }: {
+  canManage?: boolean;
   property: IHHProperty;
   setProperties?: Dispatch<SetStateAction<IHHProperty[]>>;
 }) {
@@ -636,12 +638,8 @@ export default function PropertyCard({
                   id:
                     property_type === 'Home'
                       ? house_details
-                        ? house_details.house_type === 'Default'
-                          ? 'singleFamilyHome'
-                          : house_details.house_type === 'Hostel'
-                          ? 'hostel'
-                          : 'appartment'
-                        : 'home'
+                        ? house_details.house_type
+                        : 'Home'
                       : 'land',
                 })}
               </Typography>
@@ -655,7 +653,7 @@ export default function PropertyCard({
               </Typography>
             </Box>
 
-            {canDelete && (
+            {canManage && canDelete && (
               <Tooltip arrow title={formatMessage({ id: 'more' })}>
                 <IconButton
                   size="small"
