@@ -8,6 +8,8 @@ import { MailService } from './mail.service';
   imports: [
     MailerModule.forRootAsync({
       async useFactory() {
+        Logger.debug(process.env.CLIENT_ID, MailModule.name);
+        Logger.debug(process.env.CLIENT_SECRET, MailModule.name);
         const oauth2 = new google.auth.OAuth2(
           process.env.CLIENT_ID,
           process.env.CLIENT_SECRET,
