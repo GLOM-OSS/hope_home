@@ -8,52 +8,52 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
       log: ['query', 'error'],
     });
 
-    this.$use(async (params, next) => {
-      switch (params.action) {
-        case 'findUnique': {
-          if (!['Person', 'FlagProperty'].includes(params.model)) {
-            params.action = 'findFirst';
-            params.args.where['is_deleted'] = false;
-          }
-          break;
-        }
-        case 'update': {
-          params.args['data'] = this.handleDeleteInNestedObject(
-            params.args['data']
-          );
-          break;
-        }
-        case 'delete': {
-          params.action = 'update';
-          params.args['data'] = { is_deleted: true };
-          break;
-        }
-        case 'deleteMany': {
-          params.action = 'updateMany';
-          if (params.args.data) params.args.data['is_deleted'] = true;
-          else params.args['data'] = { is_deleted: true };
-          break;
-        }
-      }
-      if (
-        ![
-          'create',
-          'update',
-          'upsert',
-          'createMany',
-          'findUnique',
-          'findUniqueOrThrow',
-        ].includes(params.action) &&
-        !['Person', 'FlagProperty'].includes(params.model)
-      )
-        if (params.args.where) {
-          if (params.args.where.is_deleted === undefined)
-            params.args.where['is_deleted'] = false;
-        } else params.args['where'] = { is_deleted: false };
-      const result = await next(params);
-      // See results here
-      return result;
-    });
+    // this.$use(async (params, next) => {
+    //   switch (params.action) {
+    //     case 'findUnique': {
+    //       if (!['Person', 'FlagProperty'].includes(params.model)) {
+    //         params.action = 'findFirst';
+    //         params.args.where['is_deleted'] = false;
+    //       }
+    //       break;
+    //     }
+    //     case 'update': {
+    //       params.args['data'] = this.handleDeleteInNestedObject(
+    //         params.args['data']
+    //       );
+    //       break;
+    //     }
+    //     case 'delete': {
+    //       params.action = 'update';
+    //       params.args['data'] = { is_deleted: true };
+    //       break;
+    //     }
+    //     case 'deleteMany': {
+    //       params.action = 'updateMany';
+    //       if (params.args.data) params.args.data['is_deleted'] = true;
+    //       else params.args['data'] = { is_deleted: true };
+    //       break;
+    //     }
+    //   }
+    //   if (
+    //     ![
+    //       'create',
+    //       'update',
+    //       'upsert',
+    //       'createMany',
+    //       'findUnique',
+    //       'findUniqueOrThrow',
+    //     ].includes(params.action) &&
+    //     !['Person', 'FlagProperty'].includes(params.model)
+    //   )
+    //     if (params.args.where) {
+    //       if (params.args.where.is_deleted === undefined)
+    //         params.args.where['is_deleted'] = false;
+    //     } else params.args['where'] = { is_deleted: false };
+    //   const result = await next(params);
+    //   // See results here
+    //   return result;
+    // });
   }
   async onModuleInit() {
     await this.$connect();
