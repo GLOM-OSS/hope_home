@@ -5,7 +5,7 @@ services:
     image: mysql
     environment:
       - MYSQL_ROOT_PASSWORD=12345678
-      - MYSQL_DATABASE=squoolr_api_db
+      - MYSQL_DATABASE=hopehome_api_db
     command: mysqld --sql_mode=""
     volumes:
       - mysql:/data
