@@ -13,9 +13,7 @@ import { useEffect } from 'react';
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const accessToken = context.req.cookies['__hht'];
-    const properties = await getProperties(accessToken, {
-      is_user_property: true,
-    });
+    const properties = await getProperties(accessToken);
     return {
       props: {
         properties: properties.filter((_) => accessToken && _.is_liked),

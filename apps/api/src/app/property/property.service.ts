@@ -17,7 +17,10 @@ export class PropertyService {
       include: {
         Publisher: true,
         LikedProperties: {
-          where: { is_deleted: false },
+          where: {
+            is_deleted: false,
+            ...(is_user_property ? {} : { liked_by: person_id }),
+          },
         },
       },
       where: is_user_property
