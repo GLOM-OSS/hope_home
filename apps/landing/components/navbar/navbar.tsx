@@ -404,19 +404,13 @@ export default function Navbar() {
               ) : (
                 <>
                   <NavItem
-                    handleLink={() => {
-                      push('/signin');
-                      close();
-                    }}
+                    handleLink={() => push('/signin')}
                     item={'login'}
                     route={'/signin'}
-                  />{' '}
+                  />
                   /
                   <NavItem
-                    handleLink={() => {
-                      push('/signup');
-                      close();
-                    }}
+                    handleLink={() => push('/signup')}
                     item={'signup'}
                     route={'/signup'}
                   />
