@@ -302,7 +302,7 @@ export class PropertyService {
   async getPropertyImages(property_id: string): Promise<IImage[]> {
     const propertyImages = await this.prismaService.propertyImage.findMany({
       select: { property_image_id: true, image_ref: true },
-      where: { property_id },
+      where: { property_id, is_deleted: false },
     });
     return propertyImages.map(({ property_image_id: image_id, image_ref }) => ({
       image_id,
