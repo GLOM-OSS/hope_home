@@ -340,7 +340,6 @@ export default function Navbar() {
               <NavItem
                 handleLink={() => {
                   push(route);
-                  close();
                 }}
                 item={item}
                 route={route}
@@ -406,7 +405,6 @@ export default function Navbar() {
                   <NavItem
                     handleLink={() => {
                       push('/signin');
-                      close();
                     }}
                     item={'login'}
                     route={'/signin'}
@@ -415,7 +413,6 @@ export default function Navbar() {
                   <NavItem
                     handleLink={() => {
                       push('/signup');
-                      close();
                     }}
                     item={'signup'}
                     route={'/signup'}
