@@ -403,17 +403,13 @@ export default function Navbar() {
               ) : (
                 <>
                   <NavItem
-                    handleLink={() => {
-                      push('/signin');
-                    }}
+                    handleLink={() => push('/signin')}
                     item={'login'}
                     route={'/signin'}
-                  />{' '}
+                  />
                   /
                   <NavItem
-                    handleLink={() => {
-                      push('/signup');
-                    }}
+                    handleLink={() => push('/signup')}
                     item={'signup'}
                     route={'/signup'}
                   />

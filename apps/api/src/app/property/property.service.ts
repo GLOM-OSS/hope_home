@@ -17,7 +17,10 @@ export class PropertyService {
       include: {
         Publisher: true,
         LikedProperties: {
-          where: { is_deleted: false },
+          where: {
+            is_deleted: false,
+            ...(is_user_property ? {} : { liked_by: person_id }),
+          },
         },
       },
       where: is_user_property
@@ -299,7 +302,7 @@ export class PropertyService {
   async getPropertyImages(property_id: string): Promise<IImage[]> {
     const propertyImages = await this.prismaService.propertyImage.findMany({
       select: { property_image_id: true, image_ref: true },
-      where: { property_id },
+      where: { property_id, is_deleted: false },
     });
     return propertyImages.map(({ property_image_id: image_id, image_ref }) => ({
       image_id,

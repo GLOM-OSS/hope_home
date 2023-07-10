@@ -7,8 +7,8 @@ const resetPasswordSubTitle = (first_name: string) => ({
   en: `Hello ${first_name}, your password has been reset successfully. `,
 });
 const resetPasswordObject = (new_password: string) => ({
-  fr: `Votre nouveau mot de passe est: ${new_password}.`,
-  en: `Your new password is: ${new_password}.`,
+  fr: `Votre nouveau mot de passe est: ${new_password}`,
+  en: `Your new password is: ${new_password}`,
 });
 const resetPasswordMessage = {
   fr: `Nous ne vous demanderons jamais votre mot de passe et nous vous déconseillons fortement de le partager avec qui que ce soit.`,
