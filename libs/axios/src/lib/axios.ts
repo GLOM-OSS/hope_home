@@ -6,9 +6,12 @@ export async function getCurrentIp() {
   return ip_address as string;
 }
 
+export const baseURL =
+  process.env['NX_API_BASE_URL'] || 'https://api-hh.squoolr.com';
+
 function axiosInstance(): AxiosInstance {
   const axiosInstance = axios.create({
-    baseURL: process.env['NX_API_BASE_URL'] || 'https://api-hh.ingl.io',
+    baseURL,
   });
   axiosInstance.interceptors.request.use(
     (request) => {
@@ -55,7 +58,4 @@ function axiosInstance(): AxiosInstance {
 
   return axiosInstance;
 }
-export const baseURL =
-  process.env['NX_API_BASE_URL'] || 'https://api-hh.ingl.io';
-
 export const http = axiosInstance();
