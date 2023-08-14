@@ -35,6 +35,7 @@ import { useFormik } from 'formik';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import * as Yup from 'yup';
+import { useUser } from '../../contexts/user.provider';
 import { ConfirmDialog } from '../confirmDialog';
 
 interface MainTextMatchedSubstrings {
@@ -75,6 +76,7 @@ export default function NewPropertyDialog({
   handleSubmit: (val: ICreateNewProperty) => void;
 }) {
   const { formatMessage } = useIntl();
+  const { activeUser } = useUser();
 
   const listingReasons = Object.values(ListingReasonEnum);
   const propertyTypes = Object.values(PropertyTypeEnum);
@@ -92,6 +94,7 @@ export default function NewPropertyDialog({
     property_type: 'Home',
     listing_reason: 'Sale',
     house_type: 'Appartment',
+    owner_whatsapp: activeUser.whatsapp_number,
   };
   const validationSchema = Yup.object().shape({
     price: Yup.number().required(),
@@ -99,6 +102,7 @@ export default function NewPropertyDialog({
     number_of_baths: Yup.number().required(),
     latitude: Yup.number(),
     longitude: Yup.number(),
+    owner_whatsapp: Yup.string(),
     area: Yup.number().min(1).required(),
     address: Yup.string().required(),
     description: Yup.string().required(),
@@ -224,8 +228,8 @@ export default function NewPropertyDialog({
   const useCurrentPositionHandler = () => {
     if (!useCurrentPosition) setIsConfirmUsePositionDialogOpen(true);
     else {
-      formik.setFieldValue('latitude', 0)
-      formik.setFieldValue('longitude', 0)
+      formik.setFieldValue('latitude', 0);
+      formik.setFieldValue('longitude', 0);
       setUseCurrentPosition(false);
     }
   };
@@ -254,6 +258,25 @@ export default function NewPropertyDialog({
           <DialogContent sx={{ padding: '16px 24px' }}>
             <Box sx={{ display: 'grid', rowGap: 2 }}>
               <Stack direction={'column'}>
+                <TextField
+                  fullWidth
+                  required
+                  size="small"
+                  {...formik.getFieldProps('owner_whatsapp')}
+                  label={formatMessage({ id: 'ownerWhatsapp' })}
+                  InputProps={{
+                    startAdornment: <Typography mr={0.5}>+237</Typography>,
+                  }}
+                  error={
+                    formik.touched.owner_whatsapp &&
+                    Boolean(formik.errors.owner_whatsapp)
+                  }
+                  helperText={
+                    formik.touched.owner_whatsapp &&
+                    formik.errors.owner_whatsapp
+                  }
+                />
+
                 <Typography variant="body2">
                   {formatMessage({ id: 'propertyType' })}
                 </Typography>
