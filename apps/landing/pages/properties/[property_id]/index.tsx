@@ -69,6 +69,7 @@ export default function PropertyDetails({
     price,
     property_id,
     property_type,
+    owner_whatsapp,
     publisher_details,
     house_details,
     created_at,
@@ -471,7 +472,7 @@ export default function PropertyDetails({
                       event.stopPropagation();
                       push(
                         `https://api.whatsapp.com/send/?phone=${
-                          publisher_details.whatsapp_number
+                          owner_whatsapp ?? publisher_details.whatsapp_number
                         }&text=${encodeURIComponent(
                           //TODO: use this message for the interestedInProperty below 'I saw your property on hope home and it interested me'
                           formatMessage({ id: 'interestedInProperty' }) +
