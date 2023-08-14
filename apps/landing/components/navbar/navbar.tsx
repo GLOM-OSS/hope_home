@@ -340,7 +340,6 @@ export default function Navbar() {
               <NavItem
                 handleLink={() => {
                   push(route);
-                  close();
                 }}
                 item={item}
                 route={route}

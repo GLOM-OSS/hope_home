@@ -18,7 +18,7 @@ export class AppService {
       subject: subject[lang],
       responseTo: reponseTo[lang],
       messageDisclaimer: messageDisclaimer(name)[lang],
-      logo: 'https://hopehome.ingl.io/favicon_green.png',
+      logo: 'https://hopehome.cm/favicon_green.png',
     });
   }
 }

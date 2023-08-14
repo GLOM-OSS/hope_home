@@ -106,7 +106,7 @@ function ImageDialog({
         <img
           src={images[index]}
           alt={'property'}
-          style={{ objectFit: 'cover', height: '100vh', width: '100%' }}
+          style={{ objectFit: 'contain', height: '100vh', width: '100%' }}
         />
       </Box>
     </Dialog>

@@ -16,7 +16,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'api-hh.ingl.io',
+        hostname: 'api.hopehome.cm',
       },
       {
         port: '8000',

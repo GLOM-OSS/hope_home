@@ -253,7 +253,7 @@ export default function PropertyCard({
         push(
           `https://api.whatsapp.com/send/?phone=${whatsapp_number}&text=${encodeURIComponent(
             formatMessage({ id: 'interestedInProperty' }) +
-              `\n\nhttps://hopehome.ingl.io/properties/${property_id}`
+              `\n\nhttps://hopehome.cm/properties/${property_id}`
           )}`
         );
         break;
@@ -262,7 +262,7 @@ export default function PropertyCard({
         navigator.share({
           title: address,
           text: formatMessage({ id: 'sharePropertyMessage' }),
-          url: `https://hopehome.ingl.io/properties/${property_id}`,
+          url: `https://hopehome.cm/properties/${property_id}`,
         });
         break;
       }
