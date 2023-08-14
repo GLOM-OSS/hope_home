@@ -1,11 +1,14 @@
+import {
+  HouseTypeEnum,
+  PropertyTypeEnum,
+  ListingReasonEnum,
+} from '@prisma/client';
 import { IUser } from './auth.interfaces';
 
-export type ListingReason = 'Rent' | 'Sale';
-export type PropertyType = 'Home' | 'Land';
-export type HouseType = 'Appartment' | 'Hostel' | 'Default';
+export { HouseTypeEnum, PropertyTypeEnum, ListingReasonEnum };
 
 export interface IHouseDetails {
-  house_type: HouseType;
+  house_type: HouseTypeEnum;
   number_of_baths: number;
   number_of_rooms: number;
 }
@@ -14,13 +17,13 @@ export interface ICreateNewProperty {
   price: number;
   address: string;
   description: string;
-  house_type: HouseType;
+  house_type: HouseTypeEnum;
   number_of_baths: number;
   number_of_rooms: number;
   latitude: number | null;
   longitude: number | null;
-  property_type: PropertyType;
-  listing_reason: ListingReason;
+  property_type: PropertyTypeEnum;
+  listing_reason: ListingReasonEnum;
 }
 
 export interface IUpdateProperty extends Partial<ICreateNewProperty> {
@@ -62,8 +65,8 @@ export interface IPropertyDetails extends Omit<IHHProperty, 'image_ref'> {
 }
 
 export interface IPropertyQuery {
-  property_type?: PropertyType;
-  listing_reason?: ListingReason;
-  house_type?: HouseType;
+  property_type?: PropertyTypeEnum;
+  listing_reason?: ListingReasonEnum;
+  house_type?: HouseTypeEnum;
   is_user_property?: boolean;
 }

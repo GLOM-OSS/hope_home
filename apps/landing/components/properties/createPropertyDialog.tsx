@@ -1,4 +1,9 @@
-import { ICreateNewProperty } from '@hopehome/interfaces';
+import {
+  HouseTypeEnum,
+  ICreateNewProperty,
+  ListingReasonEnum,
+  PropertyTypeEnum,
+} from '@hopehome/interfaces';
 import { theme } from '@hopehome/theme';
 import {
   KeyboardArrowDownOutlined,
@@ -69,9 +74,9 @@ export default function NewPropertyDialog({
 }) {
   const { formatMessage } = useIntl();
 
-  const listingReasons = ['Rent', 'Sale'];
-  const propertyTypes = ['Home', 'Land'];
-  const houseTypes = ['Appartment', 'Hostel', 'Default'];
+  const listingReasons = Object.values(ListingReasonEnum);
+  const propertyTypes = Object.values(PropertyTypeEnum);
+  const houseTypes = Object.values(HouseTypeEnum);
 
   const initialValues: ICreateNewProperty = {
     price: 0,
