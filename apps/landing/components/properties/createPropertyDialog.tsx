@@ -500,6 +500,11 @@ export default function NewPropertyDialog({
                 }}
               />
 
+              <i>
+                <Typography
+                  variant="caption"
+                >{`1 hectare => 10 000 m²`}</Typography>
+              </i>
               <TextField
                 fullWidth
                 size="small"
@@ -508,6 +513,9 @@ export default function NewPropertyDialog({
                 error={formik.touched.area && Boolean(formik.errors.area)}
                 helperText={formik.touched.area && formik.errors.area}
                 {...formik.getFieldProps('area')}
+                InputProps={{
+                  endAdornment: <Typography variant="body1">m²</Typography>,
+                }}
               />
 
               <TextField
@@ -572,7 +580,7 @@ export default function NewPropertyDialog({
                 type="number"
                 label={formatMessage({ id: 'price' })}
                 InputProps={{
-                  endAdornment: 'xaf',
+                  endAdornment: 'XAF',
                 }}
                 error={formik.touched.price && Boolean(formik.errors.price)}
                 helperText={formik.touched.price && formik.errors.price}

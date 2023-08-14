@@ -341,26 +341,28 @@ export default function PropertyDetails({
                   </Box>
                 </>
               )}
-              <Box
-                sx={{
-                  display: 'grid',
-                  gridTemplateColumns: 'auto 1fr',
-                  columnGap: 0.5,
-                  alignItems: 'end',
-                  justifySelf:
-                    house_details && property_type !== 'Land' ? 'end' : 'start',
-                }}
-              >
-                <SquareFootOutlined fontSize="large" />
-                <Typography fontWeight={500}>
-                  {`${formatNumber(area)}${formatMessage({
-                    id: 'squarefootShort',
-                  })}`}
-                </Typography>
-              </Box>
+              { (
+                <Box
+                  sx={{
+                    display: 'grid',
+                    gridTemplateColumns: 'auto 1fr',
+                    columnGap: 0.5,
+                    alignItems: 'end',
+                    justifySelf:
+                      house_details && property_type !== 'Land'
+                        ? 'end'
+                        : 'start',
+                  }}
+                >
+                  <SquareFootOutlined fontSize="large" />
+                  <Typography fontWeight={500}>
+                    {`${formatNumber(area)}m²`}
+                  </Typography>
+                </Box>
+              )}
             </Box>
             <Typography variant="h6">
-              {`${formatMessage({ id: 'unitPrice' })}: ${formatNumber(price, {
+              {`${formatMessage({ id: 'price' })}: ${formatNumber(price, {
                 style: 'currency',
                 currency: 'XAF',
               })}`}
