@@ -106,7 +106,7 @@ model Property {
     property_id     String            @id @default(uuid()) @db.VarChar(36)
     image_ref       String?           @db.VarChar(255)
     price           Float
-    area            Float
+    area            Float?
     listing_reason  ListingReasonEnum
     longitude       Float?
     latitude        Float?

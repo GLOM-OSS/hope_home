@@ -215,8 +215,8 @@ export class PropertyService {
     const { property_id } = await this.prismaService.property.create({
       data: {
         ...newProperty,
-        area: Number(area),
         price: Number(price),
+        area: area ? Number(area): null,
         latitude: latitude ? Number(latitude) : undefined,
         longitude: longitude ? Number(longitude) : undefined,
         number_of_baths: number_of_baths ? Number(number_of_baths) : undefined,

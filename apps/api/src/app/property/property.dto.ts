@@ -40,8 +40,9 @@ export class CreateCommentDto {
 }
 
 export class CreateNewPropertyDto {
+  @IsOptional()
   @IsNumberString()
-  area: number;
+  area?: number;
 
   @IsNumberString()
   price: number;

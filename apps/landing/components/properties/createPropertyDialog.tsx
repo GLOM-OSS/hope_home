@@ -103,7 +103,7 @@ export default function NewPropertyDialog({
     latitude: Yup.number(),
     longitude: Yup.number(),
     owner_whatsapp: Yup.string(),
-    area: Yup.number().min(1).required(),
+    area: Yup.number(),
     address: Yup.string().required(),
     description: Yup.string().required(),
     listing_reason: Yup.string().oneOf(listingReasons).required(),
@@ -117,9 +117,10 @@ export default function NewPropertyDialog({
     initialValues,
     validationSchema,
     onSubmit: (values, { resetForm }) => {
-      const { longitude: lg, latitude: lt, property_type: pt } = values;
+      const { area, longitude: lg, latitude: lt, property_type: pt } = values;
       const nValues: ICreateNewProperty = {
         ...values,
+        area: area === 0 ? null : area,
         longitude: lg === 0 && lt === 0 ? null : lg,
         latitude: lg === 0 && lt === 0 ? null : lt,
       };
@@ -501,7 +502,6 @@ export default function NewPropertyDialog({
 
               <TextField
                 fullWidth
-                required
                 size="small"
                 type="number"
                 label={formatMessage({ id: 'area' })}
