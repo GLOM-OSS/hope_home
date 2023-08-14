@@ -5,7 +5,7 @@ import {
   IImage,
   IPropertyDetails,
   IPropertyQuery,
-  IUpdateProperty
+  IUpdateProperty,
 } from '@hopehome/interfaces';
 
 export async function getProperties(
@@ -18,10 +18,20 @@ export async function getProperties(
     },
     params: query,
   });
-  return data.map(({ image_ref, ...property }) => ({
-    ...property,
-    image_ref: image_ref ? `${baseURL}/${image_ref}` : null,
-  }));
+  return data.map(
+    ({
+      publisher_details: { profile_image_ref, ...publisher },
+      ...property
+    }) => ({
+      ...property,
+      publisher_details: {
+        ...publisher,
+        profile_image_ref: profile_image_ref
+          ? `${baseURL}/${profile_image_ref}`
+          : null,
+      },
+    })
+  );
 }
 
 export async function getPropertyDetails(
