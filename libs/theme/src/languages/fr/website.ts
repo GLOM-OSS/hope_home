@@ -200,7 +200,7 @@ export const website = {
   numberOfRooms: 'Nombre de pièces',
   numberOfBaths: 'Nombre de salles de bain',
   price: 'Prix du bien',
-  useCurrentPosition: 'Utiliser la position Google',
+  useCurrentPosition: 'Utiliser votre position géographique pour localiser la propriété',
   longitude: 'Longitude',
   latitude: 'Latitude',
   createProperty: 'Créer propriété',
