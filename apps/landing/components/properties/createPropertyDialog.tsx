@@ -13,11 +13,13 @@ import {
   Autocomplete,
   Box,
   Button,
+  Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   FormControl,
+  FormControlLabel,
   FormHelperText,
   Grid,
   MenuItem,
@@ -95,8 +97,8 @@ export default function NewPropertyDialog({
     price: Yup.number().required(),
     number_of_rooms: Yup.number().required(),
     number_of_baths: Yup.number().required(),
-    latitude: Yup.number().required(),
-    longitude: Yup.number().required(),
+    latitude: Yup.number(),
+    longitude: Yup.number(),
     area: Yup.number().min(1).required(),
     address: Yup.string().required(),
     description: Yup.string().required(),
@@ -105,7 +107,7 @@ export default function NewPropertyDialog({
     house_type: Yup.string().oneOf(houseTypes).required(),
   });
 
-  const [hasUsedPosition, setHasUsedPosition] = useState<boolean>(false);
+  const [useCurrentPosition, setUseCurrentPosition] = useState<boolean>(false);
 
   const formik = useFormik({
     initialValues,
@@ -127,14 +129,14 @@ export default function NewPropertyDialog({
             }
           : nValues;
       handleSubmit(submitValues);
-      setHasUsedPosition(false);
+      setUseCurrentPosition(false);
       resetForm();
     },
   });
 
   const handleAccept = () => {
     if (navigator.geolocation) {
-      setHasUsedPosition(true);
+      setUseCurrentPosition(true);
       navigator.geolocation.getCurrentPosition(async (position) => {
         formik.setFieldValue('longitude', position.coords.longitude);
         formik.setFieldValue('latitude', position.coords.latitude);
@@ -218,6 +220,15 @@ export default function NewPropertyDialog({
       active = false;
     };
   }, [value, inputValue, fetch]);
+
+  const useCurrentPositionHandler = () => {
+    if (!useCurrentPosition) setIsConfirmUsePositionDialogOpen(true);
+    else {
+      formik.setFieldValue('latitude', 0)
+      formik.setFieldValue('longitude', 0)
+      setUseCurrentPosition(false);
+    }
+  };
 
   return (
     <>
@@ -546,50 +557,51 @@ export default function NewPropertyDialog({
               />
 
               <Box sx={{ display: 'grid', rowGap: 1 }}>
-                <Button
-                  size="small"
-                  color="secondary"
-                  disableElevation
-                  variant="contained"
-                  sx={{ justifySelf: 'start', textTransform: 'none' }}
-                  onClick={() => setIsConfirmUsePositionDialogOpen(true)}
-                >
-                  {formatMessage({ id: 'useCurrentPosition' })}
-                </Button>
-                <Box sx={{ display: 'grid', rowGap: 2 }}>
-                  <TextField
-                    fullWidth
-                    required
-                    size="small"
-                    type="number"
-                    disabled={hasUsedPosition}
-                    label={formatMessage({ id: 'longitude' })}
-                    error={
-                      formik.touched.longitude &&
-                      Boolean(formik.errors.longitude)
-                    }
-                    helperText={
-                      formik.touched.longitude && formik.errors.longitude
-                    }
-                    {...formik.getFieldProps('longitude')}
-                  />
+                <FormControlLabel
+                  checked={useCurrentPosition}
+                  onChange={useCurrentPositionHandler}
+                  control={<Checkbox defaultChecked={false} />}
+                  label={
+                    <Typography variant="caption">
+                      {formatMessage({ id: 'useCurrentPosition' })}
+                    </Typography>
+                  }
+                />
+                {useCurrentPosition && (
+                  <Box sx={{ display: 'grid', rowGap: 2 }}>
+                    <TextField
+                      disabled
+                      fullWidth
+                      size="small"
+                      type="number"
+                      label={formatMessage({ id: 'longitude' })}
+                      error={
+                        formik.touched.longitude &&
+                        Boolean(formik.errors.longitude)
+                      }
+                      helperText={
+                        formik.touched.longitude && formik.errors.longitude
+                      }
+                      {...formik.getFieldProps('longitude')}
+                    />
 
-                  <TextField
-                    fullWidth
-                    required
-                    disabled={hasUsedPosition}
-                    size="small"
-                    type="number"
-                    label={formatMessage({ id: 'latitude' })}
-                    error={
-                      formik.touched.latitude && Boolean(formik.errors.latitude)
-                    }
-                    helperText={
-                      formik.touched.latitude && formik.errors.latitude
-                    }
-                    {...formik.getFieldProps('latitude')}
-                  />
-                </Box>
+                    <TextField
+                      disabled
+                      fullWidth
+                      size="small"
+                      type="number"
+                      label={formatMessage({ id: 'latitude' })}
+                      error={
+                        formik.touched.latitude &&
+                        Boolean(formik.errors.latitude)
+                      }
+                      helperText={
+                        formik.touched.latitude && formik.errors.latitude
+                      }
+                      {...formik.getFieldProps('latitude')}
+                    />
+                  </Box>
+                )}
               </Box>
             </Box>
           </DialogContent>
