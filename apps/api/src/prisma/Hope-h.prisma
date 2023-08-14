@@ -34,7 +34,7 @@ model Person {
     fullname          String   @db.VarChar(50)
     phone_number      String?  @db.VarChar(15)
     whatsapp_number   String?  @db.VarChar(15)
-    profile_image_ref String?  @db.VarChar(45)
+    profile_image_ref String?  @db.VarChar(199)
     gender            Gender?
     email             String   @unique @db.VarChar(50)
     preferred_lang    Lang     @default(fr)
