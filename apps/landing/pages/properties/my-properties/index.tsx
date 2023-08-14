@@ -121,7 +121,7 @@ export default function Properties({
             alignItems: 'center',
           }}
         >
-          <Typography variant="h4">
+          <Typography variant="h6">
             {formatMessage({ id: 'myProperties' })}
           </Typography>
           <Button
@@ -143,6 +143,7 @@ export default function Properties({
             gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 350px))',
             columnGap: 2,
             rowGap: 2,
+            minHeight: '35vh'
           }}
         >
           {properties
