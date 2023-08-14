@@ -209,6 +209,10 @@ export const website = {
 
   Appartment: 'Appartement',
   Hostel: 'Mini Cité',
+  Villa: 'Villa',
+  Room: 'Chambre',
+  Studio: 'Studio',
+  Duplex: 'Duplex',
   Default: 'Maison familiale',
 
   Home: 'Maison',

@@ -203,6 +203,10 @@ export const website = {
   Rent: 'Rent',
   Appartment: 'Appartment',
   Hostel: 'Hostel',
+  Villa: 'Villa',
+  Room: 'Room',
+  Studio: 'Studio',
+  Duplex: 'Duplex',
   Default: 'Family house',
 
   Home: 'Maison',
