@@ -236,4 +236,5 @@ export const website = {
   resetPasswordMessage: 'Enter your email so we can send a reset link!',
 
   noPropertiesToDisplay: 'No Properties to display...',
+  ownerWhatsapp: 'Owner whatsapp number',
 };

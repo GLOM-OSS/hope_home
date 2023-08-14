@@ -240,4 +240,5 @@ export const website = {
   resetPasswordMessage:
     'Entrez votre email pour que nous puissions vous envoyer un lien de réinitialisation!',
   noPropertiesToDisplay: 'Aucune propriété à afficher...',
+  ownerWhatsapp: 'Numéro whatsapp du propriétaire',
 };
