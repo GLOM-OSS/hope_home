@@ -174,10 +174,7 @@ export default function PropertyDetails({
             <Box
               sx={{
                 display: 'grid',
-                gridTemplateColumns: {
-                  desktop: 'auto auto 1fr',
-                  tablet: 'auto 1fr',
-                },
+                gridTemplateColumns: 'auto 1fr auto',
                 gap: 1,
               }}
             >
@@ -234,17 +231,21 @@ export default function PropertyDetails({
                   })}
                 </Typography>
               </Box>
-              <Button
-                color="secondary"
-                variant="contained"
-                startIcon={<WarningAmberOutlined />}
-                disableElevation
-                onClick={() => setIsConfirmSignalDialogOpen(true)}
-                disabled={isSubmitting}
-                sx={{ textTransform: 'none', justifySelf: 'start' }}
+              <Typography
+                sx={{
+                  padding: '4px 8px',
+                  borderRadius: 1,
+                  backgroundColor: theme.palette.primary.main,
+                  fontWeight: 300,
+                  color: 'white',
+                  width: 'fit-content',
+                  justifySelf: 'end',
+                }}
               >
-                {formatMessage({ id: 'signalProperty' })}
-              </Button>
+                {formatMessage({
+                  id: listing_reason === 'Rent' ? 'forRent' : 'forSale',
+                })}
+              </Typography>
             </Box>
             <Box sx={{ justifySelf: 'flex-end' }}>
               {is_flagged && (
@@ -279,120 +280,91 @@ export default function PropertyDetails({
               )}
             </Box>
           </Box>
+          <Typography
+            variant="h6"
+            fontWeight="400"
+            sx={{
+              fontSize: {
+                desktop: theme.typography.h6.fontSize,
+                mobile: '1.1rem',
+              },
+            }}
+          >
+            {address}
+          </Typography>
           <Box
             sx={{
               display: 'grid',
               gridTemplateColumns: {
-                desktop: '1fr 0.7fr',
+                desktop: '1fr auto',
                 table: '1fr',
               },
               columnGap: 5,
               rowGap: 2,
+              gap: 2,
               alignItems: 'center',
             }}
           >
-            <Box>
-              <Typography
-                variant="h6"
-                fontWeight="400"
+            <Box sx={{ display: 'flex', columnGap: 2 }}>
+              {property_type !== 'Land' && house_details && (
+                <>
+                  <Box
+                    sx={{
+                      display: 'grid',
+                      gridTemplateColumns: 'auto 1fr',
+                      columnGap: 0.5,
+                      alignItems: 'end',
+                    }}
+                  >
+                    <BathtubOutlined fontSize="large" />
+                    <Typography fontWeight={500}>
+                      {`${formatNumber(
+                        house_details.number_of_baths
+                      )}${formatMessage({ id: 'bathroomShort' })}`}
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: 'grid',
+                      gridTemplateColumns: 'auto 1fr',
+                      columnGap: 0.5,
+                      alignItems: 'end',
+                      justifySelf: 'center',
+                    }}
+                  >
+                    <ChairOutlined fontSize="large" />
+                    <Typography fontWeight={500}>
+                      {`${formatNumber(
+                        house_details.number_of_rooms
+                      )}${formatMessage({ id: 'roomsShort' })}`}
+                    </Typography>
+                  </Box>
+                </>
+              )}
+              <Box
                 sx={{
-                  fontSize: {
-                    desktop: theme.typography.h6.fontSize,
-                    mobile: '1.1rem',
-                  },
+                  display: 'grid',
+                  gridTemplateColumns: 'auto 1fr',
+                  columnGap: 0.5,
+                  alignItems: 'end',
+                  justifySelf:
+                    house_details && property_type !== 'Land' ? 'end' : 'start',
                 }}
               >
-                {address}
-              </Typography>
-              <Box
-                sx={{ display: 'grid', gridAutoFlow: 'column', columnGap: 2 }}
-              >
-                {property_type !== 'Land' && house_details && (
-                  <>
-                    <Box
-                      sx={{
-                        display: 'grid',
-                        gridTemplateColumns: 'auto 1fr',
-                        columnGap: 0.5,
-                        alignItems: 'end',
-                      }}
-                    >
-                      <BathtubOutlined fontSize="large" />
-                      <Typography fontWeight={500}>
-                        {`${formatNumber(
-                          house_details.number_of_baths
-                        )}${formatMessage({ id: 'bathroomShort' })}`}
-                      </Typography>
-                    </Box>
-                    <Box
-                      sx={{
-                        display: 'grid',
-                        gridTemplateColumns: 'auto 1fr',
-                        columnGap: 0.5,
-                        alignItems: 'end',
-                        justifySelf: 'center',
-                      }}
-                    >
-                      <ChairOutlined fontSize="large" />
-                      <Typography fontWeight={500}>
-                        {`${formatNumber(
-                          house_details.number_of_rooms
-                        )}${formatMessage({ id: 'roomsShort' })}`}
-                      </Typography>
-                    </Box>
-                  </>
-                )}
-                <Box
-                  sx={{
-                    display: 'grid',
-                    gridTemplateColumns: 'auto 1fr',
-                    columnGap: 0.5,
-                    alignItems: 'end',
-                    justifySelf:
-                      house_details && property_type !== 'Land'
-                        ? 'end'
-                        : 'start',
-                  }}
-                >
-                  <SquareFootOutlined fontSize="large" />
-                  <Typography fontWeight={500}>
-                    {`${formatNumber(area)}${formatMessage({
-                      id: 'squarefootShort',
-                    })}`}
-                  </Typography>
-                </Box>
+                <SquareFootOutlined fontSize="large" />
+                <Typography fontWeight={500}>
+                  {`${formatNumber(area)}${formatMessage({
+                    id: 'squarefootShort',
+                  })}`}
+                </Typography>
               </Box>
             </Box>
-            <Box
-              sx={{
-                display: 'grid',
-                rowGap: 2,
-                justifyItems: 'start',
-                justifySelf: {
-                  desktop: 'end',
-                },
-              }}
-            >
-              <Typography
-                sx={{
-                  padding: '4px 8px',
-                  borderRadius: 2,
-                  backgroundColor: theme.palette.primary.main,
-                  fontWeight: 300,
-                  color: 'white',
-                }}
-              >
-                {formatMessage({
-                  id: listing_reason === 'Rent' ? 'forRent' : 'forSale',
-                })}
-              </Typography>
-              <Typography variant="h5">
-                {formatNumber(price, {
-                  style: 'currency',
-                  currency: 'XAF',
-                })}
-              </Typography>
-            </Box>
+            <Typography variant="h6">
+              {`${formatMessage({ id: 'unitPrice' })}: ${formatNumber(price, {
+                style: 'currency',
+                currency: 'XAF',
+              })}`}
+            </Typography>
           </Box>
         </Box>
         <Box
@@ -432,7 +404,7 @@ export default function PropertyDetails({
           </Typography>
           <Typography>{description}</Typography>
         </Box>
-        <Box>
+        <Box sx={{ display: 'grid', gap: 1 }}>
           <Typography variant="h4" fontWeight={500}>
             {formatMessage({ id: 'publisher' })}
           </Typography>
@@ -491,7 +463,6 @@ export default function PropertyDetails({
             variant="body1"
             color="text.secondary"
             marginTop={1}
-            textAlign="end"
             fontWeight={500}
           >
             {`${formatMessage({ id: 'publishedOn' })} ${formatDate(created_at, {
@@ -500,6 +471,21 @@ export default function PropertyDetails({
               year: 'numeric',
             })}`}
           </Typography>
+          <Button
+            color="secondary"
+            variant="contained"
+            startIcon={<WarningAmberOutlined />}
+            disableElevation
+            onClick={() => setIsConfirmSignalDialogOpen(true)}
+            disabled={isSubmitting}
+            sx={{
+              textTransform: 'none',
+              justifySelf: 'right',
+              textAlign: 'end',
+            }}
+          >
+            {formatMessage({ id: 'signalProperty' })}
+          </Button>
         </Box>
         {similarProperties.length > 0 && (
           <Box>
