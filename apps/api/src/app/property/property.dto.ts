@@ -62,7 +62,7 @@ export class CreateNewPropertyDto {
 
   @IsOptional()
   @IsPhoneNumber('CM')
-  onwer_whatsapp?: string;
+  owner_whatsapp?: string;
 
   @IsEnum(PropertyTypeEnum)
   property_type: PropertyTypeEnum;

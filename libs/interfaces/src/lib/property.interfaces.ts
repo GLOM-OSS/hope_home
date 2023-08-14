@@ -22,6 +22,7 @@ export interface ICreateNewProperty {
   number_of_rooms: number;
   latitude: number | null;
   longitude: number | null;
+  owner_whatsapp: string | null;
   property_type: PropertyTypeEnum;
   listing_reason: ListingReasonEnum;
 }
