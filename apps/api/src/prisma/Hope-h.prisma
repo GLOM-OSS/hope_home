@@ -118,6 +118,7 @@ model Property {
     number_of_rooms Int?
     number_of_baths Int?
     house_type      HouseTypeEnum?
+    owner_whatsapp  String?
     published_by    String            @db.VarChar(36)
     Publisher       Person            @relation(fields: [published_by], references: [person_id], onDelete: Cascade, onUpdate: Cascade)
     is_deleted      Boolean           @default(false) @db.TinyInt

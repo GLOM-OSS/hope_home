@@ -10,6 +10,7 @@ import {
   IsNumber,
   IsNumberString,
   IsOptional,
+  IsPhoneNumber,
   IsString,
   MaxLength,
 } from 'class-validator';
@@ -58,6 +59,10 @@ export class CreateNewPropertyDto {
 
   @IsString()
   description: string;
+
+  @IsOptional()
+  @IsPhoneNumber('CM')
+  onwer_whatsapp?: string;
 
   @IsEnum(PropertyTypeEnum)
   property_type: PropertyTypeEnum;
