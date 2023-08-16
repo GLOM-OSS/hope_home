@@ -8,7 +8,7 @@ import HeroSection from '../components/home/heroSection';
 import HousingSection from '../components/home/housingSection';
 import InfoSection from '../components/home/infoSection';
 import LandSection from '../components/home/landSection';
-import OurMissions from '../components/home/ourMissions';
+import OurServices from '../components/home/ourServices';
 import PropertySection from '../components/home/propertySection';
 import { getProperties, searchProperties } from '../services/property.service';
 
@@ -60,7 +60,8 @@ export function Index({
       {housing.length > 0 && <HousingSection properties={housing} />}
       {land.length > 0 && <LandSection properties={land} />}
       <Box sx={{ padding: `0 7.1%`, display: 'grid', rowGap: 7 }}>
-        <OurMissions />
+        <OurServices />
+        {/* <OurMissions /> */}
         <AboutSection />
       </Box>
     </Box>
