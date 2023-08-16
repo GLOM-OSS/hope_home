@@ -3,7 +3,7 @@ import { Box, Typography } from '@mui/material';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-function NumberCircle({ value }: { value: number }) {
+export function NumberCircle({ value }: { value: number }) {
   return (
     <Box
       sx={{
