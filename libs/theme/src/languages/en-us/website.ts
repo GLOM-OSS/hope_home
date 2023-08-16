@@ -232,4 +232,21 @@ export const website = {
   resetPasswordMessage: 'Enter your email so we can send a reset link!',
 
   noPropertiesToDisplay: 'No Properties to display...',
+
+  ourServices: 'Our services',
+  immatriculation: 'REGISTRATION',
+  lotissement: 'ALLOTMENT',
+  location: 'RENTAL',
+  accompagnement: 'ACCOMPANIMENT',
+  topographie: 'TOPOGRAPHY',
+  immatriculationServiceMessage:
+    'Expert rental management, rigorous accounting, maximized profitability, secure payment, detailed monthly report',
+  lotissementServiceMessage:
+    'Land registration, land title. Full support. Time-saving. Simplified procedure. Professional follow-up',
+  locationServiceMessage:
+    'As a real estate administrator, our company also provides a high-performance rental management service',
+  accompagnementServiceMessage:
+    'Close to you in the process of BUYING AND SELLING your real estate against scammers',
+  topographieServiceMessage:
+    'We have a diligent team for your topographic surveys and fast follow-up of technical files.',
 };
