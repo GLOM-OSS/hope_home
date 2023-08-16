@@ -249,4 +249,13 @@ export const website = {
     'Close to you in the process of BUYING AND SELLING your real estate against scammers',
   topographieServiceMessage:
     'We have a diligent team for your topographic surveys and fast follow-up of technical files.',
+
+  pageNotFound: 'PAGE NOT FOUND',
+  '404Message1': `Sorry dearest customer, It's either we have a broken link on our
+    website or the link does not exist. If you go this page by clicking on
+    an element, please kindly`,
+  reportToSupport: 'report to support',
+  '404Message2':
+    'so we can fix it up quickly, else please verify the link the url again!',
+  goHome: 'Go Home',
 };
