@@ -237,4 +237,30 @@ export const website = {
 
   noPropertiesToDisplay: 'No Properties to display...',
   ownerWhatsapp: 'Owner whatsapp number',
+
+  ourServices: 'Our services',
+  immatriculation: 'REGISTRATION',
+  lotissement: 'ALLOTMENT',
+  location: 'RENTAL',
+  accompagnement: 'ACCOMPANIMENT',
+  topographie: 'TOPOGRAPHY',
+  immatriculationServiceMessage:
+    'Expert rental management, rigorous accounting, maximized profitability, secure payment, detailed monthly report',
+  lotissementServiceMessage:
+    'Land registration, land title. Full support. Time-saving. Simplified procedure. Professional follow-up',
+  locationServiceMessage:
+    'As a real estate administrator, our company also provides a high-performance rental management service',
+  accompagnementServiceMessage:
+    'Close to you in the process of BUYING AND SELLING your real estate against scammers',
+  topographieServiceMessage:
+    'We have a diligent team for your topographic surveys and fast follow-up of technical files.',
+
+  pageNotFound: 'PAGE NOT FOUND',
+  '404Message1': `Sorry dearest customer, It's either we have a broken link on our
+    website or the link does not exist. If you go this page by clicking on
+    an element, please kindly`,
+  reportToSupport: 'report to support',
+  '404Message2':
+    'so we can fix it up quickly, else please verify the link the url again!',
+  goHome: 'Go Home',
 };

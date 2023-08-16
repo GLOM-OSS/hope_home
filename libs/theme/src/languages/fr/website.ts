@@ -242,4 +242,28 @@ export const website = {
     'Entrez votre email pour que nous puissions vous envoyer un lien de réinitialisation!',
   noPropertiesToDisplay: 'Aucune propriété à afficher...',
   ownerWhatsapp: 'Numéro whatsapp du propriétaire',
+
+  ourServices: 'Nos services',
+  immatriculation: 'IMMATRICULATION',
+  lotissement: 'LOTISSEMENT',
+  location: 'LOCATION',
+  accompagnement: 'ACCOMPAGNEMENT',
+  topographie: 'TOPOGRAPHIE',
+  immatriculationServiceMessage:
+    'Gestion locative experte, comptabilité rigoureuse, maximisation rentabilité, paiement sécurisé, rapport mensuel détaillé.',
+  lotissementServiceMessage:
+    'Immatriculation terrain, obtention titre foncier. Accompagnement complet. Gain de temps. Procédure simplifiée. Suivi professionnel.',
+  locationServiceMessage:
+    'Administrateur de bien immobilier, notre société assure également un performant service de gestion locative.',
+  accompagnementServiceMessage:
+    "Tout proche de vous dans le processus D'ACHAT ET VENTE de vos biens immobiliers contre les arnaqueurs",
+  topographieServiceMessage:
+    "Nous disposons d'une équipe diligente pour vos levées topographiques et le suivi rapide des dossiers techniques.",
+  pageNotFound: 'PAGE NON TROUVÉE',
+  '404Message1': `Désolé, cher client, il s'agit soit d'un lien brisé sur 
+    notre site Web, soit d'un lien qui n'existe pas. 
+    Si vous avez accédé à cette page en cliquant sur un élément, veuillez le`,
+  reportToSupport: "signaler à l'assistance",
+  '404Message2': `afin que nous puissions le réparer rapidement, sinon vérifiez à nouveau le lien et l'url !`,
+  goHome: "Rentrer à l'acceuil",
 };

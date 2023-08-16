@@ -142,7 +142,7 @@ export default function ImageDialog({
         <Box sx={{ display: 'grid', rowGap: 1 }}>
           <Box sx={{ justifySelf: 'right' }}>
             <input
-              accept="image/*"
+              accept="image/*,video/*"
               hidden
               id="raised-button-file"
               multiple
