@@ -165,25 +165,25 @@ export default function Footer() {
                     Icon: Facebook,
                     tooltip: 'Facebook',
                     color: '#1877F2',
-                    link: 'https://facebook.com',
+                    link: 'https://www.facebook.com/profile.php?id=100064106312785&mibextid=ZbWKwL',
                   },
                   {
                     Icon: WhatsApp,
                     tooltip: 'WhatsApp',
                     color: '#075E54',
-                    link: 'https://whatsapp.com',
+                    link: 'https://wa.me/237694248972',
                   },
                   {
                     Icon: Twitter,
                     tooltip: 'Twitter',
                     color: '#1DA1F2',
-                    link: 'https://twitter.com',
+                    link: 'https://www.facebook.com/profile.php?id=100064106312785&mibextid=ZbWKwL',
                   },
                   {
                     Icon: LinkedIn,
                     tooltip: 'LinkedIn',
                     color: '#0072b1',
-                    link: 'https://linkedin.com',
+                    link: 'https://www.facebook.com/profile.php?id=100064106312785&mibextid=ZbWKwL',
                   },
                 ].map(({ Icon, tooltip, color, link }, index) => (
                   <Tooltip arrow title={tooltip} key={index}>

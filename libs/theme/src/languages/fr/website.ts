@@ -200,7 +200,8 @@ export const website = {
   numberOfRooms: 'Nombre de pièces',
   numberOfBaths: 'Nombre de salles de bain',
   price: 'Prix du bien',
-  useCurrentPosition: 'Utiliser la position Google',
+  useCurrentPosition:
+    'Utiliser votre position géographique pour localiser la propriété',
   longitude: 'Longitude',
   latitude: 'Latitude',
   createProperty: 'Créer propriété',
@@ -209,6 +210,10 @@ export const website = {
 
   Appartment: 'Appartement',
   Hostel: 'Mini Cité',
+  Villa: 'Villa',
+  Room: 'Chambre',
+  Studio: 'Studio',
+  Duplex: 'Duplex',
   Default: 'Maison familiale',
 
   Home: 'Maison',
@@ -236,6 +241,7 @@ export const website = {
   resetPasswordMessage:
     'Entrez votre email pour que nous puissions vous envoyer un lien de réinitialisation!',
   noPropertiesToDisplay: 'Aucune propriété à afficher...',
+  ownerWhatsapp: 'Numéro whatsapp du propriétaire',
 
   ourServices: 'Nos services',
   immatriculation: 'IMMATRICULATION',

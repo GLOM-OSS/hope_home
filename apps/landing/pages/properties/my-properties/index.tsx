@@ -1,19 +1,19 @@
 import { ICreateNewProperty, IHHProperty } from '@hopehome/interfaces';
 import { ErrorMessage, useNotification } from '@hopehome/toast';
-import { ReportRounded } from '@mui/icons-material';
+import { Add, ReportRounded } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
 import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import PropertyCard from '../../../components/home/propertyCard';
 import Navbar from '../../../components/navbar/secondary_nav/navbar';
 import NewPropertyDialog from '../../../components/properties/createPropertyDialog';
+import { useUser } from '../../../contexts/user.provider';
 import {
   createNewProperty,
   getProperties,
 } from '../../../services/property.service';
-import { useUser } from '../../../contexts/user.provider';
-import { useRouter } from 'next/router';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
@@ -111,7 +111,15 @@ export default function Properties({
         open={isNewPropertyDialogOpen}
         closeDialog={() => setIsNewPropertyDialogOpen(false)}
       />
-      <Box sx={{ mt: 4, padding: `0 7.1%`, mb: 2, display: 'grid', rowGap: 2 }}>
+      <Box
+        sx={{
+          mt: 4,
+          padding: 2,
+          mb: 2,
+          display: 'grid',
+          rowGap: 2,
+        }}
+      >
         <Navbar active="/properties/my-properties" />
         <Box
           sx={{
@@ -119,9 +127,13 @@ export default function Properties({
             gridTemplateColumns: '1fr auto',
             columnGap: 2,
             alignItems: 'center',
+            justifyContent: 'center',
+            padding: {
+              tablet: '0 15%',
+            },
           }}
         >
-          <Typography variant="h4">
+          <Typography variant="h6">
             {formatMessage({ id: 'myProperties' })}
           </Typography>
           <Button
@@ -132,6 +144,7 @@ export default function Properties({
             onClick={() => setIsNewPropertyDialogOpen(true)}
             disabled={isSubmitting}
           >
+            <Add />
             {formatMessage({ id: 'newPost' })}
           </Button>
         </Box>
@@ -143,6 +156,7 @@ export default function Properties({
             gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 350px))',
             columnGap: 2,
             rowGap: 2,
+            minHeight: '35vh',
           }}
         >
           {properties

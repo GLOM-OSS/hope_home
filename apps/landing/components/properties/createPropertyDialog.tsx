@@ -1,4 +1,9 @@
-import { ICreateNewProperty } from '@hopehome/interfaces';
+import {
+  HouseTypeEnum,
+  ICreateNewProperty,
+  ListingReasonEnum,
+  PropertyTypeEnum,
+} from '@hopehome/interfaces';
 import { theme } from '@hopehome/theme';
 import {
   KeyboardArrowDownOutlined,
@@ -8,11 +13,13 @@ import {
   Autocomplete,
   Box,
   Button,
+  Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   FormControl,
+  FormControlLabel,
   FormHelperText,
   Grid,
   MenuItem,
@@ -28,6 +35,7 @@ import { useFormik } from 'formik';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import * as Yup from 'yup';
+import { useUser } from '../../contexts/user.provider';
 import { ConfirmDialog } from '../confirmDialog';
 
 interface MainTextMatchedSubstrings {
@@ -68,10 +76,11 @@ export default function NewPropertyDialog({
   handleSubmit: (val: ICreateNewProperty) => void;
 }) {
   const { formatMessage } = useIntl();
+  const { activeUser } = useUser();
 
-  const listingReasons = ['Rent', 'Sale'];
-  const propertyTypes = ['Home', 'Land'];
-  const houseTypes = ['Appartment', 'Hostel', 'Default'];
+  const listingReasons = Object.values(ListingReasonEnum);
+  const propertyTypes = Object.values(PropertyTypeEnum);
+  const houseTypes = Object.values(HouseTypeEnum);
 
   const initialValues: ICreateNewProperty = {
     price: 0,
@@ -85,14 +94,16 @@ export default function NewPropertyDialog({
     property_type: 'Home',
     listing_reason: 'Sale',
     house_type: 'Appartment',
+    owner_whatsapp: activeUser.whatsapp_number,
   };
   const validationSchema = Yup.object().shape({
     price: Yup.number().required(),
     number_of_rooms: Yup.number().required(),
     number_of_baths: Yup.number().required(),
-    latitude: Yup.number().required(),
-    longitude: Yup.number().required(),
-    area: Yup.number().min(1).required(),
+    latitude: Yup.number(),
+    longitude: Yup.number(),
+    owner_whatsapp: Yup.string(),
+    area: Yup.number(),
     address: Yup.string().required(),
     description: Yup.string().required(),
     listing_reason: Yup.string().oneOf(listingReasons).required(),
@@ -100,15 +111,16 @@ export default function NewPropertyDialog({
     house_type: Yup.string().oneOf(houseTypes).required(),
   });
 
-  const [hasUsedPosition, setHasUsedPosition] = useState<boolean>(false);
+  const [useCurrentPosition, setUseCurrentPosition] = useState<boolean>(false);
 
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit: (values, { resetForm }) => {
-      const { longitude: lg, latitude: lt, property_type: pt } = values;
+      const { area, longitude: lg, latitude: lt, property_type: pt } = values;
       const nValues: ICreateNewProperty = {
         ...values,
+        area: area === 0 ? null : area,
         longitude: lg === 0 && lt === 0 ? null : lg,
         latitude: lg === 0 && lt === 0 ? null : lt,
       };
@@ -122,14 +134,14 @@ export default function NewPropertyDialog({
             }
           : nValues;
       handleSubmit(submitValues);
-      setHasUsedPosition(false);
+      setUseCurrentPosition(false);
       resetForm();
     },
   });
 
   const handleAccept = () => {
     if (navigator.geolocation) {
-      setHasUsedPosition(true);
+      setUseCurrentPosition(true);
       navigator.geolocation.getCurrentPosition(async (position) => {
         formik.setFieldValue('longitude', position.coords.longitude);
         formik.setFieldValue('latitude', position.coords.latitude);
@@ -214,6 +226,15 @@ export default function NewPropertyDialog({
     };
   }, [value, inputValue, fetch]);
 
+  const useCurrentPositionHandler = () => {
+    if (!useCurrentPosition) setIsConfirmUsePositionDialogOpen(true);
+    else {
+      formik.setFieldValue('latitude', 0);
+      formik.setFieldValue('longitude', 0);
+      setUseCurrentPosition(false);
+    }
+  };
+
   return (
     <>
       <ConfirmDialog
@@ -238,6 +259,25 @@ export default function NewPropertyDialog({
           <DialogContent sx={{ padding: '16px 24px' }}>
             <Box sx={{ display: 'grid', rowGap: 2 }}>
               <Stack direction={'column'}>
+                <TextField
+                  fullWidth
+                  required
+                  size="small"
+                  {...formik.getFieldProps('owner_whatsapp')}
+                  label={formatMessage({ id: 'ownerWhatsapp' })}
+                  InputProps={{
+                    startAdornment: <Typography mr={0.5}>+237</Typography>,
+                  }}
+                  error={
+                    formik.touched.owner_whatsapp &&
+                    Boolean(formik.errors.owner_whatsapp)
+                  }
+                  helperText={
+                    formik.touched.owner_whatsapp &&
+                    formik.errors.owner_whatsapp
+                  }
+                />
+
                 <Typography variant="body2">
                   {formatMessage({ id: 'propertyType' })}
                 </Typography>
@@ -460,15 +500,22 @@ export default function NewPropertyDialog({
                 }}
               />
 
+              <i>
+                <Typography
+                  variant="caption"
+                >{`1 hectare => 10 000 m²`}</Typography>
+              </i>
               <TextField
                 fullWidth
-                required
                 size="small"
                 type="number"
                 label={formatMessage({ id: 'area' })}
                 error={formik.touched.area && Boolean(formik.errors.area)}
                 helperText={formik.touched.area && formik.errors.area}
                 {...formik.getFieldProps('area')}
+                InputProps={{
+                  endAdornment: <Typography variant="body1">m²</Typography>,
+                }}
               />
 
               <TextField
@@ -533,7 +580,7 @@ export default function NewPropertyDialog({
                 type="number"
                 label={formatMessage({ id: 'price' })}
                 InputProps={{
-                  endAdornment: 'xaf',
+                  endAdornment: 'XAF',
                 }}
                 error={formik.touched.price && Boolean(formik.errors.price)}
                 helperText={formik.touched.price && formik.errors.price}
@@ -541,50 +588,51 @@ export default function NewPropertyDialog({
               />
 
               <Box sx={{ display: 'grid', rowGap: 1 }}>
-                <Button
-                  size="small"
-                  color="secondary"
-                  disableElevation
-                  variant="contained"
-                  sx={{ justifySelf: 'start', textTransform: 'none' }}
-                  onClick={() => setIsConfirmUsePositionDialogOpen(true)}
-                >
-                  {formatMessage({ id: 'useCurrentPosition' })}
-                </Button>
-                <Box sx={{ display: 'grid', rowGap: 2 }}>
-                  <TextField
-                    fullWidth
-                    required
-                    size="small"
-                    type="number"
-                    disabled={hasUsedPosition}
-                    label={formatMessage({ id: 'longitude' })}
-                    error={
-                      formik.touched.longitude &&
-                      Boolean(formik.errors.longitude)
-                    }
-                    helperText={
-                      formik.touched.longitude && formik.errors.longitude
-                    }
-                    {...formik.getFieldProps('longitude')}
-                  />
+                <FormControlLabel
+                  checked={useCurrentPosition}
+                  onChange={useCurrentPositionHandler}
+                  control={<Checkbox defaultChecked={false} />}
+                  label={
+                    <Typography variant="caption">
+                      {formatMessage({ id: 'useCurrentPosition' })}
+                    </Typography>
+                  }
+                />
+                {useCurrentPosition && (
+                  <Box sx={{ display: 'grid', rowGap: 2 }}>
+                    <TextField
+                      disabled
+                      fullWidth
+                      size="small"
+                      type="number"
+                      label={formatMessage({ id: 'longitude' })}
+                      error={
+                        formik.touched.longitude &&
+                        Boolean(formik.errors.longitude)
+                      }
+                      helperText={
+                        formik.touched.longitude && formik.errors.longitude
+                      }
+                      {...formik.getFieldProps('longitude')}
+                    />
 
-                  <TextField
-                    fullWidth
-                    required
-                    disabled={hasUsedPosition}
-                    size="small"
-                    type="number"
-                    label={formatMessage({ id: 'latitude' })}
-                    error={
-                      formik.touched.latitude && Boolean(formik.errors.latitude)
-                    }
-                    helperText={
-                      formik.touched.latitude && formik.errors.latitude
-                    }
-                    {...formik.getFieldProps('latitude')}
-                  />
-                </Box>
+                    <TextField
+                      disabled
+                      fullWidth
+                      size="small"
+                      type="number"
+                      label={formatMessage({ id: 'latitude' })}
+                      error={
+                        formik.touched.latitude &&
+                        Boolean(formik.errors.latitude)
+                      }
+                      helperText={
+                        formik.touched.latitude && formik.errors.latitude
+                      }
+                      {...formik.getFieldProps('latitude')}
+                    />
+                  </Box>
+                )}
               </Box>
             </Box>
           </DialogContent>

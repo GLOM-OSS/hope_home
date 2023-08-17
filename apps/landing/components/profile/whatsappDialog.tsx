@@ -37,7 +37,7 @@ export default function WhatsappDialog({
     initialValues,
     validationSchema,
     onSubmit: (values, { resetForm }) => {
-      submitDialog(`+237${values.whatsapp_number}`);
+      submitDialog(values.whatsapp_number);
       resetForm();
       closeDialog();
     },
@@ -60,7 +60,7 @@ export default function WhatsappDialog({
           placeholder={formatMessage({ id: 'enterWhatsappNumber' })}
           variant="standard"
           InputProps={{
-            startAdornment: <Typography mr={0.5}>237</Typography>,
+            startAdornment: <Typography mr={0.5}>+237</Typography>,
           }}
           error={
             formik.touched.whatsapp_number &&

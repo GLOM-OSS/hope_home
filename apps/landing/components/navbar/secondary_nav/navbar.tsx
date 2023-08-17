@@ -1,8 +1,8 @@
 import { theme } from '@hopehome/theme';
 import { Box } from '@mui/material';
 import { useIntl } from 'react-intl';
-import NavItem from './navItem';
 import { useUser } from '../../../contexts/user.provider';
+import NavItem from './navItem';
 
 export default function Navbar({ active }: { active: string }) {
   const { formatMessage } = useIntl();
@@ -39,10 +39,7 @@ export default function Navbar({ active }: { active: string }) {
             href={link}
             sx={{
               height: '100%',
-              padding: {
-                desktop: `0 ${theme.spacing(0.25)}`,
-                mobile: `0 ${theme.spacing(0.7)}`,
-              },
+              padding: theme.spacing(0.4),
               color: active === link ? theme.palette.primary.main : 'white',
               backgroundColor:
                 active === link ? 'white' : theme.palette.primary.main,

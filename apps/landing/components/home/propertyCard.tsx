@@ -52,6 +52,7 @@ export default function PropertyCard({
     area,
     is_liked,
     is_listed,
+    owner_whatsapp,
     number_of_likes,
     publisher_details: {
       whatsapp_number,
@@ -251,7 +252,9 @@ export default function PropertyCard({
       }
       case 'contact': {
         push(
-          `https://api.whatsapp.com/send/?phone=${whatsapp_number}&text=${encodeURIComponent(
+          `https://api.whatsapp.com/send/?phone=${
+            owner_whatsapp ?? whatsapp_number
+          }&text=${encodeURIComponent(
             formatMessage({ id: 'interestedInProperty' }) +
               `\n\nhttps://hopehome.cm/properties/${property_id}`
           )}`

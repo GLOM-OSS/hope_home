@@ -421,34 +421,11 @@ export default function Navbar() {
         <Box
           sx={{
             display: {
-              mobile: 'block',
               desktop: 'none',
             },
-            gridTemplateColumns: '1fr auto',
-            columnGap: 2,
-            alignItems: 'center',
             justifySelf: 'end',
-            justifyItems: 'center',
           }}
         >
-          <Button
-            variant="text"
-            color="inherit"
-            size="small"
-            sx={{
-              textTransform: 'none',
-              color: 'white',
-              ...theme.typography.body1,
-            }}
-            startIcon={<Language />}
-            onClick={() => {
-              languageDispatch({
-                type: activeLanguage === 'En' ? 'USE_FRENCH' : 'USE_ENGLISH',
-              });
-            }}
-          >
-            {activeLanguage === 'En' ? 'Fr' : 'En'}
-          </Button>
           <Button
             startIcon={<MenuOutlined />}
             onClick={() => setIsSideNavOpen(true)}

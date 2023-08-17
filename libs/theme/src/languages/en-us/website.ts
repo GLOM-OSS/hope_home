@@ -195,7 +195,7 @@ export const website = {
   numberOfRooms: 'Number of rooms',
   numberOfBaths: 'Number of bathrooms',
   price: 'Property price',
-  useCurrentPosition: 'Use Google position',
+  useCurrentPosition: 'Use your geographical position to locate the property',
   longitude: 'Longitude',
   latitude: 'Latitude',
   createProperty: 'Create Property',
@@ -203,6 +203,10 @@ export const website = {
   Rent: 'Rent',
   Appartment: 'Appartment',
   Hostel: 'Hostel',
+  Villa: 'Villa',
+  Room: 'Room',
+  Studio: 'Studio',
+  Duplex: 'Duplex',
   Default: 'Family house',
 
   Home: 'Maison',
@@ -232,6 +236,7 @@ export const website = {
   resetPasswordMessage: 'Enter your email so we can send a reset link!',
 
   noPropertiesToDisplay: 'No Properties to display...',
+  ownerWhatsapp: 'Owner whatsapp number',
 
   ourServices: 'Our services',
   immatriculation: 'REGISTRATION',

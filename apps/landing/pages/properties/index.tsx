@@ -28,9 +28,16 @@ export default function Properties({
   const { formatMessage } = useIntl();
 
   return (
-    <Box sx={{ mt: 4, padding: `0 7.1%`, mb: 2, display: 'grid', rowGap: 2 }}>
+    <Box sx={{ mt: 4, padding: 2, mb: 2, display: 'grid', rowGap: 2 }}>
       <Navbar active="/properties" />
-      <Typography variant="h4">
+      <Typography
+        variant="h6"
+        sx={{
+          padding: {
+            tablet: '0 15%',
+          },
+        }}
+      >
         {formatMessage({ id: 'allProperties' })}
       </Typography>
       <Box
