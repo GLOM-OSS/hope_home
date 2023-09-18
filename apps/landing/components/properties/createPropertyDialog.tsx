@@ -1,8 +1,5 @@
 import {
-  HouseTypeEnum,
-  ICreateNewProperty,
-  ListingReasonEnum,
-  PropertyTypeEnum,
+  ICreateNewProperty
 } from '@hopehome/interfaces';
 import { theme } from '@hopehome/theme';
 import {
@@ -78,9 +75,9 @@ export default function NewPropertyDialog({
   const { formatMessage } = useIntl();
   const { activeUser } = useUser();
 
-  const listingReasons = Object.values(ListingReasonEnum);
-  const propertyTypes = Object.values(PropertyTypeEnum);
-  const houseTypes = Object.values(HouseTypeEnum);
+  const listingReasons = ['Rent', 'Sale'];
+  const propertyTypes = ['Home', 'Land'];
+  const houseTypes = ['Appartment', 'Hostel', 'Default'];
 
   const initialValues: ICreateNewProperty = {
     price: 0,
@@ -501,9 +498,7 @@ export default function NewPropertyDialog({
               />
 
               <i>
-                <Typography
-                  variant="caption"
-                >{`1 hectare => 10 000 m²`}</Typography>
+                <Typography variant="caption">{`1 hectare => 10 000 m²`}</Typography>
               </i>
               <TextField
                 fullWidth
