@@ -150,6 +150,7 @@ model PropertyAudit {
     number_of_rooms   Int?
     number_of_baths   Int?
     house_type        HouseTypeEnum?
+    owner_whatsapp    String?
     is_deleted        Boolean           @default(false) @db.TinyInt
     audited_at        DateTime          @default(now()) @db.DateTime(0)
     audited_by        String            @db.VarChar(36)
