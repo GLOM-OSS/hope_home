@@ -138,20 +138,20 @@ model PropertyAudit {
     property_audit_id String            @id @default(uuid()) @db.VarChar(36)
     image_ref         String?           @db.VarChar(255)
     price             Float
-    area              Float
+    area              Float?
     listing_reason    ListingReasonEnum
     longitude         Float?
     latitude          Float?
     description       String            @db.LongText
     property_type     PropertyTypeEnum
-    is_listed         Boolean           @default(true) @db.TinyInt
-    is_flagged        Boolean           @default(false) @db.TinyInt
+    is_listed         Boolean           @db.TinyInt
+    is_flagged        Boolean           @db.TinyInt
     address           String
     number_of_rooms   Int?
     number_of_baths   Int?
     house_type        HouseTypeEnum?
     owner_whatsapp    String?
-    is_deleted        Boolean           @default(false) @db.TinyInt
+    is_deleted        Boolean           @db.TinyInt
     audited_at        DateTime          @default(now()) @db.DateTime(0)
     audited_by        String            @db.VarChar(36)
     Person            Person            @relation(fields: [audited_by], references: [person_id], onDelete: Cascade, onUpdate: Cascade)
