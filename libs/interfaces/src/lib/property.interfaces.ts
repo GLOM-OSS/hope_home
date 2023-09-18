@@ -1,12 +1,8 @@
-import {
-  HouseTypeEnum,
-  PropertyTypeEnum,
-  ListingReasonEnum,
-} from '@prisma/client';
 import { IUser } from './auth.interfaces';
 
-export { HouseTypeEnum, PropertyTypeEnum, ListingReasonEnum };
-
+export  type HouseTypeEnum = "Appartment" | "Hostel" | "Villa" | "Room" | "Studio" | "Duplex" | "Default";
+export type PropertyTypeEnum = 'Home' | 'Land';
+export type ListingReasonEnum = 'Rent' | 'Sale';
 export interface IHouseDetails {
   house_type: HouseTypeEnum;
   number_of_baths: number;
