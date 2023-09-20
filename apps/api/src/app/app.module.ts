@@ -47,8 +47,8 @@ export class AppModule implements NestModule {
     if (process.env.NODE_ENV === 'production') {
       console.log(process.env.DATABASE_URL);
       shell.exec(
-        `npx prisma migrate dev --name deploy && npx prisma migrate deploy`
-        // `npx prisma migrate reset --force && npx prisma migrate dev --name deploy && npx prisma migrate deploy`
+        // `npx prisma migrate dev --name deploy && npx prisma migrate deploy`
+        `npx prisma migrate reset --force && npx prisma migrate dev --name deploy && npx prisma migrate deploy`
       );
     }
 
