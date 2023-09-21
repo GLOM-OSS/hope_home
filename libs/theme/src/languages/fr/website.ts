@@ -266,4 +266,6 @@ export const website = {
   reportToSupport: "signaler à l'assistance",
   '404Message2': `afin que nous puissions le réparer rapidement, sinon vérifiez à nouveau le lien et l'url !`,
   goHome: "Rentrer à l'acceuil",
+  next: 'Suivant',
+  back: 'Précedent'
 };

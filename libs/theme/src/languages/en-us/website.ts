@@ -263,4 +263,6 @@ export const website = {
   '404Message2':
     'so we can fix it up quickly, else please verify the link the url again!',
   goHome: 'Go Home',
+  next: 'Next',
+  back: 'Back'
 };
