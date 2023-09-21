@@ -119,21 +119,17 @@ export class PropertyService {
     const likedProperty = await this.prismaService.likedProperty.findFirst({
       where: { liked_by, property_id },
     });
-    if (likedProperty)
-      return this.prismaService.likedProperty.update({
-        data: {
-          is_deleted: !likedProperty.is_deleted,
-          deleted_at: likedProperty.is_deleted ? null : new Date(),
-        },
-        where: { liked_by_property_id: { liked_by, property_id } },
-      });
-    else
-      return this.prismaService.likedProperty.create({
-        data: {
-          Property: { connect: { property_id } },
-          Person: { connect: { person_id: liked_by } },
-        },
-      });
+    return this.prismaService.likedProperty.upsert({
+      create: {
+        property_id,
+        liked_by,
+      },
+      update: {
+        is_deleted: !likedProperty?.is_deleted,
+        deleted_at: likedProperty?.is_deleted ? null : new Date(),
+      },
+      where: { liked_by_property_id: { liked_by, property_id } },
+    });
   }
 
   async comment(property_id: string, comment: string, commented_by: string) {
