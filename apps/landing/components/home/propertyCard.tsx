@@ -77,6 +77,7 @@ export default function PropertyCard({
   const canDelete = person_id === publisher_pid;
 
   const [isLiked, setIsLiked] = useState<boolean | null>(is_liked);
+  const [numberOfLikes, setNumberOfLikes] = useState(number_of_likes);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submissionNotif, setSubmissionNotif] = useState<useNotification>();
   const [moreMenuAnchorEl, setMoreMenuAnchorEl] = useState<null | HTMLElement>(
@@ -236,7 +237,10 @@ export default function PropertyCard({
 
   const handleLike = () => {
     likeDislike(property_id as string)
-      .then(() => setIsLiked(!isLiked))
+      .then(() => {
+        setIsLiked(!isLiked);
+        setNumberOfLikes((count) => (isLiked ? --count : ++count));
+      })
       .catch((error) =>
         toast.error(error?.message || 'Something went wrong !')
       );
@@ -652,7 +656,7 @@ export default function PropertyCard({
                 variant="caption"
                 color="inherit"
               >
-                {`${number_of_likes} like(s)`}
+                {`${numberOfLikes} like(s)`}
               </Typography>
             </Box>
 
