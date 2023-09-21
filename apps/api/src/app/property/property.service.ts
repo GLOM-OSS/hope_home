@@ -217,7 +217,7 @@ export class PropertyService {
       data: {
         ...newProperty,
         price: Number(price),
-        area: area ? Number(area): null,
+        area: area ? Number(area) : null,
         latitude: latitude ? Number(latitude) : undefined,
         longitude: longitude ? Number(longitude) : undefined,
         number_of_baths: number_of_baths ? Number(number_of_baths) : undefined,
@@ -312,8 +312,6 @@ export class PropertyService {
   }
 
   async searchProperties(keywords: string) {
-    const words = keywords.split(',' || ';');
-    console.log(words);
     const properties = await this.prismaService.property.findMany({
       include: {
         Publisher: true,
@@ -325,8 +323,13 @@ export class PropertyService {
         is_deleted: false,
         is_flagged: false,
         is_listed: true,
-        address: { search: words.join(' ') },
-        description: { search: words.join(' ') },
+        ...(keywords
+          ? {
+              address: { search: keywords },
+              description: { search: keywords },
+              owner_whatsapp: { search: keywords },
+            }
+          : {}),
       },
     });
     return this.processProperties(properties);
