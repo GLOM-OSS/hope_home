@@ -44,6 +44,9 @@ export function Index({
     searchProperties(keywords)
       .then((properties) => {
         setRecentProperties(properties);
+        const propertySectionElement =
+          document.getElementById('property-section');
+        propertySectionElement?.scrollIntoView();
       })
       .catch((error) => {
         toast.error(

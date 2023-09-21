@@ -1,11 +1,11 @@
 import { IHHProperty } from '@hopehome/interfaces';
+import { theme } from '@hopehome/theme';
 import { EastOutlined } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
+import { useRouter } from 'next/router';
 import Scrollbars from 'rc-scrollbars';
 import { useIntl } from 'react-intl';
 import PropertyCard from './propertyCard';
-import { useRouter } from 'next/router';
-import { theme } from '@hopehome/theme';
 
 export default function PropertySection({
   properties,
@@ -16,7 +16,10 @@ export default function PropertySection({
   const { push } = useRouter();
 
   return (
-    <Box sx={{ padding: `0 7.1%`, display: 'grid', rowGap: 3 }}>
+    <Box
+      id="property-section"
+      sx={{ padding: `0 7.1%`, display: 'grid', rowGap: 3 }}
+    >
       <Box>
         <Typography
           variant="h1"
