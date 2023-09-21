@@ -21,9 +21,11 @@ export async function getProperties(
   return data.map(
     ({
       publisher_details: { profile_image_ref, ...publisher },
+      image_ref,
       ...property
     }) => ({
       ...property,
+      image_ref: `${baseURL}/${image_ref}`,
       publisher_details: {
         ...publisher,
         profile_image_ref: profile_image_ref
