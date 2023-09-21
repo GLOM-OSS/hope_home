@@ -131,7 +131,7 @@ model Property {
     PropertyAudits  PropertyAudit[]
 
     @@fulltext([description])
-    @@fulltext([address, description])
+    @@fulltext([address, description, owner_whatsapp])
 }
 
 model PropertyAudit {
