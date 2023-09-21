@@ -70,7 +70,7 @@ export default function HeroSection({
         >
           <TextField
             fullWidth
-            placeholder="Ahala, Yaoundé, Appartment moderne 03 chambres un sallon, deux douche et une cuisine moderne..."
+            placeholder={formatMessage({ id: 'searchPlaceholder' })}
             sx={{ backgroundColor: 'white' }}
             color="primary"
             onChange={(e) => setKeywords(e.target.value)}
