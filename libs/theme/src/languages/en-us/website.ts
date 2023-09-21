@@ -264,5 +264,7 @@ export const website = {
     'so we can fix it up quickly, else please verify the link the url again!',
   goHome: 'Go Home',
   next: 'Next',
-  back: 'Back'
+  back: 'Back',
+  searchPlaceholder:
+    "Search by property's address, description and publisher's name",
 };

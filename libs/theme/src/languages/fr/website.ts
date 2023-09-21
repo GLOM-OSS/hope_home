@@ -267,5 +267,7 @@ export const website = {
   '404Message2': `afin que nous puissions le réparer rapidement, sinon vérifiez à nouveau le lien et l'url !`,
   goHome: "Rentrer à l'acceuil",
   next: 'Suivant',
-  back: 'Précedent'
+  back: 'Précedent',
+  searchPlaceholder:
+    "Recherche par l'adresse du bien, la description et le nom de celui qui a publié",
 };
