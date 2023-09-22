@@ -62,7 +62,7 @@ export const website = {
   welcomeBack: 'Welcome back!!!',
   welcomeMessage:
     'We are delighted to have you back, we are sure your experience will be just as enjoyable as before!',
-  dontHaveAnAccount: "Don't have an account??",
+  dontHaveAnAccount: "Don't have an account?",
   signUp: 'Sign Up',
   forgotPassword: 'Forgot password?',
   loginWithGoogle: 'Login with Google',

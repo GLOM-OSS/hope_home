@@ -62,7 +62,7 @@ export const website = {
   welcomeBack: 'Bienvenue !!!',
   welcomeMessage:
     "Nous sommes ravis de vous revoir, nous sommes sûrs que votre expérience sera aussi agréable qu'avant !",
-  dontHaveAnAccount: "Vous n'avez pas de compte ??",
+  dontHaveAnAccount: "Vous n'avez pas de compte ?",
   signUp: "S'inscrire",
   forgotPassword: 'Mot de passe oublié ?',
   loginWithGoogle: 'Se connecter avec Google',
