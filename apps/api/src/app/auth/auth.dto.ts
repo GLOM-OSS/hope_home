@@ -13,8 +13,8 @@ export class GoogleLoginDto {
   @IsString()
   token: string;
 
-  @IsPhoneNumber('CM')
   @IsOptional()
+  @IsPhoneNumber()
   whatsapp_number?: string;
 }
 
@@ -32,10 +32,10 @@ export class CreatePersonDto {
   @IsString()
   password: string;
 
-  @IsPhoneNumber('CM')
+  @IsPhoneNumber()
   phone_number: string;
 
-  @IsPhoneNumber('CM')
+  @IsPhoneNumber()
   whatsapp_number: string;
 
   @IsEnum(Lang)
