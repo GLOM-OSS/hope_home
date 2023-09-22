@@ -60,7 +60,7 @@ export default function WhatsappDialog({
           placeholder={formatMessage({ id: 'enterWhatsappNumber' })}
           variant="standard"
           InputProps={{
-            startAdornment: <Typography mr={0.5}>+237</Typography>,
+            startAdornment: <Typography mr={0.5}>+</Typography>,
           }}
           error={
             formik.touched.whatsapp_number &&

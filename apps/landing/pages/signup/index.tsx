@@ -25,13 +25,13 @@ import {
   Typography,
 } from '@mui/material';
 import { useGoogleLogin } from '@react-oauth/google';
-import { useUser } from 'apps/landing/contexts/user.provider';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
+import { useUser } from '../../contexts/user.provider';
 import { signUp, verifyCredential } from '../../services/auth.service';
 
 export default function Signup() {
@@ -50,14 +50,8 @@ export default function Signup() {
     password: Yup.string().required(),
     fullname: Yup.string().required(),
     gender: Yup.string().matches(/^Male$|^Female$/gm),
-    phone_number: Yup.string().matches(
-      /^(6|2)(2|3|[5-9])[0-9]{7}$/gm,
-      '(6|2) (2|3|[5-9])x xxx xxx'
-    ),
-    whatsapp_number: Yup.string().matches(
-      /^(6|2)(2|3|[5-9])[0-9]{7}$/gm,
-      '(6|2) (2|3|[5-9])x xxx xxx'
-    ),
+    phone_number: Yup.string().required(),
+    whatsapp_number: Yup.string().required(),
   });
 
   const formik = useFormik({
@@ -76,8 +70,8 @@ export default function Signup() {
   function signUserUp(values: ISignup) {
     const submitValues: ISignup = {
       ...values,
-      phone_number: `237${values.phone_number}`,
-      whatsapp_number: `237${values.whatsapp_number}`,
+      phone_number: values.phone_number,
+      whatsapp_number: values.whatsapp_number,
     };
     setIsSubmitting(true);
     const notif = new useNotification();
@@ -217,7 +211,7 @@ export default function Signup() {
         sx={{
           justifySelf: 'center',
           width: {
-            desktop: '25vw',
+            desktop: '50vw',
             tablet: 'initial',
           },
         }}
@@ -308,7 +302,7 @@ export default function Signup() {
           disabled={isSubmitting}
           sx={{ marginTop: theme.spacing(3.125) }}
           InputProps={{
-            startAdornment: <Typography mr={0.5}>237</Typography>,
+            startAdornment: <Typography mr={0.5}>+</Typography>,
           }}
         />
         <TextField
@@ -328,7 +322,7 @@ export default function Signup() {
           disabled={isSubmitting}
           sx={{ marginTop: theme.spacing(3.125) }}
           InputProps={{
-            startAdornment: <Typography mr={0.5}>237</Typography>,
+            startAdornment: <Typography mr={0.5}>+</Typography>,
           }}
         />
         <FormControl
@@ -372,7 +366,7 @@ export default function Signup() {
         </Button>
       </Box>
       <Typography textAlign={'center'}>
-        {formatMessage({ id: 'alreadyHaveAnAccount' }) + ' '}
+        {formatMessage({ id: 'alreadyHaveAnAccount' })}
         <Typography
           component="span"
           onClick={() => push('/signin')}

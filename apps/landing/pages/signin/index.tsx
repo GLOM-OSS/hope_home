@@ -285,7 +285,7 @@ export default function Signin() {
         </Button>
       </Box>
       <Typography textAlign={'center'}>
-        {formatMessage({ id: 'dontHaveAnAccount' }) + ' '}
+        {formatMessage({ id: 'dontHaveAnAccount' })}
         <Typography
           component="span"
           onClick={() => push('/signup')}

@@ -263,7 +263,7 @@ export default function NewPropertyDialog({
                   {...formik.getFieldProps('owner_whatsapp')}
                   label={formatMessage({ id: 'ownerWhatsapp' })}
                   InputProps={{
-                    startAdornment: <Typography mr={0.5}>+237</Typography>,
+                    startAdornment: <Typography mr={0.5}>+</Typography>,
                   }}
                   error={
                     formik.touched.owner_whatsapp &&
