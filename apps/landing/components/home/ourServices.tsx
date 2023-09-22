@@ -9,7 +9,11 @@ export interface ServiceCardInterface {
   image: string;
 }
 
-export default function OurServices() {
+export default function OurServices({
+  titleAlign = 'center',
+}: {
+  titleAlign?: 'left' | 'right' | 'center';
+}) {
   const { formatMessage } = useIntl();
 
   const SERVICES: ServiceCardInterface[] = [
@@ -50,7 +54,7 @@ export default function OurServices() {
         },
       }}
     >
-      <Typography sx={{ textAlign: 'center' }} variant="h4">
+      <Typography sx={{ textAlign: titleAlign }} variant="h4">
         {formatMessage({ id: 'ourServices' })}
       </Typography>
 

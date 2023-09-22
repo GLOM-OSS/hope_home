@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useIntl } from 'react-intl';
 import AboutUsImage from '../../public/about_us.png';
 import AdvantagesImage from '../../public/advantages_image.png';
+import OurServices from '../../components/home/ourServices';
 
 interface IAdvantage {
   icon: React.ReactNode;
@@ -150,6 +151,7 @@ export default function About() {
             ))}
           </Box>
         </Box>
+        <OurServices titleAlign="left" />
       </Box>
     </Box>
   );
