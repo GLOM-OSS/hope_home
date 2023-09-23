@@ -15,6 +15,7 @@ COPY ./nx.json ./
 
 # COPY REQUIRED LIBS AND CONCERNED APP
 COPY /libs/axios ./libs/axios
+COPY /libs/encrypter ./libs/encrypter
 COPY /libs/map-display ./libs/map-display
 COPY /libs/toast ./libs/toast
 COPY ./apps/landing-e2e ./apps/landing-e2e
