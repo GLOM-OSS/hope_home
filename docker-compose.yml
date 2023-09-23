@@ -31,7 +31,7 @@ services:
     depends_on:
       - mysql_container
     volumes:
-      - hopehome_assets:/apps/api/src/assets
+      - hopehome_assets:/dist/apps/api/src/assets
   landing:
     build:
       dockerfile: ./Dockerfile.landing
