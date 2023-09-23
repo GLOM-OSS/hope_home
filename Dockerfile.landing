@@ -4,19 +4,36 @@ FROM node:18.12.1-alpine3.16 as builder
 WORKDIR /app
 
 # # install app dependencies
-COPY package.json /app
-COPY package-lock.json /app
+COPY package*.json ./
 
 # #clean install dependecies
 RUN npm install
 
-# # add app
-COPY . /app
+# COPY workspace configs
+COPY ./tsconfig.base.json ./
+COPY ./nx.json ./
 
-# # build Landing app
+# COPY REQUIRED LIBS AND CONCERNED APP
+COPY /libs/axios ./libs/axios
+COPY /libs/map-display ./libs/map-display
+COPY /libs/toast ./libs/toast
+COPY ./apps/landing-e2e ./apps/landing-e2e
+COPY /libs/theme ./libs/theme
+COPY /libs/interfaces ./libs/interfaces
+COPY ./apps/landing ./apps/landing
+
+# # BUILD APP
 RUN npx nx run landing:build:production
 
-# # expose port 3000 to outer environment
+# #DELETE SOURCE CODE FROM CONTAINER
+RUN rm -r ./apps
+RUN rm -r ./libs
+RUN rm nx.json
+RUN rm package.json
+RUN rm package-lock.json
+RUN rm tsconfig.base.json
+
+# # expose communication port to outer environment
 EXPOSE 3000
 
 # # run app
