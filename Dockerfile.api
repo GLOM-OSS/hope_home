@@ -9,16 +9,17 @@ COPY package*.json ./
 # #clean install dependecies
 RUN npm install
 
-# COPY workspace configs and concerned app
+# COPY workspace configs
 COPY ./tsconfig.base.json ./
 COPY ./nx.json ./
-COPY ./apps/api ./apps/api
-COPY ./apps/api-e2e ./apps/api-e2e
 
-# COPY REQUIRED LIBS AND PACKAGES
+# COPY REQUIRED LIBS AND CONCERNED APP
 COPY /libs/encrypter ./libs/encrypter
-COPY /libs/interfaces ./libs/interfaces
 COPY /libs/mailer ./libs/mailer
+COPY ./apps/api-e2e ./apps/api-e2e
+COPY /libs/interfaces ./libs/interfaces
+COPY ./apps/api ./apps/api
+
 
 #migrate prisma models
 RUN npx prisma generate
