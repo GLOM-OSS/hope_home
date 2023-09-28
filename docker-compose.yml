@@ -19,7 +19,7 @@ services:
       - DEFAULT_PASSWORD=12345678
       - JWT_SECRET=32d07665.2022e4
       - PORT=8080
-      - EMAIL=glomexam@gmail.com
+      - EMAIL=hopehome694@gmail.com
       - ADMIN_EMAIL=hopehome694@gmail.com
       - CLIENT_SECRET=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
       - CLIENT_ID=192320988067-mjrh21aa3ue5blqp2o0nng7tmjkrl971.apps.googleusercontent.com
