@@ -3,12 +3,12 @@ import {
   Button,
   Dialog,
   DialogActions,
-  TextField,
-  Typography,
+  Typography
 } from '@mui/material';
 import { useFormik } from 'formik';
 import { useIntl } from 'react-intl';
 import * as Yup from 'yup';
+import { PhoneNumberTextField } from '../phoneNumberTextField';
 
 export default function WhatsappDialog({
   open,
@@ -53,23 +53,11 @@ export default function WhatsappDialog({
         <Typography variant="body1">
           {formatMessage({ id: 'whatsappDialogText' })}
         </Typography>
-        <TextField
-          fullWidth
-          required
+        <PhoneNumberTextField
+          formik={formik}
+          field="whatsapp_number"
           label={formatMessage({ id: 'whatsappNumber' })}
           placeholder={formatMessage({ id: 'enterWhatsappNumber' })}
-          variant="standard"
-          InputProps={{
-            startAdornment: <Typography mr={0.5}>+</Typography>,
-          }}
-          error={
-            formik.touched.whatsapp_number &&
-            Boolean(formik.errors.whatsapp_number)
-          }
-          helperText={
-            formik.touched.whatsapp_number && formik.errors.whatsapp_number
-          }
-          {...formik.getFieldProps('whatsapp_number')}
         />
         <DialogActions>
           <Button

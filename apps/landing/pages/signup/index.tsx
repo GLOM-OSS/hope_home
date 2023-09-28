@@ -33,6 +33,7 @@ import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import { useUser } from '../../contexts/user.provider';
 import { signUp, verifyCredential } from '../../services/auth.service';
+import { PhoneNumberTextField } from '../../components/phoneNumberTextField';
 
 export default function Signup() {
   const { formatMessage } = useIntl();
@@ -288,43 +289,24 @@ export default function Signup() {
             ),
           }}
         />
-        <TextField
-          fullWidth
-          required
-          label={formatMessage({ id: 'phoneNumber' })}
-          placeholder={formatMessage({ id: 'enterPhoneNumber' })}
-          variant="standard"
-          error={
-            formik.touched.phone_number && Boolean(formik.errors.phone_number)
-          }
-          helperText={formik.touched.phone_number && formik.errors.phone_number}
-          {...formik.getFieldProps('phone_number')}
-          disabled={isSubmitting}
-          sx={{ marginTop: theme.spacing(3.125) }}
-          InputProps={{
-            startAdornment: <Typography mr={0.5}>+</Typography>,
-          }}
-        />
-        <TextField
-          fullWidth
-          required
-          label={formatMessage({ id: 'whatsappNumber' })}
-          placeholder={formatMessage({ id: 'enterWhatsappNumber' })}
-          variant="standard"
-          error={
-            formik.touched.whatsapp_number &&
-            Boolean(formik.errors.whatsapp_number)
-          }
-          helperText={
-            formik.touched.whatsapp_number && formik.errors.whatsapp_number
-          }
-          {...formik.getFieldProps('whatsapp_number')}
-          disabled={isSubmitting}
-          sx={{ marginTop: theme.spacing(3.125) }}
-          InputProps={{
-            startAdornment: <Typography mr={0.5}>+</Typography>,
-          }}
-        />
+        <Box sx={{ marginTop: '25px' }}>
+          <PhoneNumberTextField
+            formik={formik}
+            field="phone_number"
+            label={formatMessage({ id: 'phoneNumber' })}
+            placeholder={formatMessage({ id: 'enterPhoneNumber' })}
+            style={{ border: 'none', borderBottom: '1px solid grey' }}
+          />
+        </Box>
+        <Box sx={{ marginTop: '25px' }}>
+          <PhoneNumberTextField
+            formik={formik}
+            field="whatsapp_number"
+            label={formatMessage({ id: 'whatsappNumber' })}
+            placeholder={formatMessage({ id: 'enterWhatsappNumber' })}
+            style={{ border: 'none', borderBottom: '1px solid grey' }}
+          />
+        </Box>
         <FormControl
           required
           error={formik.touched.gender && Boolean(formik.errors.gender)}
