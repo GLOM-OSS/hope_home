@@ -58,9 +58,8 @@ export default function Signup() {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: (values, { resetForm }) => {
+    onSubmit: (values) => {
       signUserUp(values);
-      resetForm();
     },
   });
 
@@ -69,10 +68,11 @@ export default function Signup() {
   const [submissionNotif, setSubmissionNotif] = useState<useNotification>();
 
   function signUserUp(values: ISignup) {
+    console.log(values)
     const submitValues: ISignup = {
       ...values,
-      phone_number: values.phone_number,
-      whatsapp_number: values.whatsapp_number,
+      phone_number: `+${values.phone_number}`,
+      whatsapp_number: `+${values.whatsapp_number}`,
     };
     setIsSubmitting(true);
     const notif = new useNotification();

@@ -129,7 +129,10 @@ export default function NewPropertyDialog({
               number_of_rooms: null,
             }
           : nValues;
-      handleSubmit(submitValues);
+      handleSubmit({
+        ...submitValues,
+        owner_whatsapp: `+${submitValues.owner_whatsapp}`,
+      });
       setUseCurrentPosition(false);
       resetForm();
     },
