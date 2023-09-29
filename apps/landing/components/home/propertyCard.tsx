@@ -260,7 +260,7 @@ export default function PropertyCard({
             owner_whatsapp ?? whatsapp_number
           }&text=${encodeURIComponent(
             formatMessage({ id: 'interestedInProperty' }) +
-              `\n\nhttps://hopehome.squoolr.com/properties/${property_id}`
+              `\n\nhttps://hopehome.app/properties/${property_id}`
           )}`
         );
         break;
@@ -269,7 +269,7 @@ export default function PropertyCard({
         navigator.share({
           title: address,
           text: formatMessage({ id: 'sharePropertyMessage' }),
-          url: `https://hopehome.squoolr.com/properties/${property_id}`,
+          url: `https://hopehome.app/properties/${property_id}`,
         });
         break;
       }

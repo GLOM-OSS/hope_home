@@ -118,7 +118,7 @@ export class AuthService {
     const { resetPasswordSubTitle, resetPasswordObject, ...messages } =
       resetPasswordMessages;
     const message = await this.mailService.sendResetPasswordMail(email, {
-      connexion: 'https://hopehome.squoolr.com/',
+      connexion: 'https://hopehome.app/',
       ...Object.keys(messages).reduce(
         (messages, key) => ({
           ...messages,
