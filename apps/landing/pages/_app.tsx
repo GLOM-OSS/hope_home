@@ -76,7 +76,7 @@ function CustomApp(props: CustomAppProps) {
     <>
       <Head>
         <title>Hope Home</title>
-        <link rel="icon" type="image/x-icon" href="favicon_green.png" />
+        <link rel="icon" type="image/x-icon" href="/favicon_green.png" />
       </Head>
       <CacheProvider value={emotionCache}>
         <HHThemeProvider>
