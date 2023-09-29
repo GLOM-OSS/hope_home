@@ -23,7 +23,7 @@ services:
       - ADMIN_EMAIL=hopehome694@gmail.com
       - CLIENT_SECRET=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
       - CLIENT_ID=192320988067-mjrh21aa3ue5blqp2o0nng7tmjkrl971.apps.googleusercontent.com
-      - REFRESH_TOKEN=1//04iy19xdZJ2KqCgYIARAAGAQSNwF-L9Ir0x8cZLb2xN7B31wYfQZCeW0B1weU-flgK_dV9luFJBxF3JQysvErq1GgREzZfKlYI4A
+      - REFRESH_TOKEN=1//04UZ1ijN8XWr7CgYIARAAGAQSNwF-L9IrZfZaL8W-vPx82Unfc0af8ilt9jrkNiB9F-SWBRiqfRtxNFRnYdkhJNrtX1DGDwNA1Pw
       - NODE_ENV=production
       - SALT=12
     ports:
