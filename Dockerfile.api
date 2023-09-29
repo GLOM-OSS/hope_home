@@ -9,18 +9,16 @@ COPY package*.json ./
 # #clean install dependecies
 RUN npm install
 
-# # COPY workspace configs
-# COPY ./tsconfig.base.json ./
-# COPY ./nx.json ./
+# COPY workspace configs
+COPY ./tsconfig.base.json ./
+COPY ./nx.json ./
 
-# # COPY REQUIRED LIBS AND CONCERNED APP
-# COPY /libs/encrypter ./libs/encrypter
-# COPY /libs/mailer ./libs/mailer
-# COPY ./apps/api-e2e ./apps/api-e2e
-# COPY /libs/interfaces ./libs/interfaces
-# COPY ./apps/api ./apps/api
-
-COPY . /app
+# COPY REQUIRED LIBS AND CONCERNED APP
+COPY /libs/encrypter ./libs/encrypter
+COPY /libs/mailer ./libs/mailer
+COPY ./apps/api-e2e ./apps/api-e2e
+COPY /libs/interfaces ./libs/interfaces
+COPY ./apps/api ./apps/api
 
 
 #migrate prisma models
@@ -29,13 +27,13 @@ RUN npx prisma generate
 # #build backend app
 RUN npx nx run api:build:production
 
-# # #DELETE SOURCE CODE FROM CONTAINER
-# RUN rm -r ./apps
-# RUN rm -r ./libs
-# RUN rm nx.json
-# RUN rm package.json
-# RUN rm package-lock.json
-# RUN rm tsconfig.base.json
+# #DELETE SOURCE CODE FROM CONTAINER
+RUN rm -r ./apps
+RUN rm -r ./libs
+RUN rm nx.json
+RUN rm package.json
+RUN rm package-lock.json
+RUN rm tsconfig.base.json
 
 # # expose communication port to outer environment
 EXPOSE 8080
