@@ -1,10 +1,4 @@
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  Typography
-} from '@mui/material';
+import { Box, Button, Dialog, DialogActions, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import { useIntl } from 'react-intl';
 import * as Yup from 'yup';
@@ -37,7 +31,7 @@ export default function WhatsappDialog({
     initialValues,
     validationSchema,
     onSubmit: (values, { resetForm }) => {
-      submitDialog(values.whatsapp_number);
+      submitDialog(`+${values.whatsapp_number}`);
       resetForm();
       closeDialog();
     },
