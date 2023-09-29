@@ -30,8 +30,8 @@ services:
       - "95:8080"
     depends_on:
       - mysql_container
-    volumes:
-      - hopehome_assets:/app/dist/apps/api/assets
+    # volumes:
+    #   - hopehome_assets:/app/dist/apps/api/assets
   landing:
     build:
       dockerfile: ./Dockerfile.landing
