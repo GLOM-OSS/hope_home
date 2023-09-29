@@ -44,7 +44,6 @@ function axiosInstance(): AxiosInstance {
       return response;
     },
     (error) => {
-      console.log(error);
       if (
         error.response?.data?.statusCode === 403 &&
         location.pathname !== '/signin'
