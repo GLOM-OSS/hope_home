@@ -19,7 +19,9 @@ export class ErrorFilter implements ExceptionFilter {
     const lang =
       req.user?.['preferred_lang'] ?? req.get('preferred_lang') ?? 'fr';
 
-    const error = appErros.find((_) => _.code.toString() === response);
+    const error = appErros.find((_) =>
+      response.toString().includes(_.code.toString())
+    );
     const status = statusCode ?? exception.getStatus();
     const errorMessage =
       error?.message[lang === 'en' ? 'en' : 'fr'] ?? //custom messages
