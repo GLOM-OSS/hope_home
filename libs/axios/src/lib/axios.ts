@@ -7,7 +7,7 @@ export async function getCurrentIp() {
 }
 
 export const baseURL =
-  process.env['NX_API_BASE_URL'] || 'https://api-hh.squoolr.com';
+  process.env['NX_API_BASE_URL'] || 'https://api.hopehome.app';
 
 function axiosInstance(): AxiosInstance {
   const axiosInstance = axios.create({

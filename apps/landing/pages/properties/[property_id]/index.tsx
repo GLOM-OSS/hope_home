@@ -450,7 +450,7 @@ export default function PropertyDetails({
                         }&text=${encodeURIComponent(
                           //TODO: use this message for the interestedInProperty below 'I saw your property on hope home and it interested me'
                           formatMessage({ id: 'interestedInProperty' }) +
-                            `\n\nhttps://hopehome.squoolr.com/${property_id}`
+                            `\n\nhttps://hopehome.app/${property_id}`
                         )}`
                       );
                     }}
