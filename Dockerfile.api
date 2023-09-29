@@ -19,6 +19,7 @@ COPY /libs/mailer ./libs/mailer
 COPY ./apps/api-e2e ./apps/api-e2e
 COPY /libs/interfaces ./libs/interfaces
 COPY ./apps/api ./apps/api
+COPY ./apps/api/src/prisma ./prisma
 
 
 #migrate prisma models
@@ -27,6 +28,9 @@ RUN npx prisma generate
 # #build backend app
 RUN npx nx run api:build:production
 
+# #provide schema for build usage
+COPY ./apps/api/src/prisma ./dist/apps/api
+
 # #DELETE SOURCE CODE FROM CONTAINER
 RUN rm -r ./apps
 RUN rm -r ./libs
@@ -34,6 +38,7 @@ RUN rm nx.json
 RUN rm package.json
 RUN rm package-lock.json
 RUN rm tsconfig.base.json
+RUN rm -r ./prisma
 
 # # expose communication port to outer environment
 EXPOSE 8080
