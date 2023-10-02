@@ -42,7 +42,7 @@ services:
     depends_on:
       - api
 volumes:
-  mysql:
+  hopehome_data:
     driver: local
   hopehome_assets:
     driver: local
