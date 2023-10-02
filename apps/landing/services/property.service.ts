@@ -25,7 +25,7 @@ export async function getProperties(
       ...property
     }) => ({
       ...property,
-      image_ref: `${baseURL}/${image_ref}`,
+      image_ref: image_ref ? `${baseURL}/${image_ref}` : null,
       publisher_details: {
         ...publisher,
         profile_image_ref: profile_image_ref
@@ -59,7 +59,7 @@ export async function getPropertyDetails(
     },
     image_refs: image_refs.map(({ image_id, image_ref }) => ({
       image_id,
-      image_ref: `${baseURL}/${image_ref}`,
+      image_ref: image_ref ? `${baseURL}/${image_ref}` : null,
     })),
   };
 }
@@ -78,7 +78,7 @@ export async function getPropertyImages(
   );
   return data.map(({ image_id, image_ref }) => ({
     image_id,
-    image_ref: `${baseURL}/${image_ref}`,
+    image_ref: image_ref ? `${baseURL}/${image_ref}` : null,
   }));
 }
 
