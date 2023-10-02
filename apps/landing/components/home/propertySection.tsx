@@ -47,7 +47,11 @@ export default function PropertySection({
           {formatMessage({ id: 'exploreHomesText' })}
         </Typography>
       </Box>
-      <Scrollbars universal autoHide style={{ height: '557px' }}>
+      <Scrollbars
+        universal
+        autoHide
+        style={{ height: `${properties.length === 0 ? 71 : 557}px` }}
+      >
         <Box
           sx={{
             display: 'grid',
@@ -71,17 +75,19 @@ export default function PropertySection({
           )}
         </Box>
       </Scrollbars>
-      <Button
-        color="primary"
-        variant="contained"
-        disableElevation
-        endIcon={<EastOutlined />}
-        sx={{ justifySelf: 'center', textTransform: 'none' }}
-        size="large"
-        onClick={() => push('/properties')}
-      >
-        {formatMessage({ id: 'viewMore' })}
-      </Button>
+      {properties.length > 0 && (
+        <Button
+          color="primary"
+          variant="contained"
+          disableElevation
+          endIcon={<EastOutlined />}
+          sx={{ justifySelf: 'center', textTransform: 'none' }}
+          size="large"
+          onClick={() => push('/properties')}
+        >
+          {formatMessage({ id: 'viewMore' })}
+        </Button>
+      )}
     </Box>
   );
 }
