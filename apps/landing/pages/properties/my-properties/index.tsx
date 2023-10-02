@@ -156,7 +156,6 @@ export default function Properties({
             gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 350px))',
             columnGap: 2,
             rowGap: 2,
-            minHeight: '35vh',
           }}
         >
           {properties
