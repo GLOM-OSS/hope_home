@@ -19,6 +19,7 @@ export default function HeroSection({
     <Box
       sx={{
         height: '70vh',
+        maxHeight: '600px',
         display: 'grid',
         rowGap: {
           desktop: theme.spacing(10),
