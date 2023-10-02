@@ -21,10 +21,7 @@ export default function WhatsappDialog({
     whatsapp_number: '',
   };
   const validationSchema = Yup.object().shape({
-    whatsapp_number: Yup.string().matches(
-      /^(6|2)(2|3|[5-9])[0-9]{7}$/gm,
-      '(6|2) (2|3|[5-9])x xxx xxx'
-    ),
+    whatsapp_number: Yup.string().required(),
   });
 
   const formik = useFormik({
