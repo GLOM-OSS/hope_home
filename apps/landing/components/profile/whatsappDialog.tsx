@@ -1,10 +1,4 @@
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  Typography
-} from '@mui/material';
+import { Box, Button, Dialog, DialogActions, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import { useIntl } from 'react-intl';
 import * as Yup from 'yup';
@@ -27,17 +21,14 @@ export default function WhatsappDialog({
     whatsapp_number: '',
   };
   const validationSchema = Yup.object().shape({
-    whatsapp_number: Yup.string().matches(
-      /^(6|2)(2|3|[5-9])[0-9]{7}$/gm,
-      '(6|2) (2|3|[5-9])x xxx xxx'
-    ),
+    whatsapp_number: Yup.string().required(),
   });
 
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit: (values, { resetForm }) => {
-      submitDialog(values.whatsapp_number);
+      submitDialog(`+${values.whatsapp_number}`);
       resetForm();
       closeDialog();
     },

@@ -40,6 +40,7 @@ import {
 import { toast } from 'react-toastify';
 import ImageDialog from './imageDialog';
 import { useUser } from '../../contexts/user.provider';
+import logoGreen from '../../public/logo_green.png';
 
 export default function PropertyCard({
   property: {
@@ -69,6 +70,7 @@ export default function PropertyCard({
   property: IHHProperty;
   setProperties?: Dispatch<SetStateAction<IHHProperty[]>>;
 }) {
+  console.log({ image_ref });
   const { formatMessage, formatNumber } = useIntl();
   const { push } = useRouter();
   const {
@@ -438,15 +440,11 @@ export default function PropertyCard({
       >
         <Box sx={{ position: 'relative' }}>
           <Image
-            src={image_ref ?? '/location-icon.png'}
+            src={image_ref ?? logoGreen}
             className="property-image"
             alt={property_type}
-            onError={({ currentTarget }) => {
-              currentTarget.onerror = null;
-              currentTarget.src = '/logo_green.png';
-            }}
             height={350}
-            width={350}
+            width={image_ref ? 350 : 300}
             style={{
               objectFit: 'cover',
               borderTopLeftRadius: '10px',

@@ -129,9 +129,13 @@ export default function NewPropertyDialog({
               number_of_rooms: null,
             }
           : nValues;
+      const ownerWhatsapp = submitValues.owner_whatsapp;
+      console.log({ ownerWhatsapp });
       handleSubmit({
         ...submitValues,
-        owner_whatsapp: `+${submitValues.owner_whatsapp}`,
+        owner_whatsapp: ownerWhatsapp.includes('+')
+          ? ownerWhatsapp
+          : `+${submitValues.owner_whatsapp}`,
       });
       setUseCurrentPosition(false);
       resetForm();
