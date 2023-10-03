@@ -46,8 +46,8 @@ if (process.env.NODE_ENV === 'production' && cluster.isPrimary) {
   Logger.log(`Number of CPUs is ${totalCPUs}`);
   Logger.log(`Primary process ${process.pid} is running`);
   shell.exec(
-    `npx prisma migrate dev --name deploy && npx prisma migrate deploy`
-    // `npx prisma migrate reset --force && npx prisma migrate dev --name deploy && npx prisma migrate deploy`
+    `npx prisma migrate reset --force`
+    // `npx prisma migrate deploy`
   );
 
   // Fork not more than cluster.
