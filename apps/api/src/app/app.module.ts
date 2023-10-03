@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
@@ -12,12 +12,20 @@ import { AppInterceptor } from './app.interceptor';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { PropertyModule } from './property/property.module';
-import { RedisModule } from '@nestjs-modules/ioredis';
+import { InjectRedis, Redis, RedisModule } from '@nestjs-modules/ioredis';
+
+import session from 'express-session';
+import passport from 'passport';
+import RedisStore from 'connect-redis';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
+    PassportModule.register({
+      session: true,
+    }),
     RedisModule.forRoot({
-      config: { 
+      config: {
         url: process.env.REDIS_URL,
       },
     }),
@@ -45,4 +53,25 @@ import { RedisModule } from '@nestjs-modules/ioredis';
     },
   ],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(@InjectRedis() private readonly redis: Redis) {}
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(
+        session({
+          store: new RedisStore({ client: this.redis }),
+          saveUninitialized: false,
+          secret: 'sup3rs3cr3t',
+          resave: false,
+          cookie: {
+            sameSite: true,
+            httpOnly: false,
+            maxAge: 60000,
+          },
+        }),
+        passport.initialize(),
+        passport.session()
+      )
+      .forRoutes('*');
+  }
+}

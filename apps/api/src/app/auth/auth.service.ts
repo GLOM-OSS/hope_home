@@ -71,6 +71,15 @@ export class AuthService {
     return this.jwtService.sign({ person_id: person.person_id });
   }
 
+  async findOne(personId: string) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...user } =
+      await this.prismaService.person.findUnique({
+        where: { person_id: personId },
+      });
+    return user;
+  }
+
   async registerUser({
     email,
     password,
