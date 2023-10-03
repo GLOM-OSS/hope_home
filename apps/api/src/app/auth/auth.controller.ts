@@ -54,6 +54,7 @@ export class AuthController {
     try {
       const person = await this.authService.registerUser(newPerson);
       await this.authService.login(request, person);
+      return person;
     } catch (error) {
       throw new HttpException(
         `Oops, something when wrong: ${error.message}`,
