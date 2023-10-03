@@ -1,6 +1,14 @@
 version: '3.3'
 
 services:
+  redis:
+    image: 'bitnami/redis:latest'
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save '' --appendonly no --loglevel warning --protected-mode no
+    volumes:
+      - cache:/data
   mysql_container:
     image: mysql:latest
     environment:
@@ -15,6 +23,7 @@ services:
     restart: always
     environment:
       - DATABASE_URL=mysql://root:12345678@mysql_container:3306/hope_home
+      - REDIS_URL=redis
       - DEFAULT_PASSWORD=12345678
       - JWT_SECRET=32d07665.2022e4
       - PORT=8080
@@ -29,6 +38,7 @@ services:
       - "95:8080"
     depends_on:
       - mysql_container
+      - redis
     volumes:
       - hopehome_assets:/app/dist/apps/api/assets
   landing:
@@ -41,6 +51,8 @@ services:
     depends_on:
       - api
 volumes:
+  cache:
+    driver: local
   mysql_data:
     driver: local
   hopehome_assets:
