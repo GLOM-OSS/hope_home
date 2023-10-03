@@ -12,9 +12,15 @@ import { AppInterceptor } from './app.interceptor';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { PropertyModule } from './property/property.module';
+import { RedisModule } from '@nestjs-modules/ioredis';
 
 @Module({
   imports: [
+    RedisModule.forRoot({
+      config: { 
+        url: process.env.REDIS_URL,
+      },
+    }),
     ThrottlerModule.forRoot({
       ttl: 60,
       limit: 50,

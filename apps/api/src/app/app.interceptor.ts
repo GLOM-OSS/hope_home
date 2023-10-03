@@ -13,7 +13,7 @@ export class AppInterceptor<T> implements NestInterceptor<T, string> {
     return next.handle().pipe(
       map((data) => {
         if (typeof data === 'object') {
-          data = encrypt(data);
+          // data = encrypt(data);
         }
         return data;
       })
