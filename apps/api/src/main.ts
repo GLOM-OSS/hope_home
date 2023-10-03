@@ -64,4 +64,3 @@ if (process.env.NODE_ENV === 'production' && cluster.isPrimary) {
 } else {
   bootstrap();
 }
-bootstrap();
