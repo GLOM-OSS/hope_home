@@ -2,13 +2,12 @@ version: '3.3'
 
 services:
   mysql_container:
-    image: mysql
+    image: mysql:latest
     environment:
       - MYSQL_ROOT_PASSWORD=12345678
       - MYSQL_DATABASE=hopehome_api_db
-    command: mysqld --sql_mode=""
     volumes:
-      - mysql:/data
+      - mysql_data:/var/lib/mysql
   api:
     build:
       dockerfile: ./Dockerfile.api
@@ -42,7 +41,7 @@ services:
     depends_on:
       - api
 volumes:
-  mysql:
+  mysql_data:
     driver: local
   hopehome_assets:
     driver: local
