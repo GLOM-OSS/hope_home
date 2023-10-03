@@ -47,9 +47,13 @@ export class AuthController {
   }
 
   @Post('register')
-  async registerUser(@Body() newPerson: CreatePersonDto) {
+  async registerUser(
+    @Req() request: Request,
+    @Body() newPerson: CreatePersonDto
+  ) {
     try {
-      return this.authService.registerUser(newPerson);
+      const person = await this.authService.registerUser(newPerson);
+      await this.authService.login(request, person);
     } catch (error) {
       throw new HttpException(
         `Oops, something when wrong: ${error.message}`,

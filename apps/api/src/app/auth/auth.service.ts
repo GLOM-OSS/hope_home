@@ -6,8 +6,9 @@ import {
 } from '@hopehome/mailer';
 import { HttpService } from '@nestjs/axios';
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Person, Prisma } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
+import { Request } from 'express';
 import { ErrorEnum } from '../../errors';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateNewPasswordDto, GoogleLoginDto } from './auth.dto';
@@ -207,5 +208,15 @@ export class AuthService {
       where: { person_id },
     });
     return person;
+  }
+
+  async login(req: Request, user: Person) {
+    await new Promise<void>((resolve, reject) =>
+      req['login'](user, (err) => {
+        if (err)
+          reject(new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR));
+        resolve();
+      })
+    );
   }
 }
