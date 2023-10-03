@@ -24,6 +24,7 @@ services:
     environment:
       - DATABASE_URL=mysql://root:12345678@mysql_container:3306/hope_home
       - REDIS_URL=redis
+      - SESSION_SECRET=sup3rs3cr3t
       - DEFAULT_PASSWORD=12345678
       - JWT_SECRET=32d07665.2022e4
       - PORT=8080
