@@ -18,6 +18,7 @@ import session from 'express-session';
 import passport from 'passport';
 import RedisStore from 'connect-redis';
 import { PassportModule } from '@nestjs/passport';
+import { randomUUID } from 'crypto';
 
 @Module({
   imports: [
@@ -60,13 +61,15 @@ export class AppModule {
       .apply(
         session({
           store: new RedisStore({ client: this.redis }),
+          genid: () => randomUUID(),
+          rolling: true,
           saveUninitialized: false,
-          secret: 'sup3rs3cr3t',
+          secret: process.env['SESSION_SECRET'],
           resave: false,
           cookie: {
             sameSite: true,
             httpOnly: false,
-            maxAge: 60000,
+            maxAge: 1000 * 60 * 60 * 24 * 10,
           },
         }),
         passport.initialize(),
