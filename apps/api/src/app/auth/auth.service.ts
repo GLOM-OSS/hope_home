@@ -6,8 +6,7 @@ import {
 } from '@hopehome/mailer';
 import { HttpService } from '@nestjs/axios';
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { Person, Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { ErrorEnum } from '../../errors';
 import { PrismaService } from '../../prisma/prisma.service';
@@ -17,7 +16,6 @@ import { CreateNewPasswordDto, GoogleLoginDto } from './auth.dto';
 export class AuthService {
   constructor(
     private prismaService: PrismaService,
-    private jwtService: JwtService,
     private mailService: MailService,
     private httpService: HttpService
   ) {}
@@ -67,16 +65,11 @@ export class AuthService {
     } else return this.registerUser(newPerson);
   }
 
-  signIn(person: Person) {
-    return this.jwtService.sign({ person_id: person.person_id });
-  }
-
   async findOne(personId: string) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, ...user } =
-      await this.prismaService.person.findUnique({
-        where: { person_id: personId },
-      });
+    const { password, ...user } = await this.prismaService.person.findUnique({
+      where: { person_id: personId },
+    });
     return user;
   }
 

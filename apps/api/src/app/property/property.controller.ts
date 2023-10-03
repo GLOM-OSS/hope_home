@@ -17,7 +17,7 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { Person } from '@prisma/client';
 import { Request } from 'express';
 import { IsPublic } from '../auth/auth.decorator';
-import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
+import { AuthenticatedGuard } from '../auth/auth.guard';
 import {
   CreateCommentDto,
   CreateNewPropertyDto,
@@ -26,8 +26,8 @@ import {
 } from './property.dto';
 import { PropertyService } from './property.service';
 
-@UseGuards(JwtAuthGuard)
 @Controller('properties')
+@UseGuards(AuthenticatedGuard)
 export class PropertyController {
   constructor(private propertyService: PropertyService) {}
 
