@@ -9,7 +9,10 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 
 import { AppModule } from './app/app.module';
 import { ErrorFilter } from './errors/error.filter';
+
+import helmet from 'helmet';
 import path from 'path';
+import * as shell from 'shelljs';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
@@ -20,6 +23,7 @@ async function bootstrap() {
       optionsSuccessStatus: 204,
     },
   });
+  app.use(helmet());
   app.useStaticAssets(path.join(__dirname, './assets/uploads'));
   app.useGlobalPipes(
     new ValidationPipe({
@@ -34,4 +38,8 @@ async function bootstrap() {
   Logger.log(`🚀 Application is running  on: http://localhost:${port}`);
 }
 
+shell.exec(
+  `npx prisma migrate dev --name deploy && npx prisma migrate deploy`
+  // `npx prisma migrate reset --force && npx prisma migrate dev --name deploy && npx prisma migrate deploy`
+);
 bootstrap();
