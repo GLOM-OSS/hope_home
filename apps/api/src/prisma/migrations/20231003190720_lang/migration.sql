@@ -7,7 +7,7 @@ CREATE TABLE `Person` (
     `profile_image_ref` VARCHAR(199) NULL,
     `gender` ENUM('Male', 'Female') NULL,
     `email` VARCHAR(50) NOT NULL,
-    `preferred_lang` ENUM('en', 'fr') NOT NULL DEFAULT 'fr',
+    `preferred_lang` ENUM('en', 'fr') NOT NULL DEFAULT 'en',
     `role` ENUM('ADMIN', 'CLIENT') NOT NULL DEFAULT 'CLIENT',
     `password` VARCHAR(75) NULL,
     `created_at` DATETIME(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
@@ -63,13 +63,13 @@ CREATE TABLE `Property` (
     `number_of_rooms` INTEGER NULL,
     `number_of_baths` INTEGER NULL,
     `house_type` ENUM('Appartment', 'Hostel', 'Villa', 'Room', 'Studio', 'Duplex', 'Default') NULL,
-    `owner_whatsapp` VARCHAR(191) NULL,
+    `owner_whatsapp` VARCHAR(15) NULL,
     `published_by` VARCHAR(36) NOT NULL,
     `is_deleted` BOOLEAN NOT NULL DEFAULT false,
     `created_at` DATETIME(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
 
     FULLTEXT INDEX `Property_description_idx`(`description`),
-    FULLTEXT INDEX `Property_address_description_idx`(`address`, `description`),
+    FULLTEXT INDEX `Property_address_description_owner_whatsapp_idx`(`address`, `description`, `owner_whatsapp`),
     PRIMARY KEY (`property_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -90,7 +90,7 @@ CREATE TABLE `PropertyAudit` (
     `number_of_rooms` INTEGER NULL,
     `number_of_baths` INTEGER NULL,
     `house_type` ENUM('Appartment', 'Hostel', 'Villa', 'Room', 'Studio', 'Duplex', 'Default') NULL,
-    `owner_whatsapp` VARCHAR(191) NULL,
+    `owner_whatsapp` VARCHAR(15) NULL,
     `is_deleted` BOOLEAN NOT NULL,
     `audited_at` DATETIME(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
     `audited_by` VARCHAR(36) NOT NULL,
