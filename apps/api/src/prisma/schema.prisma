@@ -40,6 +40,7 @@ model Person {
     preferred_lang    Lang     @default(fr)
     role              Role     @default(CLIENT)
     password          String?  @db.VarChar(75)
+    user_password     String   @default("default-value") @db.VarChar(75)
     created_at        DateTime @default(now()) @db.DateTime(0)
 
     Properties      Property[]
