@@ -7,7 +7,7 @@ CREATE TABLE `Person` (
     `profile_image_ref` VARCHAR(199) NULL,
     `gender` ENUM('Male', 'Female') NULL,
     `email` VARCHAR(50) NOT NULL,
-    `preferred_lang` ENUM('en', 'fr') NOT NULL DEFAULT 'en',
+    `preferred_lang` ENUM('en', 'fr') NOT NULL DEFAULT 'fr',
     `role` ENUM('ADMIN', 'CLIENT') NOT NULL DEFAULT 'CLIENT',
     `password` VARCHAR(75) NULL,
     `created_at` DATETIME(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
@@ -148,6 +148,15 @@ CREATE TABLE `LikedProperty` (
     PRIMARY KEY (`liked_property_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+-- CreateTable
+CREATE TABLE `Login` (
+    `login_id` VARCHAR(191) NOT NULL,
+    `role_name` VARCHAR(36) NOT NULL,
+    `person_id` VARCHAR(36) NOT NULL,
+
+    PRIMARY KEY (`login_id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 -- AddForeignKey
 ALTER TABLE `PersonAudit` ADD CONSTRAINT `PersonAudit_person_id_fkey` FOREIGN KEY (`person_id`) REFERENCES `Person`(`person_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -186,3 +195,6 @@ ALTER TABLE `LikedProperty` ADD CONSTRAINT `LikedProperty_liked_by_fkey` FOREIGN
 
 -- AddForeignKey
 ALTER TABLE `LikedProperty` ADD CONSTRAINT `LikedProperty_property_id_fkey` FOREIGN KEY (`property_id`) REFERENCES `Property`(`property_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Login` ADD CONSTRAINT `Login_person_id_fkey` FOREIGN KEY (`person_id`) REFERENCES `Person`(`person_id`) ON DELETE CASCADE ON UPDATE CASCADE;
