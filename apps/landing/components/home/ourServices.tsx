@@ -63,6 +63,10 @@ export default function OurServices({
     );
   };
 
+  setInterval(() => {
+    handleScrollButton('right');
+  }, 3000);
+
   return (
     <Box
       sx={{
