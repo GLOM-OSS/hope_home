@@ -69,7 +69,7 @@ export default function NewPropertyDialog({
 }: {
   open: boolean;
   closeDialog: () => void;
-  handleSubmit: (val: ICreateNewProperty) => void;
+  handleSubmit: (val: ICreateNewProperty, callback?: () => void) => void;
 }) {
   const { formatMessage } = useIntl();
   const { activeUser } = useUser();
@@ -130,15 +130,16 @@ export default function NewPropertyDialog({
             }
           : nValues;
       const ownerWhatsapp = submitValues.owner_whatsapp;
-      console.log({ ownerWhatsapp });
-      handleSubmit({
-        ...submitValues,
-        owner_whatsapp: ownerWhatsapp.includes('+')
-          ? ownerWhatsapp
-          : `+${submitValues.owner_whatsapp}`,
-      });
+      handleSubmit(
+        {
+          ...submitValues,
+          owner_whatsapp: ownerWhatsapp.includes('+')
+            ? ownerWhatsapp
+            : `+${submitValues.owner_whatsapp}`,
+        },
+        () => resetForm()
+      );
       setUseCurrentPosition(false);
-      resetForm();
     },
   });
 
