@@ -97,7 +97,7 @@ function SideNav({
       .then((user) => {
         userDispatch({ type: 'LOAD_USER', payload: user });
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.warn('Failed to load user profile !!!'));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -264,7 +264,7 @@ export default function Navbar() {
       .then((user) => {
         userDispatch({ type: 'LOAD_USER', payload: user });
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.warn('Failed to load user profile !!!'));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
