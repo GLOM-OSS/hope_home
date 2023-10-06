@@ -35,9 +35,9 @@ import {
   getPropertyDetails,
 } from '../../../services/property.service';
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   try {
-    const { property_id } = context.query;
+    const { property_id } = query;
     if (property_id.length === 36) {
       const propertyDetails = await getPropertyDetails(property_id.toString());
       return {
