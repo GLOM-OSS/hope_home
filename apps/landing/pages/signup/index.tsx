@@ -68,7 +68,6 @@ export default function Signup() {
   const [submissionNotif, setSubmissionNotif] = useState<useNotification>();
 
   function signUserUp(values: ISignup) {
-    console.log(values)
     const submitValues: ISignup = {
       ...values,
       phone_number: `+${values.phone_number}`,
