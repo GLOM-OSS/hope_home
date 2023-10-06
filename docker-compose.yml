@@ -11,8 +11,8 @@ services:
     image: mysql:latest
     environment:
       - MYSQL_ROOT_PASSWORD=12345678
-    ports:
-      - "3306:3306"
+    # ports:
+    #   - "3306:3306"
     volumes:
       - hopehome_data:/var/lib/mysql
   api:
@@ -31,7 +31,7 @@ services:
       - ADMIN_EMAIL=hopehome694@gmail.com
       - CLIENT_SECRET=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
       - CLIENT_ID=192320988067-mjrh21aa3ue5blqp2o0nng7tmjkrl971.apps.googleusercontent.com
-      - REFRESH_TOKEN=1//04UZ1ijN8XWr7CgYIARAAGAQSNwF-L9IrZfZaL8W-vPx82Unfc0af8ilt9jrkNiB9F-SWBRiqfRtxNFRnYdkhJNrtX1DGDwNA1Pw
+      - REFRESH_TOKEN=1//04nq7jjK1MjdBCgYIARAAGAQSNwF-L9IrUq7sltpQLcEh1ld2LAYj817Ul3vHhEpybRgXJCizXaOXIVhjWmj0u1_S1jDk6iNpkXs
       - NODE_ENV=production
       - SALT=12
     ports:
