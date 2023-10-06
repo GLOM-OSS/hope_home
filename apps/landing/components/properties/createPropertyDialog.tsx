@@ -1,9 +1,4 @@
-import {
-  HouseTypeEnum,
-  ICreateNewProperty,
-  ListingReasonEnum,
-  PropertyTypeEnum,
-} from '@hopehome/interfaces';
+import { ICreateNewProperty } from '@hopehome/interfaces';
 import { theme } from '@hopehome/theme';
 import {
   KeyboardArrowDownOutlined,
@@ -37,6 +32,7 @@ import { useIntl } from 'react-intl';
 import * as Yup from 'yup';
 import { useUser } from '../../contexts/user.provider';
 import { ConfirmDialog } from '../confirmDialog';
+import { PhoneNumberTextField } from '../phoneNumberTextField';
 
 interface MainTextMatchedSubstrings {
   offset: number;
@@ -78,9 +74,9 @@ export default function NewPropertyDialog({
   const { formatMessage } = useIntl();
   const { activeUser } = useUser();
 
-  const listingReasons = Object.values(ListingReasonEnum);
-  const propertyTypes = Object.values(PropertyTypeEnum);
-  const houseTypes = Object.values(HouseTypeEnum);
+  const listingReasons = ['Rent', 'Sale'];
+  const propertyTypes = ['Home', 'Land'];
+  const houseTypes = ['Appartment', 'Hostel', 'Default'];
 
   const initialValues: ICreateNewProperty = {
     price: 0,
@@ -133,7 +129,14 @@ export default function NewPropertyDialog({
               number_of_rooms: null,
             }
           : nValues;
-      handleSubmit(submitValues);
+      const ownerWhatsapp = submitValues.owner_whatsapp;
+      console.log({ ownerWhatsapp });
+      handleSubmit({
+        ...submitValues,
+        owner_whatsapp: ownerWhatsapp.includes('+')
+          ? ownerWhatsapp
+          : `+${submitValues.owner_whatsapp}`,
+      });
       setUseCurrentPosition(false);
       resetForm();
     },
@@ -259,23 +262,10 @@ export default function NewPropertyDialog({
           <DialogContent sx={{ padding: '16px 24px' }}>
             <Box sx={{ display: 'grid', rowGap: 2 }}>
               <Stack direction={'column'}>
-                <TextField
-                  fullWidth
-                  required
-                  size="small"
-                  {...formik.getFieldProps('owner_whatsapp')}
+                <PhoneNumberTextField
+                  formik={formik}
+                  field="owner_whatsapp"
                   label={formatMessage({ id: 'ownerWhatsapp' })}
-                  InputProps={{
-                    startAdornment: <Typography mr={0.5}>+237</Typography>,
-                  }}
-                  error={
-                    formik.touched.owner_whatsapp &&
-                    Boolean(formik.errors.owner_whatsapp)
-                  }
-                  helperText={
-                    formik.touched.owner_whatsapp &&
-                    formik.errors.owner_whatsapp
-                  }
                 />
 
                 <Typography variant="body2">
@@ -501,9 +491,7 @@ export default function NewPropertyDialog({
               />
 
               <i>
-                <Typography
-                  variant="caption"
-                >{`1 hectare => 10 000 m²`}</Typography>
+                <Typography variant="caption">{`1 hectare => 10 000 m²`}</Typography>
               </i>
               <TextField
                 fullWidth

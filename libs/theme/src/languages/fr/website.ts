@@ -62,7 +62,7 @@ export const website = {
   welcomeBack: 'Bienvenue !!!',
   welcomeMessage:
     "Nous sommes ravis de vous revoir, nous sommes sûrs que votre expérience sera aussi agréable qu'avant !",
-  dontHaveAnAccount: "Vous n'avez pas de compte ??",
+  dontHaveAnAccount: "Vous n'avez pas de compte ?",
   signUp: "S'inscrire",
   forgotPassword: 'Mot de passe oublié ?',
   loginWithGoogle: 'Se connecter avec Google',
@@ -240,7 +240,7 @@ export const website = {
   resetPassword: 'Réinitialiser le mot de passe',
   resetPasswordMessage:
     'Entrez votre email pour que nous puissions vous envoyer un lien de réinitialisation!',
-  noPropertiesToDisplay: 'Aucune propriété à afficher...',
+  noPropertiesToDisplay: `Aucun bien n'est encore publié...`,
   ownerWhatsapp: 'Numéro whatsapp du propriétaire',
 
   ourServices: 'Nos services',
@@ -266,4 +266,8 @@ export const website = {
   reportToSupport: "signaler à l'assistance",
   '404Message2': `afin que nous puissions le réparer rapidement, sinon vérifiez à nouveau le lien et l'url !`,
   goHome: "Rentrer à l'acceuil",
+  next: 'Suivant',
+  back: 'Précedent',
+  searchPlaceholder:
+    "Recherche par l'adresse du bien, la description et le nom de celui qui a publié",
 };

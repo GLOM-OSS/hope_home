@@ -32,9 +32,8 @@ export class MailService {
     );
     const template = Handlebars.compile(source);
     const mailObject = {
-      from: process.env.EMAIL,
+      from: `Hope Home ${process.env.EMAIL}`,
       to: process.env.ADMIN_EMAIL,
-      subject: 'Service Clientèles, Hope Home',
       html: template(messages),
     };
 

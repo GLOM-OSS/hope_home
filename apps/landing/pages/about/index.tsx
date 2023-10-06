@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useIntl } from 'react-intl';
 import AboutUsImage from '../../public/about_us.png';
 import AdvantagesImage from '../../public/advantages_image.png';
+import OurServices from '../../components/home/ourServices';
 
 interface IAdvantage {
   icon: React.ReactNode;
@@ -70,7 +71,7 @@ export default function About() {
     },
   ];
   return (
-    <Box sx={{ mt: 4, padding: `0 7.1%`, mb: 2 }}>
+    <Box sx={{ mt: 4, padding: `0 7.1%`, mb: 2, display: 'grid', rowGap: 6 }}>
       <Box sx={{ display: 'grid', rowGap: 3 }}>
         <Typography variant="h4">{formatMessage({ id: 'aboutUs' })}</Typography>
         <Typography
@@ -95,7 +96,6 @@ export default function About() {
           },
           rowGap: 2,
           columnGap: 2,
-          mt: 10,
         }}
       >
         <Box>
@@ -128,7 +128,6 @@ export default function About() {
           },
           rowGap: 2,
           columnGap: 2,
-          mt: 10,
         }}
       >
         <Image
@@ -151,6 +150,7 @@ export default function About() {
           </Box>
         </Box>
       </Box>
+      <OurServices titleAlign="left" />
     </Box>
   );
 }

@@ -1,10 +1,8 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
-import helmet from 'helmet';
-import * as shell from 'shelljs';
 import { DynamicMulter } from '../multer/multer.module';
 
 import { MailModule } from '@hopehome/mailer';
@@ -14,10 +12,24 @@ import { AppInterceptor } from './app.interceptor';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { PropertyModule } from './property/property.module';
-import { AppMiddleware } from './app.middleware';
+import { InjectRedis, Redis, RedisModule } from '@nestjs-modules/ioredis';
+
+import session from 'express-session';
+import passport from 'passport';
+import RedisStore from 'connect-redis';
+import { PassportModule } from '@nestjs/passport';
+import { randomUUID } from 'crypto';
 
 @Module({
   imports: [
+    PassportModule.register({
+      session: true,
+    }),
+    RedisModule.forRoot({
+      config: {
+        url: process.env.REDIS_URL,
+      },
+    }),
     ThrottlerModule.forRoot({
       ttl: 60,
       limit: 50,
@@ -42,16 +54,27 @@ import { AppMiddleware } from './app.middleware';
     },
   ],
 })
-export class AppModule implements NestModule {
+export class AppModule {
+  constructor(@InjectRedis() private readonly redis: Redis) {}
   configure(consumer: MiddlewareConsumer) {
-    if (process.env.NODE_ENV === 'production') {
-      console.log(process.env.DATABASE_URL);
-      shell.exec(
-        `npx prisma migrate dev --name deploy && npx prisma migrate deploy`
-        // `npx prisma migrate reset --force && npx prisma migrate dev --name deploy && npx prisma migrate deploy`
-      );
-    }
-
-    consumer.apply(helmet(), AppMiddleware).forRoutes('*');
+    consumer
+      .apply(
+        session({
+          store: new RedisStore({ client: this.redis }),
+          genid: () => randomUUID(),
+          rolling: true,
+          saveUninitialized: false,
+          secret: process.env['SESSION_SECRET'],
+          resave: false,
+          cookie: {
+            sameSite: true,
+            httpOnly: false,
+            maxAge: 1000 * 60 * 60 * 24 * 10,
+          },
+        }),
+        passport.initialize(),
+        passport.session()
+      )
+      .forRoutes('*');
   }
 }

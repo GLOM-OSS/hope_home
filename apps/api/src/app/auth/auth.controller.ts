@@ -23,8 +23,8 @@ import {
   EditPersonDto,
   GoogleLoginDto,
 } from './auth.dto';
+import { AuthenticatedGuard } from './auth.guard';
 import { AuthService } from './auth.service';
-import { JwtAuthGuard } from './jwt/jwt-auth.guard';
 import { LocalGuard } from './local/local.guard';
 
 @Controller('auth')
@@ -34,27 +34,27 @@ export class AuthController {
   @Post('sign-in')
   @UseGuards(LocalGuard)
   async singIn(@Req() request: Request) {
-    const accessToken = this.authService.signIn(request.user as Person);
-    return { access_token: accessToken };
+    return request.user;
   }
 
   @Post('google')
   async googleSignIn(@Body() loginData: GoogleLoginDto) {
     try {
-      const person = await this.authService.googleSignIn(loginData);
-      const accessToken = this.authService.signIn(person);
-      return { access_token: accessToken };
+      return this.authService.googleSignIn(loginData);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
   @Post('register')
-  async registerUser(@Body() newPerson: CreatePersonDto) {
+  async registerUser(
+    @Req() request: Request,
+    @Body() newPerson: CreatePersonDto
+  ) {
     try {
       const person = await this.authService.registerUser(newPerson);
-      const accessToken = this.authService.signIn(person);
-      return { access_token: accessToken };
+      await this.authService.login(request, person);
+      return person;
     } catch (error) {
       throw new HttpException(
         `Oops, something when wrong: ${error.message}`,
@@ -81,7 +81,7 @@ export class AuthController {
   }
 
   @Put('change-password')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(AuthenticatedGuard)
   async changePassword(
     @Req() request: Request,
     @Body() { current_password, new_password }: ChangePasswordDto
@@ -125,13 +125,13 @@ export class AuthController {
   }
 
   @Get('user')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(AuthenticatedGuard)
   async getUser(@Req() request: Request) {
     return request.user;
   }
 
   @Put('user/edit')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(AuthenticatedGuard)
   @UseInterceptors(FileInterceptor('profileImageRef'))
   async updateProfile(
     @Req() request: Request,

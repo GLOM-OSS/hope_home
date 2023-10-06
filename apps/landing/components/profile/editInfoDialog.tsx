@@ -54,14 +54,8 @@ export default function EditInfoDialog({
     email: Yup.string().required(),
     fullname: Yup.string().required(),
     preferred_lang: Yup.string().oneOf(['en', 'fr']).required(),
-    phone_number: Yup.string().matches(
-      /^(6|2)(2|3|[5-9])[0-9]{7}$/gm,
-      '(6|2) (2|3|[5-9])x xxx xxx'
-    ),
-    whatsapp_number: Yup.string().matches(
-      /^(6|2)(2|3|[5-9])[0-9]{7}$/gm,
-      '(6|2) (2|3|[5-9])x xxx xxx'
-    ),
+    phone_number: Yup.string(),
+    whatsapp_number: Yup.string(),
   });
 
   const formik = useFormik({
@@ -70,8 +64,8 @@ export default function EditInfoDialog({
     onSubmit: (values, { resetForm }) => {
       submitDialog({
         ...values,
-        phone_number: `237${values.phone_number}`,
-        whatsapp_number: `237${values.whatsapp_number}`,
+        phone_number: values.phone_number,
+        whatsapp_number: values.whatsapp_number,
       });
       resetForm();
       closeDialog();

@@ -25,14 +25,15 @@ import {
   Typography,
 } from '@mui/material';
 import { useGoogleLogin } from '@react-oauth/google';
-import { useUser } from 'apps/landing/contexts/user.provider';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
+import { useUser } from '../../contexts/user.provider';
 import { signUp, verifyCredential } from '../../services/auth.service';
+import { PhoneNumberTextField } from '../../components/phoneNumberTextField';
 
 export default function Signup() {
   const { formatMessage } = useIntl();
@@ -50,22 +51,15 @@ export default function Signup() {
     password: Yup.string().required(),
     fullname: Yup.string().required(),
     gender: Yup.string().matches(/^Male$|^Female$/gm),
-    phone_number: Yup.string().matches(
-      /^(6|2)(2|3|[5-9])[0-9]{7}$/gm,
-      '(6|2) (2|3|[5-9])x xxx xxx'
-    ),
-    whatsapp_number: Yup.string().matches(
-      /^(6|2)(2|3|[5-9])[0-9]{7}$/gm,
-      '(6|2) (2|3|[5-9])x xxx xxx'
-    ),
+    phone_number: Yup.string().required(),
+    whatsapp_number: Yup.string().required(),
   });
 
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: (values, { resetForm }) => {
+    onSubmit: (values) => {
       signUserUp(values);
-      resetForm();
     },
   });
 
@@ -74,10 +68,11 @@ export default function Signup() {
   const [submissionNotif, setSubmissionNotif] = useState<useNotification>();
 
   function signUserUp(values: ISignup) {
+    console.log(values)
     const submitValues: ISignup = {
       ...values,
-      phone_number: `237${values.phone_number}`,
-      whatsapp_number: `237${values.whatsapp_number}`,
+      phone_number: `+${values.phone_number}`,
+      whatsapp_number: `+${values.whatsapp_number}`,
     };
     setIsSubmitting(true);
     const notif = new useNotification();
@@ -217,7 +212,7 @@ export default function Signup() {
         sx={{
           justifySelf: 'center',
           width: {
-            desktop: '25vw',
+            desktop: '50vw',
             tablet: 'initial',
           },
         }}
@@ -294,43 +289,24 @@ export default function Signup() {
             ),
           }}
         />
-        <TextField
-          fullWidth
-          required
-          label={formatMessage({ id: 'phoneNumber' })}
-          placeholder={formatMessage({ id: 'enterPhoneNumber' })}
-          variant="standard"
-          error={
-            formik.touched.phone_number && Boolean(formik.errors.phone_number)
-          }
-          helperText={formik.touched.phone_number && formik.errors.phone_number}
-          {...formik.getFieldProps('phone_number')}
-          disabled={isSubmitting}
-          sx={{ marginTop: theme.spacing(3.125) }}
-          InputProps={{
-            startAdornment: <Typography mr={0.5}>237</Typography>,
-          }}
-        />
-        <TextField
-          fullWidth
-          required
-          label={formatMessage({ id: 'whatsappNumber' })}
-          placeholder={formatMessage({ id: 'enterWhatsappNumber' })}
-          variant="standard"
-          error={
-            formik.touched.whatsapp_number &&
-            Boolean(formik.errors.whatsapp_number)
-          }
-          helperText={
-            formik.touched.whatsapp_number && formik.errors.whatsapp_number
-          }
-          {...formik.getFieldProps('whatsapp_number')}
-          disabled={isSubmitting}
-          sx={{ marginTop: theme.spacing(3.125) }}
-          InputProps={{
-            startAdornment: <Typography mr={0.5}>237</Typography>,
-          }}
-        />
+        <Box sx={{ marginTop: '25px' }}>
+          <PhoneNumberTextField
+            formik={formik}
+            field="phone_number"
+            label={formatMessage({ id: 'phoneNumber' })}
+            placeholder={formatMessage({ id: 'enterPhoneNumber' })}
+            style={{ border: 'none', borderBottom: '1px solid grey' }}
+          />
+        </Box>
+        <Box sx={{ marginTop: '25px' }}>
+          <PhoneNumberTextField
+            formik={formik}
+            field="whatsapp_number"
+            label={formatMessage({ id: 'whatsappNumber' })}
+            placeholder={formatMessage({ id: 'enterWhatsappNumber' })}
+            style={{ border: 'none', borderBottom: '1px solid grey' }}
+          />
+        </Box>
         <FormControl
           required
           error={formik.touched.gender && Boolean(formik.errors.gender)}
@@ -372,7 +348,7 @@ export default function Signup() {
         </Button>
       </Box>
       <Typography textAlign={'center'}>
-        {formatMessage({ id: 'alreadyHaveAnAccount' }) + ' '}
+        {formatMessage({ id: 'alreadyHaveAnAccount' })}
         <Typography
           component="span"
           onClick={() => push('/signin')}

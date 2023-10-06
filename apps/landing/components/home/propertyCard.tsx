@@ -40,6 +40,7 @@ import {
 import { toast } from 'react-toastify';
 import ImageDialog from './imageDialog';
 import { useUser } from '../../contexts/user.provider';
+import logoGreen from '../../public/logo_green.png';
 
 export default function PropertyCard({
   property: {
@@ -69,6 +70,7 @@ export default function PropertyCard({
   property: IHHProperty;
   setProperties?: Dispatch<SetStateAction<IHHProperty[]>>;
 }) {
+  console.log({ image_ref });
   const { formatMessage, formatNumber } = useIntl();
   const { push } = useRouter();
   const {
@@ -77,6 +79,7 @@ export default function PropertyCard({
   const canDelete = person_id === publisher_pid;
 
   const [isLiked, setIsLiked] = useState<boolean | null>(is_liked);
+  const [numberOfLikes, setNumberOfLikes] = useState(number_of_likes);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submissionNotif, setSubmissionNotif] = useState<useNotification>();
   const [moreMenuAnchorEl, setMoreMenuAnchorEl] = useState<null | HTMLElement>(
@@ -236,7 +239,10 @@ export default function PropertyCard({
 
   const handleLike = () => {
     likeDislike(property_id as string)
-      .then(() => setIsLiked(!isLiked))
+      .then(() => {
+        setIsLiked(!isLiked);
+        setNumberOfLikes((count) => (isLiked ? --count : ++count));
+      })
       .catch((error) =>
         toast.error(error?.message || 'Something went wrong !')
       );
@@ -256,7 +262,7 @@ export default function PropertyCard({
             owner_whatsapp ?? whatsapp_number
           }&text=${encodeURIComponent(
             formatMessage({ id: 'interestedInProperty' }) +
-              `\n\nhttps://hopehome.cm/properties/${property_id}`
+              `\n\nhttps://hopehome.app/properties/${property_id}`
           )}`
         );
         break;
@@ -265,7 +271,7 @@ export default function PropertyCard({
         navigator.share({
           title: address,
           text: formatMessage({ id: 'sharePropertyMessage' }),
-          url: `https://hopehome.cm/properties/${property_id}`,
+          url: `https://hopehome.app/properties/${property_id}`,
         });
         break;
       }
@@ -434,15 +440,11 @@ export default function PropertyCard({
       >
         <Box sx={{ position: 'relative' }}>
           <Image
-            src={image_ref ?? '/location-icon.png'}
+            src={image_ref ?? logoGreen}
             className="property-image"
             alt={property_type}
-            onError={({ currentTarget }) => {
-              currentTarget.onerror = null;
-              currentTarget.src = '/logo_green.png';
-            }}
             height={350}
-            width={350}
+            width={image_ref ? 350 : 300}
             style={{
               objectFit: 'cover',
               borderTopLeftRadius: '10px',
@@ -652,7 +654,7 @@ export default function PropertyCard({
                 variant="caption"
                 color="inherit"
               >
-                {`${number_of_likes} like(s)`}
+                {`${numberOfLikes} like(s)`}
               </Typography>
             </Box>
 

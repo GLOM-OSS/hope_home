@@ -2,30 +2,33 @@ import { baseURL, http } from '@hopehome/axios';
 import { ISignup, ISignIn, IUser, IMessage } from '@hopehome/interfaces';
 
 export async function signUp(newPerson: ISignup) {
-  const {
-    data: { access_token },
-  } = await http.post('/auth/register', newPerson);
-  document.cookie = `__hht=${access_token};`;
-  localStorage.setItem('hh-token', access_token);
-  return await getUser();
+  const { data: person } = await http.post<IUser>('/auth/register', newPerson);
+  // document.cookie = `__hht=${access_token};`;
+  // localStorage.setItem('hh-token', access_token);
+  return person;
 }
 
 export async function signIn(login: ISignIn) {
-  const {
-    data: { access_token },
-  } = await http.post<{ access_token: string }>('/auth/sign-in', login);
-  document.cookie = `__hht=${access_token};`;
-  localStorage.setItem('hh-token', access_token);
-  return await getUser();
+  const { data: person } = await http.post<IUser>(
+    '/auth/sign-in',
+    login
+  );
+  // document.cookie = `__hht=${access_token};`;
+  // localStorage.setItem('hh-token', access_token);
+  return person;
 }
 
-export async function verifyCredential(token: string, whatsapp_number?: string) {
-  const {
-    data: { access_token },
-  } = await http.post('/auth/google', { token, whatsapp_number });
-  document.cookie = `__hht=${access_token};`;
-  localStorage.setItem('hh-token', access_token);
-  return await getUser();
+export async function verifyCredential(
+  token: string,
+  whatsapp_number?: string
+) {
+  const { data: person } = await http.post<IUser>('/auth/google', {
+    token,
+    whatsapp_number,
+  });
+  // document.cookie = `__hht=${access_token};`;
+  // localStorage.setItem('hh-token', access_token);
+  return person;
 }
 
 export async function resetPassword(email: string) {

@@ -7,7 +7,7 @@ export async function getCurrentIp() {
 }
 
 export const baseURL =
-  process.env['NX_API_BASE_URL'] || 'https://api.hopehome.cm';
+  process.env['NX_API_BASE_URL'] || 'https://api.hopehome.app';
 
 function axiosInstance(): AxiosInstance {
   const axiosInstance = axios.create({
@@ -44,7 +44,6 @@ function axiosInstance(): AxiosInstance {
       return response;
     },
     (error) => {
-      console.log(error);
       if (
         error.response?.data?.statusCode === 403 &&
         location.pathname !== '/signin'

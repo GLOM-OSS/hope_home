@@ -1,7 +1,9 @@
-import { Box, Typography } from '@mui/material';
+import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
+import { Box, IconButton, Tooltip, Typography } from '@mui/material';
+import Scrollbars from 'rc-scrollbars';
 import { useIntl } from 'react-intl';
 import ServiceCard from './serviceCard';
-import Scrollbars from 'rc-scrollbars';
+import { useRef, useState } from 'react';
 
 export interface ServiceCardInterface {
   name: string;
@@ -9,7 +11,11 @@ export interface ServiceCardInterface {
   image: string;
 }
 
-export default function OurServices() {
+export default function OurServices({
+  titleAlign = 'center',
+}: {
+  titleAlign?: 'left' | 'right' | 'center';
+}) {
   const { formatMessage } = useIntl();
 
   const SERVICES: ServiceCardInterface[] = [
@@ -39,6 +45,24 @@ export default function OurServices() {
       image: '/topographie.png',
     },
   ];
+
+  const serviceParent = useRef(null);
+  const scrollContainerRef = useRef<Scrollbars>(null);
+  const [activePosition, setActivePosition] = useState(1);
+  const handleScrollButton = (direction: 'left' | 'right') => {
+    const position =
+      direction === 'right' ? activePosition + 1 : activePosition - 1;
+    const scrollLength = position * 300;
+    scrollContainerRef.current?.scrollLeft(scrollLength);
+    const viewScrollLeft = scrollContainerRef.current.viewScrollLeft + 300;
+    setActivePosition((pos) =>
+      (direction === 'left' && scrollLength >= 0) ||
+      (direction === 'right' && scrollLength <= viewScrollLeft)
+        ? position
+        : pos
+    );
+  };
+
   return (
     <Box
       sx={{
@@ -50,26 +74,45 @@ export default function OurServices() {
         },
       }}
     >
-      <Typography sx={{ textAlign: 'center' }} variant="h4">
+      <Typography sx={{ textAlign: titleAlign }} variant="h4">
         {formatMessage({ id: 'ourServices' })}
       </Typography>
 
-      <Scrollbars universal>
-        <Box
-          sx={{
-            display: 'grid',
-            gridAutoFlow: 'column',
-            columnGap: {
-              desktop: 3,
-              mobile: 1,
-            },
-          }}
-        >
-          {SERVICES.map((service, index) => (
-            <ServiceCard service={service} key={index} position={index + 1} />
-          ))}
-        </Box>
-      </Scrollbars>
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: 'auto 1fr auto',
+          alignItems: 'center',
+        }}
+      >
+        <Tooltip title={formatMessage({ id: 'previous' })}>
+          <IconButton onClick={() => handleScrollButton('left')}>
+            <KeyboardArrowLeft />
+          </IconButton>
+        </Tooltip>
+        <Scrollbars ref={scrollContainerRef} universal>
+          <Box
+            ref={serviceParent}
+            sx={{
+              display: 'grid',
+              gridAutoFlow: 'column',
+              columnGap: {
+                desktop: 3,
+                mobile: 1,
+              },
+            }}
+          >
+            {SERVICES.map((service, index) => (
+              <ServiceCard service={service} key={index} position={index + 1} />
+            ))}
+          </Box>
+        </Scrollbars>
+        <Tooltip title={formatMessage({ id: 'foward' })}>
+          <IconButton onClick={() => handleScrollButton('right')}>
+            <KeyboardArrowRight />
+          </IconButton>
+        </Tooltip>
+      </Box>
     </Box>
   );
 }

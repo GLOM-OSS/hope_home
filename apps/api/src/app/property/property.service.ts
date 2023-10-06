@@ -85,6 +85,7 @@ export class PropertyService {
     });
     return {
       ...property,
+      owner_whatsapp: publisher.whatsapp_number,
       created_at: property.created_at.getTime(),
       number_of_likes: LikedProperties.length,
       comments: Comments.map(
@@ -118,21 +119,17 @@ export class PropertyService {
     const likedProperty = await this.prismaService.likedProperty.findFirst({
       where: { liked_by, property_id },
     });
-    if (likedProperty)
-      return this.prismaService.likedProperty.update({
-        data: {
-          is_deleted: !likedProperty.is_deleted,
-          deleted_at: likedProperty.is_deleted ? null : new Date(),
-        },
-        where: { liked_by_property_id: { liked_by, property_id } },
-      });
-    else
-      return this.prismaService.likedProperty.create({
-        data: {
-          Property: { connect: { property_id } },
-          Person: { connect: { person_id: liked_by } },
-        },
-      });
+    return this.prismaService.likedProperty.upsert({
+      create: {
+        property_id,
+        liked_by,
+      },
+      update: {
+        is_deleted: !likedProperty?.is_deleted,
+        deleted_at: likedProperty?.is_deleted ? null : new Date(),
+      },
+      where: { liked_by_property_id: { liked_by, property_id } },
+    });
   }
 
   async comment(property_id: string, comment: string, commented_by: string) {
@@ -216,7 +213,7 @@ export class PropertyService {
       data: {
         ...newProperty,
         price: Number(price),
-        area: area ? Number(area): null,
+        area: area ? Number(area) : null,
         latitude: latitude ? Number(latitude) : undefined,
         longitude: longitude ? Number(longitude) : undefined,
         number_of_baths: number_of_baths ? Number(number_of_baths) : undefined,
@@ -311,8 +308,6 @@ export class PropertyService {
   }
 
   async searchProperties(keywords: string) {
-    const words = keywords.split(',' || ';');
-    console.log(words);
     const properties = await this.prismaService.property.findMany({
       include: {
         Publisher: true,
@@ -324,8 +319,13 @@ export class PropertyService {
         is_deleted: false,
         is_flagged: false,
         is_listed: true,
-        address: { search: words.join(' ') },
-        description: { search: words.join(' ') },
+        ...(keywords
+          ? {
+              address: { search: keywords },
+              description: { search: keywords },
+              owner_whatsapp: { search: keywords },
+            }
+          : {}),
       },
     });
     return this.processProperties(properties);
@@ -349,6 +349,7 @@ export class PropertyService {
         ...property
       }) => ({
         ...property,
+        owner_whatsapp: publisher.whatsapp_number,
         created_at: property.created_at.getTime(),
         number_of_likes: LikedProperties.length,
         house_details: {

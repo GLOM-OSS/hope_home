@@ -50,6 +50,7 @@ model Person {
     LikedProperties LikedProperty[]
     PropertyAudits  PropertyAudit[]
     PersonAudits    PersonAudit[]
+    logins          Login[]
 }
 
 model PersonAudit {
@@ -118,7 +119,7 @@ model Property {
     number_of_rooms Int?
     number_of_baths Int?
     house_type      HouseTypeEnum?
-    owner_whatsapp  String?
+    owner_whatsapp  String?           @db.VarChar(15)
     published_by    String            @db.VarChar(36)
     Publisher       Person            @relation(fields: [published_by], references: [person_id], onDelete: Cascade, onUpdate: Cascade)
     is_deleted      Boolean           @default(false) @db.TinyInt
@@ -131,7 +132,7 @@ model Property {
     PropertyAudits  PropertyAudit[]
 
     @@fulltext([description])
-    @@fulltext([address, description])
+    @@fulltext([address, description, owner_whatsapp])
 }
 
 model PropertyAudit {
@@ -150,7 +151,7 @@ model PropertyAudit {
     number_of_rooms   Int?
     number_of_baths   Int?
     house_type        HouseTypeEnum?
-    owner_whatsapp    String?
+    owner_whatsapp    String?           @db.VarChar(15)
     is_deleted        Boolean           @db.TinyInt
     audited_at        DateTime          @default(now()) @db.DateTime(0)
     audited_by        String            @db.VarChar(36)
@@ -203,4 +204,11 @@ model LikedProperty {
     Property          Property  @relation(fields: [property_id], references: [property_id], onDelete: Cascade, onUpdate: Cascade)
 
     @@unique([liked_by, property_id])
+}
+
+model Login {
+    login_id  String @id @default(uuid())
+    role_name String @db.VarChar(36)
+    person_id String @db.VarChar(36)
+    person    Person @relation(fields: [person_id], references: [person_id], onDelete: Cascade, onUpdate: Cascade)
 }

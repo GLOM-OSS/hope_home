@@ -62,7 +62,7 @@ export const website = {
   welcomeBack: 'Welcome back!!!',
   welcomeMessage:
     'We are delighted to have you back, we are sure your experience will be just as enjoyable as before!',
-  dontHaveAnAccount: "Don't have an account??",
+  dontHaveAnAccount: "Don't have an account?",
   signUp: 'Sign Up',
   forgotPassword: 'Forgot password?',
   loginWithGoogle: 'Login with Google',
@@ -235,7 +235,7 @@ export const website = {
   resetPassword: 'Reset Password',
   resetPasswordMessage: 'Enter your email so we can send a reset link!',
 
-  noPropertiesToDisplay: 'No Properties to display...',
+  noPropertiesToDisplay: 'No property are posted yet...',
   ownerWhatsapp: 'Owner whatsapp number',
 
   ourServices: 'Our services',
@@ -263,4 +263,8 @@ export const website = {
   '404Message2':
     'so we can fix it up quickly, else please verify the link the url again!',
   goHome: 'Go Home',
+  next: 'Next',
+  back: 'Back',
+  searchPlaceholder:
+    "Search by property's address, description and publisher's name",
 };

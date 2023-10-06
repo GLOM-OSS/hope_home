@@ -85,7 +85,7 @@ function ImageDialog({
           </Tooltip>
         )}
         {index > 0 && (
-          <Tooltip arrow title={formatMessage({ id: 'next' })}>
+          <Tooltip arrow title={formatMessage({ id: 'back' })}>
             <IconButton
               size="small"
               onClick={() => {

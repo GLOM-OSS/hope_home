@@ -19,6 +19,7 @@ export default function HeroSection({
     <Box
       sx={{
         height: '70vh',
+        maxHeight: '600px',
         display: 'grid',
         rowGap: {
           desktop: theme.spacing(10),
@@ -70,7 +71,7 @@ export default function HeroSection({
         >
           <TextField
             fullWidth
-            placeholder="Ahala, Yaoundé, Appartment moderne 03 chambres un sallon, deux douche et une cuisine moderne..."
+            placeholder={formatMessage({ id: 'searchPlaceholder' })}
             sx={{ backgroundColor: 'white' }}
             color="primary"
             onChange={(e) => setKeywords(e.target.value)}

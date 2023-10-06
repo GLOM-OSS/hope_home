@@ -17,7 +17,7 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { Person } from '@prisma/client';
 import { Request } from 'express';
 import { IsPublic } from '../auth/auth.decorator';
-import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
+import { AuthenticatedGuard } from '../auth/auth.guard';
 import {
   CreateCommentDto,
   CreateNewPropertyDto,
@@ -26,12 +26,13 @@ import {
 } from './property.dto';
 import { PropertyService } from './property.service';
 
-@UseGuards(JwtAuthGuard)
 @Controller('properties')
+@UseGuards(AuthenticatedGuard)
 export class PropertyController {
   constructor(private propertyService: PropertyService) {}
 
   @Get()
+  @IsPublic()
   async searchProperties(@Query('keywords') keywords: string) {
     return await this.propertyService.searchProperties(keywords);
   }
@@ -87,15 +88,19 @@ export class PropertyController {
   ) {
     try {
       const { person_id } = request.user as Person;
-      return await this.propertyService.update(property_id, {
-        ...updateData,
-        image_ref: files[0]?.filename,
-        PropertyImages: {
-          createMany: {
-            data: files.map((_) => ({ image_ref: _.filename })),
+      return await this.propertyService.update(
+        property_id,
+        {
+          ...updateData,
+          image_ref: files[0]?.filename,
+          PropertyImages: {
+            createMany: {
+              data: files.map((_) => ({ image_ref: _.filename })),
+            },
           },
         },
-      }, person_id);
+        person_id
+      );
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -112,9 +117,13 @@ export class PropertyController {
         property_id,
         person_id
       );
-      return await this.propertyService.update(property_id, {
-        is_listed: !property.is_listed,
-      }, person_id);
+      return await this.propertyService.update(
+        property_id,
+        {
+          is_listed: !property.is_listed,
+        },
+        person_id
+      );
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
