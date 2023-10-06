@@ -75,3 +75,7 @@ export async function sendMessage(message: IMessage) {
     headers: { 'accept-language': 'fr' },
   });
 }
+
+export async function logOut() {
+  await http.delete('/auth/log-out');
+}

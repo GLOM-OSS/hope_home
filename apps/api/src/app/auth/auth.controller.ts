@@ -1,12 +1,14 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpException,
   HttpStatus,
   Post,
   Put,
   Req,
+  Res,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -14,7 +16,7 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Person } from '@prisma/client';
 import { isEmail } from 'class-validator';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { ErrorEnum } from '../../errors';
 import {
   ChangePasswordDto,
@@ -26,6 +28,7 @@ import {
 import { AuthenticatedGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 import { LocalGuard } from './local/local.guard';
+import { encrypt } from '@hopehome/encrypter';
 
 @Controller('auth')
 export class AuthController {
@@ -38,9 +41,14 @@ export class AuthController {
   }
 
   @Post('google')
-  async googleSignIn(@Body() loginData: GoogleLoginDto) {
+  async googleSignIn(
+    @Req() request: Request,
+    @Body() loginData: GoogleLoginDto
+  ) {
     try {
-      return this.authService.googleSignIn(loginData);
+      const person = await this.authService.googleSignIn(loginData);
+      await this.authService.login(request, person);
+      return person;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -142,6 +150,23 @@ export class AuthController {
     return await this.authService.updateProfile(person_id, {
       ...newPerson,
       profile_image_ref: file ? file.filename : undefined,
+    });
+  }
+
+  @Delete('log-out')
+  @UseGuards(AuthenticatedGuard)
+  async logOut(@Req() request: Request, @Res() response: Response) {
+    const sessionName = process.env.SESSION_NAME;
+    request.session.destroy((err) => {
+      if (err)
+        return response.status(500).json({
+          status: 500,
+          path: request.url,
+          message: 'Internal server error !!!',
+          timestamp: new Date().toISOString(),
+        });
+      response.clearCookie(sessionName);
+      response.send(encrypt(`Cleared ${sessionName} cookie successfully.`));
     });
   }
 }
