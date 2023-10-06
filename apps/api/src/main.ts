@@ -39,7 +39,7 @@ async function bootstrap() {
 }
 
 shell.exec(
-  `npx prisma migrate reset --force`
-  // `npx prisma migrate deploy`
+  // `npx prisma migrate reset --force`
+  `npx prisma migrate deploy`
 );
 bootstrap();
