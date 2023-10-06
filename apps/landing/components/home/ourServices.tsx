@@ -107,7 +107,7 @@ export default function OurServices({
             ))}
           </Box>
         </Scrollbars>
-        <Tooltip title={formatMessage({ id: 'foward' })}>
+        <Tooltip title={formatMessage({ id: 'forward' })}>
           <IconButton onClick={() => handleScrollButton('right')}>
             <KeyboardArrowRight />
           </IconButton>
