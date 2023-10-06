@@ -12,10 +12,9 @@ import OurServices from '../components/home/ourServices';
 import PropertySection from '../components/home/propertySection';
 import { getProperties, searchProperties } from '../services/property.service';
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async () => {
   try {
-    const accessToken = context.req.cookies['__hht'];
-    const properties = await getProperties(accessToken);
+    const properties = await getProperties();
     return {
       props: {
         recent: properties.splice(0, 5),

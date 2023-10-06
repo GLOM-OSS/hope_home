@@ -6,10 +6,9 @@ import PropertyCard from '../../components/home/propertyCard';
 import Navbar from '../../components/navbar/secondary_nav/navbar';
 import { getProperties } from '../../services/property.service';
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async () => {
   try {
-    const accessToken = context.req.cookies['__hht'];
-    const properties = await getProperties(accessToken);
+    const properties = await getProperties();
     return {
       props: {
         properties,

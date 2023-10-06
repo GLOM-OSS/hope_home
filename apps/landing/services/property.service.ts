@@ -8,14 +8,8 @@ import {
   IUpdateProperty,
 } from '@hopehome/interfaces';
 
-export async function getProperties(
-  accessToken?: string,
-  query?: IPropertyQuery
-) {
+export async function getProperties(query?: IPropertyQuery) {
   const { data } = await http.get<IHHProperty[]>('/properties/all', {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
     params: query,
   });
   return data.map(
@@ -36,21 +30,14 @@ export async function getProperties(
   );
 }
 
-export async function getPropertyDetails(
-  property_id: string,
-  accessToken?: string
-) {
+export async function getPropertyDetails(property_id: string) {
   const {
     data: {
       image_refs,
       publisher_details: { profile_image_ref: image_ref, ...publisher },
       ...property
     },
-  } = await http.get<IPropertyDetails>(`/properties/${property_id}/details`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+  } = await http.get<IPropertyDetails>(`/properties/${property_id}/details`);
   return {
     ...property,
     publisher_details: {
@@ -64,17 +51,9 @@ export async function getPropertyDetails(
   };
 }
 
-export async function getPropertyImages(
-  property_id: string,
-  accessToken?: string
-) {
+export async function getPropertyImages(property_id: string) {
   const { data } = await http.get<IImage[]>(
-    `/properties/${property_id}/images`,
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
+    `/properties/${property_id}/images`
   );
   return data.map(({ image_id, image_ref }) => ({
     image_id,

@@ -10,14 +10,11 @@ import { useUser } from '../../../contexts/user.provider';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async () => {
   try {
-    const accessToken = context.req.cookies['__hht'];
-    const properties = await getProperties(accessToken);
+    const properties = await getProperties();
     return {
-      props: {
-        properties: properties.filter((_) => accessToken && _.is_liked),
-      },
+      props: { properties },
     };
   } catch (error) {
     toast.error(error.message || 'Unexpected error !!!');
