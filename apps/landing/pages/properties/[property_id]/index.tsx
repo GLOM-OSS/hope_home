@@ -1,4 +1,5 @@
 import { IHHProperty, IPropertyDetails } from '@hopehome/interfaces';
+import { MapDisplay } from '@hopehome/map-display';
 import { theme } from '@hopehome/theme';
 import { ErrorMessage, useNotification } from '@hopehome/toast';
 import {
@@ -19,36 +20,31 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { ConfirmDialog } from '../../../components/confirmDialog';
 import { GetServerSideProps } from 'next';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import Scrollbars from 'rc-scrollbars';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { MapDisplay } from '@hopehome/map-display';
-import Scrollbars from 'rc-scrollbars';
+import { ConfirmDialog } from '../../../components/confirmDialog';
 import PropertyCard from '../../../components/home/propertyCard';
 import ImageDisplay from '../../../components/propertyDetails/imageDisplay';
+import { useUser } from '../../../contexts/user.provider';
 import {
   flagProperty,
   getPropertyDetails,
 } from '../../../services/property.service';
-import { toast } from 'react-toastify';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
-import { useUser } from '../../../contexts/user.provider';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { property_id } = context.query;
   try {
-    const accessToken = context.req.cookies['__hht'];
-    const propertyDetails = await getPropertyDetails(
-      property_id as string,
-      accessToken
-    );
-    return {
-      props: { propertyDetails, similarProperties: [], nearbyProperties: [] },
-    };
+    const { property_id } = context.query;
+    if (property_id.length === 36) {
+      const propertyDetails = await getPropertyDetails(property_id.toString());
+      return {
+        props: { propertyDetails, similarProperties: [], nearbyProperties: [] },
+      };
+    }
   } catch (error) {
-    toast.error(error.message || "Oops, une erreur s'est produite.");
     return { notFound: true };
   }
 };
