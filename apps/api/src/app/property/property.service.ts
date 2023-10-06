@@ -209,7 +209,15 @@ export class PropertyService {
     files: Array<Express.Multer.File>,
     created_by: string
   ) {
-    const { property_id } = await this.prismaService.property.create({
+    const createdProperty = await this.prismaService.property.create({
+      include: {
+        Publisher: true,
+        LikedProperties: {
+          where: {
+            is_deleted: false,
+          },
+        },
+      },
       data: {
         ...newProperty,
         price: Number(price),
@@ -227,8 +235,8 @@ export class PropertyService {
         Publisher: { connect: { person_id: created_by } },
       },
     });
-    const properties = await this.findAll({});
-    return properties.find((_) => _.property_id === property_id);
+    const [property] = this.processProperties([{ ...createdProperty }]);
+    return property;
   }
 
   async update(
