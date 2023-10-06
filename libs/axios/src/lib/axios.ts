@@ -12,6 +12,7 @@ export const baseURL =
 function axiosInstance(): AxiosInstance {
   const axiosInstance = axios.create({
     baseURL,
+    withCredentials: true,
   });
   axiosInstance.interceptors.request.use(
     (request) => {
