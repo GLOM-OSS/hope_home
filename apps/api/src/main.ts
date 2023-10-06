@@ -10,10 +10,8 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app/app.module';
 import { ErrorFilter } from './errors/error.filter';
 
-import os from 'os';
-import path from 'path';
-import cluster from 'cluster';
 import helmet from 'helmet';
+import path from 'path';
 import * as shell from 'shelljs';
 
 async function bootstrap() {
@@ -40,27 +38,8 @@ async function bootstrap() {
   Logger.log(`🚀 Application is running  on: http://localhost:${port}`);
 }
 
-const totalCPUs = os.cpus().length;
-
-if (process.env.NODE_ENV === 'production' && cluster.isPrimary) {
-  Logger.log(`Number of CPUs is ${totalCPUs}`);
-  Logger.log(`Primary process ${process.pid} is running`);
-  shell.exec(
-    `npx prisma migrate reset --force`
-    // `npx prisma migrate deploy`
-  );
-
-  // Fork not more than cluster.
-  for (let i = 0; i < (totalCPUs <= 2 ? totalCPUs : 2); i++) {
-    cluster.fork();
-  }
-
-  cluster.on('exit', (worker, code, signal) => {
-    Logger.log({ worker, code, signal });
-    Logger.log(`worker ${worker.process.pid} died`);
-    Logger.log("Let's fork another worker!");
-    cluster.fork();
-  });
-} else {
-  bootstrap();
-}
+shell.exec(
+  `npx prisma migrate reset --force`
+  // `npx prisma migrate deploy`
+);
+bootstrap();
