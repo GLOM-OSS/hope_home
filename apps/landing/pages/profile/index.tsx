@@ -23,6 +23,7 @@ import { useUser } from '../../contexts/user.provider';
 import {
   changePassword,
   getUser,
+  logOut,
   updateProfile,
 } from '../../services/auth.service';
 import { toast } from 'react-toastify';
@@ -203,11 +204,21 @@ export default function Profile() {
   }
 
   const handleLogOut = () => {
-    const expires = 'expires=' + new Date().toUTCString();
-    document.cookie = `${document.cookie};${expires};path=/`;
-    localStorage.removeItem('hh-token');
-    userDispatch({ type: 'LOG_OUT' });
-    push('/');
+    const notif = new useNotification();
+    notif.notify({
+      render: formatMessage({
+        id: 'loggingOut',
+      }),
+    });
+    logOut().then(() => {
+      notif.update({
+        render: formatMessage({
+          id: 'logOutSuccessfully',
+        }),
+      });
+      userDispatch({ type: 'LOG_OUT' });
+      push('/');
+    });
   };
 
   return (
