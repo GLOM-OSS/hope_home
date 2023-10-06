@@ -12,9 +12,11 @@ import OurServices from '../components/home/ourServices';
 import PropertySection from '../components/home/propertySection';
 import { getProperties, searchProperties } from '../services/property.service';
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ({
+  req: { headers },
+}) => {
   try {
-    const properties = await getProperties();
+    const properties = await getProperties({}, headers.cookie);
     return {
       props: {
         recent: properties.splice(0, 5),
@@ -23,7 +25,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
       },
     };
   } catch (error) {
-    toast.error(error.message || "Oops, une erreur s'est produite.");
     return { notFound: true };
   }
 };

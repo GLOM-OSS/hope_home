@@ -70,7 +70,6 @@ export default function PropertyCard({
   property: IHHProperty;
   setProperties?: Dispatch<SetStateAction<IHHProperty[]>>;
 }) {
-  console.log({ image_ref });
   const { formatMessage, formatNumber } = useIntl();
   const { push } = useRouter();
   const {

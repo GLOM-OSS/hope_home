@@ -8,9 +8,13 @@ import {
   IUpdateProperty,
 } from '@hopehome/interfaces';
 
-export async function getProperties(query?: IPropertyQuery) {
+export async function getProperties(
+  query?: IPropertyQuery,
+  cookie?: string | string[]
+) {
   const { data } = await http.get<IHHProperty[]>('/properties/all', {
     params: query,
+    headers: { Cookie: cookie },
   });
   return data.map(
     ({

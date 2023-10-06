@@ -6,9 +6,11 @@ import PropertyCard from '../../components/home/propertyCard';
 import Navbar from '../../components/navbar/secondary_nav/navbar';
 import { getProperties } from '../../services/property.service';
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ({
+  req: { headers },
+}) => {
   try {
-    const properties = await getProperties();
+    const properties = await getProperties({}, headers.cookie);
     return {
       props: {
         properties,

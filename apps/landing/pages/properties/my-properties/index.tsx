@@ -15,9 +15,11 @@ import {
   getProperties,
 } from '../../../services/property.service';
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ({
+  req: { headers },
+}) => {
   try {
-    const properties = await getProperties({ is_owner: true });
+    const properties = await getProperties({ is_owner: true }, headers.cookie);
     return {
       props: {
         properties,

@@ -1,23 +1,23 @@
 import { IHHProperty } from '@hopehome/interfaces';
 import { Box, Typography } from '@mui/material';
 import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import PropertyCard from '../../../components/home/propertyCard';
 import Navbar from '../../../components/navbar/secondary_nav/navbar';
-import { getProperties } from '../../../services/property.service';
-import { toast } from 'react-toastify';
 import { useUser } from '../../../contexts/user.provider';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { getProperties } from '../../../services/property.service';
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ({
+  req: { headers },
+}) => {
   try {
-    const properties = await getProperties();
+    const properties = await getProperties({}, headers.cookie);
     return {
       props: { properties },
     };
   } catch (error) {
-    toast.error(error.message || 'Unexpected error !!!');
     return { notFound: true };
   }
 };
