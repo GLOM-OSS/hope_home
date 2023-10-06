@@ -267,4 +267,6 @@ export const website = {
   back: 'Back',
   searchPlaceholder:
     "Search by property's address, description and publisher's name",
+  forward: 'Forward',
+  previous: 'Previous',
 };
