@@ -6,7 +6,7 @@ services:
     restart: always
     command: redis-server --save '' --appendonly no --loglevel warning --protected-mode no
     volumes:
-      - cache:/data
+      - hopehome_cache:/data
   mysql:
     image: mysql:latest
     environment:
@@ -14,14 +14,14 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - hopehome_data:/var/lib/mysql
   api:
     build:
       dockerfile: ./Dockerfile.api
       context: .
     restart: always
     environment:
-      - DATABASE_URL=mysql://root:12345678@mysql/hopehome_api_db
+      - DATABASE_URL=mysql://root:12345678@mysql:3306/hope_home
       - REDIS_URL=redis
       - SESSION_SECRET=sup3rs3cr3t
       - DEFAULT_PASSWORD=12345678
@@ -51,9 +51,9 @@ services:
     depends_on:
       - api
 volumes:
-  cache:
+  hopehome_cache:
     driver: local
-  mysql_data:
+  hopehome_data:
     driver: local
   hopehome_assets:
     driver: local
