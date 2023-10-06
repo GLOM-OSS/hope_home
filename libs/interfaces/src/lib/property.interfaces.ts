@@ -65,5 +65,5 @@ export interface IPropertyQuery {
   property_type?: PropertyTypeEnum;
   listing_reason?: ListingReasonEnum;
   house_type?: HouseTypeEnum;
-  is_user_property?: boolean;
+  is_owner?: boolean;
 }

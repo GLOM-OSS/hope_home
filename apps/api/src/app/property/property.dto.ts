@@ -30,7 +30,7 @@ export class QueryPropertiesDto {
 
   @IsBoolean()
   @IsOptional()
-  is_user_property?: boolean;
+  is_owner?: boolean;
 }
 
 export class CreateCommentDto {

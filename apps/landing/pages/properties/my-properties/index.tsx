@@ -17,9 +17,7 @@ import {
 
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
-    const properties = await getProperties({
-      is_user_property: true,
-    });
+    const properties = await getProperties({ is_owner: true });
     return {
       props: {
         properties,
@@ -48,7 +46,10 @@ export default function Properties({
 
   const [properties, setProperties] = useState(loadedProperties);
 
-  const createNewPropertyHandler = (property: ICreateNewProperty) => {
+  const createNewPropertyHandler = (
+    property: ICreateNewProperty,
+    callback?: () => void
+  ) => {
     setIsSubmitting(true);
     const notif = new useNotification();
     if (submissionNotif) {
@@ -68,6 +69,7 @@ export default function Properties({
             id: 'createdPropertySuccessfully',
           }),
         });
+        if (callback) callback();
         setSubmissionNotif(undefined);
         setIsNewPropertyDialogOpen(false);
         setProperties((properties) => [...properties, property]);

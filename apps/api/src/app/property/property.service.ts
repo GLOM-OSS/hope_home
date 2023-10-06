@@ -9,7 +9,7 @@ export class PropertyService {
   constructor(private prismaService: PrismaService) {}
 
   async findAll(
-    { is_user_property, ...query }: QueryPropertiesDto,
+    { is_owner, ...criterials }: QueryPropertiesDto,
     person_id?: string
   ): Promise<IHHProperty[]> {
     const properties = await this.prismaService.property.findMany({
@@ -19,18 +19,18 @@ export class PropertyService {
         LikedProperties: {
           where: {
             is_deleted: false,
-            ...(is_user_property ? {} : { liked_by: person_id }),
+            ...(is_owner ? {} : { liked_by: person_id }),
           },
         },
       },
-      where: is_user_property
+      where: is_owner
         ? {
-            ...query,
+            ...criterials,
             is_deleted: false,
             published_by: person_id,
           }
         : {
-            ...query,
+            ...criterials,
             is_deleted: false,
             is_flagged: false,
             is_listed: true,
