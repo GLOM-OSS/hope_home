@@ -1,27 +1,27 @@
 version: '3.3'
 
 services:
-  redis:
+  redis_stage:
     image: 'bitnami/redis:latest'
     restart: always
     command: redis-server --save '' --appendonly no --loglevel warning --protected-mode no
     volumes:
-      - hopehome_cache:/data
-  mysql:
+      - hopehome_stage_cache:/data
+  mysql_stage:
     image: mysql:latest
     environment:
       - MYSQL_ROOT_PASSWORD=12345678
     ports:
-      - "3306:3306"
+      - "5037:3306"
     volumes:
-      - hopehome_data:/var/lib/mysql
-  api:
+      - hopehome_stage_data:/var/lib/mysql
+  api_stage:
     build:
       dockerfile: ./Dockerfile.api
       context: .
     restart: always
     environment:
-      - DATABASE_URL=mysql://root:12345678@mysql:3306/hope_home
+      - DATABASE_URL=mysql://root:12345678@mysql/hopehome_stage_db
       - REDIS_URL=redis
       - SESSION_SECRET=sup3rs3cr3t
       - DEFAULT_PASSWORD=12345678
@@ -37,11 +37,11 @@ services:
     ports:
       - "95:8080"
     depends_on:
-      - mysql
-      - redis
+      - mysql_stage
+      - redis_stage
     volumes:
-      - hopehome_assets:/app/dist/apps/api/assets
-  landing:
+      - hopehome_stage_assets:/app/dist/apps/api/assets
+  landing_stage:
     build:
       dockerfile: ./Dockerfile.landing
       context: .
@@ -49,11 +49,11 @@ services:
     ports:
       - "93:3000"
     depends_on:
-      - api
+      - api_stage
 volumes:
-  hopehome_cache:
+  hopehome_stage_cache:
     driver: local
-  hopehome_data:
+  hopehome_stage_data:
     driver: local
-  hopehome_assets:
+  hopehome_stage_assets:
     driver: local
