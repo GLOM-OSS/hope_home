@@ -16,7 +16,7 @@ import * as shell from 'shelljs';
 
 async function bootstrap() {
   const origin =
-    process.env.NODE_ENV === 'production' ? /\.hopehome\.app$/ : /localhost:420/;
+    process.env.NODE_ENV === 'production' ? /hopehome\.app$/ : /localhost:420/;
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     cors: {
       origin,
