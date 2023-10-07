@@ -14,6 +14,7 @@ import { updateProfile } from '../services/auth.service';
 import './globalStyles.css';
 import './styles.css';
 import 'aos/dist/aos.css';
+import AOS from 'aos';
 
 const App = (props) => {
   const { Component, pageProps } = props;
@@ -49,6 +50,17 @@ const App = (props) => {
         toast.error(error.message || "Oops, une erreur s'est produite.")
       );
   };
+  
+  useEffect(
+    () =>
+      AOS.init({
+        offset: 200,
+        duration: 600,
+        easing: 'ease-in-sine',
+        delay: 100,
+      }),
+    []
+  );
 
   return (
     <>
