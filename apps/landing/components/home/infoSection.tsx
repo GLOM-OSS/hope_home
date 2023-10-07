@@ -22,6 +22,7 @@ function PerkItem({
   const { formatMessage } = useIntl();
   return (
     <Box
+      data-aos="fade-up"
       sx={{
         borderTop: `1px solid ${!isComingSoon ? '#009C7D' : 'grey'}`,
         padding: '40px 9.79%',
@@ -124,7 +125,7 @@ export default function InfoSection() {
         rowGap: 7,
       }}
     >
-      <Box>
+      <Box data-aos="fade-up">
         <Typography sx={{ textAlign: 'center' }} variant="h4">
           {formatMessage({ id: 'yourMostIdealSolutions' })}
         </Typography>

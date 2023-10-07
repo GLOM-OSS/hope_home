@@ -20,7 +20,7 @@ export default function PropertySection({
       id="property-section"
       sx={{ padding: `0 7.1%`, display: 'grid', rowGap: 3 }}
     >
-      <Box>
+      <Box data-aos='fade-up'>
         <Typography
           variant="h1"
           textAlign="center"

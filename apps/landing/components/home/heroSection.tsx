@@ -17,6 +17,7 @@ export default function HeroSection({
 
   return (
     <Box
+      data-aos="fade"
       sx={{
         height: '70vh',
         maxHeight: '600px',
@@ -44,6 +45,7 @@ export default function HeroSection({
         }}
       >
         <Typography
+          data-aos="fade-up"
           variant="h1"
           sx={{
             textAlign: 'center',
@@ -58,11 +60,13 @@ export default function HeroSection({
         </Typography>
         <Typography
           variant="h5"
+          data-aos="zoom-in-up"
           sx={{ textAlign: 'center', fontWeight: 300, color: 'white' }}
         >
           {formatMessage({ id: 'findYourPerfectHome' })}
         </Typography>
         <Box
+          data-aos="fade-down"
           sx={{
             display: 'grid',
             gridTemplateColumns: '1fr auto',
@@ -118,7 +122,7 @@ export default function HeroSection({
           borderRadius: 1,
         }}
       >
-        <Typography variant="body2">
+        <Typography variant="body2" textAlign="center">
           {formatMessage({ id: 'feedbackStars' })}
         </Typography>
       </Box>

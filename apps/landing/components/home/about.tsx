@@ -15,6 +15,7 @@ export default function AboutSection() {
         <Typography
           variant="h6"
           fontWeight="400"
+          data-aos="fade-up"
           sx={{
             fontSize: {
               desktop: theme.typography.h6.fontSize,
@@ -27,6 +28,7 @@ export default function AboutSection() {
         <Typography
           variant="h6"
           fontWeight="400"
+          data-aos="fade-up"
           sx={{
             fontSize: {
               desktop: theme.typography.h6.fontSize,
@@ -39,6 +41,7 @@ export default function AboutSection() {
         <Typography
           variant="h6"
           fontWeight="400"
+          data-aos="fade-up"
           sx={{
             fontSize: {
               desktop: theme.typography.h6.fontSize,
