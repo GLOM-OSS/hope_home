@@ -76,7 +76,6 @@ export default function PropertyCard({
     activeUser: { person_id },
   } = useUser();
   const canDelete = person_id === publisher_pid;
-  console.log(owner_whatsapp, whatsapp_number)
 
   const [isLiked, setIsLiked] = useState<boolean | null>(is_liked);
   const [numberOfLikes, setNumberOfLikes] = useState(number_of_likes);

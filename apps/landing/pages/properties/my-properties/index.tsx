@@ -52,7 +52,6 @@ export default function Properties({
     property: ICreateNewProperty,
     callback?: () => void
   ) => {
-    console.log(property);
     setIsSubmitting(true);
     const notif = new useNotification();
     if (submissionNotif) {
