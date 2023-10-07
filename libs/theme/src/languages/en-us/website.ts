@@ -269,4 +269,6 @@ export const website = {
     "Search by property's address, description and publisher's name",
   forward: 'Forward',
   previous: 'Previous',
+  loggingOut: 'Logging you out...',
+  logOutSuccessfully: 'Logout successfully !!!',
 };

@@ -272,4 +272,6 @@ export const website = {
     "Recherche par l'adresse du bien, la description et le nom de celui qui a publié",
   forward: 'Forward',
   previous: 'Previous',
+  loggingOut: 'Déconnexion...',
+  logOutSuccessfully: 'Déconnexion réussie !!!',
 };
