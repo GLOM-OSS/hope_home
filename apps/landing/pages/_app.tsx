@@ -13,6 +13,7 @@ import UserContextProvider, { useUser } from '../contexts/user.provider';
 import { updateProfile } from '../services/auth.service';
 import './globalStyles.css';
 import './styles.css';
+import 'aos/dist/aos.css';
 
 const App = (props) => {
   const { Component, pageProps } = props;
