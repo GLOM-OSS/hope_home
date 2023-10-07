@@ -16,6 +16,7 @@ import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { DialogTransition } from '../dialog-transition';
 import { theme } from '@hopehome/theme';
+import Image from 'next/image';
 
 function ImageDialog({
   handleClose,
@@ -103,9 +104,11 @@ function ImageDialog({
             </IconButton>
           </Tooltip>
         )}
-        <img
+        <Image
           src={images[index]}
           alt={'property'}
+          height={100}
+          width={100}
           style={{ objectFit: 'contain', height: '100vh', width: '100%' }}
         />
       </Box>
@@ -140,14 +143,16 @@ export default function ImageDisplay({ images }: { images: string[] }) {
             {formatMessage({ id: 'noImages' })}
           </Typography>
         ) : images.length === 1 ? (
-          <img
+          <Image
             src={images[0]}
             alt={'property'}
-            width="100%"
+            width={100}
             height={400}
             style={{
               objectFit: 'cover',
               borderRadius: '10px',
+              height: 400,
+              width: '100%',
             }}
           />
         ) : images.length === 2 ? (
@@ -158,10 +163,10 @@ export default function ImageDisplay({ images }: { images: string[] }) {
               columnGap: 1,
             }}
           >
-            <img
+            <Image
               src={images[0]}
               alt={'property'}
-              width="100%"
+              width={100}
               height={400}
               onError={({ currentTarget }) => {
                 currentTarget.onerror = null;
@@ -171,12 +176,14 @@ export default function ImageDisplay({ images }: { images: string[] }) {
                 objectFit: 'cover',
                 borderTopLeftRadius: '10px',
                 borderBottomLeftRadius: '10px',
+                height: 400,
+                width: '100%',
               }}
             />
-            <img
+            <Image
               src={images[1]}
               alt={'property'}
-              width="100%"
+              width={100}
               height={400}
               onError={({ currentTarget }) => {
                 currentTarget.onerror = null;
@@ -186,6 +193,8 @@ export default function ImageDisplay({ images }: { images: string[] }) {
                 objectFit: 'cover',
                 borderTopRightRadius: '10px',
                 borderBottomRightRadius: '10px',
+                height: 400,
+                width: '100%',
               }}
             />
           </Box>
@@ -197,10 +206,10 @@ export default function ImageDisplay({ images }: { images: string[] }) {
               columnGap: 1,
             }}
           >
-            <img
+            <Image
               src={images[0]}
               alt={'property'}
-              width="100%"
+              width={100}
               height={400}
               onError={({ currentTarget }) => {
                 currentTarget.onerror = null;
@@ -210,13 +219,15 @@ export default function ImageDisplay({ images }: { images: string[] }) {
                 objectFit: 'cover',
                 borderTopLeftRadius: '10px',
                 borderBottomLeftRadius: '10px',
+                height: 400,
+                width: '100%',
               }}
             />
             <Box sx={{ display: 'grid', rowGap: 1 }}>
-              <img
+              <Image
                 src={images[1]}
                 alt={'property'}
-                width="100%"
+                width={100}
                 height={190}
                 onError={({ currentTarget }) => {
                   currentTarget.onerror = null;
@@ -225,12 +236,14 @@ export default function ImageDisplay({ images }: { images: string[] }) {
                 style={{
                   objectFit: 'cover',
                   borderTopRightRadius: '10px',
+                  height: 190,
+                  width: '100%',
                 }}
               />
-              <img
+              <Image
                 src={images[2]}
                 alt={'property'}
-                width="100%"
+                width={100}
                 height={190}
                 onError={({ currentTarget }) => {
                   currentTarget.onerror = null;
@@ -238,6 +251,8 @@ export default function ImageDisplay({ images }: { images: string[] }) {
                 }}
                 style={{
                   objectFit: 'cover',
+                  height: 190,
+                  width: '100%',
                   borderBottomRightRadius: '10px',
                 }}
               />
@@ -251,10 +266,10 @@ export default function ImageDisplay({ images }: { images: string[] }) {
               columnGap: 1,
             }}
           >
-            <img
+            <Image
               src={images[0]}
               alt={'property'}
-              width="100%"
+              width={100}
               height={400}
               onError={({ currentTarget }) => {
                 currentTarget.onerror = null;
@@ -264,13 +279,15 @@ export default function ImageDisplay({ images }: { images: string[] }) {
                 objectFit: 'cover',
                 borderTopLeftRadius: '10px',
                 borderBottomLeftRadius: '10px',
+                height: 400,
+                width: '100%',
               }}
             />
             <Box sx={{ display: 'grid', rowGap: 1 }}>
-              <img
+              <Image
                 src={images[1]}
                 alt={'property'}
-                width="100%"
+                width={100}
                 onError={({ currentTarget }) => {
                   currentTarget.onerror = null;
                   currentTarget.src = '/logo_green.png';
@@ -279,13 +296,15 @@ export default function ImageDisplay({ images }: { images: string[] }) {
                 style={{
                   objectFit: 'cover',
                   borderTopRightRadius: '10px',
+                  height: 190,
+                  width: '100%',
                 }}
               />
               <Box sx={{ position: 'relative' }}>
-                <img
+                <Image
                   src={images[2]}
                   alt={'property'}
-                  width="100%"
+                  width={100}
                   height={195}
                   onError={({ currentTarget }) => {
                     currentTarget.onerror = null;
@@ -294,6 +313,8 @@ export default function ImageDisplay({ images }: { images: string[] }) {
                   style={{
                     objectFit: 'cover',
                     borderBottomRightRadius: '10px',
+                    height: 195,
+                    width: '100%',
                   }}
                 />
                 <Box
