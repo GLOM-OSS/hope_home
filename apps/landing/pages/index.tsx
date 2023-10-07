@@ -1,7 +1,7 @@
 import { IHHProperty } from '@hopehome/interfaces';
 import { Box } from '@mui/material';
 import { GetServerSideProps } from 'next';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 import AboutSection from '../components/home/about';
 import HeroSection from '../components/home/heroSection';
@@ -11,7 +11,6 @@ import LandSection from '../components/home/landSection';
 import OurServices from '../components/home/ourServices';
 import PropertySection from '../components/home/propertySection';
 import { getProperties, searchProperties } from '../services/property.service';
-import AOS from 'aos';
 
 export const getServerSideProps: GetServerSideProps = async ({
   req: { headers },
@@ -55,16 +54,6 @@ export function Index({
         );
       });
   };
-  useEffect(
-    () =>
-      AOS.init({
-        offset: 200,
-        duration: 600,
-        easing: 'ease-in-sine',
-        delay: 100,
-      }),
-    []
-  );
 
   return (
     <Box sx={{ display: 'grid', rowGap: 7 }}>
