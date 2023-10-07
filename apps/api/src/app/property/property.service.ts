@@ -357,7 +357,6 @@ export class PropertyService {
         ...property
       }) => ({
         ...property,
-        owner_whatsapp: publisher.whatsapp_number,
         created_at: property.created_at.getTime(),
         number_of_likes: LikedProperties.length,
         house_details: {
