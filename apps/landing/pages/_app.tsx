@@ -93,7 +93,7 @@ function CustomApp(props: CustomAppProps) {
       </Head>
       <CacheProvider value={emotionCache}>
         <HHThemeProvider>
-          <GoogleOAuthProvider clientId="562313049834-07ekkibpmtfq0b2m68i56anbck3utj2p.apps.googleusercontent.com">
+          <GoogleOAuthProvider clientId="192320988067-mjrh21aa3ue5blqp2o0nng7tmjkrl971.apps.googleusercontent.com">
             <UserContextProvider>
               <App {...{ Component, pageProps, emotionCache }} />
             </UserContextProvider>
