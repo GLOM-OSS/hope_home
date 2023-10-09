@@ -15,7 +15,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   try {
     const properties = await getProperties({}, headers.cookie);
     return {
-      props: { properties },
+      props: { properties: properties.filter((_) => _.is_liked) },
     };
   } catch (error) {
     return { notFound: true };
