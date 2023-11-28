@@ -27,7 +27,11 @@ async function bootstrap() {
     },
   });
   app.use(helmet());
-  app.useStaticAssets(path.join(__dirname, './assets/uploads'));
+  app.useStaticAssets(path.join(__dirname, './assets/uploads'), {
+    setHeaders(res) {
+      res.set('Cross-Origin-Resource-Policy', 'cross-origin');
+    },
+  });
   app.useGlobalPipes(
     new ValidationPipe({
       forbidNonWhitelisted: true,
