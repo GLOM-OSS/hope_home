@@ -1,3 +1,4 @@
+import { IImage } from '@hopehome/interfaces';
 import { DeleteForeverOutlined } from '@mui/icons-material';
 import {
   Box,
@@ -9,13 +10,12 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { getPropertyImages } from '../../services/property.service';
-import Image from 'next/image';
 import Scrollbars from 'rc-scrollbars';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { v4 as uuidv4 } from 'uuid';
-import { IImage } from '@hopehome/interfaces';
+import { getPropertyImages } from '../../services/property.service';
+import { MediaGrid } from '../propertyDetails/MediaGrid';
 
 function useImages(property_id: string) {
   const [returnValue, setReturnValue] = useState<{
@@ -61,18 +61,14 @@ function PropertyImage({
           <DeleteForeverOutlined color="error" />
         </IconButton>
       </Tooltip>
-      <Image
-        src={ref}
-        alt={`image${index}`}
-        width={230}
-        height={250}
+      <div
         style={{
-          objectFit: 'cover',
-          border: '1px solid black',
-          padding: '0.5px',
+          padding: '1px',
           borderRadius: '8px',
         }}
-      />
+      >
+        <MediaGrid src={ref} width={300} height={250}/>
+      </div>
     </Box>
   );
 }

@@ -439,7 +439,12 @@ export default function PropertyCard({
       >
         <Box sx={{ position: 'relative' }}>
           <Image
-            src={image_ref ?? logoGreen}
+            src={
+              image_ref &&
+              !(image_ref.includes('.mp4') || image_ref.includes('.webm'))
+                ? image_ref
+                : logoGreen
+            }
             className="property-image"
             alt={property_type}
             height={350}
