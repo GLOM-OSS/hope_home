@@ -22,10 +22,6 @@ export default function ServiceCard({
           desktop: '8px 16px',
           mobile: '16px 32px',
         },
-        minWidth: {
-          desktop: '833px',
-          mobile: '300px',
-        },
         minHeight: { desktop: '556px', mobile: 'fit-content' },
         alignContent: 'center',
         color: 'white',
