@@ -429,32 +429,51 @@ export default function PropertyCard({
         component={Paper}
         elevation={1}
         sx={{
-          width: {
-            desktop: '350px',
-            mobile: '307px',
-          },
+          width: '100%',
           cursor: is_listed ? 'pointer' : 'default',
         }}
         onClick={() => (is_listed ? handlePropertyClick() : {})}
       >
         <Box sx={{ position: 'relative' }}>
-          <Image
-            src={
-              image_ref &&
-              !(image_ref.includes('.mp4') || image_ref.includes('.webm'))
-                ? image_ref
-                : logoGreen
-            }
-            className="property-image"
-            alt={property_type}
-            height={350}
-            width={image_ref ? 350 : 300}
-            style={{
-              objectFit: 'cover',
-              borderTopLeftRadius: '10px',
-              borderTopRightRadius: '10px',
-            }}
-          />
+          {image_ref.endsWith('.mp4') || image_ref.endsWith('.webm') ? (
+            <video
+              playsInline
+              autoPlay
+              muted
+              controls
+              src={image_ref}
+              width={100}
+              height={400}
+              style={{
+                height: '350px',
+                width: image_ref ? '350px' : '300px',
+                objectFit: 'contain',
+                borderRadius: '10px',
+                borderTopLeftRadius: '10px',
+                borderBottomLeftRadius: '10px',
+              }}
+            />
+          ) : (
+            <Image
+              src={
+                image_ref &&
+                !(image_ref.includes('.mp4') || image_ref.includes('.webm'))
+                  ? image_ref
+                  : logoGreen
+              }
+              className="property-image"
+              alt={property_type}
+              height={350}
+              width="100"
+              style={{
+                minWidth: '307px',
+                width: '100%',
+                objectFit: 'cover',
+                borderTopLeftRadius: '10px',
+                borderTopRightRadius: '10px',
+              }}
+            />
+          )}
           <Box
             sx={{
               position: 'absolute',
@@ -614,10 +633,7 @@ export default function PropertyCard({
             padding: 2,
             display: 'grid',
             rowGap: 2,
-            width: {
-              mobile: '307px',
-              desktop: '350px',
-            },
+            width: '100%',
           }}
         >
           <Box

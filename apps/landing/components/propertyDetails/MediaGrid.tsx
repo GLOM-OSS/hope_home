@@ -17,14 +17,15 @@ export function MediaGrid({
       playsInline
       autoPlay
       muted
-      loop
+      // loop
+      controls
       src={image}
       width={100}
-      height={400}
+      height={400} 
       style={{
         width,
         height,
-        objectFit,
+        objectFit: 'contain',
         borderTopLeftRadius: '10px',
         borderBottomLeftRadius: '10px',
       }}
