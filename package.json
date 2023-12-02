@@ -2,7 +2,9 @@
   "name": "hopehome",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "deploy:prod:up": "docker-compose up --build -d"
+  },
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.6",
