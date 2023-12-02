@@ -435,7 +435,8 @@ export default function PropertyCard({
         onClick={() => (is_listed ? handlePropertyClick() : {})}
       >
         <Box sx={{ position: 'relative' }}>
-          {image_ref.endsWith('.mp4') || image_ref.endsWith('.webm') ? (
+          {String(image_ref).endsWith('.mp4') ||
+          String(image_ref).endsWith('.webm') ? (
             <video
               playsInline
               autoPlay

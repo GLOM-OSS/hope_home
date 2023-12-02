@@ -11,7 +11,8 @@ export function MediaGrid({
   height?: string | number;
   width?: string | number;
 }) {
-  const isVideo = image.endsWith('.mp4') || image.endsWith('.webm');
+  const isVideo =
+    String(image).endsWith('.mp4') || String(image).endsWith('.webm');
   return isVideo ? (
     <video
       playsInline
@@ -21,7 +22,7 @@ export function MediaGrid({
       controls
       src={image}
       width={100}
-      height={400} 
+      height={400}
       style={{
         width,
         height,
